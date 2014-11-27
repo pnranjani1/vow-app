@@ -1,0 +1,70 @@
+<h3> Create User </h3>
+
+<%= form_for(@authuser,  do '/users/create')' |f| %>
+
+<div class="field">
+  <%= f.label :Name %><br />
+  <%= f.text_field :name, autofocus: true %>
+  </div>
+
+  <div class="field">
+    <%= f.label :email %><br />
+    <%= f.email_field :email  %>
+  </div>
+
+  <div class="field">
+    <label>Password </label><br/>
+    <%= f.password_field :password %><br/><p>
+  </div>
+
+  <div class="field">
+    <%= f.label :password_confirmation %><br />
+    <%= f.password_field :password_confirmation, autocomplete: "off" %>
+  </div><br/>
+
+ <div class="field">
+   <%= f.fields_for :address do |user_address| %>
+<label> Address 1 </label><br/>
+   <%= user_address.text_field :address_line_1 %><br/><p>
+</div>
+
+<div class="field">
+<label> Address 2 </label><br/>
+  <%= user_address.text_field :address_line_2 %><br/><p>
+</div>
+
+<div class="field">
+<label> Address 3 </label><br/>
+  <%= user_address.text_field :address_line_3 %><br/><p>
+</div>
+
+ <div class="field">
+<label> City </label><br/>
+<%= user_address.text_field :city %><br/><p>
+</div>
+
+<div class="field">
+<label> Country </label><br/>
+<%= user_address.text_field :country %><br/><p>
+</div>
+<% end %>
+
+ <div class="field">
+ <%= f.fields_for :bankdetail do |user_bank_detail| %>
+<label> Bank Account Number </label><br/>
+<%= user_bank_detail.text_field :bank_account_number %><br/><p>
+</div>
+
+ <div class="field">
+<label> IFSC Code </label><br/>
+<%= user_bank_detail.text_field :ifsc_code %><br/><p>
+</div>
+
+<% end %>
+
+
+<div class="field">
+  <%= f.fields_for :membership do |user_membership| %>
+<label> Phone Number </label><br/>
+<%= user_membership.text_field :phone_number %><br/><p>
+</div>

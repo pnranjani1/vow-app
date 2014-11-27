@@ -1,0 +1,28 @@
+<h3> User Categories </h3>
+
+
+
+
+
+<%
+=begin %>
+<% @categories.each do |c| %>
+<ul>
+  <li> <%= link_to c.category_name, category_path(c) %> | 
+    <% if permitted_to? :edit,c %>
+    <%=  link_to "Edit",edit_category_path(c%></li>
+  <% end %>
+</ul>
+<% end %>
+<br/>
+
+<% if permitted_to? :new, Category.new %>
+<%= link_to "Create category", new_category_path(:id => @user) %> |
+<% end %>
+<% if permitted_to? :index, User %>
+<%= link_to "Back to users", users_path %> 
+<% end %>
+<hr><br/>
+
+<%
+=end %>

@@ -1,0 +1,20 @@
+<h3> Add New Commodity </h3>
+<%= form_for(@category) do |f| %>
+<div>
+<label> Commodity Name </label><br/>
+  <%= f.text_field :commodity_name %><br/><p>
+</div>
+
+<div>
+  <label> Commodity Code </label><br/>
+  <%= f.text_field :commodity_code %><br/><p>
+</div>
+
+<div>
+  <label> Sub Commodity Code </label><br/>
+  <%= f.text_field :sub_commodity_code %><br/><p>
+</div>
+
+<%= f.submit "Create Commodity" %>
+<% end %>
+

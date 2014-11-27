@@ -1,0 +1,7 @@
+<h3> Taxes </h3>
+<% @taxes.each do |tax| %>
+<ul>
+  <li><%= tax.tax_type %>
+    <%= tax.tax_rate %></li>
+</ul>
+<% end %>

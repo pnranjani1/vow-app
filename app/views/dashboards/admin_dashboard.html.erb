@@ -1,0 +1,19 @@
+<h3> <%= current_authuser.name %> <br/></h3>
+
+ You have <%= pluralize(@count, "Chartered Accountant") %><br/>
+ 
+<ul>
+  <%  @current_authuser_clients.each do |c| %>
+  <li><%= link_to c.authuser.name %></li>
+  <% end %>
+</ul>
+<br/>    
+
+Create a Chartered Accountant <%= link_to "Create CA", authusers_admin_new_path %>
+<br/><p>
+
+
+<hr>
+
+
+<%= link_to "Sign out", destroy_authuser_session_path, method: :delete %>

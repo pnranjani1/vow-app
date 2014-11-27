@@ -1,0 +1,99 @@
+<h2> Sign Up for Users </h2>
+<%= form_for(@user, :url => '/authusers/client_create') do |f| %>
+<div>
+<label> Name </label><br/>
+<%= f.text_field :name %><br><p>
+</div>
+
+<div>
+<label> Email </label><br/>
+  <%= f.text_field :email %><br/><p>
+</div>
+
+<div>
+  <label> Password </label><br/>
+  <%= f.password_field :password %><br><p>
+</div>
+
+<div>
+  <label> Password Confirmation </label><br/>
+  <%= f.password_field :password_confirmation %><br/><p>
+  <div>
+    
+<div>
+  <%= f.fields_for :address do |user_address| %>
+  <label> Address 1</label><br/>
+  <%= user_address.text_field :address_line_1 %><br><p>
+</div>
+    
+<div>
+  <label> Address 2</label><br/>
+  <%= user_address.text_field :address_line_2 %><br/><p>
+</div>
+    
+<div>
+  <label> Address 3 </label><br/>
+  <%= user_address.text_field :address_line_3 %><br/><p>
+</div>
+    
+<div>
+  <label> City </label><br/>
+  <%= user_address.text_field :city %><br/><p>
+</div>
+    
+<div>
+   <label> Country </label><br/>
+  <%= user_address.text_field :country %><br/><p>
+</div>
+<% end %>
+    
+<div>
+  <%= f.fields_for :bankdetail do |user_bank| %>
+  <label> Bank Account Number </label><br/>
+  <%= user_bank.text_field :bank_account_number %><br/><p>
+</div>
+    
+<div>
+  <label> IFSC Code </label><br/>
+  <%= user_bank.text_field :ifsc_code  %><br/><p>
+ </div>
+ <% end %>
+    
+<div>
+  <%= f.fields_for :membership do |user_membership| %>
+  <label> Phone Number </label><br/>
+  <%= user_membership.text_field :phone_number %><br><p>
+</div>
+    <% end %>
+    
+<div>
+  <%= f.fields_for :users do |user_detail| %>
+  <label> Tin Number </label><br/>
+  <%= user_detail.text_field :tin_number %><br/><p>
+</div>
+    
+<div>
+  <label> Esugam Username </label><br/>
+  <%= user_detail.text_field :esugam_username %><br/><p>
+</div>
+    
+<div>
+  <label> Esugam Password </label><br/>
+  <%= user_detail.password_field :esugam_password %><br/><p>
+</div>
+    
+    <%= user_detail.hidden_field :client_id, :value => current_authuser.id %>
+  <% end %>
+    
+    <%= f.submit "Sign Up" %>
+    <% end %>
+
+
+    
+    
+      
+    
+  
+    
+    
+    

@@ -1,0 +1,36 @@
+<%= form_for(@category) do |f| %>
+<div>
+  <span class="st-labeltext">Select Commodities</span>    
+
+<% MainCategory.all.each do |category| %>
+
+  <%= check_box_tag "authuser[main_category_ids][]", category.id, @category.main_category_ids.include?(category.id), :id => dom_id(category) %>
+<%= label_tag dom_id(category), category.commodity_name %><br/>
+
+  
+<% end %><br/>
+  <% end %>
+  
+  
+<%
+=begin %>
+  <%= f.collection_select  :m_category_id, MCategory.all, :id, :commodity_name %><br/>
+</div>
+<br/>
+<div>
+  <%= f.fields_for :taxes do |tax_category| %>
+<label>Tax Type</label><br/>
+  <%= tax_category.collection_select :tax_id, Tax.all, :id, :tax_type %><br/>
+</div>
+<br/>
+
+<div>
+<label>Tax Rate </label><br/>
+  <%= tax_category.text_field :tax_rate %><br/>
+  <% end %>
+<br/>
+  <%= f.submit "Add Commodity" %>
+
+<% end %>
+<%
+=end %>

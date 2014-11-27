@@ -1,0 +1,12 @@
+<%= form_for(@admin) do |f| %>
+<label> Name </label>
+<%= f.text_field :name %><br/><p>
+<label> Email </label><br/>
+<%= f.text_field :email %><br/><p>
+<label> Password </label><br/>
+<%= f.password_field :password %><br/><p>
+
+  <%= f.submit  %>
+  <% end %>
+  
+  

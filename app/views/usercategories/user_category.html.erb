@@ -1,0 +1,16 @@
+<h3> Listing Commodities for <%= @user.name %></h3>
+<% if @user.categories.blank? %>
+No Commodity found for <%= @user.name %>
+<%-# <%=  link_to "Create Category", new_category_path(:id => @user) -%> 
+<% else %>
+<ul>
+<% @user_categories.each do |c| %>
+  <li> <%= link_to c.category_name , category_path(c) %></li>
+  <% end %>
+</ul>
+    <% end %>
+<br/>
+<%= link_to "Create Commodity", new_category_path(:id => @user) %>
+<hr>
+<%= will_paginate @user_categories %>
+  

@@ -1,0 +1,78 @@
+<h2>Sign up</h2>
+
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+  <%= devise_error_messages! %>
+
+<div class="field">
+  <%= f.label :Name %><br />
+  <%= f.text_field :name, autofocus: true %>
+  </div>
+
+  <div class="field">
+    <%= f.label :email %><br />
+    <%= f.email_field :email  %>
+  </div>
+
+  <div class="field">
+    <%= f.label :password %>
+    <% if @validatable %>
+    <em>(<%= @minimum_password_length %> characters minimum)</em>
+    <% end %><br />
+    <%= f.password_field :password, autocomplete: "off" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :password_confirmation %><br />
+    <%= f.password_field :password_confirmation, autocomplete: "off" %>
+  </div><br/>
+
+<%
+=begin %>
+<div class = "field">
+<label> Tin Number </label><br/>
+<%= f.text_field :tin_number %><br/><p>
+</div>
+
+ <div class="field">
+<label> Phone Number </label><br/>
+<%= f.text_field :phone_number %><br/><p>
+</div>
+
+ <div class="field">
+<label> Address </label><br/>
+<%= f.text_field :address %><br/><p>
+</div>
+
+ <div class="field">
+<label> City </label><br/>
+<%= f.text_field :city %><br/><p>
+</div>
+
+ <div class="field">
+<label> Bank Account Number </label><br/>
+<%= f.text_field :bank_account_number %><br/><p>
+</div>
+
+ <div class="field">
+<label> IFSC Code </label><br/>
+<%= f.text_field :ifsc_code %><br/><p>
+</div>
+
+<div class="field">
+<label> Membership Start Date </label><br/>
+  <%= f.date_select :membership_start_date %><br/><p>
+</div>
+
+<div class="field">
+<label> Membership End Date</label><br/>
+  <%= f.date_select :membership_end_date %><br/><p>
+</div>
+<%
+=end %>
+
+  <div class="actions">
+    <%= f.submit "Sign up" %>
+  </div>
+<% end %><br/>
+
+<%= render "devise/shared/links" %>

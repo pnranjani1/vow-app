@@ -1,0 +1,11 @@
+<%= form_for @product do |f| %>
+<label>Product Name</label><br/>
+<%= f.text_field :product_name %>
+<br/>
+<label>Units</label><br/>
+<%= f.text_field :units %>
+<br/>
+<label> Category </label><br/>
+<%= f.collection_select :category_id, Category.where(:user_id => current_user.id), :id, :category_name, :prompt => "Select Category"  %><br/>
+<%= f.submit %>
+<% end %>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>WorkingApp</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+  <p class= "notice"><%= notice %></p>
+  <p class= "alert"><%= alert %></p>
+  
+<%
+=begin %>
+  comment starts
+  <header>
+    <h3><%= link_to current_user.name, user_path(current_user.id) %></h3>
+  </header>
+
+
+  
+  <div>
+    <% if user_signed_in? %>
+    <h2><%= current_user.name %></h2>
+    <% if permitted_to? :user_category %>
+    <%= link_to "Commodities", categories_user_category_path(:id => current_user.id) %>|
+    <% end %>
+  
+    <% if permitted_to? :user_customer %>
+    <%= link_to "Customers", customers_user_customer_path(:id => current_user.id) %>|
+    <% end %>
+        
+
+    <%-# This is actually add profile, but for user view purpose, it is saved as manage profile -%>
+    <%= link_to " Manage Profile", edit_userprofile_path(current_user.id) %>|
+
+    
+    
+    <% if permitted_to? :new, Ca.new %>
+    <%= link_to "Create Chartered Accountant", new_ca_path %>|
+   <% end %>
+    
+    <% if permitted_to? :show %>
+    <%= link_to "View Profile", admin_path(current_user.id) %>|
+    <% end %>
+
+    <% if permitted_to? :index %>
+    <%= link_to "Home Page", dashboards_path %>|
+    <% end %>
+
+        
+    <%= link_to "Signout", destroy_user_session_path, method: :delete %>
+     <% end %>
+  </div>
+  
+  comment ends
+<%
+=end  %>
+<%= yield %>
+
+</body>
+</html>

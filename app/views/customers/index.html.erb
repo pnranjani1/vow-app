@@ -1,0 +1,10 @@
+<h3> Customers List</h3>
+<% @customers.each do|customer| %>
+<ul>
+  <li> <%= link_to customer.name, customer_path(customer) %> | 
+    <%= link_to "Edit", edit_customer_path(customer) %></li>
+  </ul>
+<% end %>
+<hr>
+<%= link_to "Create Customer", new_customer_path  %>  | 
+<%=  link_to "Back to User" , users_path %>

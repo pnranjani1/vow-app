@@ -1,0 +1,8 @@
+<h3><%= @category.commodity_name %></h3>
+
+Commodity Name : <%=  @category.commodity_name %><p>
+  Commodity Code : <%= @category.commodity_code %><p>
+  Sub Commodity Code : <%= @category.sub_commodity_code %>
+<hr>
+<%= link_to "Edit Commodity", edit_main_category_path(@category.id) %>|
+<%= link_to "List Commodities", main_categories_path %>
