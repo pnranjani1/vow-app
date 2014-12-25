@@ -1,6 +1,7 @@
 class ClientsController < ApplicationController
 
  before_filter :authenticate_authuser!
+  filter_access_to :all
   
   
   def index
@@ -22,28 +23,62 @@ class ClientsController < ApplicationController
   
   def show
     @client = Client.find(params[:id])
-  end
+      end
   
   def edit
     @client = Client.find(params[:id])
   end
   
   def update
-    @client = Client.find(params[:id])
-    if @client.update_attributes(set_params)
-      redirect_to client_path(@client.id)
-    else render action: 'edit'
+     @user = current_authuser.clients.first 
+    if  params[:role_user] = true
+    Permission.create(:authuser_id => current_authuser.id, :main_role_id => 6)
+      redirect_to dashboards_client_dashboard_path
+      
+      #Permission.create(:authuser_id => current_authuser.id, :main_role_id => 6)
     end
   end
+  
+   # @client = current_authuser.clients.first 
+   # if @user.update_attributes(params[:add_user_role])
+    ## params[:role_user] == true
+   # params[:role_user] = @user.role_user
+      #@user.add_user_role = true
+  #  if @user.role_user == true
+      #Permission.create(:authuser_id => current_authuser.id, :main_role_id => 6)
+     # User.create(:authuser_id => current_authuser.id, :client_id => current_authuser.id, :tin_number => )
+   # redirect_to dashboards_client_dashboard_path
+    
+ # end
+ #  end
+  
   
   def destroy
     @client = Client.find(params[:id])
     @client.destroy
   end
   
+  def user_role
+    @user = current_authuser.clients.first
+  end
+  
+  #  @user = current_authuser
+ # @user = Client.where(:authuser_id => current_authuser.id)  
+  def update_user_role
+   @user = current_authuser.clients.first 
+    if params[:add_user_role] == true
+      @user.add_user_role = true
+      Permission.create(:authuser_id => current_authuser.id, :main_role_id => 6)
+      redirect_to dashboards_client_dashboard_path
+  end
+  end
+  
+  
   private
   def set_params
-    params[:client].permit(:authuser_id, :remarks, :unique_reference_key)
+    params[:client].permit(:authuser_id, :remarks,  :role_user,
+      {:users_attributes => [:tin_number, :esugam_username, :esugam_password, :authuser_id, :client_id]}
+      )
   end 
     
     

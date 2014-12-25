@@ -1,0 +1,14 @@
+<hr><br/>
+<h3> Create New Category </h3>
+<hr>
+<%= nested_form_for(@auth_user_category) do |f| %>
+
+<%= f.fields_for :usercategories do |category| %>
+<%= category.hidden_field :authuser_id, :value => current_authuser.id %><br/>
+<%= category.collection_select :main_category_id, MainCategory.all,  :id , :commodity_name,  :prompt => "Select Commodity" %><br/>
+<%= category.link_to_remove "Remove Commodity" %><br/>
+<% end %><p>
+<%= f.link_to_add "Add Commodity", :usercategories %><br/>
+<br/>
+<%= f.submit "Update Commodity" %>
+<% end %>

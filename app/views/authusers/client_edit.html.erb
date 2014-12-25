@@ -1,0 +1,98 @@
+<h2> Update Profile </h2>
+<%= form_for(@user, :url => 'client_update') do |f| %>
+
+<% if @user.errors.any? %>
+<% @user.errors.full_messages.each do |error| %>
+<ul>
+  <li><%= error %></li>
+</ul>
+<% end %>
+  <% end %>
+<br/>
+
+<div class="field">
+  <%= f.label :Name %><br />
+  <%= f.text_field :name, autofocus: true %>
+  </div>
+
+<%= f.hidden_field :email, :value => current_authuser.email %>
+
+  <div class="field">
+    <label>Password </label><br/>
+    <%= f.password_field :password %><br/><p>
+  </div>
+
+  <div class="field">
+    <%= f.label :password_confirmation %><br />
+    <%= f.password_field :password_confirmation, autocomplete: "off" %>
+  </div><br/>
+
+<div>
+  <%= f.fields_for :address do |user_address| %>
+  <label> Address 1</label><br/>
+  <%= user_address.text_field :address_line_1 %><br><p>
+</div>
+    
+<div>
+  <label> Address 2</label><br/>
+  <%= user_address.text_field :address_line_2 %><br/><p>
+</div>
+    
+<div>
+  <label> Address 3 </label><br/>
+  <%= user_address.text_field :address_line_3 %><br/>
+</div>
+    
+<div>
+  <label> City </label><br/>
+  <%= user_address.text_field :city %><br/><p>
+</div>
+    
+<div>
+   <label> Country </label><br/>
+  <%= user_address.text_field :country %><br/><p>
+</div>
+<% end %>
+    
+<div>
+  <%= f.fields_for :bankdetail do |user_bank| %>
+  <label> Bank Account Number </label><br/>
+  <%= user_bank.text_field :bank_account_number %><br/><p>
+</div>
+    
+<div>
+  <label> IFSC Code </label><br/>
+  <%= user_bank.text_field :ifsc_code  %><br/><p>
+ </div>
+ <% end %>
+    
+<div>
+  <%= f.fields_for :membership do |user_membership| %>
+  <label> Phone Number </label><br/>
+  <%= user_membership.text_field :phone_number %><br><p>
+</div>
+    <% end %>
+    
+<div>
+  <%= f.fields_for :users do |user_detail| %>
+  <label> Tin Number </label><br/>
+  <%= user_detail.text_field :tin_number %><br/><p>
+</div>
+    
+<div>
+  <label> Esugam Username </label><br/>
+  <%= user_detail.text_field :esugam_username %><br/><p>
+</div>
+    
+<div>
+  <label> Esugam Password </label><br/>
+  <%= user_detail.password_field :esugam_password %><br/><p>
+</div>
+    
+ <% end %>
+    
+    
+    
+<%= f.submit "Update Profile" %>
+    <% end %>
+

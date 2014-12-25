@@ -1,0 +1,155 @@
+authuser s controller.rb
+
+  def de_activate_user
+    user = Authuser.find(params[:id])
+    user.approved = false
+    if user.save
+    redirect_to dashboards_client_dashboard_path(current_authuser.id)
+    end
+  end
+  
+same implemmentation in client_dahsboard
+  <%= link_to "De-Activate User" , de_activate_user_path(user.authuser.id), method: :put  %>
+---------
+product - new.html.erb to select usercategory
+<%= f.select :usercategory_id, options_for_select(@categories, :usercategory_id), {:prompt => "Select Commodity" } %><br/><p>
+
+-----------
+user_customer.html.erb
+
+<h3> Listing Customers of <%= @user.name %></h3>
+<% if @user.customers.blank? %>
+No Customer found for <%= @user.name %>
+<% else %>
+<ul>
+<% @user.customers.each do |c| %>
+  <li> <%= link_to c.name, customer_path(c) %></li>
+<% end %>
+</ul>
+<% end %>
+<br/><p>
+
+<%= link_to "Create Customer", new_customer_path %>
+
+--------------
+authuser.rb to send mail while user signs up
+ def send_admin_mail
+ #   if self.name != nil?
+      Notification.send_new_user(self).deliver
+  #end
+  end
+  -------
+
+change_role.html.erb
+
+% current_authuser.main_roles.each do |role| %>
+
+  <%  if role.role_name == "client" %>
+<h4><%= link_to "Client", dashboards_client_dashboard_path(current_authuser.id) %></h4><p>
+<% elsif role.role_name == "user" %>
+<h4><%= link_to "User", dashboards_user_dashboard_path(current_authuser.id) %></h4>
+<% end %>
+
+<% end %>
+----------
+<%= form_for(@user, :url => '/authusers/change_role_update') do |f| %>
+<%= radio_button :authuser, :current_role, 
+
+<%= f.submit "Change Role" %>
+<% end %>
+<%= radio_button :modelname, :attribute, :tag_value, options %>
+Have a look at the following example:
+
+ radio_button("post", "category", "rails")
+ radio_button("post", "category", "java")
+--------
+application.html.erb
+ <% if permitted_to? :client_dashboard %>
+  <%= link_to "Edit Profile", authusers_admin_new_path %>|
+  <% end %>
+
+<%= debug(session[:role_id]) %>
+------------
+user_dashboard.html.erb
+
+<% if current_authuser.products.nil? %>
+  <%= link_to "Add Products", new_product_path %>|
+  <% else %>
+  <%= link_to "View Products", products_product_user_path %>|
+  <% end %>
+ 
+   
+  <%= link_to "Add Products", new_product_path %>|
+  <% if current_authuser.auth_user_category.blank? %> 
+  <%= link_to "View Commodities", new_auth_user_category_path %>|
+    <% else %> 
+      <%= link_to "View Commodities", auth_user_categories_path %>|
+    <% end %>
+<%= link_to "Home Page", dashboards_user_dashboard_path %>
+  
+   
+  <%= link_to "View Customers", customers_user_customer_path %>|
+   <%= link_to "Create New Bill", new_bill_path(current_authuser.id) %>|
+<%= link_to "View Bills", bills_user_bill_path %>|
+
+<hr>
+-------------
+client dashboard
+<%= link_to "Approve User" , activate_user_path(user.authuser.id), method: :put %></li>
+
+-------
+membership_edit.html.erb
+
+<%= f.fields_for :authuser do |user| %>
+<label> Approve </label>
+<%= user.check_box :approved  %><br/><p>
+<% end %>
+-----------
+
+user_bill.html.erb
+<h3> Local Sales XML </h3><p>
+<%= form_tag bills_local_sales_path(:format => "xml"), method: :get do %>
+<%= text_field_tag :choose_month, params[:choose_month], :id => "local_sales" , placeholder: "Generate Local Sales xml"%>
+<%= submit_tag "Submit" %>
+<% end %>
+
+
+<p>
+<h3> Interstate Sales XML </h3><p>
+<%= form_tag bills_interstate_sales_path(:format => "xml"), method: :get do %>
+<%= text_field_tag :choose_month, params[:choose_month], :id => "interstate_sales" , placeholder: "Generate Interstate Sales xml"%>
+<%= submit_tag "Submit" %>
+<% end %>
+
+----------------
+admin_dashboard.html.erb
+ <% if client.authuser.approved? %>
+     <%= link_to "De-activate User" , de_activate_user_path(client.authuser.id), method: :put %>|
+    <% elsif client.authuser.approved == false %>
+    <%= link_to "Approve User" , activate_user_path(client.authuser.id), method: :put %>|
+    <% end %>
+--------------
+user_activated_mail.html.erb
+
+ :controller => "authusers/devise", :action => "index", :host =>  "http://my-awesome-box-143709.apse1.nitrousbox.com", :port => 3000  %>
+-----------
+user_activated_email.html.erb
+
+<%= link_to, "VatonWheels", authusers_edit_Password_url(:host =>  "http://my-awesome-box-143709.apse1.nitrousbox.com", :port => 3000 ) %>
+------------
+client_dashboard.html.erb
+ <%= link_to "Home Page", dashboards_client_dashboard_path %>|  
+  <%= link_to "Bills Information", bills_user_bill_summary_path %>|
+  
+  
+   <% if current_authuser.main_roles.count > 1 %>
+  <%= link_to "Change Role", authusers_change_role_path %> |
+  <% end %>
+  
+  <%= link_to "Update Profile", admin_edit_path(current_authuser.id) %>|
+<br/>
+
+------------
+
+
+

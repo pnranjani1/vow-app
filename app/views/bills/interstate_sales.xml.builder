@@ -1,0 +1,32 @@
+xml.instruct!
+xml.ISSale do
+ 
+  user = current_authuser.users.first
+            xml.TinNo user.tin_number
+            xml.RetPerdEnd "#{Date.today.strftime("%Y").to_i}"
+            xml.FilinType "M"
+            xml.Period "#{Date.today.strftime("%m").to_i}"
+         @user_bills.each do |bill|
+        xml.ISSaleInv do
+        xml.PurTin bill.customer.tin_number
+        xml.PurName bill.customer.name 
+        xml.PurAddr bill.customer.address        
+        xml.InvNo bill.invoice_number
+        xml.InvDate bill.bill_date.strftime(" %d %b %Y")
+        xml.NetVal bill.total_bill_price
+        xml.TaxCh bill.tax.tax_rate
+        xml.OthCh bill.other_charges
+        xml.TotCh bill.grand_total
+        xml.TranType 
+        xml.MainComm 99.99
+        xml.SubComm 0
+        xml.qty bill.line_items.sum(:quantity)
+        end
+      end
+   end
+
+
+ 
+  
+
+   

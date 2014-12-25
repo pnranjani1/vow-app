@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>WorkingApp</title>
+  
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'nested_form','data-turbolinks-track' => true %>
+  
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+
+   <%= csrf_meta_tags %>
+ 
+</head>
+<body>
+  <p class= "notice"><%= notice %></p>
+  <p class= "alert"><%= alert %></p>
+  
+ 
+
+  <% if authuser_signed_in? %>
+   <h2><center>VatOnWheels - We make billing easier</center></h2><br/><p>
+  <h3><%= current_authuser.name %></h3>
+  <% end %>
+
+
+  <%= link_to "Home Page", dashboards_client_dashboard_path %>|  
+  <%= link_to "Bills Information", bills_user_bill_summary_path %>|
+  
+  
+   <% if current_authuser.main_roles.count > 1 %>
+  <%= link_to "Change Role", authusers_change_role_path %> |
+  <% end %>
+  
+  <%= link_to "Update Profile", admin_edit_path(current_authuser.id) %>|
+   <%= link_to "Sign Out", destroy_authuser_session_path, method: :delete %>
+  <hr/>
+  
+  
+</body>
+</html>
+
+
+  
+  
+  

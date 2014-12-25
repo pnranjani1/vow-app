@@ -1,0 +1,72 @@
+admin_dashbaord.html.erb
+
+<% if client.authuser.approved == false %>
+    <%= link_to "Approve User" , activate_user_path(client.authuser.id), method: :put %>|
+    <% end %>
+---------
+user_role.html.erb
+<%= f.fields_for :users  do |user|  %>
+<label> Tin Number </label><br/>
+<%= user.text_field :tin_number %><br/><p>
+
+<label> Esugam Username </label><br/>
+<%= user.text_field :esugam_username %><br/><p>
+
+<label> Esugam Password </label><br/>
+<%= user.password_field :esugam_password %><br/><p>
+
+<%= user.hidden_field :authuser_id, :value => current_authuser.id %>
+<%= user.hidden_field :client_id, :value => current_authuser.id %>
+<%= user.hidden_field :created_by, :value => current_authuser.id %>
+<% end %>
+------------
+client.edit.html.erb
+
+h3> Edit Profile </h3>
+
+<%= form_for(@ca) do |f| %>
+<label> Name </label><br/>
+<%= f.text_field :name %><br><p>
+<label> Email </label><br/>
+<%= f.text_field :email %><br/><p>
+<label> Phone Number </label><br/>
+<%= f.text_field :phone_number %><br/><p>
+<label> Address </label><br/>
+<%= f.text_field :address %><br/><p>
+<label> City <label><br/>
+<%= f.text_field :city %><br/><p>
+
+<%
+=begin %>
+  <label> Membership Start Date </label><br/>
+  <%= f.dateselect :membership_start_date %><br/><p>
+<label> Membership End Date %><br/>
+<%= f.date_select :membership_end_date %><br/><p>
+<label> Membership Status <label><br/>
+<%= f.checkbox :membership_status %><br/><p>
+<%
+=end %>
+  
+  <%= f.submit "Update Profile"
+<% end %>
+  ----------
+client_dashboard.html.erb  
+  
+  <%= link_to "Home Page", dashboards_client_dashboard_path %>|  
+  <%= link_to "Bills Information", bills_user_bill_summary_path %>|
+  
+  
+   <% if current_authuser.main_roles.count > 1 %>
+  <%= link_to "Change Role", authusers_change_role_path %> |
+  <% end %>
+  
+  <%= link_to "Update Profile", admin_edit_path(current_authuser.id) %>|
+   <%= link_to "Sign Out", destroy_authuser_session_path, method: :delete %>
+  <hr/>
+  
+--------
+  user_dashboard.html.erb
+   <% if current_authuser.main_roles.count == 1 %>  
+  ------
+  
+  

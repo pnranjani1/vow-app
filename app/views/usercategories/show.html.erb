@@ -1,18 +1,17 @@
-<h3> <% @usercategories.commodity_name %></h3>
-<hr/>
-<h4>Commodity code:<%= @category.commodity_code %></h4>
-<h4>Sub Commodity code: <%= @category.sub_commodity_code %> </h4>
+<hr><br/>
+<h3>Commodity : <%= @usercategory.main_category.commodity_name %></h3>
+
+<h4>Commodity code:<%= @usercategory.main_category.commodity_code %></h4>
+<h4>Sub Commodity code: <%= @usercategory.main_category.sub_commodity_code %> </h4><br/>
+
+
 
 <br/>
-<% if permitted_to? :edit, Category %>
-<%= link_to "Edit Commodity", edit_usercategory_path(@category) %>| 
-<% end %>
-<% if permitted_to? :delete, Category %>
-<%= link_to "Delete Commodity", usercategory_path(@category) , method: :delete, data: {confirm: 'Are you sure? '} %> |
-<% end %>
-<% if permitted_to? :products_product_category %>
-<%= link_to "List Products",products_product_category_path(:id => @category) %> 
-<% end %>
+<%= link_to "Edit Commodity", edit_usercategory_path(@usercategory.id) %>| 
+
+<%= link_to "Delete Commodity", usercategory_path(@usercategory.id) , method: :delete, data: {confirm: 'Are you sure 1 ? '} %> 
+
+
 
 
   

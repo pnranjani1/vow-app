@@ -14,3 +14,9 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
+
+
+$("#spinneret").click(function(){
+		$("#spinme").spin();
+		$("#messpin").show();
+	});

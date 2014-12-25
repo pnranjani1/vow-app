@@ -1,0 +1,10 @@
+<hr>
+<h3> Listing all bills </h3>
+
+<h4> Total Bills Generated : <%= @bills.count %><h4><p>
+<% @bills.each do |bill| %>
+<ul>
+  <li><%= link_to bill.customer.name, bill_path(bill.id) %> </li>
+</ul>
+<% end %>
+

@@ -1,0 +1,6 @@
+<% usercategories.each do|category| %>
+<% products = category.products %>
+<% products.each do |product| %>
+<%= product.product_name %>
+<% end %>
+<% end %>

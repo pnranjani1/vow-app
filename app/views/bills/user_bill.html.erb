@@ -1,0 +1,62 @@
+<hr>
+<h3> Listing Bill </h3>
+<% if @user_bills.blank? %>
+<%= link_to "Create Bill", new_bill_path %>
+<% else %>
+<% @user_bills.each do |bill| %>
+<ul>
+  <li><%= link_to bill.customer.name, bill_path(bill.id)  %> 
+    <%= bill.tax.tax_type %>|
+    <%=  link_to "Generate PDF", bill_path(bill.id, format: "pdf"), target: "blank"  %></li><p>
+ Posted <%= time_ago_in_words (bill.created_at) %> ago <br/><p>
+</ul>
+<% end %>
+<% end %>
+
+<%= link_to "Download Excel", bills_user_bill_path(format: "xls") %> |
+<%= link_to "Download CSV", bills_user_bill_path(format: "csv") %><br/><p>
+
+<hr/>
+<script>
+  $(function() {
+    $("#local_sales").monthpicker();
+    $("#interstate_sales").monthpicker();
+    $("#start_date").datepicker();
+    $("#end_date").datepicker();
+  });
+  </script>
+
+
+
+<h3>Download Tally importable xml file </h3>
+<%= form_tag  bills_tally_import_path( :format => :xml),method: "get" do  %>
+<%= label_tag(:start_date , 'From : ')%> <%= text_field_tag :start_date, params[:start_date], :id => "start_date" %>
+<%= label_tag(:end_date , 'To : ')%> <%= text_field_tag :end_date,params[:end_date], :id => "end_date" %>
+	<%= submit_tag("Tally importable xml")%>
+<% end %>
+
+<p>
+
+<h3> Local Sales XML </h3><p>
+<%= form_tag bills_local_sales_path(:format => "xml"), method: :get do %>
+<%= text_field_tag :choose_month, params[:choose_month], :id => "local_sales" , placeholder: "Generate Local Sales xml"%>
+<%= submit_tag "Submit" %>
+<% end %>
+
+
+<p>
+<h3> Interstate Sales XML </h3><p>
+<%= form_tag bills_interstate_sales_path(:format => "xml"), method: :get do %>
+<%= text_field_tag :choose_month, params[:choose_month], :id => "interstate_sales" , placeholder: "Generate Interstate Sales xml"%>
+<%= submit_tag "Submit" %>
+<% end %>
+
+
+<br/><p>
+
+<br/><p>
+  
+
+<br/><p>
+  
+

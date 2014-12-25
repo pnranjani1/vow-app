@@ -1,0 +1,13 @@
+
+<hr>
+<h4> Change Role </h4><br/>
+
+<%= form_tag(authusers_change_role_update_path, method: :put) do -%>
+  <% @user.main_roles.each do |role| %>
+
+
+<%= radio_button_tag :roles, role.role_name, false %>  <%= role.role_name.capitalize %> <br />
+
+  <% end %>
+  <%= submit_tag 'Change Roles' %>
+<% end %>

@@ -1,15 +1,22 @@
-<h3> Listing Customers of <%= @user.name %></h3>
-<% if @user.customers.blank? %>
-No Customer found for <%= @user.name %>
+<hr>
+<h3> Listing Customers </h3>
+
+<% if @user_customers.blank? %>
+<%= link_to "Add Customer", new_customer_path %>
 <% else %>
+<% @user_customers.each do |customer| %>
 <ul>
-<% @user.customers.each do |c| %>
-  <li> <%= link_to c.name, customer_path(c) %></li>
-<% end %>
+  <li><%= link_to customer.name, customer_path(customer.id) %> | 
+    <%= link_to "Edit Customer" , edit_customer_path(customer.id) %></li>
 </ul>
 <% end %>
-<br/><p>
+<% end %>
+<br/>
 
-<%= link_to "Create Customer", new_customer_path %>
-
-  
+<h3> Import Customers </h3>
+<%= form_tag customers_customer_import_path, multipart: true do %><br/>
+  <%= file_field_tag :file %><br/><p>
+<%= submit_tag "Import Customers" %>
+<% end %><br/>
+<%= link_to "Format for Importing Customers", customers_customer_download_path(format: "xls") %> 
+<p><b>Note: </b>When importing .xls files, save the file as <b>"excel 97-2003 workbook"</b> format to avoid errors</p>

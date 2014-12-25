@@ -1,0 +1,93 @@
+<h2><%= t 'devise.invitations.edit.header' %></h2>
+
+<%= form_for resource, :as => resource_name, :url => invitation_path(resource_name), :html => { :method => :put } do |f| %>
+  <%= devise_error_messages! %>
+  <%= f.hidden_field :invitation_token %>
+
+<div class="field">
+  <%= f.label :Name %><br />
+  <%= f.text_field :name, autofocus: true %>
+  </div>
+
+
+  <div class="field">
+    <label>Password </label><br/>
+    <%= f.password_field :password %><br/><p>
+  </div>
+
+   <p><%= f.label :password_confirmation %><br />
+  <%= f.password_field :password_confirmation %></p>
+
+
+<div>
+  <%= f.fields_for :address do |user_address| %>
+  <label> Address 1</label><br/>
+  <%= user_address.text_field :address_line_1 %><br><p>
+</div>
+    
+<div>
+  <label> Address 2</label><br/>
+  <%= user_address.text_field :address_line_2 %><br/><p>
+</div>
+    
+<div>
+  <label> Address 3 </label><br/>
+  <%= user_address.text_field :address_line_3 %><br/>
+</div>
+    
+<div>
+  <label> City </label><br/>
+  <%= user_address.text_field :city %><br/><p>
+</div>
+    
+<div>
+   <label> Country </label><br/>
+  <%= user_address.text_field :country %><br/><p>
+</div>
+<% end %>
+    
+<div>
+  <%= f.fields_for :bankdetail do |user_bank| %>
+  <label> Bank Account Number </label><br/>
+  <%= user_bank.text_field :bank_account_number %><br/><p>
+</div>
+    
+<div>
+  <label> IFSC Code </label><br/>
+  <%= user_bank.text_field :ifsc_code  %><br/><p>
+ </div>
+ <% end %>
+    
+<div>
+  <%= f.fields_for :membership do |user_membership| %>
+  <label> Phone Number </label><br/>
+  <%= user_membership.text_field :phone_number %><br><p>
+</div>
+
+<div>
+  <%= user_membership.hidden_field :membership_start_date, :value => Date.today %>
+  <%= user_membership.hidden_field :membership_end_date, :value => Date.today + 1.year %>
+  <br/><p>
+</div>
+    <% end %>
+    
+<div>
+  <%= f.fields_for :users do |user_detail| %>
+  <label> Tin Number </label><br/>
+  <%= user_detail.text_field :tin_number %><br/><p>
+</div>
+    
+<div>
+  <label> Esugam Username </label><br/>
+  <%= user_detail.text_field :esugam_username %><br/><p>
+</div>
+    
+<div>
+  <label> Esugam Password </label><br/>
+  <%= user_detail.password_field :esugam_password %><br/><p>
+</div>
+<% end %>
+
+
+  <p><%= f.submit t("devise.invitations.edit.submit_button") %></p>
+<% end %>

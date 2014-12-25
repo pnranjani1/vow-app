@@ -1,0 +1,312 @@
+This is from devise/shared/links.html.erb
+<%- if devise_mapping.registerable? && controller_name != 'registrations' %>
+ <%= link_to "Sign up", new_registration_path(resource_name) %><br />
+<% end -%>
+
+------------
+This is from devise sessions/new.html.erb
+<% if devise_mapping.rememberable? -%>
+   
+      <%= f.check_box :remember_me %>
+      <%= f.label :remember_me %>
+  <% end -%>
+  
+  -------
+devise/invitations/new.html.erb
+
+<h2><%= t "devise.invitations.new.header" %></h2>
+
+<%= form_for resource, :as => resource_name, :url => invitation_path(resource_name), :html => {:method => :post} do |f| %>
+
+  <%= devise_error_messages! %>
+
+<% resource.class.invite_key_fields.each do |field| -%>
+  <p><%= f.label field %><br />
+  <%= f.text_field field %></p>
+<% end -%>
+
+  <p><%= f.submit t("devise.invitations.new.submit_button") %></p>
+<% end %>
+-------------
+devise/mailer/invitation_instructions.html.er
+
+<p><%= I18n.t("devise.mailer.invitation_instructions.hello", email: @resource.email) %></p>
+
+<p><%= I18n.t("devise.mailer.invitation_instructions.someone_invited_you", url: root_url) %></p>
+
+<p><%= link_to I18n.t("devise.mailer.invitation_instructions.accept"), accept_invitation_url(@resource, :invitation_token => @token) %></p>
+
+<p><%= I18n.t("devise.mailer.invitation_instructions.ignore").html_safe %></p>
+--------------
+devise/invitations/edit.html.erb
+
+h2><%= t 'devise.invitations.edit.header' %></h2>
+
+<%= form_for resource, :as => resource_name, :url => invitation_path(resource_name), :html => { :method => :put } do |f| %>
+  <%= devise_error_messages! %>
+  <%= f.hidden_field :invitation_token %>
+
+  <p><%= f.label :password %><br />
+  <%= f.password_field :password %></p>
+
+  <p><%= f.label :password_confirmation %><br />
+  <%= f.password_field :password_confirmation %></p>
+
+  <p><%= f.submit t("devise.invitations.edit.submit_button") %></p>
+<% end %>
+
+-------------
+invitations controller.rb
+
+  before_filter :update_sanitized_params, only: :update
+
+  
+  
+  def new
+    super
+    @user = Authuser.new
+   end
+  
+  def after_accept_path_for(resource)
+    dashboards_user_dashboard_path
+  end
+  
+  
+  # PUT /resource/invitation
+  def update
+    respond_to do |format|
+      format.js do
+        invitation_token = Devise.token_generator.digest(resource_class, :invitation_token, update_resource_params[:invitation_token])
+        self.resource = resource_class.where(invitation_token: invitation_token).first
+        resource.skip_password = true
+        resource.update_attributes update_resource_params.except(:invitation_token)
+      end
+      format.html do
+        super
+      end
+    end
+  end
+
+
+  protected
+
+  def update_sanitized_params
+    devise_parameter_sanitizer.for(:accept_invitation) do |u|
+      u.permit(:id, :name, :password, :password_confirmation, :invitation_token)
+    end
+    
+    private
+    def resource_params
+      params(invitation).permit(:name, 
+        {:users_attributes => [:tin_number, :authuser_id, :client_id, :esugam_username, :esugam_pasword, :created_by]},
+        {:bankdetail_attributes => [:bank_account_number, :ifsc_code ]},
+        {:address_attributes => [:address_line_1, :address_line_2, :address_line_3, :city, :country, :authuser_id ]}
+        )
+        
+   end
+end
+
+--------------
+invitation controller.rb
+ private
+    def invite_resource
+       resource_class.invite!(invite_params, current_inviter) do |invitable|
+         invitable.add_role(:pro)
+       end
+    end
+    
+-------------
+membership.rb
+ validates :phone_number, presence: true
+  validates :phone_number, numericality: {only_integer: true}
+  validates :phone_number, length: { is: 10}
+  validates :authuser_id, presence: true
+  
+  ------------
+  authuser.rb
+  
+  validates :name, :email, :password, :password_confirmation, presence: true
+  validates :password, length: { in: 6..15}
+ validates :password, confirmation: true
+  validates_format_of :email, {:with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, :message => "Doesn't look like email address"} 
+  ---------
+  address.rb
+  
+  validates :address_line_1, :address_line_2, :address_line_3, :city, :country, presence: true
+  ----
+  bankdetail.rb
+  validates :bank_account_number, :ifsc_code, presence: true
+  validates :bank_account_number, length: { in: 5..15}
+  ---------
+  invitation controller
+   before_filter :update_sanitized_params, only: :update
+
+  # PUT /resource/invitation
+  def update
+    respond_to do |format|
+      format.js do
+        invitation_token = Devise.token_generator.digest(resource_class, :invitation_token, update_resource_params[:invitation_token])
+        self.resource = resource_class.where(invitation_token: invitation_token).first
+        resource.skip_password = true
+        resource.update_attributes update_resource_params.except(:invitation_token)
+      end
+      format.html do
+        super
+      end
+    end
+  end
+
+
+  protected
+
+  def update_sanitized_params
+    devise_parameter_sanitizer.for(:accept_invitation) do |u|
+      u.permit(:name, :password, :password_confirmation, :invitation_token,
+        {:users_attributes => [:tin_number, :authuser_id, :client_id, :esugam_username, :esugam_password]},
+        {:membership_attributes => [:phone_number, :membership_start_date, :membership_end_date, :membership_status, :membership_duration]},
+        {:address_attributes => [:address_line_1, :address_line_2, :address_line_3, :city, :country]},
+        {:bankdetail_attributes => [:bank_account_number, :ifsc_code]}
+        )
+    end
+  end
+  
+  -----
+  usercategories.show.html.erb
+  <%= link_to "List Products",products_product_category_path(:id => @category) %> 
+----------
+
+user_bill.html.erb
+
+<%= link_to  'Generate XML', bills_user_bill_path(:format => :xml), target: "blank" %>
+<%= link_to "Download XLS", bills_user_bill_path(:format => :xls) %><br/>
+<%= link_to "Download CSV", bills_user_bill_path(:format => :csv) %><br/>
+--------------
+tally importable xml
+
+</REQUESTDATA>
+</IMPORTDATA>
+</BODY>
+</ENVELOPE>
+<ENVELOPE>
+<HEADER>
+<TALLYREQUEST>Import Data</TALLYREQUEST>
+</HEADER>
+<BODY>
+<IMPORTDATA>
+<REQUESTDESC>
+<REPORTNAME>Vouchers</REPORTNAME>
+<STATICVARIABLES>
+<SVCURRENTCOMPANY>nikhil shivpuja</SVCURRENTCOMPANY>
+</STATICVARIABLES>
+</REQUESTDESC> 
+<REQUESTDATA> 
+------------------
+
+devise/invitations/edit.html.erb
+
+<h2><%= t 'devise.invitations.edit.header' %></h2>
+
+<%= form_for resource, :as => resource_name, :url => invitation_path(resource_name), :html => { :method => :put } do |f| %>
+  <%= devise_error_messages! %>
+  <%= f.hidden_field :invitation_token %>
+
+   
+<p><%= f.label :name %><br />
+  <%= f.text_field :name %></p>
+
+  <p><%= f.label :password %><br />
+  <%= f.password_field :password %></p>
+
+  <p><%= f.label :password_confirmation %><br />
+  <%= f.password_field :password_confirmation %></p>
+
+<div>
+  <%= f.fields_for :address do |user_address| %>
+  <label> Address 1</label><br/>
+  <%= user_address.text_field :address_line_1 %><br><p>
+</div>
+    
+<div>
+  <label> Address 2</label><br/>
+  <%= user_address.text_field :address_line_2 %><br/><p>
+</div>
+    
+<div>
+  <label> Address 3 </label><br/>
+  <%= user_address.text_field :address_line_3 %><br/>
+</div>
+    
+<div>
+  <label> City </label><br/>
+  <%= user_address.text_field :city %><br/><p>
+</div>
+    
+<div>
+   <label> Country </label><br/>
+  <%= user_address.text_field :country %><br/><p>
+</div>
+<% end %>
+    
+<div>
+  <%= f.fields_for :bankdetail do |user_bank| %>
+  <label> Bank Account Number </label><br/>
+  <%= user_bank.text_field :bank_account_number %><br/><p>
+</div>
+    
+<div>
+  <label> IFSC Code </label><br/>
+  <%= user_bank.text_field :ifsc_code  %><br/><p>
+ </div>
+ <% end %>
+    
+<div>
+  <%= f.fields_for :membership do |user_membership| %>
+  <label> Phone Number </label><br/>
+  <%= user_membership.text_field :phone_number %><br><p>
+</div>
+    <% end %>
+    
+<div>
+  <%= f.fields_for :users do |user_detail| %>
+  <label> Tin Number </label><br/>
+  <%= user_detail.text_field :tin_number %><br/><p>
+</div>
+    
+<div>
+  <label> Esugam Username </label><br/>
+  <%= user_detail.text_field :esugam_username %><br/><p>
+</div>
+    
+<div>
+  <label> Esugam Password </label><br/>
+  <%= user_detail.password_field :esugam_password %><br/><p>
+</div>
+    
+    <%= user_detail.hidden_field :client_id, :value => current_authuser.id %>
+  <% end %>
+    
+    
+    
+
+  <p><%= f.submit t("devise.invitations.edit.submit_button") %></p>
+<% end %>
+
+
+-----------
+
+admin_dashboard.html.erb
+
+ <% c = client.authuser.membership.id %>
+<%= link_to "Membership Details", edit_membership_path(:id => c) %> </li>
+------------
+notification.rb
+
+def send_enabled_message(user)
+    @user = user
+    mail(:to => user.email, :subject => "Welcome to Pixel Technologies!!!")
+  end
+--------
+
+
+  
+

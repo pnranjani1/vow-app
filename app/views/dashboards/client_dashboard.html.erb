@@ -1,19 +1,49 @@
-<h3><%= current_authuser.name %><br/></h3>
 
 
-You have <%= pluralize(current_authuser.users.count, 'User') %><br/>
+<hr><p>
+You have <%= pluralize(@users.count, 'User') %><br/>
 
+<h3> Manage Users </h3>
+
+<%= link_to "Invite User", new_authuser_invitation_path %><br/><p>
+<% c = current_authuser.clients.first.id %>
+
+Add Yourself as a user  <%= link_to "Add Yourself as a user", clients_user_role_path %>
+
+<h3> Approved Users </h3>
+<% @users.each do |user| %>
+<% if user.authuser.approved == true %>
 <ul>
-  <% current_authuser.users.each do|c| %>
-  <li><%= link_to c.name, user_path %></li>
-  <% end %>
-</ul><br/><p>
+   <% c = user.authuser.membership.id %>
+   <li> <%=  user.authuser.name %> |
+    <%= link_to "Membership Details", edit_membership_path(c) %>|
+    <%= link_to "De-activate User" , de_activate_user_path(user.authuser.id), method: :put %></li>
+</ul>
+<% end %>
+<% end %>
+<br/>
+<h3> Non approved Users </h3>
+<% @users.each do |user| %>
+<% if user.authuser.approved == false %>
+<% c = user.authuser.membership.id %>
+<ul>
+  <li><%= link_to user.authuser.name %> |
+  <%= link_to "Approve User" , activate_user_path(user.authuser.id), method: :put %></li>
+
+</ul>
+
+<% end %>
+<% end %><br/>
 
 
-Create New User <%= link_to "Create User", authusers_client_new_path  %><br/><p>
 
-Create New Commodities <%= link_to "Add commodities", new_usercategory_path %>
-<hr>
 
-<%= link_to "Sign Out", destroy_authuser_session_path, method: :delete %>
+
+
+
+
+
+
+
+
 

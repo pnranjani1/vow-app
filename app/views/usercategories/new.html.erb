@@ -1,2 +1,26 @@
+<hr><br/>
 <h3> Create New Category </h3>
-<%= render 'form' %>
+
+<%= nested_form_for(@user, :url => "/auth_user_categories/create") do |f| %>
+
+<% if @usercategory.errors.any? %>
+<% @usercategory.errors.full_messages.each do |error| %>
+<ul>
+  <li> <%= error %></li>
+</ul>
+<% end %>
+  <% end %>
+
+
+<% f.fields_for :usercategories do |category| %>
+<%= category.collection_select :main_category_id, MainCategory.all,  :id , :commodity_name,  :prompt => "Select Commodity" %><br/><p>
+<%= category.link_to_remove "Remove Commodity" %><br/>
+<% end %>
+<%= f.link_to_add "Add Commodity", :usercategories %><br/><p>
+
+<%= f.submit  %>
+<% end %>
+
+
+
+

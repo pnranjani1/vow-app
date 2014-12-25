@@ -1,0 +1,12 @@
+
+  <% @auth_user_category.usercategories.each do |category| %> 
+<ul>
+  <li>
+ <%= category.main_category.commodity_name  %> 
+  </li>
+  </ul>
+  <% end %>
+
+  
+<%= link_to "Manage Commodities", edit_auth_user_category_path(@auth_user_category) %>
+  

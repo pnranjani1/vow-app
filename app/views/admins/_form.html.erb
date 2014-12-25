@@ -1,12 +1,47 @@
-<%= form_for(@admin) do |f| %>
-<label> Name </label>
-<%= f.text_field :name %><br/><p>
+<%= form_for(@admin, :url => '/admins') do |f| %>
+<% if @admin.errors.any? %>
+<% @admin.errors.full_messages.each do|error| %>
+<ul>
+  <li><%= error %></li>
+</ul>
+<% end %>
+<% end %>
+<label> Name </label><br/>
+ <%= f.text_field :name, autofocus: true %><br/><p>
 <label> Email </label><br/>
 <%= f.text_field :email %><br/><p>
 <label> Password </label><br/>
 <%= f.password_field :password %><br/><p>
 
-  <%= f.submit  %>
+<%= f.hidden_field :invited_by_id %>
+
+<label> Phone Number </label><br/>
+<%= f.fields_for :membership do |admin_membership| %>
+<%= admin_membership.text_field :phone_number %><br/><p>
+
+
+<%= admin_membership.hidden_field :membership_start_date, :value => Date.today %>
+<%= admin_membership.hidden_field :membership_end_date, :value => Date.today+ 10.years %><br/>
+<% end %>
+
+<%= f.fields_for :address do |admin_address| %>
+<label> Address 1 </label><br/>
+<%= admin_address.text_field :address_line_1 %><br/><p>
+
+<label> City </label><br/>
+<%= admin_address.text_field :city %><br/><p>
+
+<label> Country </label><br/>
+<%= admin_address.text_field :country %><br/><p>
+<% end %>
+
+<%= f.fields_for :permissions do |admin_permission| %>
+<%= admin_permission.hidden_field :main_role_id, :value => 1 %>
+<% end %>
+
+<%= f.hidden_field :approved, :value => true %>
+
+<%= f.submit  %>
   <% end %>
   
   

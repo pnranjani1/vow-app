@@ -1,27 +1,12 @@
-<h3> Edit Profile </h3>
+<br/><p>
+<h4> Add User Role </h4>
+<%= form_for(@client) do |f| %>
 
-<%= form_for(@ca) do |f| %>
-<label> Name </label><br/>
-<%= f.text_field :name %><br><p>
-<label> Email </label><br/>
-<%= f.text_field :email %><br/><p>
-<label> Phone Number </label><br/>
-<%= f.text_field :phone_number %><br/><p>
-<label> Address </label><br/>
-<%= f.text_field :address %><br/><p>
-<label> City <label><br/>
-<%= f.text_field :city %><br/><p>
+<label> Add as User </label>
+<%= f.check_box :role_user, {}, "true", "false" %><br/>
 
-<%
-=begin %>
-  <label> Membership Start Date </label><br/>
-  <%= f.dateselect :membership_start_date %><br/><p>
-<label> Membership End Date %><br/>
-<%= f.date_select :membership_end_date %><br/><p>
-<label> Membership Status <label><br/>
-<%= f.checkbox :membership_status %><br/><p>
-<%
-=end %>
-  
-  <%= f.submit "Update Profile"
-<% end %>
+
+<br/>
+<%= f.submit %>
+<%  end %>
+

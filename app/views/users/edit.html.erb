@@ -1,29 +1,76 @@
-<h3> Edit Profile </h3>
-
-<%= form_for(@ca) do |f| %>
+<h2> COmplete </h2>
+<%= form_for(@user) do |f| %>
+<div>
 <label> Name </label><br/>
 <%= f.text_field :name %><br><p>
-<label> Email </label><br/>
-<%= f.text_field :email %><br/><p>
-<label> Phone Number </label><br/>
-<%= f.text_field :phone_number %><br/><p>
-<label> Tin Number <label><br/>
-<%= f.text_field :tin_number %><br/><p>
-<label> City <label><br/>
-<%= f.text_field :address %><br/><p>
-<label> City <label><br/>
-<%= f.text_field :city %><br/><p>
-  
-<%
-=begin %>
-<label> Membership Start Date </label><br/>
-<%= f.dateselect :membership_start_date %><br/><p>
-<label> Membership End Date %><br/>
-<%= f.date_select :membership_end_date %><br/><p>
-<label> Membership Status <label><br/>
-<%= f.checkbox :membership_status %><br/><p>
-<%
-=end %>
-  
-<%= f.submit "Create Chartered Accountant"
+</div>
+
+<div>
+  <%= f.fields_for :address do |user_address| %>
+  <label> Address 1</label><br/>
+  <%= user_address.text_field :address_line_1 %><br><p>
+</div>
+    
+<div>
+  <label> Address 2</label><br/>
+  <%= user_address.text_field :address_line_2 %><br/><p>
+</div>
+    
+<div>
+  <label> Address 3 </label><br/>
+  <%= user_address.text_field :address_line_3 %><br/><p>
+</div>
+    
+<div>
+  <label> City </label><br/>
+  <%= user_address.text_field :city %><br/><p>
+</div>
+    
+<div>
+   <label> Country </label><br/>
+  <%= user_address.text_field :country %><br/><p>
+</div>
 <% end %>
+    
+<div>
+  <%= f.fields_for :bankdetail do |user_bank| %>
+  <label> Bank Account Number </label><br/>
+  <%= user_bank.text_field :bank_account_number %><br/><p>
+</div>
+    
+<div>
+  <label> IFSC Code </label><br/>
+  <%= user_bank.text_field :ifsc_code  %><br/><p>
+ </div>
+ <% end %>
+    
+<div>
+  <%= f.fields_for :membership do |user_membership| %>
+  <label> Phone Number </label><br/>
+  <%= user_membership.text_field :phone_number %><br><p>
+</div>
+    <% end %>
+    
+<div>
+  <%= f.fields_for :users do |user_detail| %>
+  <label> Tin Number </label><br/>
+  <%= user_detail.text_field :tin_number %><br/><p>
+</div>
+    
+<div>
+  <label> Esugam Username </label><br/>
+  <%= user_detail.text_field :esugam_username %><br/><p>
+</div>
+    
+<div>
+  <label> Esugam Password </label><br/>
+  <%= user_detail.password_field :esugam_password %><br/><p>
+</div>
+    
+    <%= user_detail.hidden_field :client_id, :value => current_authuser.id %>
+  <% end %>
+    
+    
+    
+    <%= f.submit "Complete Registration" %>
+    <% end %>

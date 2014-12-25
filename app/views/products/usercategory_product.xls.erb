@@ -1,0 +1,12 @@
+<table border="1">
+  <tr>
+    <th>UserCategory ID</th>
+    <th>Commodity Name</th>
+    </tr>
+  <% @category_product.each do |category| %>
+  <tr>
+    <td><%= category.id%></td>
+    <td><%= category.commodity_name %></td>
+    <% end %> 
+  </tr>
+   </table>

@@ -1,0 +1,12 @@
+<h3> Bills Information </h3>
+<% @user.each do |user| %>
+<%=  user.authuser.name %>
+<%  user.authuser.bills.each do |bill| %>
+<ul>
+  <li>
+<%= link_to bill.customer.name, bill_path(bill.id) %>|
+ <%=  link_to "Generate PDF", bill_path(bill.id, format: "pdf"), target: "blank"  %></li><p>
+ Posted <%= time_ago_in_words (bill.created_at) %> ago <br/><p>
+</ul>
+<% end %>
+<% end %>

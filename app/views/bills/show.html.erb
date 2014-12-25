@@ -1,0 +1,43 @@
+<h3> Bill for <%= @bill.customer.name %></h3>
+<% if @bill.esugam? %>
+<h4> Esugam Number : <%= @bill.esugam %> </h4>
+<% end %>
+<%= link_to gravatar_for (@bill.authuser) %><br/><p>
+Invoice Number : <%= @bill.invoice_number %><br/>
+Customer : <%= @bill.customer.name %><br/><p>
+
+<% @bill.line_items.each do|line_item| %>
+Product : <%= line_item.product.product_name %><br/>
+Quantity : <%= line_item.quantity %><br/>
+Unit Price : <%= line_item.unit_price %><br/>
+Total Price : <%= line_item.total_price %><br/><p>
+<% end %>
+
+Bill Total : <%= @bill.total_bill_price %><br/>
+<%= @bill.other_charges_info %>:<%= @bill.other_charges %><br/>
+<% total = @bill.total_bill_price + @bill.other_charges %>
+<%= @bill.tax.tax_type %>  @ <%= @bill.tax.tax_rate %> % on <%= total %>  = <%= @bill.tax.tax_rate * 0.01*total %> <br/>
+Grand Total : <%= @bill.grand_total %><br/>
+Other Information : <%= @bill.other_information %><br/><p>
+
+<%=  link_to "Generate PDF", bill_path(@bill.id, format: "pdf"), target: "blank"  %>
+
+<script>
+$("#spinneret").click(function(){
+		$("#spinme").spin();
+		$("#messpin").show();
+	});
+</script>
+
+<% if @bill.esugam == nil && @bill.tax.tax_type == "CST" %>
+<%= link_to "Generate e-sugam",bill_path(@bill, :cause => "esn"),{:class=>"btn",:id=>"spinneret", confirm: "IF you want to cancel the esugam number you will have to do it in the vat website within 48 hours . Do you want to continue ?"} %>
+    <% end %>
+
+
+
+<div id="spinme"></div>
+<div id=messpin></div>
+
+
+
+

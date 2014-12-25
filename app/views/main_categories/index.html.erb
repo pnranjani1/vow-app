@@ -4,13 +4,11 @@ Create New Commodity <%= link_to "Add New Commodity", new_main_category_path %>
 <% end %>
 <% @categories.each do |c| %>
 <ul>
-  <li><%= link_to c.commodity_name, main_category_path(c.id) %></li>
+  <li><%= link_to c.commodity_name, main_category_path(c.id) %>   |
+    <%= link_to "Edit Commodity", edit_main_category_path(c.id) %></li>
 </ul>
   <% end %>
 
 <br/>
 Add New Commodity <%= link_to "Add Commodity", new_main_category_path %>
-
-
-    
 

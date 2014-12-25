@@ -1,34 +1,7 @@
 
-<h3> <%= current_authuser.name %></h3><br/>
-  
-<%
-=begin %>
 
-You have <%= pluralize(current_authuser.usercategories.count, "Category") %>  <br/><p>
-<% current_authuser.usercategories.each do |category| %>
-<ul>
-  <li>
-    <%= link_to category.commodity_name , usercategory_path(category) %>
-  </li>
-</ul>
-<% end %>
-<br/><p>
 
-<%
-=end  %>
-Add Commodity <%= link_to "Add Commodity", new_usercategory_path %>
-<hr>
-<%
-=begin %>
-Your Customers<br/><p>
-You have <%= pluralize(current_authuser.customers.count, 'Customer') %> <br/>
-<% current_authuser.customers.each do |customer| %>
-<ul>
-  <li><%= link_to customer.name, customer_path(customer) %></li>
-</ul>
-<% end %><br><p>
 
-<%
-=end %>
-  
-<%= link_to "Sign out", destroy_authuser_session_path, method: :delete %>
+
+
+

@@ -1,0 +1,13 @@
+
+<br/><p>
+<h4> Add User Role </h4>
+<%= form_for(@user, :url => '/clients/update') do |f| %>
+
+<label> Add as User </label>
+<%= f.check_box :role_user, {}, "true", "false" %><br/>
+
+
+<br/>
+<%= f.submit %>
+<%  end %>
+

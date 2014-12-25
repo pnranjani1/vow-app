@@ -1,11 +1,23 @@
-<%= form_for @product do |f| %>
-<label>Product Name</label><br/>
-<%= f.text_field :product_name %>
-<br/>
-<label>Units</label><br/>
-<%= f.text_field :units %>
-<br/>
-<label> Category </label><br/>
-<%= f.collection_select :category_id, Category.where(:user_id => current_user.id), :id, :category_name, :prompt => "Select Category"  %><br/>
+<%= form_for(@product) do |f| %>
+<% if @product.errors.any? %>
+<% @product.errors.full_messages.each do |error| %>
+<ul>
+  <li>
+    <%= error %>
+  </li>
+</ul>
+<% end %>
+<% end %>
+
+<label>Product Name </label><br/>
+<%= f.text_field :product_name %><br/><p>
+
+<label> Unit </label><br/>
+<%= f.text_field :units %><br/><p>
+
+<label> Belongs to Commodity </label><br/>
+<%= f.collection_select :usercategory_id, Usercategory.where(:authuser_id => current_authuser.id), :id, :commodity_name %><br/><p>
+
 <%= f.submit %>
+
 <% end %>

@@ -1,25 +1,32 @@
-<h2> Sign Up for Users </h2>
+<h2> Update Profile </h2>
 <%= form_for(@user, :url => '/authusers/client_create') do |f| %>
-<div>
-<label> Name </label><br/>
-<%= f.text_field :name %><br><p>
-</div>
 
-<div>
-<label> Email </label><br/>
-  <%= f.text_field :email %><br/><p>
-</div>
+<% if @user.errors.any? %>
+<% @user.errors.full_messages.each do |error| %>
+<ul>
+  <li><%= error %></li>
+</ul>
+<% end %>
+  <% end %>
+<br/>
 
-<div>
-  <label> Password </label><br/>
-  <%= f.password_field :password %><br><p>
-</div>
+<div class="field">
+  <%= f.label :Name %><br />
+  <%= f.text_field :name, autofocus: true %>
+  </div>
 
-<div>
-  <label> Password Confirmation </label><br/>
-  <%= f.password_field :password_confirmation %><br/><p>
-  <div>
-    
+<%= f.hidden_field :email, :value => current_authuser.email %>
+
+  <div class="field">
+    <label>Password </label><br/>
+    <%= f.password_field :password %><br/><p>
+  </div>
+
+  <div class="field">
+    <%= f.label :password_confirmation %><br />
+    <%= f.password_field :password_confirmation, autocomplete: "off" %>
+  </div><br/>
+
 <div>
   <%= f.fields_for :address do |user_address| %>
   <label> Address 1</label><br/>
@@ -33,7 +40,7 @@
     
 <div>
   <label> Address 3 </label><br/>
-  <%= user_address.text_field :address_line_3 %><br/><p>
+  <%= user_address.text_field :address_line_3 %><br/>
 </div>
     
 <div>
@@ -84,6 +91,8 @@
     
     <%= user_detail.hidden_field :client_id, :value => current_authuser.id %>
   <% end %>
+    
+    
     
     <%= f.submit "Sign Up" %>
     <% end %>

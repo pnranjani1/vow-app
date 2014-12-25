@@ -1,6 +1,14 @@
+<hr>
 <h2>Registration for Clients</h2>
 
-<%= form_for([@client, @user], :url => '/authusers/admin_create') do |f| %>
+<%= form_for(@client, :url => '/authusers/admin_create') do |f| %><br/>
+<% if @client.errors.any? %>
+<% @clients.errors.full_messages.each do|error| %>
+<ul>
+  <li><%= error %></li>
+</ul>
+<% end %>
+<% end %>
 
 <div class="field">
   <%= f.label :Name %><br />
@@ -21,6 +29,9 @@
     <%= f.label :password_confirmation %><br />
     <%= f.password_field :password_confirmation, autocomplete: "off" %>
   </div><br/>
+
+<%= f.hidden_field :invited_by_id, :value => current_authuser.id %>
+<%= f.hidden_field :invited_by_type, :value => "Authuser" %>
 
  <div class="field">
    <%= f.fields_for :address do |user_address| %>
@@ -71,17 +82,30 @@
 
 <div class="field">
 <label> Membership Start Date </label><br/>
-  <%= user_membership.date_select :membership_start_date %><br/><p>
+  <%= user_membership.date_field :membership_start_date %><br/><p>
 </div>
 
 <div class="field">
 <label> Membership End Date</label><br/>
-  <%= user_membership.date_select :membership_end_date %><br/><p>
+  <%= user_membership.date_field :membership_end_date %><br/><p>
 </div>
+<% end %>
 
 <div class="field">
-<label> Membership Status</label><br/>
-  <%= user_membership.check_box :membership_status %><br/><p>
+  <%= f.fields_for :users do |user| %>
+<label> Tin Number </label><br/>
+  <%= user.text_field :tin_number %><br/><p>
+</div>
+
+<div>
+<label> Esugam Username </label><br/>
+  <%= user.text_field :esugam_username %><br/><p>
+</div>
+
+
+<div>
+<label> Esugam Username </label><br/>
+  <%= user.password_field :esugam_password %><br/><p>
 </div>
 <% end %>
 
@@ -100,7 +124,11 @@
   <%= user_client.text_field :remarks  %><br/><p>
 </div>
 
+<label> Comapny </label><br/>
+<%= user_client.text_field :company %><br/><p>
+
 <%= user_client.hidden_field :created_by, :value => current_authuser.id %>
+
 <% end %><br/><p>
 
 <%= f.submit "Sign up" %>

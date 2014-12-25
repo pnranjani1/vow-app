@@ -1,0 +1,20 @@
+<h3> Amend Client </h3>
+<%= form_for(@membership) do |f| %><br>
+<% if @membership.errors.any? %>
+<%= @membership.errors.full_messages %><br/><p>
+<% end %>
+
+<label> Phone Number </label><br/>
+<%= f.text_field :phone_number %><br/><p>
+
+<label> Membership Start Date </label><br/>
+<%= f.date_field :membership_start_date %><br/><p>
+
+<label> Membership End Date </label><br/>
+<%= f.date_field :membership_end_date %><br/><p>
+
+
+<%= f.submit "Update Membership" %>
+<% end %>
+
+ 

@@ -2,61 +2,92 @@
 <html>
 <head>
   <title>WorkingApp</title>
+  
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <%= csrf_meta_tags %>
+  <%= javascript_include_tag 'application', 'nested_form','data-turbolinks-track' => true %>
+  
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+
+   <%= csrf_meta_tags %>
+ 
 </head>
 <body>
   <p class= "notice"><%= notice %></p>
   <p class= "alert"><%= alert %></p>
   
-<%
-=begin %>
-  comment starts
-  <header>
-    <h3><%= link_to current_user.name, user_path(current_user.id) %></h3>
-  </header>
-
+ 
+  
+  <% if authuser_signed_in? %>
+   <h2><center>VatOnWheels - We make billing easier</center></h2><br/><p>
+  <h3><%= current_authuser.name %></h3>
+   
+  
+  
+  
+  
+ <% if permitted_to? :client_dashboard , Dashboard.new %>
+  <%= link_to "Home Page", dashboards_client_dashboard_path %>|  
+  <% end %>
+  
+  <% if permitted_to? :user_bill_summary, Bill.new %>
+  <%= link_to "Bills Information", bills_user_bill_summary_path %>|
+  <% end %>
+  
+  
+   <% if current_authuser.main_roles.count > 1 %>
+  <%= link_to "Change Role", authusers_change_role_path %> |
+  <% end %>
+  
+  <% if permitted_to? :admin_edit, Authuser.new %>
+  <%= link_to "Update Profile", admin_edit_path(current_authuser.id) %>|
+  <% end %>
 
   
-  <div>
-    <% if user_signed_in? %>
-    <h2><%= current_user.name %></h2>
-    <% if permitted_to? :user_category %>
-    <%= link_to "Commodities", categories_user_category_path(:id => current_user.id) %>|
-    <% end %>
+  <% if permitted_to? :client_edit, Authuser.new %>
+  <%= link_to "Update Profile", client_edit_path(current_authuser.id) %>|
+  <% end %>
+ 
+  <% if permitted_to? :index, Product.new %>
+  <%= link_to "View Products", products_path %>| |
+  <% end %>
   
-    <% if permitted_to? :user_customer %>
-    <%= link_to "Customers", customers_user_customer_path(:id => current_user.id) %>|
-    <% end %>
-        
-
-    <%-# This is actually add profile, but for user view purpose, it is saved as manage profile -%>
-    <%= link_to " Manage Profile", edit_userprofile_path(current_user.id) %>|
-
-    
-    
-    <% if permitted_to? :new, Ca.new %>
-    <%= link_to "Create Chartered Accountant", new_ca_path %>|
-   <% end %>
-    
-    <% if permitted_to? :show %>
-    <%= link_to "View Profile", admin_path(current_user.id) %>|
-    <% end %>
-
-    <% if permitted_to? :index %>
-    <%= link_to "Home Page", dashboards_path %>|
-    <% end %>
-
-        
-    <%= link_to "Signout", destroy_user_session_path, method: :delete %>
-     <% end %>
-  </div>
+  <% if permitted_to? :index, Customer.new %>
+ <%= link_to "View Customers", customers_path %>|
+  <% end %>
   
-  comment ends
-<%
-=end  %>
-<%= yield %>
+  <% if permitted_to? :index, Bill.new %>
+<%= link_to "Bills information" , bills_path %>  |
+  <% end %>
+  
+  <% if permitted_to? :index, MainCategory.new %>
+ <%= link_to "View Main Commodities", main_categories_path %> |
+  <% end %>
+  
+  <% if permitted_to? :new, MainCategory.new %>
+   <%= link_to "Add Main Commodity", new_main_category_path %> |
+  <% end %>
+  
+  <% if permitted_to? :index, Tax.new %>
+<%= link_to "View Taxes", taxes_path %>|
+  <% end %>
+  
+  <% if permitted_to? :new, Tax.new %>
+  <%= link_to "Add Tax", new_tax_path %>|
+  <% end %>
+  
+  
+  
+  
+  <%= link_to "Sign Out", destroy_authuser_session_path, method: :delete %>
+  
+  <% end %>
+  
+    <%= yield %>
+  
+  
+  
 
 </body>
 </html>
+

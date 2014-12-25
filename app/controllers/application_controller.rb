@@ -1,9 +1,17 @@
 class ApplicationController < ActionController::Base
+  
   before_action :configure_devise_permitted_parameters, if: :devise_controller?
+  
   before_filter {|c| Authorization.current_user = c.current_authuser}
+ # before_filter :check_due_date
+  
+  
   helper_method :current_user
+  #helper_method :current_role
+  
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
+  
   protect_from_forgery with: :exception
   
   #will_paginate.per_page =2
@@ -13,18 +21,44 @@ class ApplicationController < ActionController::Base
   end
   
   
+  
+ # def check_due_date
+  #  if current_authuser.membership.membership_end_date > Date.today
+   #   self.approved == false
+   # end
+  #end
+  
+ # def current_role
+  #  session[:main_role_id] = current_authuser.main_roles.first.id
+  #  @current_role = MainRole.find_by_id(session[:main_role_id])
+ # end
+  
+  
   def permission_denied
     return dashboards_path(current_authuser) , notice: "Page Doesn't Exit"
   end
   
+  
+  def membership_status
+  end
+  
   protected
   def after_sign_in_path_for(authuser)
+  #  session[:role_id] = current_authuser.main_roles.first.id
+   # @current_role = MainRole.find_by_id(session[:role_id])
+    #role = @current_role
+    
+    if current_authuser.sign_in_count == 1
+      return authusers_force_password_change_path
+    end
+    
+    
     if current_authuser.main_roles.first.role_name == "admin"
       return dashboards_admin_dashboard_path
-    elsif current_authuser.main_roles.first.role_name == "Client"
+    elsif current_authuser.main_roles.first.role_name == "client"
       return dashboards_client_dashboard_path
-    elsif current_authuser.main_roles.first.role_name == "User"
-      return dashboards_user_dashboard_path
+    elsif current_authuser.main_roles.first.role_name == "user"
+       return dashboards_user_dashboard_path
           else 
          return root_url
      end
@@ -35,7 +69,12 @@ class ApplicationController < ActionController::Base
     end
   
   def after_update_profile_path_for(authuser)
-    return user_path(current_authuser.id)
+    if current_authuser.main_roles.first == "client"
+      return dashboards_client_dashboard_path
+    elsif current_authuser.main_roles.first == "user"
+      return dashboards_user_dashboard_path
+      #return user_path(current_authuser.id)
+  end
   end
   
     
@@ -52,6 +91,11 @@ class ApplicationController < ActionController::Base
           |u| u.permit(registration_params)
           }
         end
+        
+      #  devise_parameter_sanitizer.for(:accept_invitation)
+          devise_parameter_sanitizer.for(:accept_invitation) do |u|
+            u.permit(:name, :password, :password_confirmation, :invitation_token)
+           end       
       end
         
       

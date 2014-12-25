@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
+<Saledetails>
+  <version>13.11</version>
+  <TinNo>12345678901</TinNo>
+  <RetPerdEnd>2014</RetPerdEnd>
+  <FilinType>M</FilinType>
+  <Period/>
+  <SaleInvoiceDetails>
+    <PurTin>12345678901</PurTin>
+    <PurName>Welt Educations</PurName>
+    <InvNo>1</InvNo>
+    <InvDate> 20 Dec 2014</InvDate>
+    <NetVal>100.0</NetVal>
+    <TaxCh>2.0</TaxCh>
+    <OthCh>50.0</OthCh>
+    <TotCh>153.0</TotCh>
+  </SaleInvoiceDetails>
+  <version>13.11</version>
+  <TinNo>12345678901</TinNo>
+  <RetPerdEnd>2014</RetPerdEnd>
+  <FilinType>M</FilinType>
+  <Period/>
+  <SaleInvoiceDetails>
+    <PurTin>12345678901</PurTin>
+    <PurName>Welt Educations</PurName>
+    <InvNo>3</InvNo>
+    <InvDate> 21 Dec 2014</InvDate>
+    <NetVal>200.0</NetVal>
+    <TaxCh>10.0</TaxCh>
+    <OthCh>50.0</OthCh>
+    <TotCh>275.0</TotCh>
+  </SaleInvoiceDetails>
+</Saledetails>

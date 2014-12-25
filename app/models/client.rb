@@ -4,7 +4,19 @@ class Client < ActiveRecord::Base
   has_many :users, dependent: :destroy
   belongs_to :authuser
   
- # def generate_char
+  #def char
+   # self.char = self.authuser.name.slice!(0..3)
+  #end
+  
+  #def digits
+   # last_id = Client.last
+    #if last_id.nil?
+     # self.digits = "000001"
+    #else
+     # self.digits = last_id.id+1
+    #end
+  #end
+  # def generate_char
  # def generate_unique_reference_key
     #char column data
    # char = self.authuser.name.slice!(0..3)
@@ -29,7 +41,7 @@ class Client < ActiveRecord::Base
     
     #self.unique_reference_key = char + zero_format
    # end
-end
+#end
 
  
     #str = self.digits.to_i          
@@ -42,4 +54,6 @@ end
       #self.digits = self.digits.last + 1
       # self.unique_reference_key =  "#{generate_char}#{zero_format}"
       
-  
+    
+       end
+

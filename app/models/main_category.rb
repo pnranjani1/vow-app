@@ -1,10 +1,18 @@
 class MainCategory < ActiveRecord::Base
  # before_save :generate_permalink
+  
+  validates :commodity_name, :commodity_code, presence: true
+  
+  belongs_to :authuser
+  
   has_many :products
+  
   has_many :usercategories
-  has_many :authusers, through: :usercategories
- 
+  
+  #accepts_nested_attributes_for :usercategories
 
+  
+  
   #def to_param
    # permalink
   #end

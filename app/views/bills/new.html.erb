@@ -1,2 +1,55 @@
-<h3> Create Bill </h3>
+<h3> Create New Bill </h3>
+<%= nested_form_for(@bill) do |f| %>
+  <% if @bill.errors.any? %>
+<% @bill.errors.full_messages.each do |error| %>
+<ul>
+  <li> <%= error %></li>
+</ul>
+<% end %>
+<% end %>
+
+<label> Invoice Number </label><br/>
+<%= f.text_field :invoice_number %><br/><p>
+
+
+<label> Bill Date </label><br/>
+<%= f.date_field :bill_date %><br/><p>
+
+
+<label> Customer</label><br/>
+<%= f.collection_select :customer_id, Customer.where(:authuser_id => current_authuser.id), :id, :name, :prompt => "Select Customer"  %><br/><p>
+
+
+
+<%= f.fields_for :line_items do |bill_product| %>
+<label> Products </label><br/>
+<%= bill_product.collection_select  :product_id, Product.where(:authuser_id => current_authuser.id), :id, :product_name, :prompt => "Select Product" %><br/><p>
+
+<label> Quantity </label><br/>
+<%= bill_product.text_field :quantity %><br/><p>
+
+<label> Unit Price </label><br/>
+<%= bill_product.text_field :unit_price %><br/><p>
+
+<%= bill_product.link_to_remove "Remove this Product" %><br/><p>
+<% end %>
+<%= f.link_to_add "Add Product", :line_items %><br/><p>
+
+
+<label> Name Other charges, if any? </label><br/>
+<%= f.text_field :other_charges_info %><br/><p>
+
+<label> Other Charges Rate </label><br/>
+<%= f.text_field :other_charges %><br/><p>
+
+<label> Select Tax </label><br/>
+<%= f.collection_select :tax_id, Tax.all, :id, :tax %><br/><p>
+
+<label> Other Information </label><br/>
+<%= f.text_field :other_information %><br/><p>
+
+<%= f.submit %>
+
+<% end %>
+
   

@@ -4,11 +4,8 @@
 <h4>Phone Number : <%= @customer.phone_number %></h4><p>
 <h4> Address :<%= @customer.address %></h4><p>
 <h4>City : <%= @customer.city %></h4><p>
+<%= link_to "Delete customer", customer_path(@customer.id), method: :delete, data: {confirm: "Are you sure you want to delete the Customer?"} %>
 
-<hr>
-<h5><%= link_to @customer.user.name, user_path(@customer.user.id) %> | 
-  <%= link_to "List Customers" , customers_user_customer_path(:id => current_user.id) %> | 
-  <%= link_to "Delete Customer" , customer_path(@customer.id), method: :delete %>|
-  <%= link_to "Edit Customer", edit_customer_path %></h5>
-<hr>
-<small><%= @customer.created_at.strftime("%b %d,%y") %></small>
+
+
+

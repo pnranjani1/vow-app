@@ -1,7 +1,7 @@
-<h3><%= @product.product_name %></h3>
-<hr/>
-<h4><p>Unit: <%= @product.units %><p></h4>
-<h4><p>Category ID: <%= @product.category_id %><p></h4>
+<hr>
+<br/>
+<b>Product Name : </b><%= @product.product_name %><br/>
+<b>Units : </b><%= @product.units %><br/><p>
+<hr>
 
-<%= link_to "Edit", edit_product_path(@product)%> |
-<%= link_to "Delete", product_path(@product), method: :delete %>
+<%= link_to "Delete '#{@product.product_name}", product_path(@product.id), method: :delete, data: {confirm: "Are you sure you want to delete the product?"} %>

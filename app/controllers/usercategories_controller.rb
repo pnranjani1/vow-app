@@ -1,50 +1,48 @@
 class UsercategoriesController < ApplicationController
-  filter_access_to :all
   
-  #before_filter :authenticate_authuser!
-  before_filter :get_category, only: [:show, :edit, :update, :destroy]
+  filter_access_to :all
+  before_filter :authenticate_authuser!
   
   
   def index
-    @categories = Usercategory.all
-  #  @categories = Category.paginate(:page => params[:page], :per_page => 2)
+    @usercategories = Usercategory.all
   end
   
   
-  
-  def show
-    @cat = @category.m_category_id
-    @usercategories = MCategory.find(:id => @cat)
-  end
-  
-  
-  
-  def new
-     @category = Usercategory.new
+   def new
+     @user = Authuser.find(current_authuser.id)
+     @usercategory = Usercategory.new
    end
   
   
   
-  def create
-    @category = Usercategory.new(set_params)
-    @category.authuser_id = current_authuser.id
-    if @category.save 
-    #  Notification.new_category(@category).deliver
-      redirect_to usercategory_path(@category)
-    else 
+    def create
+    @usercategory = Usercategory.new(set_params)
+      @usercategory.authuser_id = current_authuser.id
+      if @usercategory.save 
+        redirect_to usercategory_path(@usercategory.id)
+    else
       render action: 'new'
-    end
+     end
+  end   
+  
+  
+  def show
+    @usercategory = Usercategory.find(params[:id])
   end
   
   
   
-      def edit
-      end
+   def edit
+     @usercategory = Usercategory.find(params[:id])
+    end
+  
 
   def update
-    @category.authuser_id = current_authuser.id
-    if @category.update_attributes(set_params)
-      redirect_to category_path(@category)
+    @usercategory = Usercategory.find(params[:id])
+    @usercategory.authuser_id = current_authuser.id
+    if @usercategory.update_attributes(set_params)
+      redirect_to usercategory_path(@usercategory.id)
     else 
       render action: 'edit'
   end
@@ -53,30 +51,21 @@ class UsercategoriesController < ApplicationController
   
  
   def destroy
-    @category.destroy
-    redirect_to categories_path
+    @usercategory = Usercategory.find(params[:id])
+    @usercategory.destroy
+    redirect_to usercategories_path
   end
   
-  def user_category
-    @user = Authuser.find(params[:id])
-    @user_categories = @user.usercategories.paginate(:page => params[:page], :per_page => 2)
-  end
+  
   
   
   
   private
     def set_params
-      params[:usercategory].permit(:authuser_id, :m_category_id, :tax_type, :tax_rate,
-        {:m_category_ids => []}
-        )
+      params[:usercategory].permit(:authuser_id, :main_category_id)
     end
   
   
-  def get_category
-    @category = Usercategory.find(params[:id])
-  end
-  
-  
-  
+   
 end
 

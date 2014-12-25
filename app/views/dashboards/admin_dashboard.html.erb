@@ -1,19 +1,48 @@
-<h3> <%= current_authuser.name %> <br/></h3>
+
+  <%= link_to "Home Page", dashboards_admin_dashboard_path %>|
+
+ 
+<hr><br/>
+
 
  You have <%= pluralize(@count, "Chartered Accountant") %><br/>
- 
+
+<% @current_authuser_clients.each do |client| %>
 <ul>
-  <%  @current_authuser_clients.each do |c| %>
-  <li><%= link_to c.authuser.name %></li>
-  <% end %>
-</ul>
+   <% c =  client.authuser.membership.id %>
+ <li><%= link_to client.authuser.name,  edit_membership_path(c) %> |<b>Current Status :</b> <%= client.authuser.approved %> | <b>Membership End Date :</b> <%= client.authuser.membership.membership_end_date.strftime("%b %d, %Y") %> |
+  
+  <% clientid = client.authuser.id %>
+   <% @user = User.where(:client_id => clientid) %>
+   <% @user_count = @user.count %>
+   <% @user.each do |user| %>
+   <% user.authuser.name %>
+   <% end %>
+   <b>No of Users :</b> <%=  @user_count %> |
+  
+  <% if client.authuser.approved == false %>
+    <%= link_to "Approve User" , activate_user_path(client.authuser.id), method: :put %>|
+     
+<% elsif client.authuser.approved == true %>
+   <%= link_to "De-activate User" , de_activate_user_path(client.authuser.id), method: :put %> 
+  <% end %>   
+   
+  </li>
+</ul>  
+ <% end %>
+
+ 
+
+<br/><p>
+
 <br/>    
 
 Create a Chartered Accountant <%= link_to "Create CA", authusers_admin_new_path %>
 <br/><p>
 
 
+
+
 <hr>
 
 
-<%= link_to "Sign out", destroy_authuser_session_path, method: :delete %>
