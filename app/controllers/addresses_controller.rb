@@ -49,7 +49,6 @@ class AddressesController < ApplicationController
     params[:address].permit(:address_line_1, :address_line_2, :address_line_3, :city, :country, :authuser_id)
    end
   
-end
 
   
 end
