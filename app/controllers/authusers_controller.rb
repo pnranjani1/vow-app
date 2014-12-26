@@ -149,7 +149,7 @@ redirect_to dashboards_client_dashboard_path
 #     else
     #dashboards_admin_dashboard
     #params[:roles] = @user.current_role 
-    redirect_to public_send("dashboards_#{params[:roles]}_dashboard_url") 
+       redirect_to public_send("dashboards_#{params[:roles]}_dashboard_url") 
     #     end
   end
   

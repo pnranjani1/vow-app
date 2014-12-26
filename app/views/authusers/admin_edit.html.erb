@@ -9,15 +9,13 @@
 <%= f.hidden_field :id, :value => current_authuser.id %>
 
 <div class="field">
-  <%= f.label :Name %><br/>
-  <%= f.text_field :name, autofocus: true %><br/><p>
+  <%= f.label :Name %><br />
+  <%= f.text_field :name, autofocus: true %>
   </div>
-
-
 
   <div class="field">
     <%= f.label :email %><br />
-    <%= f.email_field :email  %><br/><p>
+    <%= f.email_field :email  %>
   </div>
 
   <div class="field">
@@ -29,6 +27,7 @@
     <%= f.label :password_confirmation %><br />
     <%= f.password_field :password_confirmation, autocomplete: "off" %>
   </div><br/>
+
 
  <div class="field">
    <%= f.fields_for :address do |user_address| %>

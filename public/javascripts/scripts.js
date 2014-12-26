@@ -1,72 +1,13 @@
 
-<!DOCTYPE html>
-<html lang="en">
-
-    <head>
-
-        <meta charset="utf-8">
-        <title>Vatonwheels</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="">
-        <meta name="author" content="">
-
-        <!-- CSS -->
-        <link rel='stylesheet' href="app/assest/stylesheet/fonts.css">
-        <link rel="stylesheet" href="app/assest/stylesheet/bootstrap.min.css">
-        <link rel="stylesheet" href="app/assest/stylesheet/vatonwhel.css">
-     
-    </head>
-
-    <body>
-     
-        <div class="header">
-            <div class="container">
-                <div class="row">
-                    <div class="logo span4">
-                        <h1><a href="index.html">Vatonwheels<span class="red">.com</span></a></h1>
-                    </div>
-                    <div class="links span8">
-                   <%= link_to "Sign In", new_authuser_session_path %>
-    
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="register-container container">
-            <div class="row"> 
-                         
-                <div class="videocover">
-                
-                    <DIV class="rectbg">
-                        <h2>Welcome to VatOn Wheels</h2> 
-                        
-                        <div>
-          <iframe src="https://www.youtube.com/embed/MyxcBQmMCfY" class="vid" frameborder="0" allowfullscreen></iframe>
-                        </div>                  
-                        
-                    </DIV>
-                </div>
-                
-            </div>
-        </div>
-
-        <!-- Javascript -->
-        <script src="app/assest/javascript/jquery-1.8.2.min.js"></script>
-        <script src="app/assest/javascript/bootstrap.min.js"></script>
-        <script src="app/assest/javascript/jquery.backstretch.min.js"></script>
-        <script src="app/assest/javascript/scripts.js"></script>
-         
-  <script>    
 jQuery(document).ready(function() {
 
     /*
         Background slideshow
     */
     $.backstretch([
-      "working_app/app/assets/images/slide1.jpg"
-    , "working_app/app/assets/images/slide2.jpg"
-    , "working_app/app/assets/images/slide3.jpg"
+      "images/slide1.jpg"
+    , "images/slide2.jpg"
+    , "images/slide3.jpg"
     ], {duration: 3000, fade: 750});
 
     /*
@@ -120,11 +61,4 @@ jQuery(document).ready(function() {
 
 });
 
-      </script>
-
-      
-      
-    </body>
-
-</html>
 

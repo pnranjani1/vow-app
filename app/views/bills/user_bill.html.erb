@@ -21,12 +21,17 @@
   $(function() {
     $("#local_sales").monthpicker();
     $("#interstate_sales").monthpicker();
-    $("#start_date").datepicker();
-    $("#end_date").datepicker();
+   
   });
   </script>
 
-
+<script type="text/javascript">
+        $(function () {
+            $("#start_date").datepicker({ dateFormat: "dd/mm/yy" }).val()
+            $("#end_date").datepicker({ dateFormat: "dd/mm/yy" }).val()
+        });
+ 
+    </script>
 
 <h3>Download Tally importable xml file </h3>
 <%= form_tag  bills_tally_import_path( :format => :xml),method: "get" do  %>
@@ -42,6 +47,8 @@
 <%= text_field_tag :choose_month, params[:choose_month], :id => "local_sales" , placeholder: "Generate Local Sales xml"%>
 <%= submit_tag "Submit" %>
 <% end %>
+
+
 
 
 <p>

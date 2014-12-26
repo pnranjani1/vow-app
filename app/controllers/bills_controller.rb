@@ -1,3 +1,4 @@
+#require 'builder'
 class BillsController < ApplicationController
   #layout 'menu', :only => [:user_bill, :new, :create, :show, :local_sales, :interstate_sales, :tally_import]
    layout_by_action [:user_bill, :new, :create, :show, :local_sales, :interstate_sales, :tally_import, :esnget] => "menu"
@@ -11,8 +12,10 @@ class BillsController < ApplicationController
   before_filter :authenticate_authuser!
     
   def index
-    @bills = Bill.all
-  end
+    @bills = Bill.order('created_at DESC')
+     @esugam_count = Bill.where("esugam IS NOT NULL").count
+    @number_of_cash_applications = Bill.where("esugam IS NULL").count
+   end
   
   
   def new
@@ -124,101 +127,39 @@ class BillsController < ApplicationController
     tax = Bill.where(:tax_id => (Tax.where(:tax_type => "VAT")))
       chosen_month = params[:choose_month]
    @user_bills = Bill.where('created_at >= ? AND created_at <= ? AND authuser_id = ? AND tax_type = ?',chosen_month.to_date.beginning_of_month, chosen_month.to_date.end_of_month, current_authuser.id, "VAT") 
+       respond_to do |format|
+    format.html
+     format.xml {  send_data render_to_string(:local_sales), :filename => 'local_sales.xml', :type=>"application/xml", :disposition => 'attachment' }
+end
+  end
+      
+
+
+  def interstate_sales       
+     #tax = Bill.where(:tax_id => (Tax.where(:tax_type => "CST")))
+      chosen_month = params[:choose_month]
+   @user_bills = Bill.where('created_at >= ? AND created_at <= ? AND authuser_id = ? AND tax_type = ?',chosen_month.to_date.beginning_of_month, chosen_month.to_date.end_of_month, current_authuser.id, "CST") 
+   
    # @user_bills = Bill.all
      respond_to do |format|
     format.html
-   format.xml
-
-    #send_data @user_bills, :type => 'text/xml', :disposition => "attachment", :filename => "bill.xml"}
+     
+       format.xml {  send_data render_to_string(:interstate_sales), :filename => 'interstate_sales.xml', :type=>"application/xml", :disposition => 'attachment' }
+end
   end
-  end
-  
-  
-   # @user_bills.each do|bill|
-    #  bill.authuser.users.each do|user|
-    
-     #   require 'builder'
-
-#file = File.new("path_to_file.xml", "w")
-
-#xml = Builder::XmlMarkup.new(:target=>file, :indent => 2)
-
-#xml.instruct! :xml, :encoding => "UTF-8",  :version => "1.0"
-
-       
- #     xml.instruct!
-#xml.Saledetails do 
- # @user_bills.each do |bill|
-  #    bill.authuser.users.each do|user|
-   #     xml.version 13.11
-    #        xml.TinNo user.tin_number
-     #       xml.RetPerdEnd 2014
-      #      xml.FilinType "M"
-       #     xml.Period 
-      #end
- 
-       # xml.SaleInvoiceDetails do
-        #xml.PurTin bill.customer.tin_number
-        #xml.PurName bill.customer.name 
-        #xml.InvNo bill.invoice_number
-        #xml.InvDate bill.bill_date.strftime(" %d %b %Y")
-        #xml.NetVal bill.total_bill_price
-        #xml.TaxCh bill.tax.tax_rate
-        #xml.OthCh bill.other_charges
-        #xml.TotCh bill.grand_total
-        #end
-  #end     
-  #end   
-#end
-#end
-        
- #respond_to do |format|
-  #    format.html
-   #format.xml do
-
-    # send_data @user_bills, :type => 'text/xml', :disposition => "attachment", :filename => "bill.xml"
-   #end
-  #end
-  
-  
-    #   format.xml { send_data  @user_bills,
-     #    filename: 'mydoc.xml', type: "application/xml", disposition: 'attachment'}
-     #end
- #end
-  
-
-
-
-
-  def interstate_sales   
-   chosen_month = params[:choose_month]
-   @user_bills = Bill.where('created_at >= ? AND created_at <= ? AND authuser_id = ? AND tax_type = ?',chosen_month.to_date.beginning_of_month, chosen_month.to_date.end_of_month, current_authuser.id, "CST") 
-   
- respond_to do |format|
-      format.html
-   format.xml 
-  end
-      end
-      
-    #   format.xml { send_data  @user_bills,
-     #    filename: 'mydoc.xml', type: "application/xml", disposition: 'attachment'}
-     #end
  
     
   def tally_import
     start_date = params[:start_date]
     end_date = params[:end_date]
-   @user_bills = Bill.all
-   # @user_bills = Bill.where('created_at >= ? AND created_at <= ? AND authuser_id = ?',start_date, end_date, current_authuser.id )
+   #@user_bills = Bill.all
+    @user_bills = Bill.where('created_at >= ? AND created_at <= ? AND authuser_id = ?',start_date, end_date, current_authuser.id )
     respond_to do|format|
     format.html
-      format.xml
-    # send_data @user_bills.to_xml,
-    #:type => 'text/xml; charset=UTF-8;',
-    #:disposition => "attachment"
-    end
+    format.xml {  send_data render_to_string(:tally_import), :filename => 'tally_import.xml', :type=>"application/xml", :disposition => 'attachment' }
+end
   end
-  
+ 
   
   def esnget(bill)
     @bill = bill  
@@ -349,7 +290,7 @@ class BillsController < ApplicationController
   end
   
 
-  
+
   
    
 end
