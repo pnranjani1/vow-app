@@ -6,7 +6,7 @@ class RemoveColumnsFromUsers < ActiveRecord::Migration
     remove_column :users, :city, :string
     remove_column :users, :bank_account_number, :integer
     remove_column :users, :ifsc_code, :string
-    remove_column :users, :membersship_start_date, :datetime
+    remove_column :users, :membership_start_date, :datetime
     remove_column :users, :membership_end_date, :datetime
     remove_column :users, :membership_duration, :integer
     
