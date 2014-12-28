@@ -4,7 +4,7 @@ class RemoveColumnsFromClients < ActiveRecord::Migration
     remove_column :clients, :email
     remove_column :clients, :address
     remove_column :clients, :city
-    remove_column :clients, :membership_satrt_date
+    remove_column :clients, :membership_start_date
     remove_column :clients, :membership_end_date
     remove_column :clients, :membership_duration
     remove_column :clients, :membership_status
