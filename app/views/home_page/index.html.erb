@@ -1,130 +1,384 @@
 
 <!DOCTYPE html>
 <html lang="en">
+<head>
+<title>Vatonwheels</title>
+<meta charset="utf-8">    
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <head>
+<meta name="description" content="Your description">
+<meta name="keywords" content="Your keywords">
+<meta name="author" content="Your name">
+<meta name = "format-detection" content = "telephone=no" />
+<!--CSS-->
+<link rel="stylesheet" href="stylesheets/bootstrap.css" >
+<link rel="stylesheet" href="stylesheets/style.css">
+<link rel="stylesheet" href="stylesheets/animate.css">
+<link rel="stylesheet" href="stylesheets/camera.css">
+<link rel="stylesheet" href="stylesheets/touchTouch.css">
+<link rel="stylesheet" href="stylesheets/font-awesome.css">
+<link rel="stylesheet" href="stylesheets/robotofont.css">
+<!--JS-->
+<script src="javascripts/jquery.js"></script>
+<script src="javascripts/jquery-migrate-1.2.1.min.js"></script>
+<script src="javascripts/jquery.easing.1.3.js"></script>
+<script src="javascripts/jquery.mobilemenu.js"></script>
+<script src="javascripts/jquery.equalheights.js"></script> 
+<script src="javascripts/camera.js"></script> 
+<!--[if (gt IE 9)|!(IE)]><!-->
+<script src="javascripts/jquery.mobile.customized.min.js"></script>
+<!--<![endif]-->
+<script src="javascripts/touchTouch.jquery.js"></script>
+<script src="javascripts/jquery.carouFredSel-6.1.0-packed.js"></script>
+<script src="javascripts/jquery.touchSwipe.min.js"></script>
+<script src="javascripts/sForm.js"></script>
 
-        <meta charset="utf-8">
-        <title>Vatonwheels</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="">
-        <meta name="author" content="">
-
-        <!-- CSS -->
-        <link rel='stylesheet' href="app/assest/stylesheet/fonts.css">
-        <link rel="stylesheet" href="app/assest/stylesheet/bootstrap.min.css">
-        <link rel="stylesheet" href="app/assest/stylesheet/vatonwhel.css">
-     
-    </head>
-
-    <body>
-     
-        <div class="header">
-            <div class="container">
-                <div class="row">
-                    <div class="logo span4">
-                        <h1><a href="index.html">Vatonwheels<span class="red">.com</span></a></h1>
-                    </div>
-                    <div class="links span8">
-                   <%= link_to "Sign In", new_authuser_session_path %>
-    
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="register-container container">
-            <div class="row"> 
-                         
-                <div class="videocover">
-                
-                    <DIV class="rectbg">
-                        <h2>Welcome to VatOn Wheels</h2> 
-                        
-                        <div>
-          <iframe src="https://www.youtube.com/embed/MyxcBQmMCfY" class="vid" frameborder="0" allowfullscreen></iframe>
-                        </div>                  
-                        
-                    </DIV>
-                </div>
-                
-            </div>
-        </div>
-
-        <!-- Javascript -->
-        <script src="app/assest/javascript/jquery-1.8.2.min.js"></script>
-        <script src="app/assest/javascript/bootstrap.min.js"></script>
-        <script src="app/assest/javascript/jquery.backstretch.min.js"></script>
-        <script src="app/assest/javascript/scripts.js"></script>
-         
-  <script>    
-jQuery(document).ready(function() {
-
-    /*
-        Background slideshow
-    */
-    $.backstretch([
-      "working_app/app/assets/images/slide1.jpg"
-    , "working_app/app/assets/images/slide2.jpg"
-    , "working_app/app/assets/images/slide3.jpg"
-    ], {duration: 3000, fade: 750});
-
-    /*
-        Tooltips
-    */
-    $('.links a.home').tooltip();
-    $('.links a.blog').tooltip();
-
-    /*
-        Form validation
-    */
-    $('.register form').submit(function(){
-        $(this).find("label[for='firstname']").html('First Name');
-        $(this).find("label[for='lastname']").html('Last Name');
-        $(this).find("label[for='username']").html('Username');
-        $(this).find("label[for='email']").html('Email');
-        $(this).find("label[for='password']").html('Password');
-        ////
-        var firstname = $(this).find('input#firstname').val();
-        var lastname = $(this).find('input#lastname').val();
-        var username = $(this).find('input#username').val();
-        var email = $(this).find('input#email').val();
-        var password = $(this).find('input#password').val();
-        if(firstname == '') {
-            $(this).find("label[for='firstname']").append("<span style='display:none' class='red'> - Please enter your first name.</span>");
-            $(this).find("label[for='firstname'] span").fadeIn('medium');
-            return false;
-        }
-        if(lastname == '') {
-            $(this).find("label[for='lastname']").append("<span style='display:none' class='red'> - Please enter your last name.</span>");
-            $(this).find("label[for='lastname'] span").fadeIn('medium');
-            return false;
-        }
-        if(username == '') {
-            $(this).find("label[for='username']").append("<span style='display:none' class='red'> - Please enter a valid username.</span>");
-            $(this).find("label[for='username'] span").fadeIn('medium');
-            return false;
-        }
-        if(email == '') {
-            $(this).find("label[for='email']").append("<span style='display:none' class='red'> - Please enter a valid email.</span>");
-            $(this).find("label[for='email'] span").fadeIn('medium');
-            return false;
-        }
-        if(password == '') {
-            $(this).find("label[for='password']").append("<span style='display:none' class='red'> - Please enter a valid password.</span>");
-            $(this).find("label[for='password'] span").fadeIn('medium');
-            return false;
-        }
+<script>
+    $(document).ready(function(){
+        jQuery('.camera_wrap').camera();
     });
+</script>
+<script>
+   $(window).load(function() {
+     // Initialize the gallery
+    $('.thumb-box4 figure a').touchTouch();
+  });
+</script>
+<script>
+	$(window).load(function() {
+		$(function() {
+            $('.foo1').carouFredSel({
+				auto: false,
+				responsive: true,
+				width: '100%',
+				scroll: 1,
+                prev: '.prev1',
+				next: '.next1',
+				items: {
+					height: 'auto',
+					width:200,
+					visible: {
+						min: 1,
+						max: 6
+					}
+				},
+				mousewheel: true,
+				swipe: {
+					onMouse: true,
+					onTouch: true
+				}
+			});
+            $('#foo2').carouFredSel({
+				auto: false,
+				responsive: true,
+				width: '100%',
+				scroll: 1,
+                pagination  : "#foo2_pag",
+				items: {
+					height: 'auto',
+					width:300,
+					visible: {
+						min: 1,
+						max: 1
+					}
+				},
+				mousewheel: true,
+				swipe: {
+					onMouse: true,
+					onTouch: true
+				}
+			});
+		}); 	 				
+    });
+</script>
+<!--[if (gt IE 9)|!(IE)]><!-->
+<script src="javascripts/wow/wow.js"></script>
+<script src="javascripts/wow/device.min.js"></script>
+<script>
+    $(document).ready(function () {       
+      if ($('html').hasClass('desktop')) {
+        new WOW().init();
+      }   
+    });
+</script>
+<!--<![endif]-->
 
 
-});
+</head>
+<body>
+<!--header-->
+<header class="clearfix">
+    <div class="container">
+        <h1 class="navbar-brand navbar-brand_ wow fadeInDown"><a href="index.html">Vatonwheels.com</a></h1>
+    </div>
+    <nav class="navbar navbar-default navbar-static-top tm_navbar clearfix" role="navigation">
+        <div class="container">
+            <ul class="nav sf-menu clearfix">
+              <li class="active"><%= link_to "sign In", new_authuser_session_path %></li>
+                 
+            </ul>
+            <ul class="follow_icon">
+                <li><a href="#" class="fa fa-facebook"></a></li>
+                <li><a href="#" class="fa fa-twitter"></a></li>
+                <li><a href="#" class="fa fa-linkedin"></a></li>
+                <li><a href="#" class="fa fa-google-plus"></a></li>
+                <li><a href="#" class="fa fa-youtube"></a></li>
+            </ul>          
+            
+        </div>
+    </nav>
+</header>
+<div class="slider">  
+    <div class="camera_wrap">
+        <div data-src="images/picture1.jpg"><div class="camera-caption fadeIn"><p class="title">United by the hobby<br>of model aircraft flying</p></div></div>
+        <div data-src="images/picture2.jpg"><div class="camera-caption fadeIn"><p class="title">Promoting the safe<br>radio model flying</p></div></div>
+        <div data-src="images/picture3.jpg"><div class="camera-caption fadeIn"><p class="title">Sharing the experience<br>of the best pastime</p></div></div>
+    </div>
+</div>
+<!--content-->
+<div class="content"> 
+    <div class="thumb-box1">
+        <div class="container">            
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4 maxheight wow fadeInUp">
+                    <div class="thumb-pad1">
+                        <div class="thumbnail">                            
+                            <div class="caption">
+                                <strong>Who We Are</strong>
+                            </div>  
+                        </div>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quisnostrud exercitation ullamco laboris nisi.</p>
+                        <a href="#" class="btn-default btn1">Read More</a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 maxheight wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="thumb-pad1">
+                        <div class="thumbnail">                            
+                            <div class="caption">
+                                <strong>What We Do</strong>
+                            </div>  
+                        </div>
+                        <p>Dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quisnostrud exercitation ullamco laboris.nisi ut aliquip ex ea.</p>
+                        <a href="#" class="btn-default btn1">Read More</a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 maxheight wow fadeInUp" data-wow-delay="0.2s">
+                    <div class="thumb-pad1">
+                        <div class="thumbnail">                           
+                            <div class="caption">
+                                <strong>Why Choose Us</strong>
+                            </div>  
+                        </div>
+                        <p>Massa ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim exercitation ullamcolaboris nisi ut aliquip ex ea commodo consequat.</p>
+                        <a href="#" class="btn-default btn1">Read More</a>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <div class="thumb-box2">
+        <div class="container">
+            <p class="title wow fadeIn">Welcome to our website</p>           
+            <div class="row">
+                <div class="col-lg-8 col-md-8 col-sm-12 wow fadeInUp">
+                    <div class="thumb-pad2">
+                        <div class="thumbnail">                            
+                            <div class="caption">                                
+                                <p>Molestias excepturi sint occaecati cupificia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis... Nam libero tempore, cum soluta nobis est eligendi...Molestias excepturi sint occaecati cupificia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis... Nam libero tempore, cum soluta nobis est eligendi...Molestias excepturi sint occaecati cupificia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis... Nam libero tempore, cum soluta nobis est eligendi...Molestias excepturi sint occaecati cupificia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis... Nam libero tempore, cum soluta nobis est eligendi...Molestias excepturi sint occaecati cupificia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis... Nam libero tempore, cum soluta nobis est eligendi...Molestias excepturi sint occaecati cupificia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis...</p>
+                                
+                                <p>Molestias excepturi sint occaecati cupificia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis... Nam libero tempore, cum soluta nobis est eligendi...Molestias excepturi sint occaecati cupificia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis... Nam libero tempore, cum soluta nobis est eligendi...Molestias excepturi sint occaecati cupificia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis... Nam libero tempore, cum soluta nobis est eligendi...Molestias excepturi sint occaecati cupificia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis... Nam libero tempore, cum soluta nobis est eligendi...Molestias excepturi sint occaecati cupificia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis... Nam libero tempore, cum soluta nobis est eligendi...Molestias excepturi sint occaecati cupificia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis...</p>  
+                               
+                            </div>  
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-4 col-sm-12 wow fadeInUp" data-wow-delay="0.2s">
+                    <div class="thumb-pad2">
+                        <div class="thumbnail">
+                   <div><iframe src="https://www.youtube.com/embed/MyxcBQmMCfY" class="vid" frameborder="0" allowfullscreen></iframe></div>
+                            <div class="caption">
+                                <strong>Vedio</strong>
+                            </div>  
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="thumb-box3">
+        <div class="container">
+            <p class="title wow fadein"><span>Quick Links</span></p>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4 wow fadeInUp">
+                    <div class="thumb-pad3">
+                        <div class="thumbnail">
+                            <strong class="fa fa-star"></strong>
+                            <div class="caption">
+                                <p class="description">odio dignissimos ducimus </p>
+                                <ul class="list1">
+                                    <li><a href="#">At vero eos et accusamus et iusto</a></li>
+                                    <li><a href="#">odio dignissimos ducimus qui</a></li>
+                                    <li><a href="#">blanditiis praesentium volutum</a></li>
+                                    <li><a href="#">deleniti atque</a></li>
+                                    <li><a href="#">corrupti quos dolores et</a></li>
+                                </ul>
+                            </div>  
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="thumb-pad3">
+                        <div class="thumbnail">
+                            <strong class="fa fa-star"></strong>
+                            <div class="caption">
+                                <p class="description">Temporibus autem</p>
+                                <ul class="list1">
+                                    <li><a href="#">Eero eos et accusamus et iusto</a></li>
+                                    <li><a href="#">odio dignissimos ducimus qui</a></li>
+                                    <li><a href="#">blanditiis praesentium volup</a></li>
+                                    <li><a href="#">tatum deleniti atque</a></li>
+                                    <li><a href="#">corrupti quos dolores et</a></li>
+                                </ul>
+                            </div>  
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 wow fadeInUp" data-wow-delay="0.2s">
+                    <div class="thumb-pad3">
+                        <div class="thumbnail">
+                            <strong class="fa fa-star"></strong>
+                            <div class="caption">
+                                <p class="description">officiis debitis aut</p>
+                                <ul class="list1">
+                                    <li><a href="#">uos dolores et quas molestias</a></li>
+                                    <li><a href="#">excepturi sint occaecati cupiditate</a></li>
+                                    <li><a href="#">nonnsimilique sunt in culpa qui </a></li>
+                                    <li><a href="#">officia deserunt molli id est</a></li>
+                                    <li><a href="#">laborum et dolorum fuga</a></li>
+                                </ul>
+                            </div>  
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="thumb-box4">
+        <div class="container">
+            <p class="title wow fadeIn"><span>our Services</span></p>
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                    <figure class="wow zoomIn"><a href="img/img6.jpg"><i></i><span></span><img src="img/page1_pic4.jpg" alt=""></a></figure>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                    <figure class="wow zoomIn" data-wow-delay="0.1s"><a href="img/img7.jpg"><i></i><span></span><img src="img/page1_pic5.jpg" alt=""></a></figure>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                    <figure class="wow zoomIn" data-wow-delay="0.2s"><a href="img/img5.jpg"><i></i><span></span><img src="img/page1_pic6.jpg" alt=""></a></figure>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                    <figure class="wow zoomIn" data-wow-delay="0.3s"><a href="img/img8.jpg"><i></i><span></span><img src="img/page1_pic7.jpg" alt=""></a></figure>
+                </div>
+            </div>
+            <a href="#" class="btn-default btn3 wow fadeInUp" data-wow-delay="0.1s">View All</a>            
+        </div>
+    </div>
+    
+    <div class="thumb-box6">    
+        <div class="container">
+         <p class="title wow fadeIn"><span>our Clients</span></p>
+            <div class="list_carousel1 responsive clearfix wow fadeInUp">
+                <ul class="foo foo1">
+                    <li><a href="#"><img src="images/page1_company1.png" alt=""></a></li>
+                    <li><a href="#"><img src="images/page1_company2.png" alt=""></a></li>
+                    <li><a href="#"><img src="images/page1_company3.png" alt=""></a></li>
+                    <li><a href="#"><img src="images/page1_company4.png" alt=""></a></li>
+                    <li><a href="#"><img src="images/page1_company5.png" alt=""></a></li>
+                    <li><a href="#"><img src="images/page1_company6.png" alt=""></a></li>
+                    <li><a href="#"><img src="images/page1_company3.png" alt=""></a></li>
+                </ul>
+            </div>
+            <div class="list_btn2 wow fadeInUp">
+                <a class="prev prev1" href="#"></a>
+                <a class="next next1" href="#"></a>
+            </div>
+        </div>
+     </div>
+    
+</div>
+<!--footer-->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-12 wow fadeInUp">
+            <p class="title2">Copyright</p>
+            <ul class="follow_icon2">
+                    <li><a href="#" class="fa fa-facebook"></a></li>
+                    <li><a href="#" class="fa fa-twitter"></a></li>
+                    <li><a href="#" class="fa fa-linkedin"></a></li>
+                    <li><a href="#" class="fa fa-google-plus"></a></li>
+                    <li><a href="#" class="fa fa-youtube"></a></li>                                       
+                </ul>
+                
+                <p class="title">&copy; 2015 vatonwheels.com</p>
+                <p class="prev"><a href="index-5.html">Privacy Policy</a></p>
+                
+                
+                <p class="title">Design and Developed by</p>
+                <p ><a href="http://iprimitus.com" target="_blank" class="iprim">iprimitus.com</a></p>
+            </div>         
+            
+            
+            
+            
+            <div class="col-lg-4 col-md-4 col-sm-12 wow fadeInUp" data-wow-delay="0.1s">
+                <p class="title2">Contact Address</p>
+                <div class="foo_info">
+                    <p>9870 St Vincent Place,<br>Glasgow, DC 45 Fr 45.<br>Freephone: +1 800 559 6580<br>Telephone:  +1 800 603 6035<br>FAX: +1 800 889 9898</p>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-4 col-sm-12 wow fadeInUp" data-wow-delay="0.2s">
+                <p class="title2">Quick Contact</p>
+                
+                <div class="row">                
+                <div class="col-lg-4 quickname">Name :</div>
+                <div class="col-lg-8"><input type="text" placeholder="Name" class="quickfield"/></div>                	
+                </div>
+                
+                <div class="row">                
+                <div class="col-lg-4 quickname">Email :</div>
+                <div class="col-lg-8"><input type="text" placeholder="Email" class="quickfield"/></div>                	
+                </div>
+                
+                <div class="row">                
+                <div class="col-lg-4 quickname">Phone :</div>
+                <div class="col-lg-8"><input type="text" placeholder="Phone" class="quickfield"/></div>                	
+                </div>
+                
+                <div class="row">                
+                <div class="col-lg-4 quickname">Comment :</div>
+                <div class="col-lg-8"><textarea class="quickfield2"></textarea></div>                	
+                </div>
+                
+                 <div class="row">                
+                <div class="col-lg-4 quickname"></div>
+                <div class="col-lg-8"><a href="#" class="enterbut">Submit</a></div>                	
+                </div>
+                
+                
+                
+                
+            </div>
+        </div>
+    </div>
+  <!-- {%FOOTER_LINK} -->
+</footer>
+<script src="javascripts/bootstrap.min.js"></script>
+<script src="javascripts/stm-scripts.js"></script>
 
-      </script>
 
-      
-      
-    </body>
-
+</body>
 </html>
-
