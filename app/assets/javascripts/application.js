@@ -15,21 +15,5 @@
 //= require turbolinks
 //= require_tree .
 
-//= require camera
-//= require html5shiv
-//= require jquery-migrate-1.2.1.min
-//= require jquery.carouFredSel-6.1.0-packed
-//= require jquery.easing.1.3
-//= require jquery.equalheights
-//= require jquery
-//= require jquery.mobile.customized.min
-//= require jquery.mobilemenu
-//= require jquery.touchSwipe.min
-//= require respond.min
-//= require sForm
-//= require touchTouch.jquery
-
-
-
 
 
