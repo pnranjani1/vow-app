@@ -6,7 +6,7 @@ require 'active_support/core_ext/date/conversions'
   # :confirmable, :lockable, :timeoutable and :omniauthable ,
  
    
-  after_save :role_for_admin
+  
    after_create :create_role_for_invitees
    after_create :invoke_user_table
    after_create :invoke_address_table
@@ -176,11 +176,6 @@ end
   end
   
   
-  def role_for_admin
-    if self.permissions.first.main_role_id == 1
-      self.main_roles << MainRole.find_by_role_name("admin")
-  end
-  end
   
   
 end
