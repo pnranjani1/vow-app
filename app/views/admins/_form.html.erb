@@ -36,7 +36,7 @@
 <% end %>
 
 <%= f.fields_for :permissions do |admin_permission| %>
-<%= admin_permission.hidden_field :main_role_id, :value => 1 %>
+<%= admin_permission.hidden_field :main_role_id, :value => 1.to_i %>
 <% end %>
 
 <%= f.hidden_field :approved, :value => true %>

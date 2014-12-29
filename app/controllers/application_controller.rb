@@ -48,9 +48,9 @@ class ApplicationController < ActionController::Base
    # @current_role = MainRole.find_by_id(session[:role_id])
     #role = @current_role
     
-   # if current_authuser.sign_in_count == 1
-    #  return authusers_force_password_change_path
-   # end
+    if current_authuser.sign_in_count == 1
+      return authusers_force_password_change_path
+    end
     
     
     if current_authuser.main_roles.first.role_name == "admin"
