@@ -15,8 +15,7 @@
   <% clientid = client.authuser.id %>
    <% @user = User.where(:client_id => clientid) %>
    <% @user_count = @user.count %>
-   <% @user.each do |user| %>
-   <% end %>
+   
    <b>No of Users :</b> <%=  @user_count %> |
   
   <% if client.authuser.approved == false %>
