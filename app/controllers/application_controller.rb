@@ -53,14 +53,14 @@ class ApplicationController < ActionController::Base
     end
     
     
-    #if current_authuser.main_roles.first.role_name == "admin"
-    if current_authuser.permissions.first.main_role_id == 1
+    if current_authuser.main_roles.first.role_name == "admin"
+    #if current_authuser.permissions.first.main_role_id == 1
       return dashboards_admin_dashboard_path
-    #elsif current_authuser.main_roles.first.role_name == "client"
-    elsif current_authuser.permissions.first.main_role_id == 5
+    elsif current_authuser.main_roles.first.role_name == "client"
+    #elsif current_authuser.permissions.first.main_role_id == 5
       return dashboards_client_dashboard_path
-    #elsif current_authuser.main_roles.first.role_name == "user"
-      elsif  current_authuser.permissions.first.main_role_id == 6
+    elsif current_authuser.main_roles.first.role_name == "user"
+    #  elsif  current_authuser.permissions.first.main_role_id == 6
        return dashboards_user_dashboard_path
           else 
          return root_url
