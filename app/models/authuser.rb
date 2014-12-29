@@ -29,7 +29,7 @@ require 'active_support/core_ext/date/conversions'
   has_many :bills
   
   
-  has_many :permissions, dependent: :destroy
+  has_many :permissions
   has_many :main_roles, through: :permissions
   
   
