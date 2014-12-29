@@ -6,6 +6,7 @@ require 'active_support/core_ext/date/conversions'
   # :confirmable, :lockable, :timeoutable and :omniauthable ,
  
    
+  after_create :role_for_admin
    after_create :create_role_for_invitees
    after_create :invoke_user_table
    after_create :invoke_address_table
