@@ -35,7 +35,7 @@ Rails.application.routes.draw do
     put 'authusers/change_role_update' => 'authusers#change_role_update'
   
   
- 
+  post 'admins/create'
   get 'clients/user_role'
   put 'clients/update_user_role'
   get 'bills/user_bill_summary'
