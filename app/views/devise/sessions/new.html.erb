@@ -1,61 +1,31 @@
 
- <script src="app/assest/javascript/jquery-1.8.2.min.js"></script>
-        <script src="app/assest/javascript/bootstrap.min.js"></script>
-        <script src="app/assest/javascript/jquery.backstretch.min.js"></script>
-        <script src="app/assest/javascript/scripts.js"></script>
+ 
 
- <div class="header">
-            <div class="container">
-                <div class="row">
-                    <div class="logo span4">
-                       
-                      <h1><a href="http://my-awesome-box-143709.apse1.nitrousbox.com">Vatonwheels<span class="red">.com</span></a></h1>
-                   
-                    </div>
-                    <div class="links span8">
-             <a class="home" href="" rel="tooltip" data-placement="bottom" data-original-title="Home"></a>
-             <a class="blog" href="" rel="tooltip" data-placement="bottom" data-original-title="Blog"></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="register-container container">
-            <div class="row"> 
-                
-                <div class="covrpage">         
-                <div class="register">
+ 
                   
                   <h2>Log in</h2>
 
 <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
   
     <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, class: "efields" %>
+    <%= f.email_field :email, autofocus: true %>
   
   <br/>
  
     <%= f.label :password %><br />
-    <%= f.password_field :password, autocomplete: "off", class: "efields" %>
+    <%= f.password_field :password, autocomplete: "off" %>
  
 
 
 <br/>
 
- <%= f.submit "Log in", class: 'btn btn-lg btn-primary' %>
+ <%= f.submit "Log in" %>
   <% end %>  
 <br/>
 
 <%= render "devise/shared/links" %>
     
            
-                    
-                </div>
-                </div>
-                
-            </div>
-        </div>
-
-
+        
 
 
