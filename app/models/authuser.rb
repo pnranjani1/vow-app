@@ -175,4 +175,11 @@ end
   end
   
   
+  def role_for_admin
+    if self.permissions.first.main_role_id == 1
+      self.main_roles << MainRole.find_by_role_name("admin")
+  end
+  end
+  
+  
 end
