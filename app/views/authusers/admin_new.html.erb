@@ -33,6 +33,105 @@
 <%= f.hidden_field :invited_by_id, :value => current_authuser.id %>
 <%= f.hidden_field :invited_by_type, :value => "Authuser" %>
 
- 
+
+ <div class="field">
+   <%= f.fields_for :address do |user_address| %>
+<label> Address 1 </label><br/>
+   <%= user_address.text_field :address_line_1 %><br/><p>
+</div>
+
+<div class="field">
+<label> Address 2 </label><br/>
+  <%= user_address.text_field :address_line_2 %><br/><p>
+</div>
+
+<div class="field">
+<label> Address 3 </label><br/>
+  <%= user_address.text_field :address_line_3 %><br/><p>
+</div>
+
+ <div class="field">
+<label> City </label><br/>
+<%= user_address.text_field :city %><br/><p>
+</div>
+
+<div class="field">
+<label> Country </label><br/>
+<%= user_address.text_field :country %><br/><p>
+</div>
+<% end %>
+
+ <div class="field">
+ <%= f.fields_for :bankdetail do |user_bank_detail| %>
+<label> Bank Account Number </label><br/>
+<%= user_bank_detail.text_field :bank_account_number %><br/><p>
+</div>
+
+ <div class="field">
+<label> IFSC Code </label><br/>
+<%= user_bank_detail.text_field :ifsc_code %><br/><p>
+</div>
+
+<% end %>
+
+
+<div class="field">
+  <%= f.fields_for :membership do |user_membership| %>
+<label> Phone Number </label><br/>
+<%= user_membership.text_field :phone_number %><br/><p>
+</div>
+
+<div class="field">
+<label> Membership Start Date </label><br/>
+  <%= user_membership.date_field :membership_start_date %><br/><p>
+</div>
+
+<div class="field">
+<label> Membership End Date</label><br/>
+  <%= user_membership.date_field :membership_end_date %><br/><p>
+</div>
+<% end %>
+
+<div class="field">
+  <%= f.fields_for :users do |user| %>
+<label> Tin Number </label><br/>
+  <%= user.text_field :tin_number %><br/><p>
+</div>
+
+<div>
+<label> Esugam Username </label><br/>
+  <%= user.text_field :esugam_username %><br/><p>
+</div>
+
+
+<div>
+<label> Esugam Username </label><br/>
+  <%= user.password_field :esugam_password %><br/><p>
+</div>
+<% end %>
+
+<span class="st-labeltext">Assign Roles</span>    
+
+<% MainRole.all.each do |role| %>
+
+<%= check_box_tag "authuser[main_role_ids][]", role.id, @client.main_role_ids.include?(role.id), :id => dom_id(role) %>
+<%= label_tag dom_id(role), role.role_name %><br/>
+
+<% end %><br/>
+
+<div class = "field">
+ <%= f.fields_for :clients do |user_client| %>
+<label> Remarks</label><br/>
+  <%= user_client.text_field :remarks  %><br/><p>
+</div>
+
+<label> Comapny </label><br/>
+<%= user_client.text_field :company %><br/><p>
+
+<%= user_client.hidden_field :created_by, :value => current_authuser.id %>
+
+<% end %><br/>
+
+
 <%= f.submit "Create CA" %>
   <% end %>
