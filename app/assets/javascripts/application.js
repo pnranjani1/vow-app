@@ -13,8 +13,5 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
-
-
-//= nested_form
-//= monthpicker
+//= require_tree .
 
