@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141228073610) do
+ActiveRecord::Schema.define(version: 20141230015846) do
 
   create_table "addresses", force: true do |t|
     t.string   "address_line_1"
@@ -191,7 +191,6 @@ ActiveRecord::Schema.define(version: 20141228073610) do
   end
 
   create_table "users", force: true do |t|
-    t.integer  "tin_number"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "authuser_id"
@@ -199,6 +198,7 @@ ActiveRecord::Schema.define(version: 20141228073610) do
     t.string   "esugam_username"
     t.string   "esugam_password"
     t.integer  "created_by"
+    t.integer  "tin_number",      limit: 11
   end
 
 end
