@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141230015846) do
+ActiveRecord::Schema.define(version: 20141230021320) do
 
   create_table "addresses", force: true do |t|
     t.string   "address_line_1"
@@ -198,7 +198,7 @@ ActiveRecord::Schema.define(version: 20141230015846) do
     t.string   "esugam_username"
     t.string   "esugam_password"
     t.integer  "created_by"
-    t.integer  "tin_number",      limit: 11
+    t.string   "tin_number"
   end
 
 end
