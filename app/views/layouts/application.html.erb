@@ -2,25 +2,17 @@
 <html>
 <head>
   <title>WorkingApp</title>
-
-      <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
- 
+  
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'nested_form','data-turbolinks-track' => true %>
-  
-  
   
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
   <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
-  
-  
- 
-
 
    <%= csrf_meta_tags %>
  
 </head>
 <body>
-  
  
   
   <% if authuser_signed_in? %>
