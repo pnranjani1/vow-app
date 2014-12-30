@@ -32,7 +32,7 @@ class ClientsController < ApplicationController
   def update
      @user = current_authuser.clients.first 
     if  params[:role_user] = true
-    Permission.create(:authuser_id => current_authuser.id, :main_role_id => 6)
+    Permission.create(:authuser_id => current_authuser.id, :main_role_id => 3)
       redirect_to dashboards_client_dashboard_path
       
       #Permission.create(:authuser_id => current_authuser.id, :main_role_id => 6)
