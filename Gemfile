@@ -29,6 +29,7 @@ gem 'jquery-rails', '2.0.2'
 gem 'rails3-jquery-autocomplete'
 gem 'spinjs-rails'
 
+
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
@@ -54,7 +55,7 @@ group :production do
   gem 'thin'
 end
 #gem 'rails_12factor'
-
+gem 'rails_12factor', group: :production
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
 gem 'spring',        group: :development
 
