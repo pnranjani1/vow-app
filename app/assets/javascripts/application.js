@@ -16,4 +16,5 @@
 
 
 //= nested_form
+//= monthpicker
 
