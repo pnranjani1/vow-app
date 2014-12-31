@@ -6,7 +6,7 @@ gem 'rails', '4.1.0'
 #gem 'bootstrap-sass', '~>3.3.1.0'
 # Use sqlite3 as the database for Active Record
 #gem 'sqlite3'
-gem 'mechanize'
+#gem 'mechanize'
 #gem "selenium-webdriver", "~> 2.38.0"
 #gem "selenium-webdriver", "~> 2.35.0"
 gem 'watir-webdriver', '~>0.6.4'
