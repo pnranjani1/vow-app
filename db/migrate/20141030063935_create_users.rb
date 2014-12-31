@@ -9,6 +9,7 @@ class CreateUsers < ActiveRecord::Migration
       t.string :phone_number
       t.integer :bank_account_number
       t.string :ifsc_code
+      t.integer :created_by
       t.timestamps
     end
   end

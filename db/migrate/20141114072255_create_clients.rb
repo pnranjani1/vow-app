@@ -11,7 +11,7 @@ class CreateClients < ActiveRecord::Migration
       t.datetime :membership_end_date
       t.integer :membership_duration
       t.boolean :membership_status
-      
+      t.integer :created_by #manually added this.
 
       t.timestamps
     end
