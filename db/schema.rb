@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141230021320) do
+ActiveRecord::Schema.define(version: 20141231142744) do
 
   create_table "addresses", force: true do |t|
     t.string   "address_line_1"
@@ -60,7 +60,6 @@ ActiveRecord::Schema.define(version: 20141230021320) do
     t.string   "invited_by_type"
     t.integer  "invitations_count",      default: 0
     t.boolean  "approved",               default: false
-    t.string   "current_role"
   end
 
   add_index "authusers", ["approved"], name: "index_authusers_on_approved"
@@ -95,8 +94,18 @@ ActiveRecord::Schema.define(version: 20141230021320) do
     t.string   "esugam"
   end
 
-# Could not dump table "clients" because of following NoMethodError
-#   undefined method `[]' for nil:NilClass
+  create_table "clients", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "authuser_id"
+    t.string   "remarks"
+    t.integer  "admin_id"
+    t.string   "company"
+    t.boolean  "add_role"
+    t.boolean  "user_role"
+    t.string   "role_user"
+    t.string   "created_by"
+  end
 
   create_table "customers", force: true do |t|
     t.string   "name"
@@ -105,7 +114,7 @@ ActiveRecord::Schema.define(version: 20141230021320) do
     t.string   "phone_number"
     t.string   "address"
     t.string   "city"
-    t.integer  "authuser_id",  limit: 255
+    t.integer  "authuser_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "permalink"
@@ -159,7 +168,7 @@ ActiveRecord::Schema.define(version: 20141230021320) do
     t.integer  "main_role_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "default"
+    t.boolean  "default",      default: false
   end
 
   create_table "products", force: true do |t|
@@ -170,9 +179,6 @@ ActiveRecord::Schema.define(version: 20141230021320) do
     t.datetime "updated_at"
     t.integer  "authuser_id"
     t.string   "permalink"
-  end
-
-  create_table "table_permissions", force: true do |t|
   end
 
   create_table "taxes", force: true do |t|
@@ -191,13 +197,13 @@ ActiveRecord::Schema.define(version: 20141230021320) do
   end
 
   create_table "users", force: true do |t|
+    t.string   "created_by"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "authuser_id"
     t.integer  "client_id"
     t.string   "esugam_username"
     t.string   "esugam_password"
-    t.integer  "created_by"
     t.string   "tin_number"
   end
 
