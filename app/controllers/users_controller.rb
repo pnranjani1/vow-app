@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_filter :authenticate_authuser!
+ # before_filter :authenticate_authuser!
   before_filter filter_resource_access
   
    
