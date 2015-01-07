@@ -1,21 +1,52 @@
-<hr>
-<h3> Listing all bills </h3>
+<!DOCTYPE html>
+<html>
+  <body>
+    
+<div class="container">
+<div class="content">
+<div class="content-container">      
+ <div>
+  <h4 class="heading-inline">Bills Information<br/>
+   <small>Total bills generated <%= @bills.count %></small>
+   </h4>        
+  </div>
 
-<h4> Total Bills Generated : <%= @bills.count %></h4><p>
+ <br>
+<div class="row"> 
+<div class="portlet">
+
+ <div class="portlet-header">
+   <h3><i class="fa fa-file-text-o"></i>Bill Details</h3>
+</div> <!-- /.portlet-header -->
+
+<div class="portlet-content panel-thread scrollable-panel">
 <% @bills.each do |bill| %>
-<ul>
-  <li><%= link_to bill.customer.name, bill_path(bill.id) %>| 
-    <%=  bill.tax.tax_type %></li>
-  Posted <%= time_ago_in_words (bill.created_at) %> ago <br/><p>
+<ul class="panel-lists">
+<li class="panel-list-title">
+<div class="panel-list-content">
+ <!-- <span class="panel-list-time">20 mins</span> -->
+<%= link_to bill.customer.name, bill_path(bill.id) %> /
+<%=  bill.tax.tax_type %>
+<span class="panel-list-meta">Posted <%= time_ago_in_words (bill.created_at) %> ago</span></li>
 </ul>
+ <% end %>
+ 
+ <!--<img src="img/avatar-1-md.jpg" alt="Avatar" class="panel-list-avatar"> -->
+ 
 
-  <% end %><p><br/>
-  <b>Total No of Esugam Generated :</b> <%= @esugam_count %><br/><p>
-  <b> No of Cash Based Applications : </b><%= @number_of_cash_applications %>
+ 
+
+</div> <!-- /.portlet-content -->
+</div> <!-- /.portlet -->
+</div> <!-- /.row -->
+</div> <!-- /.content-container -->
+</div> <!-- /.content -->
+</div> <!-- /.container -->
 
 
-<br/><p>
-<br/><p>
-<br/><p>
-<br/><p>
-<br/><p>
+ 
+</body>
+</html>
+
+
+

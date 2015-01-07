@@ -1,14 +1,75 @@
-<h3> Listing Commodities </h3>
-<% if MainCategory.nil? %>
-Create New Commodity <%= link_to "Add New Commodity", new_main_category_path %>
-<% end %>
-<% @categories.each do |c| %>
-<ul>
-  <li><%= link_to c.commodity_name, main_category_path(c.id) %>   |
-    <%= link_to "Edit Commodity", edit_main_category_path(c.id) %></li>
-</ul>
-  <% end %>
+<!DOCTYPE HTML>
+<html>
+  
+<body>
+<div class="container">
+<div class="content">
+<div class="content-container">       
+  <div>
+    <h4 class="heading-inline">Manage Commodities</h4>        
+   </div>
+<br>
+<div class="row"> 
+<div class="portlet portlet-table">
 
-<br/>
-Add New Commodity <%= link_to "Add Commodity", new_main_category_path %>
+<div class="portlet-header">
+<h3><i class="fa fa-group"></i>Manage Commodities</h3> 
+</div> <!-- /.portlet-header -->
+
+<div class="portlet-content">
+<div class="table-responsive">
+
+<table id="user-signups" class="table table-striped table-bordered table-checkable"> 
+
+  <thead> 
+<tr> 
+<th>Commodities</th> 
+<th>Commodity Code</th>  
+<th>Sub Commodity Code</th>
+<th>Edit</th> 
+<th>Delete</th>                    
+</tr> 
+</thead> 
+
+<tbody> 
+<% @categories.each do |category| %>
+<tr>                      
+<td><%= category.commodity_name %></td> 
+<td><%= category.commodity_code %></td> 
+<td><%= category.sub_commodity_code %></td> 
+<td><%= link_to "Edit Commodity", edit_main_category_path(category.id), class: "btn btn-xs btn-primary" %>
+<i class="fa fa-pencil"></i>
+</td>
+  <td><%= link_to "Delete Commodity" , main_category_path(category.id), class: "btn btn-xs btn-primary",  method: :delete, data: {confirm: "Are You sure you want to delete?"} %>
+    <i class="fa fa-pencil"></i></td>
+
+ </tr>   
+<% end %>
+</tbody> 
+</table>
+                
+<div class="portlet-footer">
+<div class="text-right">                  
+Create New Commodity <%= link_to new_main_category_path do %>
+<button class="btn btn-sm btn-primary"><i class="fa fa-plus-square"></i> New</button>
+<% end %>
+</div>
+</div> <!-- /.portlet-footer -->
+  
+</div> <!-- /.table-responsive -->
+</div> <!-- /.portlet-content -->
+  
+<div> <!-- /.portlet -->
+</div> <!-- /.row -->
+  
+</div> <!-- /.content-container -->
+</div> <!-- /.content -->
+</div> <!-- /.container -->
+
+  
+</body>
+</html>
+
+
+
 

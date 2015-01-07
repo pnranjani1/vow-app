@@ -68,7 +68,7 @@ class ClientsController < ApplicationController
    @user = current_authuser.clients.first 
     if params[:add_user_role] == true
       @user.add_user_role = true
-      Permission.create(:authuser_id => current_authuser.id, :main_role_id => 6)
+      Permission.create(:authuser_id => current_authuser.id, :main_role_id => 3)
       redirect_to dashboards_client_dashboard_path
   end
   end

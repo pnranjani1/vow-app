@@ -1,46 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
 
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,700italic,400,600,700">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Oswald:400,300,700">
  
+</head>
 
+<body>
+
+ <div class="container">
+ <div class="content">
+ <div class="content-container">     
+   <div>
+    <h4 class="heading-inline"><%= current_authuser.name %></h4>        
+   </div>
+ <br>
+
+ <div class="row">   
+   
+ <div class="col-sm-6 col-md-3">
+ <div class="row-stat">
+ <p class="row-stat-label">Total Esugam Generated</p>
+ <h3 class="row-stat-value"><%= @esugam_count %></h3>
+ <span class="label label-success row-stat-badge"></span>
+ </div> <!-- /.row-stat -->
+ </div> <!-- /.col -->
+
+ <div class="col-sm-6 col-md-3">
+ <div class="row-stat">
+ <p class="row-stat-label">Cash Based Applications</p>
+ <h3 class="row-stat-value"><%= @number_of_cash_applications %></h3>
+ <span class="label label-success row-stat-badge"></span>
+ </div> <!-- /.row-stat -->
+ </div> <!-- /.col -->
+
+ </div> <!-- row ends here-->
+       
+       
+ <div class="row">
+ <div class="portlet portlet-table">
  
-<hr><br/>
-
-
- You have <%= pluralize(@count, "Chartered Accountant") %><br/>
-
-<% @current_authuser_clients.each do |client| %>
-<ul>
-   <% c =  client.authuser.membership.id %>
- <li><%= link_to client.authuser.name,  edit_membership_path(c) %> |<b>Current Status :</b> <%= client.authuser.approved %> | <b>Membership End Date :</b> <%= client.authuser.membership.membership_end_date.strftime("%b %d, %Y") %> |
-  
+ <div class="portlet-header">
+ <h3><i class="fa fa-group"></i>               
+ You have <%= pluralize(@count, "Chartered Accountant") %></h3>
+ </div> <!-- Portlet header ends -->
+   
+ <div class="portlet-content">
+ <div class="table-responsive">
+ <table id="user-signups"class="table table-striped table-bordered table-checkable"> 
+      
+ <thead> 
+ <tr> 
+ <th>Name</th> 
+ <th>Current Status</th> 
+ <th>Membership End Date</th>
+ <th>Number of Users</th>
+ <th>Activate/De-Activate User</th>
+ </tr> 
+ <thead> 
+      
+ <tbody>
+  <% @current_authuser_clients.each do |client| %>
   <% clientid = client.authuser.id %>
-   <% @user = User.where(:client_id => clientid) %>
-   <% @user_count = @user.count %>
-   
-   <b>No of Users :</b> <%=  @user_count %> |
+  <% @user = User.where(:client_id => clientid) %>
+  <% @user_count = @user.count %>
   
+ <tr>
+ <td class="hidden-xs"><%= client.authuser.name %></td>
+ <td><%= client.authuser.approved %></td>
+ <td><%= client.authuser.membership.membership_end_date.strftime("%d %b %Y") %></td> 
+ <td><%= @user_count %></td>
+       
   <% if client.authuser.approved == false %>
-    <%= link_to "Approve User" , activate_user_path(client.authuser.id), method: :put %>|
+<td><%= link_to "Approve User" , activate_user_path(client.authuser.id), method: :put %></td>
      
-<% elsif client.authuser.approved == true %>
-   <%= link_to "De-activate User" , de_activate_user_path(client.authuser.id), method: :put %> 
-  <% end %>   
-   
-  </li>
-</ul>  
- <% end %>
+<% elsif client.authuser.approved == true %>       
+<td><%= link_to "De-activate User" , de_activate_user_path(client.authuser.id), method: :put %></td> 
+<% end %>   
+
+</tr>
+<% end %>
+</tbody>    
+</table>
+  
+                       
+<div class="portlet-footer">
+<div class="text-right">    
+Create a Chartered Accountant <%= link_to authusers_admin_new_path do %> <button class="btn btn-sm btn-default">Create CA</button>
+<% end %>
+</div> <!-- text-right ends here -->
+ </div> <!-- /.portlet-footer -->
+ </div> <!-- /.table-responsive -->
+ <div> <!-- /.portlet-content -->
+
+ </div> <!-- /.portlet -->
+ </div> <!-- /.row -->
+ </div> <!-- /.content-container -->
+ </div> <!-- /.content -->
+ </div> <!-- /.container -->
+
+</body>
+</html>
+
+
+
+
+
+
+
 
  
-
-<br/><p>
-
-<br/>    
-
-Create a Chartered Accountant <%= link_to "Create CA", authusers_admin_new_path %>
-<br/><p>
-
-
-
-
-<hr>
-
-

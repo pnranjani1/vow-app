@@ -1,6 +1,9 @@
 <h3> Bills Information </h3>
 <% @user.each do |user| %>
-<%=  user.authuser.name %>
+<%=  user.authuser.name %><br/>
+<% if user.authuser.bills.blank? %>
+No Bills for this user 
+<% else %>
 <%  user.authuser.bills.each do |bill| %>
 <ul>
   <li>
@@ -8,5 +11,6 @@
  <%=  link_to "Generate PDF", bill_path(bill.id, format: "pdf"), target: "blank"  %></li><p>
  Posted <%= time_ago_in_words (bill.created_at) %> ago <br/><p>
 </ul>
+<% end %>
 <% end %>
 <% end %>

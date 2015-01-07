@@ -8,7 +8,9 @@ You have <%= pluralize(@users.count, 'User') %><br/>
 <%= link_to "Invite User", new_authuser_invitation_path %><br/><p>
 <% c = current_authuser.clients.first.id %>
 
+
 Add as a user  <%= link_to "Add user", clients_user_role_path %>
+
 
 
 

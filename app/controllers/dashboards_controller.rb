@@ -17,6 +17,9 @@ class DashboardsController < ApplicationController
     @current_authuser_clients = Client.where(:created_by => current_authuser.id)
     @count = @current_authuser_clients.count
     
+     @esugam_count = Bill.where("esugam IS NOT NULL").count
+    @number_of_cash_applications = Bill.where("esugam IS NULL").count
+    
     #  @users = User.where(:client_id => current_authuser.id)
    end
   

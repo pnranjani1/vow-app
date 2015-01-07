@@ -2,9 +2,9 @@
 <% if @bill.esugam? %>
 <h4> Esugam Number : <%= @bill.esugam %> </h4>
 <% end %>
-<%= link_to gravatar_for (@bill.authuser) %><br/><p>
+
 Invoice Number : <%= @bill.invoice_number %><br/>
-Customer : <%= @bill.customer.name %><br/><p>
+Customer : <%= @bill.customer.name %><br/><p> 
 
 <% @bill.line_items.each do|line_item| %>
 Product : <%= line_item.product.product_name %><br/>

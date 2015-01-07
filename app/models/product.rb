@@ -38,10 +38,7 @@ class Product < ActiveRecord::Base
       product.usercategory_id = row["UserCategory ID"]
       product.save!
       end
-        #commodity = Usercategory.where(usercategory_id: row["Commodity"].first)
-     
-    
-      
+        #commodity = Usercategory.where(usercategory_id: row["Commodity"].first)    
  end
    
 

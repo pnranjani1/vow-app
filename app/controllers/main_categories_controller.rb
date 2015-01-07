@@ -35,7 +35,7 @@ class MainCategoriesController < ApplicationController
     @category = MainCategory.find(params[:id])
    # @customer.authuser_id = current_authuser.id
     if @category.update_attributes(set_params)
-      redirect_to main_category_path(@category.id)
+      redirect_to main_categories_path
     else
       render action: 'edit'
     end

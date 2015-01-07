@@ -6,7 +6,7 @@ class Customer < ActiveRecord::Base
   
   
   validates :name, :email, :tin_number, :phone_number, :address, :city, presence: true
-  validates :tin_number, length: { is: 11}
+   validates :tin_number, length: { is: 11}
   validates :phone_number, length: { is: 10}
   validates :phone_number, numericality: {only_integer: true}
   validates :email, confirmation: true
@@ -23,36 +23,33 @@ class Customer < ActiveRecord::Base
   #  self.permalink = self.name.parameterize
  # end
   
-  
-  
-  def self.import(file, current_authuser)
+   def self.import(file, current_authuser)
     spreadsheet = open_spreadsheet(file)
     header = spreadsheet.row(1)
     (2..spreadsheet.last_row).each do |i|
       row = Hash[[header, spreadsheet.row(i)].transpose]
-      customer = Customer.where(email: row["Email"]).first
-      unless customer
-        customer = Customer.new
-        customer.name = row["Name"].to_s
+      customer = Customer.find_by_email(row["Email"]) || Customer.new
+     # product.attributes = row.to_hash.slice('product_name', 'units', 'usercategory_id')
+      customer.name = row["Customer Name"].to_s
         customer.email = row["Email"]
-        customer.tin_number = row["TIN Number"].to_i
+        customer.tin_number = row["Tin Number"].to_i
         customer.phone_number = row["Phone Number"].to_i
         customer.address = row["Address"]
         customer.city = row["City"]
         customer.authuser_id = current_authuser
         customer.save!
-      end
     end
-  end
+   end
+      
 
- 
 def self.open_spreadsheet(file)
   case File.extname(file.original_filename)
-   when '.csv' then Roo::Csv.new(file.path, nil, :ignore)
-   when '.xls' then Roo::Excel.new(file.path, nil, :ignore)
-   when '.xlsx' then Roo::Excelx.new(file.path, nil, :ignore)
-   else raise "Unknown file type: #{file.original_filename}"
+  when ".csv" then Csv.new(file.path, nil, :ignore)
+  when ".xls" then Roo::Excel.new(file.path, nil, :ignore)
+  when ".xlsx" then Roo::Excelx.new(file.path, nil, :ignore)
+  else raise "Unknown file type: #{file.original_filename}"
   end
-end
+  end
+  
    end
   

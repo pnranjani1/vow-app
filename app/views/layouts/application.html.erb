@@ -1,87 +1,206 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>WorkingApp</title>
+  <title>VatonWheels</title>
   
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
  
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,700italic,400,600,700">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Oswald:400,300,700">
   
    <%= csrf_meta_tags %>
+  
+  <meta charset="utf-8">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+
  
 </head>
-<body>
+ <body> 
  
-  
   <% if authuser_signed_in? %>
-   <h2><center>VatOnWheels - We make billing easier</center></h2><br/><p>
-  <h3><%= current_authuser.name %></h3>
    
+<div class="navbar">
+ <div class="container">
   
-  <% if permitted_to? :admin_dashboard, Dashboard.new %>
-   <%= link_to "Home Page", dashboards_admin_dashboard_path %>|
-  <% end %>
-  
- <% if permitted_to? :client_dashboard , Dashboard.new %>
-  <%= link_to "Home Page", dashboards_client_dashboard_path %>|  
-  <% end %>
-  
-  <% if permitted_to? :user_bill_summary, Bill.new %>
-  <%= link_to "Bills Information", bills_user_bill_summary_path %>|
-  <% end %>
-  
-  
-   <% if current_authuser.main_roles.count > 1 %>
-  <%= link_to "Change Role", authusers_change_role_path %> |
-  <% end %>
-  
-  <% if permitted_to? :admin_edit, Authuser.new %>
-  <%= link_to "Update Profile", admin_edit_path(current_authuser.id) %>|
-  <% end %>
+   <div class="navbar-header">
+  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+  <i class="fa fa-cogs"></i>
+  </button>
+  <%= link_to "Vatonwheels.com", root_path , class: "navbar-brand " %> 
+  </div> <!-- /.navbar-header -->
+    
+   <!-- right Navigation for profile -->
+     <div class="navbar-collapse collapse">
+     <ul class="nav navbar-nav navbar-right">   
+ 
+        <li class="dropdown navbar-profile">
+         <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;">
+         <%= image_tag "avatar-1-xs.jpg"  , class: "navbar-profile-avatar"%>
+           <!--<img src="img/avatar-1-xs.jpg" class="navbar-profile-avatar" alt="">  -->
+          <span class="navbar-profile-label">rod@rod.me &nbsp;</span>
+          <i class="fa fa-caret-down"></i>
+          </a>
 
+          <ul class="dropdown-menu" role="menu">
+
+            <li>
+              <a href="./page-profile.html">
+                <i class="fa fa-user"></i> 
+                &nbsp;&nbsp;My Profile
+              </a>
+            </li>
+            <li>
+              <a href="./page-pricing.html">
+                <i class="fa fa-dollar"></i> 
+                &nbsp;&nbsp;Plans &amp; Billing
+              </a>
+            </li>
+            <li>
+              <a href="./page-settings.html">
+                <i class="fa fa-cogs"></i> 
+                &nbsp;&nbsp;Settings
+              </a>
+            </li>
+            <li class="divider"></li>
+            <li>
+              <a href="./account-login.html">
+                <i class="fa fa-sign-out"></i> 
+                &nbsp;&nbsp;Logout
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div> <!--/.navbar-collapse -->
+  </div> <!-- /.container -->
+</div> <!-- /.navbar -->
+       
+ 
+   
+<div class="mainbar">
+<div class="container">
+<button type="button" class="btn mainbar-toggle" data-toggle="collapse" data-target=".mainbar-collapse">
+<i class="fa fa-bars"></i>
+</button>
+<div class="mainbar-collapse collapse">
+<ul class="nav navbar-nav mainbar-nav">
+        
+<!-- Dashboards -->
+<li>
+<% if permitted_to? :admin_dashboard , Dashboard.new %> 
+<%= link_to dashboards_admin_dashboard_path  do %>
+<i class="fa fa-dashboard"></i> Dashboard
+<% end %>
+<% end %>
+<% if permitted_to? :client_dashboard , Dashboard.new %> 
+<%= link_to dashboards_client_dashboard_path  do %>
+<i class="fa fa-dashboard"></i> Dashboard
+<% end %>
+<% end %>
+</li>
+
+<!-- Customers --> 
+<% if permitted_to? :index, Customer.new %>
+<li class="dropdown ">   
+<%= link_to customers_path, class: "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>
+<i class="fa fa-desktop"></i>View Customers<span class="caret"></span>
+<% end %>
+
+<ul class="dropdown-menu">   
+<li>
+<%= link_to customers_path do %>
+<i class="fa fa-user nav-icon"></i> Manage Customers</li>  
+<% end %>
+</ul>
+</li>
+<% end %>
+        
+<!-- Bills Information -->
+<li>  
+<% if permitted_to? :index, Bill.new %>
+<%= link_to bills_path  do %>
+<i class="fa fa-align-left"></i> Bills Information
+<% end %>
+<% end %>
+</li>
+          
+<!-- Main Commodities -->  
+<% if permitted_to? :index, MainCategory.new %>
+<li class="dropdown ">
+<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">
+<i class="fa fa-files-o"></i>Commodities<span class="caret"></span>
+</a>
+
+<ul class="dropdown-menu">
+<li><%= link_to main_categories_path do %>
+<i class="fa fa-user nav-icon"></i> Manage Commodities
+<% end %>
+</li>
+</ul>
+</li> 
+<% end %>
+
+
+<!-- Taxes -->      
+<% if permitted_to? :index, Tax.new %>
+<li class="dropdown ">
+<a href="#contact" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">
+<i class="fa fa-external-link"></i>Tax Details<span class="caret"></span>
+</a>
+<ul class="dropdown-menu" role="menu">
+<li>
+<%= link_to taxes_path do %><i class="fa fa-bell"></i> 
+Manage Taxes
+<% end %>
+</li>     
+</ul>
+</li>
+<% end %>
+    
+</ul><!-- nav navbar-nav mainbar-nav --ends here -->
   
-  <% if permitted_to? :client_edit, Authuser.new %>
-  <%= link_to "Update Profile", client_edit_path(current_authuser.id) %>|
+</div> <!-- /.mainbar-collapse -->   
+</div> <!-- /.container --> 
+</div> <!-- /.mainbar -->
+   
+
+
+   <%= link_to "Sign Out", destroy_authuser_session_path, method: :delete %>
   <% end %>
  
- 
-  
-  <% if permitted_to? :index, Customer.new %>
- <%= link_to "View Customers", customers_path %>|
-  <% end %>
-  
-  <% if permitted_to? :index, Bill.new %>
-<%= link_to "Bills information" , bills_path %>  |
-  <% end %>
-  
-  <% if permitted_to? :index, MainCategory.new %>
- <%= link_to "View Main Commodities", main_categories_path %> |
-  <% end %>
-  
-  <% if permitted_to? :new, MainCategory.new %>
-   <%= link_to "Add Main Commodity", new_main_category_path %> |
-  <% end %>
-  
-  <% if permitted_to? :index, Tax.new %>
-<%= link_to "View Taxes", taxes_path %>|
-  <% end %>
-  
-  <% if permitted_to? :new, Tax.new %>
-  <%= link_to "Add Tax", new_tax_path %>|
-  <% end %>
+  <%= yield %>
+  <br/><p>
+   <br/><p>
+   <br/><p>
+   <br/><p>
+   <br/><p>
+   <br/><p>
+   <br/><p>
   
   
+   <footer class="footer">
+
+  <div class="container">
+
+    <div class="row">
+
+ <div class="col-sm-3">&copy; 2015 vatonwheels.com Privacy Policy</div> <!-- /.col -->
+ <div class="col-sm-3">Design and Developed by <a href="http://iprimitus.com" target="_blank" class="iprim">iprimitus.com</a></div> <!-- /.col -->
+
+      </div> <!-- /.row -->
+
+  </div> <!-- /.container -->
   
-  
-  <%= link_to "Sign Out", destroy_authuser_session_path, method: :delete %>
-  
-  <% end %>
-  
-    <%= yield %>
-  
-  
-  
+</footer>
 
 </body>
 </html>
+
+  
+  
+  
+ 
+
 

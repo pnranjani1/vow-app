@@ -20,7 +20,7 @@ class TaxesController < ApplicationController
   end
   
   def show
-    @tax = Tax find(params[:id])
+    @tax = Tax.find(params[:id])
   end
   
   def edit
@@ -31,7 +31,7 @@ class TaxesController < ApplicationController
   def update
     @tax = Tax.find(params[:id])
     if @tax.update_attributes(set_params)
-      redirect_to tax_path(@tax)
+      redirect_to taxes_path
     else
       render action: 'edit'
     end
