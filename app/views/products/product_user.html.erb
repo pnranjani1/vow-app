@@ -1,38 +1,61 @@
-<h3> Listing Products </h3>
+<!DOCTYPE html>
+<html>
 
-<% if @user_products.blank? %>
-<%= link_to "Add Product", new_product_path %>
-<% else %>
-<% @user_products.each do |product| %>
-<ul>
-  <li><%= link_to product.product_name, product_path(product.id) %> | 
-    <%= link_to "Edit Product" , edit_product_path(product.id) %></li>
-</ul>
-<% end %>
-<% end %>
-<br/>
+  <body>
+  
+<div class="container">
+  <div class="content">
+    <div class="content-container">      
+      <div>
+        <h4 class="heading-inline">Manage Products</h4>        
+      </div>
 
-<table border="1">
-  <tr>
-    <th>Product Name</th>
-    <th>Units</th>
-       <th>Commodity Name</th>
-    <th>Edit</th>
-    <th>Delete</th>
-    </tr>
-<% @user_products.each do |product| %>
-    <tr>
-    <td><%= product.product_name %></td>
-    <td><%= product.units %></td>
-    <td><%= product.usercategory.commodity_name %></td>
-    <td><%= link_to "Edit Product" , edit_product_path(product.id) %></td>
-   <td> <%= link_to "Delete ", product_path(product.id), method: :delete, data: {confirm: "Are you sure you want to delete the product?"} %></td>
-    </tr>
-  <% end %>
-</table>
+      <br>
+      <div class="row"> 
+      <div class="portlet portlet-table">
+      <div class="portlet-header">
+      <h3><i class="fa fa-group"></i>Products List</h3> 
+      </div> <!-- /.portlet-header -->
 
-
-<h3> Import Products </h3>
+      <div class="portlet-content">
+      <div class="table-responsive">
+      <table id="user-signups" class="table table-striped table-bordered table-checkable"> 
+          <% if current_authuser.auth_user_category.blank? %> 
+        <h5>Add Commodities first and then add products</h5>
+         <% elsif current_authuser.products.blank? %>
+         <div class="portlet-footer">
+       <div class="text-right">     
+         Add Product <%= link_to  new_product_path do %>      
+       <button class="btn btn-sm btn-default">New</button>
+         <% end %>
+         
+       </div>
+            </div> <!-- /.portlet-footer -->
+        <% else %>    
+      <thead> 
+      <tr> 
+      <th>Product Name</th> 
+      <th> Units</th>
+      <th> Belongs to Commodity</th> 
+      <th> Edit </th>
+      <th> Delete </th>
+      </tr> 
+      </thead> 
+      <tbody> 
+        <% @user_products.each do|product| %>
+   <tr>                      
+     <td><%= product.product_name %> </td>
+     <td><%= product.units%> </td>
+     <td><%= product.usercategory.commodity_name%> </td>
+     <td><%= link_to "Edit Product", edit_product_path(product.id), class: "btn btn-xs btn-primary" %></td>
+     <td><%= link_to "Delete Product", product_path(product.id), class:"btn btn-xs btn-primary", method: :delete, data: {confirm: "Are you sure you want to delete the product?"} %> </td>
+        
+        </tr>     
+        <% end %>
+        </tbody> 
+        </table>
+        
+        <h3> Import Products </h3>
 <%= form_tag products_product_import_path, multipart: true do %><br/>
   <%= file_field_tag :file %> <br/><p>
 <%= submit_tag "Import Products" %>
@@ -43,6 +66,51 @@
 <%= link_to "Format for Importing Products", products_product_download_path(format: "xls") %> 
 <p><b>Note: </b>When importing .xls files, save the file as <b>"excel 97-2003 workbook"</b> format to avoid errors</p>
 <br/><p>
+
+ 
+        
+       <div class="portlet-footer">
+       <div class="text-right">     
+         Add Product <%= link_to  new_product_path do %>      
+       <button class="btn btn-sm btn-default">New</button>
+         <% end %>
+       </div>
+            </div> <!-- /.portlet-footer -->
+                  
+
+              </div> <!-- /.table-responsive -->
+        <% end %>
+                  
+            </div> <!-- /.portlet-content -->
+
+          
+
+          </div> <!-- /.portlet -->
+
+
+      </div> <!-- /.row -->
+
+    </div> <!-- /.content-container -->
+      
+  </div> <!-- /.content -->
+
+</div> <!-- /.container -->
+
+
+
+  
+ 
+</body>
+</html>
+
+
+
+
+
+
+
+
+
 
 
 

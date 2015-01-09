@@ -83,12 +83,12 @@
 
 <div class="field">
 <label> Membership Start Date </label><br/>
-  <%= user_membership.date_field :membership_start_date %><br/><p>
+  <%= user_membership.date_field :membership_start_date, :value => Date.today %><br/><p>
 </div>
 
 <div class="field">
 <label> Membership End Date</label><br/>
-  <%= user_membership.date_field :membership_end_date %><br/><p>
+  <%= user_membership.date_field :membership_end_date , :value => Date.today+1.year %><br/><p>
 </div>
 <% end %>
 

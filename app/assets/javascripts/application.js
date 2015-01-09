@@ -16,7 +16,6 @@
 //= require bootstrap
 //= require bootstrap.min
 //= require nested_form
-//= require monthpicker
 //= require camera
 //= require html5shiv
 //= require jquery.carouFredSel-6.1.0-packed

@@ -1,39 +1,68 @@
-<hr>
-<h3> Listing Bill </h3>
-<% if @user_bills.blank? %>
-<%= link_to "Create Bill", new_bill_path %>
-<% else %>
+<!DOCTYPE html>
+<html>
+<body>
+    
+<div class="container">
+<div class="content">
+<div class="content-container">     
+  
+<div>
+<h4 class="heading-inline">View Bills<br/></h4>        
+</div>
+  
+<br>
+
+<div class="row"> 
+<div class="portlet">
+
+<div class="portlet-header">
+<h3><i class="fa fa-file-text-o"></i>Bills Information</h3>
+</div> <!-- /.portlet-header -->
+
+<div class="portlet-content panel-thread scrollable-panel">
 <% @user_bills.each do |bill| %>
-<ul>
-  <li><%= link_to bill.customer.name, bill_path(bill.id)  %> 
-    <%= bill.tax.tax_type %>|
-    <%=  link_to "Generate PDF", bill_path(bill.id, format: "pdf"), target: "blank"  %></li><p>
- Posted <%= time_ago_in_words (bill.created_at) %> ago <br/><p>
+<ul class="panel-lists">
+<li class="panel-list-title">
+<div class="panel-list-content">
+<%= link_to bill.customer.name, bill_path(bill.id) %> /
+<%=  bill.tax.tax_type %>
+<span class="panel-list-meta">Posted <%= time_ago_in_words (bill.created_at) %> ago</span>
+</div></li>
 </ul>
 <% end %>
-<% end %>
-
+ 
+ <!--<img src="img/avatar-1-md.jpg" alt="Avatar" class="panel-list-avatar"> -->
+ 
 <%= link_to "Download Excel", bills_user_bill_path(format: "xls") %> |
 <%= link_to "Download CSV", bills_user_bill_path(format: "csv") %><br/><p>
 
 <hr/>
 
 <script>
- 
-  $(function() {
+   $(function() {
     $("#local_sales").monthpicker();
     $("#interstate_sales").monthpicker();
      });
   </script>
 
+    
 <script type="text/javascript">
         $(function () {
             $("#start_date").datepicker({ dateFormat: "dd/mm/yy" }).val()
             $("#end_date").datepicker({ dateFormat: "dd/mm/yy" }).val()
         });
- 
-    </script>
+</script>
+  
+   
+   <h3> Local Sales XML </h3><p>
+<%= form_tag bills_local_sales_path(:format => "xml"), method: :get do %>
+<%= text_field_tag :choose_month, params[:choose_month], :id => "local_sales" , placeholder: "Generate Local Sales xml"%>
+<%= submit_tag "Submit" %>
+<% end %>
 
+  <p>
+
+  
 <h3>Download Tally importable xml file </h3>
 <%= form_tag  bills_tally_import_path( :format => :xml),method: "get" do  %>
 <%= label_tag(:start_date , 'From : ')%> <%= text_field_tag :start_date, params[:start_date], :id => "start_date" %>
@@ -42,17 +71,7 @@
 <% end %>
 
 <p>
-
-<h3> Local Sales XML </h3><p>
-<%= form_tag bills_local_sales_path(:format => "xml"), method: :get do %>
-<%= text_field_tag :choose_month, params[:choose_month], :id => "local_sales" , placeholder: "Generate Local Sales xml"%>
-<%= submit_tag "Submit" %>
-<% end %>
-
-
-
-
-<p>
+ 
 <h3> Interstate Sales XML </h3><p>
 <%= form_tag bills_interstate_sales_path(:format => "xml"), method: :get do %>
 <%= text_field_tag :choose_month, params[:choose_month], :id => "interstate_sales" , placeholder: "Generate Interstate Sales xml"%>
@@ -60,11 +79,20 @@
 <% end %>
 
 
-<br/><p>
+ 
 
-<br/><p>
-  
+</div> <!-- /.portlet-content -->
+</div> <!-- /.portlet -->
+</div> <!-- /.row -->
+</div> <!-- /.content-container -->
+</div> <!-- /.content -->
+</div> <!-- /.container -->
 
-<br/><p>
-  
+
+ 
+</body>
+</html>
+
+
+
 

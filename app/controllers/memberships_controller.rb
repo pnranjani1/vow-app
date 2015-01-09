@@ -35,12 +35,14 @@ class MembershipsController < ApplicationController
       invited_by_id =  @membership.authuser.invited_by_id
       role_invited_by = Permission.where(:authuser_id => invited_by_id)
       role_id = role_invited_by.first.main_role_id
-      if role_id == 5
+      if @membership.save
+      if role_id == 2
       redirect_to dashboards_client_dashboard_path
       elsif role_id == 1
         redirect_to dashboards_admin_dashboard_path
     else render action: 'edit'
     end
+  end
   end
   end
   

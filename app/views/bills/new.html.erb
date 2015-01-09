@@ -9,11 +9,18 @@
 <% end %>
 
 <label> Invoice Number </label><br/>
-<%= f.text_field :invoice_number %><br/><p>
+<% if @bill.new_record? %>
+<%= f.text_field :invoice_number, :value => 1000 %>
+<% else %>
+<%= f.text_field :invoice_number, :value => 1001 %>
+<% end %>
+<br/><p>
+
 
 
 <label> Bill Date </label><br/>
-<%= f.date_field :bill_date %><br/><p>
+<%= f.date_field :bill_date , :value => Date.today %><br/><p>
+
 
 
 <label> Customer</label><br/>

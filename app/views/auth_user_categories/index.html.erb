@@ -1,12 +1,76 @@
+<!DOCTYPE html>
+<html>
 
-  <% @auth_user_category.usercategories.each do |category| %> 
-<ul>
-  <li>
- <%= category.main_category.commodity_name  %> 
-  </li>
-  </ul>
-  <% end %>
+  <body>
+  
+<div class="container">
+  <div class="content">
+    <div class="content-container">      
+      <div>
+        <h4 class="heading-inline">Manage Commodities</h4>        
+      </div>
+
+      <br>
+      <div class="row"> 
+      <div class="portlet portlet-table">
+      <div class="portlet-header">
+      <h3><i class="fa fa-group"></i>Commodities List</h3> 
+      </div> <!-- /.portlet-header -->
+
+      <div class="portlet-content">
+      <div class="table-responsive">
+      <table id="user-signups" class="table table-striped table-bordered table-checkable"> 
+            
+      <thead> 
+      <tr> 
+      <th>Commodity Name</th> 
+      <th> Commodity ID</th>
+      </tr> 
+      </thead> 
+      <tbody> 
+     
+        <% @auth_user_category.usercategories.each do |category| %>
+     <tr>                      
+       <td><%= category.commodity_name %> </td>
+       <td><%= category.id %> </td>
+       </tr>     
+        <% end %>
+       
+        </tbody> 
+        </table>
+            
+             
+       <div class="portlet-footer">
+       <div class="text-right">     
+         Add Commodity <%= link_to  edit_auth_user_category_path(current_authuser.auth_user_category.id) do %>      
+       <button class="btn btn-sm btn-default">New</button>
+        <% end %>
+       </div>
+       </div> <!-- /.portlet-footer -->
+       
+        </div> <!-- /.table-responsive -->
+        </div> <!-- /.portlet-content -->
+        </div> <!-- /.portlet -->
+        </div> <!-- /.row -->
+        </div> <!-- /.content-container -->
+        </div> <!-- /.content -->
+        </div> <!-- /.container -->
+
+
 
   
-<%= link_to "Manage Commodities", edit_auth_user_category_path(@auth_user_category) %>
-  
+ 
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

@@ -46,7 +46,7 @@ class ProductsController < ApplicationController
     @product = Product.find(params[:id])
    @product.authuser_id = current_authuser.id    
     if @product.update_attributes(set_params)
-      redirect_to product_path(@product.id)
+      redirect_to products_product_user_path
     else
       render action: 'edit'
     end
@@ -56,7 +56,7 @@ class ProductsController < ApplicationController
   def destroy
     @product = Product.find(params[:id])
     @product.destroy
-    redirect_to products_path
+    redirect_to products_product_user_path
   end
   
   

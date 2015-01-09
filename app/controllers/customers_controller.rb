@@ -22,7 +22,7 @@ class CustomersController < ApplicationController
     @customer = Customer.new(set_params)
   @customer.authuser_id = current_authuser.id
     if @customer.save
-      redirect_to customer_path(@customer.id)
+      redirect_to customers_user_customer_path
     else
       render action: 'new'
     end
@@ -36,7 +36,7 @@ class CustomersController < ApplicationController
     @customer = Customer.find(params[:id])
     @customer.authuser_id = current_authuser.id
     if @customer.update_attributes(set_params)
-      redirect_to customer_path(@customer.id)
+      redirect_to customers_user_customer_path
     else
       render action: 'edit'
     end
@@ -45,7 +45,7 @@ class CustomersController < ApplicationController
   def destroy
     @customer = Customer.find(params[:id])
     @customer.destroy
-    redirect_to customers_path
+    redirect_to customers_user_customer_path
   end
   
   def user_customer
@@ -56,7 +56,7 @@ class CustomersController < ApplicationController
   
   def customer_import
     Customer.import(params[:file], current_authuser.id)
-    redirect_to customers_path, notice: "Customers Imported"
+    redirect_to customers_user_customer_path, notice: "Customers Imported"
   end
     
   

@@ -36,6 +36,7 @@ require 'active_support/core_ext/date/conversions'
   
   has_many :usercategories
   has_one :auth_user_category
+  #has_many :auth_user_categories
   
    has_many :clients, dependent: :destroy
   has_many :users, dependent: :destroy

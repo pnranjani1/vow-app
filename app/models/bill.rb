@@ -1,5 +1,6 @@
 class Bill < ActiveRecord::Base
   
+ # before_create :generate_invoice_number
   before_save :generate_grand_total
   before_save :generate_tax_type
   
@@ -18,7 +19,23 @@ class Bill < ActiveRecord::Base
  
   
   accepts_nested_attributes_for :line_items
+  
+#  def generate_invoice_number
+ #   if Bill.last.invoice_number.nil?
+  #    self.invoice_number = 1000
+   # else 
+    #  self.invoice_number = Bill.last.invoice_number + 1
+   # end
+  #end
  
+  #def self.last_invoice_number_used
+   # return last.invoice_number unless last.nil?
+    # return 1000
+#end
+
+ # def self.next_invoice_number_to_use
+  #  last_invoice_number_used+1
+#end
   
     def past_date
       if self.bill_date < Date.today

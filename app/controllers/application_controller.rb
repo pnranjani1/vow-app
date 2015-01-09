@@ -72,9 +72,9 @@ class ApplicationController < ActionController::Base
     end
   
   def after_update_profile_path_for(authuser)
-    if current_authuser.main_roles.first == "client"
+    if current_authuser.main_roles.first.role_name == "client"
       return dashboards_client_dashboard_path
-    elsif current_authuser.main_roles.first == "user"
+    elsif current_authuser.main_roles.first.role_name == "user"
       return dashboards_user_dashboard_path
       #return user_path(current_authuser.id)
   end

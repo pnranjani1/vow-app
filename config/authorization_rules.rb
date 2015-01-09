@@ -29,7 +29,7 @@ authorization do
     has_permission_on [:dashboards], :to => [:user_dashboard]
     has_permission_on [:products], :to => [:new, :create, :show, :edit, :update, :destroy, :product_user, :product_import]
     has_permission_on [:customers], :to => [:new, :create, :show, :edit, :update, :destroy, :user_customer, :customer_import]
-    has_permission_on [:bills], :to => [:new, :create, :show, :local_sales, :intersate_sales, :tally_import, :user_bill]
+    has_permission_on [:bills], :to => [:new, :create, :show, :local_sales, :intersate_sales, :tally_import, :user_bill, :bill_reports]
     has_permission_on [:authusers], :to => [:client_edit, :client_update]
  #   has_permission_on [:main_categories], :to => [:index]
        

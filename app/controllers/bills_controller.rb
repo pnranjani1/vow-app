@@ -1,7 +1,7 @@
 #require 'builder'
 class BillsController < ApplicationController
   #layout 'menu', :only => [:user_bill, :new, :create, :show, :local_sales, :interstate_sales, :tally_import]
-   layout_by_action [:user_bill, :new, :create, :show, :local_sales, :interstate_sales, :tally_import, :esnget] => "menu"
+   layout_by_action [:user_bill, :new, :create, :show, :local_sales, :interstate_sales, :tally_import, :esnget, :bill_reports] => "menu"
   #, user_bill_summary: "menu1"
   
  #layout 'client', :only => [:user_bill_summary]
@@ -20,17 +20,26 @@ class BillsController < ApplicationController
   
   def new
     @bill = Bill.new
+    @bill_last = Bill.last
    
    end
   
   
   def create  
     @bill = Bill.new(set_params)
+    @bill_last = Bill.last || Bill.new
+   @bill_last = Bill.last
+   # if @bill_last.nil?
+    #  @invoice_number = 1000
+    #else
+     # @invoice_number = @bill_last.invoice_number +1 
+    #end
+  
     @bill.authuser_id = current_authuser.id
     if @bill.save
       @bill.total_bill_price = @bill.line_items.sum(:total_price)
       @bill.save
-      redirect_to bill_path(@bill.id)
+      redirect_to bills_user_bill_path
     else
       render action: 'new'
     end
@@ -70,7 +79,7 @@ class BillsController < ApplicationController
     @bill = Bill.find(params[:id])
     @bill.authuser_id = current_authuser.id
     if @bill.update_attributes(set_params)
-      redirect_to bill_path(@bill.id)
+      redirect_to bills_user_bill_path
     else
       render action: 'edit'
     end
@@ -93,6 +102,10 @@ class BillsController < ApplicationController
      end
      end
  
+  
+  def bill_reports
+  end
+  
   def user_bill_summary
     @user = User.where(:client_id => current_authuser.id)
   end
@@ -153,7 +166,7 @@ end
     start_date = params[:start_date]
     end_date = params[:end_date]
    #@user_bills = Bill.all
-    @user_bills = Bill.where('created_at >= ? AND created_at <= ? AND authuser_id = ?',start_date, end_date, current_authuser.id )
+    @user_bills = Bill.where('created_at >= ? AND created_at <= ? AND authuser_id = ?',start_date.to_date, end_date.to_date, current_authuser.id )
     respond_to do|format|
     format.html
     format.xml {  send_data render_to_string(:tally_import), :filename => 'tally_import.xml', :type=>"application/xml", :disposition => 'attachment' }

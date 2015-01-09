@@ -1,69 +1,246 @@
-
 <!DOCTYPE html>
 <html>
 <head>
-  <title>WorkingApp</title>
+  <title>VatonWheels</title>
   
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
-  <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
-
-   <%= csrf_meta_tags %>
- 
-</head>
-<body>
-  <p class= "notice"><%= notice %></p>
-  <p class= "alert"><%= alert %></p>
-  
- 
-
-  <% if authuser_signed_in? %>
-   <h2><center>VatOnWheels - We make billing easier</center></h2><br/><p>
-  <h3><%= current_authuser.name %></h3>
-  <% end %>
-
-  
-  
-  
-  
-  <%= link_to "Home Page", dashboards_user_dashboard_path %>|
-  <% if current_authuser.main_roles.count > 1 %>
-  <%= link_to "Change Role", authusers_change_role_path %> |
-  <% end %>
-  <% if current_authuser.products.nil? %>
-  <%= link_to "Add Products", new_product_path %>|
-  <% else %>
-  <%= link_to "View Products", products_product_user_path %>|
-  <% end %>
  
    
-  <%= link_to "Add Products", new_product_path %>|
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
   
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,700italic,400,600,700">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Oswald:400,300,700">
+ 
+   <%= csrf_meta_tags %>
+  
+  <meta charset="utf-8">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+
+ 
+</head>
+ <body> 
+  
+  <p class= "notice"><%= notice %></p>
+  <p class= "alert"><%= alert %></p>
+   
+  <% if authuser_signed_in? %>
+   
+<div class="navbar">
+ <div class="container">
+  
+   <div class="navbar-header">
+  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+  <i class="fa fa-cogs"></i>
+  </button>
+  <%= link_to "Vatonwheels.com", root_path , class: "navbar-brand " %> 
+   
+  
+  </div> <!-- /.navbar-header -->
+     
+  
+   
+   <!-- right Navigation for profile -->
+     <div class="navbar-collapse collapse">
+     <ul class="nav navbar-nav navbar-right">   
+ 
+        <li class="dropdown navbar-profile">
+         <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;">
+         <%= image_tag "avatar-1-xs.jpg"  , class: "navbar-profile-avatar"%>
+           <!--<img src="img/avatar-1-xs.jpg" class="navbar-profile-avatar" alt="">  -->
+          <span class="navbar-profile-label">rod@rod.me &nbsp;</span>
+          <i class="fa fa-caret-down"></i>
+          </a>
+
+          <ul class="dropdown-menu" role="menu">
+
+            <li>
+              <a href="./page-profile.html">
+                <i class="fa fa-user"></i> 
+                &nbsp;&nbsp;My Profile
+              </a>
+            </li>
+            <li>
+              <a href="./page-pricing.html">
+                <i class="fa fa-dollar"></i> 
+                &nbsp;&nbsp;Plans &amp; Billing
+              </a>
+            </li>
+            <li>
+              <a href="./page-settings.html">
+                <i class="fa fa-cogs"></i> 
+                &nbsp;&nbsp;Settings
+              </a>
+            </li>
+            <li class="divider"></li>
+            <li>
+              <a href="./account-login.html">
+                <i class="fa fa-sign-out"></i> 
+                &nbsp;&nbsp;Logout
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div> <!--/.navbar-collapse -->
+  </div> <!-- /.container -->
+</div> <!-- /.navbar -->
+       
+ 
+   
+<div class="mainbar">
+<div class="container">
+<button type="button" class="btn mainbar-toggle" data-toggle="collapse" data-target=".mainbar-collapse">
+<i class="fa fa-bars"></i>
+</button>
+<div class="mainbar-collapse collapse">
+<ul class="nav navbar-nav mainbar-nav">
+        
+<!-- Dashboards -->
+<li class= "active">
+<%= link_to dashboards_user_dashboard_path do %>
+<i class="fa fa-dashboard"></i> Dashboard
+<% end %>
+</li>
+
+<!-- Change Role -->
+<li class="dropdown ">
+<% if current_authuser.main_roles.count > 1 %>
+<%= link_to authusers_change_role_path do %> 
+<i class="fa fa-dashboard"></i> Change Role
+<% end %>
+<% end %>
+</li>
+  
+  
+<!-- Products -->
+<li class="dropdown ">
+<%= link_to products_product_user_path, class: "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>
+<i class="fa fa-align-left"></i>View Products<span class="caret"></span>    
+<% end %>
+  
+<ul class="dropdown-menu">   
+<li>
+  <% if current_authuser.auth_user_category.blank? %>
+   <%= link_to new_auth_user_category_path do %>
+   <i class="fa fa-user nav-icon"></i> Add Commodity first  
+  <% end %>
+  <% elsif current_authuser.products.blank? %>
+  <%= link_to new_product_path do %>
+  <i class="fa fa-user nav-icon"></i> Add Product  
+  <% end %>
+  <% else %>
+ <%= link_to products_product_user_path do %>
+<i class="fa fa-user nav-icon"></i> Manage Products</li>  
+<% end %>
+  <% end %>
+</ul>
+</li>
+
+
+<!-- User Commodities -->
+<li class="dropdown ">   
+<%= link_to auth_user_categories_path, class: "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>
+<i class="fa fa-files-o"></i>View Commodities<span class="caret"></span>
+<% end %>
+
+<ul class="dropdown-menu">   
+<li>
   <% if current_authuser.auth_user_category.blank? %> 
-  <%= link_to "View Commodities", new_auth_user_category_path %>|
+  <%= link_to new_auth_user_category_path do %>
+  <i class="fa fa-user nav-icon"></i> Add Commodity
+  <% end %>
     <% else %> 
-      <%= link_to "View Commodities", auth_user_categories_path %>|
-    <% end %>
-
-  <%= link_to "Add Customer", new_customer_path %>|
-  <%= link_to "View Customers", customers_user_customer_path %>|
-  
-   <%= link_to "Create New Bill", new_bill_path %>|
-   <%= link_to "View Bills", bills_user_bill_path %>|
-   <%= link_to "Sign Out", destroy_authuser_session_path, method: :delete %>
-<hr/>
-    <%= yield %>
+    <%= link_to auth_user_categories_path do %>
+<i class="fa fa-user nav-icon"></i> Manage Commodities</li>  
+<% end %>
+<% end %>
+</ul>
+</li>
 
   
+
+<!-- Customers -->
+<li class="dropdown">   
+<%= link_to customers_user_customer_path, class: "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>
+<i class="fa fa-desktop"></i>View Customers<span class="caret"></span>
+<% end %>
+
+<ul class="dropdown-menu">   
+<li>
+  <% if current_authuser.customers.blank? %> 
+  <%= link_to new_customer_path do %>
+  <i class="fa fa-user nav-icon"></i> Add Customer
+  <% end %>
+    <% else %> 
+    <%= link_to customers_user_customer_path do %>
+<i class="fa fa-user nav-icon"></i> Manage Customers</li>  
+<% end %>
+<% end %>
+</ul>
+</li>
+
+  
+<!--Bills -->
+   <li class="dropdown ">   
+<%= link_to bills_user_bill_path, class: "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>
+<i class="fa fa-align-left"></i>View Bills<span class="caret"></span>
+<% end %>
+
+<ul class="dropdown-menu">
+<li><%= link_to new_bill_path do %>
+<i class="fa fa-user nav-icon"></i> Create New Bill</li>  
+<% end %>
+<li><%= link_to bills_user_bill_path do %>
+<i class="fa fa-user nav-icon"></i> View Bills </li>  
+  <% end %>  
+  <li><%= link_to bills_bill_reports_path do %>
+<i class="fa fa-user nav-icon"></i> View Bill Reports </li>  
+  <% end %>  
+</ul>
+</li>
+  
+
+
+
+</ul><!-- nav navbar-nav mainbar-nav --ends here -->
+  
+</div> <!-- /.mainbar-collapse -->   
+</div> <!-- /.container --> 
+</div> <!-- /.mainbar -->
+   
+<%= link_to "Sign Out", destroy_authuser_session_path, method: :delete %>
+  <% end %>
+  <%= yield %>
+   <br/><p>
+   <br/><p>
+   <br/><p>
   
   
+   <footer class="footer">
+
+  <div class="container">
+
+    <div class="row">
+
+ <div class="col-sm-3">&copy; 2015 vatonwheels.com Privacy Policy</div> <!-- /.col -->
+ <div class="col-sm-3">Design and Developed by <a href="http://iprimitus.com" target="_blank" class="iprim">iprimitus.com</a></div> <!-- /.col -->
+
+      </div> <!-- /.row -->
+
+  </div> <!-- /.container -->
+  
+</footer>
 
 </body>
 </html>
 
-
+  
+  
+  
+ 
 
 
 

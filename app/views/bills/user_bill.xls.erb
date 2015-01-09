@@ -4,10 +4,9 @@
     <th>Date</th>
     <th>Customer</th>
     <th>Tin Number</th>
-    <th> Product 1 </th>
-    <th> Product 2 </th>
+    <th> Product  </th>
     <th>Total Price</th>
-    <th></th>
+    
   </tr>
   <% @user_bills.each do |bill| %>
   <tr>
@@ -15,8 +14,9 @@
     <td><%= bill.bill_date.strftime("%b %d %Y") %></td>
     <td><%= bill.customer.name %></td>
     <td><%= bill.customer.tin_number %></td>
-    <% bill.line_items.each do |a| %>
-    <td><%= a.product.product_name %></td>
+   <!-- <% bill.line_items.each do |a| %> -->
+    <!-- <td><%= a.product.product_name %></td> -->
+    <td><%= bill.line_items.first.product.product_name %></td>
     <% end %>
     <td><%= bill.total_bill_price %></td>
      <% end %>

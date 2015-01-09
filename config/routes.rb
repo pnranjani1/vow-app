@@ -52,6 +52,7 @@ Rails.application.routes.draw do
   get 'bills/user_bill'
   get 'bills/local_sales'
   get 'bills/interstate_sales'
+  get 'bills/bill_reports'
   resources :authusers
   resources :users
   resources :bills
