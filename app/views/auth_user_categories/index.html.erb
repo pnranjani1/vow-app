@@ -28,7 +28,16 @@
       </tr> 
       </thead> 
       <tbody> 
-     
+        <% if @auth_user_category.blank? %>
+         <div class="portlet-footer">
+       <div class="text-right">     
+         Add Commodity <%= link_to  new_auth_user_category_path do %>      
+       <button class="btn btn-sm btn-default">New</button>
+        <% end %>
+       </div>
+       </div> <!-- /.portlet-footer -->
+        <% end %>
+        
         <% @auth_user_category.usercategories.each do |category| %>
      <tr>                      
        <td><%= category.commodity_name %> </td>
