@@ -8,9 +8,9 @@ You have <%= pluralize(@users.count, 'User') %><br/>
 <%= link_to "Invite User", new_authuser_invitation_path %><br/><p>
 <% c = current_authuser.clients.first.id %>
 
-<% unless current_authuser.permissions.second.main_role_id == 3 %>
+<!-- <% unless current_authuser.permissions.second.main_role_id == 3 %> -->
 Add as a user  <%= link_to "Add user", clients_user_role_path %>
-<% end %>
+<!-- <% end %>-->
 
 
 
