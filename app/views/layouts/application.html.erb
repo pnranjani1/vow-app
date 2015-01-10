@@ -120,7 +120,7 @@
 
 <!-- Customers --> 
 <% if permitted_to? :index, Customer.new %>
-<li class="dropdown ">   
+<li class="dropdown">   
 <%= link_to customers_path, class: "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>
 <i class="fa fa-desktop"></i>View Customers<span class="caret"></span>
 <% end %>
@@ -190,13 +190,7 @@
   <p class= "notice"><%= notice %></p>
    <p class= "alert"><%= alert %></p>
   <%= yield %>
-  <br/><p>
-   <br/><p>
-   <br/><p>
-   <br/><p>
-   <br/><p>
-   <br/><p>
-   <br/><p>
+  
   
   
    <footer class="footer">

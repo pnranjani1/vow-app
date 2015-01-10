@@ -60,7 +60,7 @@ class ClientsController < ApplicationController
   
   def user_role
     @user = current_authuser.clients.first
-    @user.client_id = current_authuser.id
+    #@user.client_id = current_authuser.id
   end
   
   #  @user = current_authuser
