@@ -76,10 +76,12 @@
             </li>
             <li class="divider"></li>
             <li>
-              <a href="./account-login.html">
+              <%= link_to destroy_authuser_session_path do %>
+              <!--  <a href="./account-login.html"> -->
                 <i class="fa fa-sign-out"></i> 
-                &nbsp;&nbsp;Logout
-              </a>
+                 &nbsp;&nbsp;Logout
+              <% end %>
+              <!-- </a>-->
             </li>
           </ul>
         </li>
@@ -106,7 +108,7 @@
 </li>
 
 <!-- Change Role -->
-<li class="dropdown ">
+<li>
 <% if current_authuser.main_roles.count > 1 %>
 <%= link_to authusers_change_role_path do %> 
 <i class="fa fa-dashboard"></i> Change Role
@@ -116,14 +118,15 @@
   
   
 <!-- Products -->
-<li class="dropdown ">
-<%= link_to products_product_user_path, class: "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>
+<li>
+  <%= link_to products_product_user_path, class: "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>
 <i class="fa fa-align-left"></i>View Products<span class="caret"></span>    
 <% end %>
   
 <ul class="dropdown-menu">   
 <li>
   <% if current_authuser.auth_user_category.blank? %>
+  
    <%= link_to new_auth_user_category_path do %>
    <i class="fa fa-user nav-icon"></i> Add Commodity first  
   <% end %>
@@ -210,13 +213,11 @@
 </div> <!-- /.mainbar-collapse -->   
 </div> <!-- /.container --> 
 </div> <!-- /.mainbar -->
-     <%= link_to "Sign out", destroy_authuser_session_path %>
+  <!--    <%= link_to "Sign out", destroy_authuser_session_path %> -->
 <!-- <%= link_to "Sign Out", destroy_authuser_session_path, method: :delete %> -->
   <% end %>
   <%= yield %>
-   <br/><p>
-   <br/><p>
-   <br/><p>
+ 
   
   
    <footer class="footer">

@@ -1,66 +1,4 @@
-/* ========================================================
-*
-* Target Admin
-*
-* ========================================================
-*
-* File: target-admin.css
-* Version: 1.0.0
-* Author: Jumpstart Themes
-*
-* [Table of Contents]
-* 
-*   ==Buttons
-*   ==Dropdown
-*   ==Badges
-*   ==Tables
-*   ==Modal
-*   ==Progress Bars
-*   ==List Group
-*   ==Thumbnail
-*   ==Accordion
-*   ==Tabs
-*   ==Pagination
-*   ==Forms
-*   ==Labels
-*   ==Text
-* 
-*   ==Error Styles
-*   ==Navbar
-*   ==Mainbar
-*   ==Content
-*   ==Footer
-*   ==Noticebar
 
-*   ==Icons List
-*   ==Headings
-*   ==Portlets
-*   ==Progress Stat
-*   ==Row Stat
-*   ==Spark Stat
-*   ==Panel Content
-*   ==Back to Top
-
-*   ==Morris
-*   ==Calendar
-*   ==Slider
-*   ==Autosize
-*   ==Date Picker
-*   ==iCheck
-*   ==Select2
-*   ==Color Picker
-*   ==Time Picker
-*   ==Validation
-*   ==Howl
-*   ==Data Tables
-*   ==Flot
-*   ==Table Checkable
-
-*   ==Account Styles
-*   ==Support List
-* ======================================================== */
-/* ==Body */
-/* ----------------------------------------------- */
 body {
   font: 400 14px/1.6 'Open Sans', Verdana, Helvetica, sans-serif;
   background: #FFF;
@@ -596,7 +534,7 @@ fieldset[disabled] .btn-twitter.active {
   height: 100%;
   position: absolute;
   right: 0;
-  background: #111111 url(../img/gallery/zoom.png) no-repeat 50%;
+  background: #111111 url(zoom.png) no-repeat 50%;
   z-index: 10;
   opacity: 0.5;
   filter: alpha(opacity=50);
@@ -3181,7 +3119,7 @@ ul.support-list li {
   margin-left: 2.5em;
 }
 .scrollable-panel {
-  height: 700px;
+  height: 300px;
   overflow-y: hidden;
   outline: none;
 }

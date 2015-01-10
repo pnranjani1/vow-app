@@ -2,19 +2,19 @@
   font-family: 'Roboto Condensed';
   font-style: normal;
   font-weight: 300;
-  src: local('Roboto Condensed Light'), local('RobotoCondensed-Light'), url(../fonts/b9QBgL0iMZfDSpmcXcE8nNeiznanRB67rGZDYkMvKPc.woff) format('woff');
+  src: local('Roboto Condensed Light'), local('RobotoCondensed-Light'), url(fonts/b9QBgL0iMZfDSpmcXcE8nNeiznanRB67rGZDYkMvKPc.woff) format('woff');
 }
 @font-face {
   font-family: 'Roboto Condensed';
   font-style: normal;
   font-weight: 400;
-  src: local('Roboto Condensed Regular'), local('RobotoCondensed-Regular'), url(../fonts/Zd2E9abXLFGSr9G3YK2MsFzqCfRpIA3W6ypxnPISCPA.woff) format('woff');
+  src: local('Roboto Condensed Regular'), local('RobotoCondensed-Regular'), url(fonts/Zd2E9abXLFGSr9G3YK2MsFzqCfRpIA3W6ypxnPISCPA.woff) format('woff');
 }
 @font-face {
   font-family: 'Roboto Condensed';
   font-style: normal;
   font-weight: 700;
-  src: local('Roboto Condensed Bold'), local('RobotoCondensed-Bold'), url(../fonts/b9QBgL0iMZfDSpmcXcE8nCSLrGe-fkSRw2DeVgOoWcQ.woff) format('woff');
+  src: local('Roboto Condensed Bold'), local('RobotoCondensed-Bold'), url(fonts/b9QBgL0iMZfDSpmcXcE8nCSLrGe-fkSRw2DeVgOoWcQ.woff) format('woff');
 }
 
 
@@ -22,66 +22,66 @@
   font-family: 'Exo';
   font-style: normal;
   font-weight: 100;
-  src: local('Exo Thin'), local('Exo-Thin'), url(../fonts/qyfp0OSqk7TET2opvcMBmw.woff) format('woff');
+  src: local('Exo Thin'), local('Exo-Thin'), url(fonts/qyfp0OSqk7TET2opvcMBmw.woff) format('woff');
 }
 @font-face {
   font-family: 'Exo';
   font-style: normal;
   font-weight: 200;
-  src: local('Exo ExtraLight'), local('Exo-ExtraLight'), url(../fonts/z1hPnoJcXaXYata_d2utlw.woff) format('woff');
+  src: local('Exo ExtraLight'), local('Exo-ExtraLight'), url(fonts/z1hPnoJcXaXYata_d2utlw.woff) format('woff');
 }
 @font-face {
   font-family: 'Exo';
   font-style: normal;
   font-weight: 300;
-  src: local('Exo Light'), local('Exo-Light'), url(../fonts/q_s1igR8FunFvLlUJksouQ.woff) format('woff');
+  src: local('Exo Light'), local('Exo-Light'), url(fonts/q_s1igR8FunFvLlUJksouQ.woff) format('woff');
 }
 @font-face {
   font-family: 'Exo';
   font-style: normal;
   font-weight: 400;
-  src: local('Exo Regular'), local('Exo-Regular'), url(../fonts/wocyXRLWPo2Av-yUTmmbTA.woff) format('woff');
+  src: local('Exo Regular'), local('Exo-Regular'), url(fonts/wocyXRLWPo2Av-yUTmmbTA.woff) format('woff');
 }
 @font-face {
   font-family: 'Exo';
   font-style: normal;
   font-weight: 500;
-  src: local('Exo Medium'), local('Exo-Medium'), url(../fonts/yLVQVmQgTSUkafMu4HoVJA.woff) format('woff');
+  src: local('Exo Medium'), local('Exo-Medium'), url(fonts/yLVQVmQgTSUkafMu4HoVJA.woff) format('woff');
 }
 @font-face {
   font-family: 'Exo';
   font-style: normal;
   font-weight: 600;
-  src: local('Exo DemiBold'), local('Exo-DemiBold'), url(../fonts/yQnHD5L8a9aDb09o13m_pg.woff) format('woff');
+  src: local('Exo DemiBold'), local('Exo-DemiBold'), url(fonts/yQnHD5L8a9aDb09o13m_pg.woff) format('woff');
 }
 @font-face {
   font-family: 'Exo';
   font-style: normal;
   font-weight: 700;
-  src: local('Exo Bold'), local('Exo-Bold'), url(../fonts/RokIQ-knd7LT9uhmuUjL2g.woff) format('woff');
+  src: local('Exo Bold'), local('Exo-Bold'), url(fonts/RokIQ-knd7LT9uhmuUjL2g.woff) format('woff');
 }
 @font-face {
   font-family: 'Exo';
   font-style: normal;
   font-weight: 800;
-  src: local('Exo ExtraBold'), local('Exo-ExtraBold'), url(../fonts/JZqdj-HRS4iJsSlrSwRCxA.woff) format('woff');
+  src: local('Exo ExtraBold'), local('Exo-ExtraBold'), url(fonts/JZqdj-HRS4iJsSlrSwRCxA.woff) format('woff');
 }
 @font-face {
   font-family: 'Exo';
   font-style: normal;
   font-weight: 900;
-  src: local('Exo Black'), local('Exo-Black'), url(../fonts/vUUX2FySly3npcleKTbosw.woff) format('woff');
+  src: local('Exo Black'), local('Exo-Black'), url(fonts/vUUX2FySly3npcleKTbosw.woff) format('woff');
 }
 
 @font-face {
   font-family: 'PT Sans';
   font-style: normal;
   font-weight: 400;
-  src: local('PT Sans'), local('PTSans-Regular'), url(../fonts/LKf8nhXsWg5ybwEGXk8UBQ.woff) format('woff');
+  src: local('PT Sans'), local('PTSans-Regular'), url(fonts/LKf8nhXsWg5ybwEGXk8UBQ.woff) format('woff');
 }
 @font-face {
   font-family: 'PT Sans';
   font-style: normal;
   font-weight: 700;
-  src: local('PT Sans Bold'), local('PTSans-Bold'), url(../fonts/0XxGQsSc1g4rdRdjJKZrNBsxEYwM7FgeyaSgU71cLG0.woff) format('woff');
+  src: local('PT Sans Bold'), local('PTSans-Bold'), url(fonts/0XxGQsSc1g4rdRdjJKZrNBsxEYwM7FgeyaSgU71cLG0.woff) format('woff');
 }

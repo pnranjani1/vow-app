@@ -3,13 +3,20 @@
   font-family: 'PT Sans';
   font-style: normal;
   font-weight: 400;
-  src: local('PT Sans'), local('PTSans-Regular'), url(../fonts/LKf8nhXsWg5ybwEGXk8UBQ.woff) format('woff');
+  src: local('PT Sans'), local('PTSans-Regular'), url(fonts/LKf8nhXsWg5ybwEGXk8UBQ.woff) format('woff');
 }
 @font-face {
   font-family: 'PT Sans';
   font-style: normal;
   font-weight: 700;
-  src: local('PT Sans Bold'), local('PTSans-Bold'), url(../fonts/0XxGQsSc1g4rdRdjJKZrNBsxEYwM7FgeyaSgU71cLG0.woff) format('woff');
+  src: local('PT Sans Bold'), local('PTSans-Bold'), url(fonts/0XxGQsSc1g4rdRdjJKZrNBsxEYwM7FgeyaSgU71cLG0.woff) format('woff');
+}
+
+@font-face {
+  font-family: 'Exo';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Exo'), local('PTSans-Bold'), url(fonts/wocyXRLWPo2Av-yUTmmbTA.woff) format('woff');
 }
 
 
@@ -100,7 +107,7 @@ header {
 	padding: 31px 0 0 0;
 	z-index: 11;
     margin: 0 auto;    
-    background: #f8f8f8 url(../img/pattern.jpg) left top repeat;
+    background: #f8f8f8 url(pattern.jpg) left top repeat;
     border-top: 5px solid #026e11;
     -moz-box-shadow: 0 1px 5px 0 rgba(0,0,0,.3);
     -webkit-box-shadow: 0 1px 5px 0 rgba(0,0,0,.3);
@@ -178,7 +185,7 @@ nav.tm_navbar .sf-menu li:after {
 	height: 100%;
 	top: 0;
 	right: -2px;
-	background: url(../img/slash.png) right center no-repeat;
+	background: url(slash.png) right center no-repeat;
 	content: '';
 }
 nav.tm_navbar .sf-menu li a {
@@ -236,7 +243,7 @@ nav.tm_navbar .sf-menu li span {
 	position: absolute;
 	width: 100%;
 	height: 4px;
-	background: url(../img/marker.png) center bottom no-repeat;
+	background: url(marker.png) center bottom no-repeat;
 	left: 0;
 	bottom: 11px;
 	z-index: 0;
@@ -361,7 +368,7 @@ nav.tm_navbar .sub-menu > ul li > ul li a:hover {
 
 .rectbg {
     padding: 20px 50px 40px 50px;
-    background: #f8f8f8 url(../images/pattern.jpg) left top repeat;
+    background: #f8f8f8 url(pattern.jpg) left top repeat;
     -moz-border-radius: 8px;
     -webkit-border-radius: 8px;
     border-radius: 8px;
@@ -382,7 +389,7 @@ h2 {
 
 .register form {
     padding: 20px 50px 40px 50px;
-    background: #f8f8f8 url(../images/pattern.jpg) left top repeat;
+    background: #f8f8f8 url(pattern.jpg) left top repeat;
     -moz-border-radius: 8px;
     -webkit-border-radius: 8px;
     border-radius: 8px;
@@ -543,7 +550,7 @@ h2 {
 	border: none;
 	z-index: 20;
 	text-indent: -9999px;
-	background: url(../img/top.png) 0 top no-repeat;
+	background: url(top.png) 0 top no-repeat;
 }
 #toTop:hover {
 	outline: none;
@@ -709,7 +716,7 @@ h2 {
 	top: 0;
 	left: 0;
 	display: block;
-	background: url(../img/zoom.png) center center no-repeat;
+	background: url(zoom.png) center center no-repeat;
 	font-weight: normal;
 	-webkit-transform: translateY(0) translateX(0) scale(0.25);
 	transform: translateY(0) translateX(0) scale(0.25);
@@ -787,7 +794,7 @@ h2 {
 	display: inline-block;
 	float: left;
 	margin: 0 0 0 13px;
-	background: url(../img/more2.png) no-repeat;
+	background: url(more2.png) no-repeat;
 	-webkit-transition: all 0.25s;
 	-o-transition: all 0.25s;
 	transition: all 0.25s;
@@ -1495,7 +1502,7 @@ h2 {
 	height: 100%;
 	top: 0;
 	right: -9px;
-	background: url(../img/more_arrow.png) right center no-repeat;
+	background: url(more_arrow.png) right center no-repeat;
 	content: '';
 }
 .btn-default.btn1:hover {
@@ -1562,7 +1569,7 @@ h2 {
 	line-height: 1.428571429;
 	margin: 0 0 4px 0;
 	padding-left: 11px;
-	background: url(../img/list_point.png) left 8px no-repeat;
+	background: url(list_point.png) left 8px no-repeat;
 }
 .list1 li a {
 	color: #949393;
@@ -1590,7 +1597,7 @@ h2 {
 	line-height: 1.428571429;
 	margin: 0 0 13px 0;
 	padding-left: 13px;
-	background: url(../img/list_point.png) left 6px no-repeat;
+	background: url(list_point.png) left 6px no-repeat;
 }
 .list1-1 li a {
 	color: #e44554;
@@ -1612,7 +1619,7 @@ h2 {
 	line-height: 1.428571429;
 	margin: 0 0 12px 0;
 	padding-left: 21px;
-	background: url(../img/list_point.png) left 4px no-repeat;
+	background: url(list_point.png) left 4px no-repeat;
 }
 .list2 li a {
 	font: 14px 'Roboto Condensed', "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -1713,7 +1720,7 @@ h2 {
 	color: #6f6f6f;
 	margin-bottom: 17px;
 	padding-left: 30px;
-	background: url(../img/list_arrow.png) left 9px no-repeat;
+	background: url(list_arrow.png) left 9px no-repeat;
 }
 .list6 li p {
 	margin-bottom: 0;
@@ -1827,24 +1834,24 @@ h2 {
 .list_btn2 .prev {
 	float: left;
 	margin-left: -10px;
-	background: url(../img/prev.png) 0 top no-repeat;
+	background: url(prev.png) 0 top no-repeat;
 	-webkit-transition: all 0.25s;
 	-o-transition: all 0.25s;
 	transition: all 0.25s;
 }
 .list_btn2 .prev:hover {
-	background: url(../img/prev.png) 0 bottom no-repeat;
+	background: url(prev.png) 0 bottom no-repeat;
 }
 .list_btn2 .next {
 	float: right;
 	margin-right: -10px;
-	background: url(../img/next.png) 0 top no-repeat;
+	background: url(next.png) 0 top no-repeat;
 	-webkit-transition: all 0.25s;
 	-o-transition: all 0.25s;
 	transition: all 0.25s;
 }
 .list_btn2 .next:hover {
-	background: url(../img/next.png) 0 bottom no-repeat;
+	background: url(next.png) 0 bottom no-repeat;
 }
 /*------------------isotop items------------------*/
 .isotope, .isotope .isotope-item {
@@ -1914,8 +1921,8 @@ h2 {
 	top: 0;
 	left: 0;
 	display: block;
-	background: #b40705 url(../img/zoom.png) center center no-repeat;
-	background: rgba(180, 7, 5, 0.5) url(../img/zoom.png) center center no-repeat;
+	background: #b40705 url(zoom.png) center center no-repeat;
+	background: rgba(180, 7, 5, 0.5) url(zoom.png) center center no-repeat;
 	font-weight: normal;
 	-webkit-transform: translateY(0) translateX(0) scale(0.25);
 	transform: translateY(0) translateX(0) scale(0.25);
@@ -2183,6 +2190,7 @@ h2 {
 footer {
 	padding: 20px 0;
 	overflow: hidden;
+  background-color: #026e11;
 }
 footer .prev {
 	font: 13px 'Exo';

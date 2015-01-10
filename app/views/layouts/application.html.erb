@@ -30,7 +30,7 @@
    
 <div class="navbar">
  <div class="container">
-  
+    
    <div class="navbar-header">
   <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
   <i class="fa fa-cogs"></i>
@@ -72,10 +72,12 @@
             </li>
             <li class="divider"></li>
             <li>
-              <a href="./account-login.html">
+              <%= link_to destroy_authuser_session_path do %>
+            <!--  <a href="./account-login.html"> -->
                 <i class="fa fa-sign-out"></i> 
-                &nbsp;&nbsp;Logout
-              </a>
+                 &nbsp;&nbsp;Logout
+              <% end %>
+              <!-- </a>-->
             </li>
           </ul>
         </li>
@@ -185,12 +187,15 @@
 
 
   <!-- <%= link_to "Sign Out", destroy_authuser_session_path, method: :delete %> -->
-   <%= link_to "Sign out", destroy_authuser_session_path %>
+   <!-- <%= link_to "Sign out", destroy_authuser_session_path %> -->
+ 
   <% end %>
-  <p class= "notice"><%= notice %></p>
-   <p class= "alert"><%= alert %></p>
+    
+  
   <%= yield %>
   
+  <p class= "notice"><%= notice %></p>
+   <p class= "alert"><%= alert %></p>
   
   
    <footer class="footer">
