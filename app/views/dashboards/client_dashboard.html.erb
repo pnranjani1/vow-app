@@ -1,44 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
 
+ 
+</head>
 
-<hr><p>
-You have <%= pluralize(@users.count, 'User') %><br/>
+<body>
 
-<h3> Manage Users </h3>
+ <div class="container">
+ <div class="content">
+ <div class="content-container">     
+   <div>
+    <h4 class="heading-inline"><%= current_authuser.name %></h4>        
+   </div>
+ <br>
 
-<%= link_to "Invite User", new_authuser_invitation_path %><br/><p>
-<% c = current_authuser.clients.first.id %>
+   
+   <div class="row">   
+   
+ <div class="col-sm-6 col-md-3">
+ <div class="row-stat">
+ <p class="row-stat-label">Total Users</p>
+   <h3 class="row-stat-value"><%= @users_count %></h3>
+ <span class="label label-success row-stat-badge"></span>
+ </div> <!-- /.row-stat -->
+ </div> <!-- /.col -->
 
-
-Add as a user  <%= link_to "Add user", clients_user_role_path %>
-
-
-
-
-
-<h3> Approved Users </h3>
-<% @users.each do |user| %>
-<% if user.authuser.approved == true %>
-<ul>
+ 
+ </div> <!-- row ends here-->
+       
+       
+ <div class="row">
+ <div class="portlet portlet-table">
+ 
+ <div class="portlet-header">
+ <h3><i class="fa fa-group"></i>               
+   You have <%= pluralize(@users.count, 'User') %><br/></h3>
+ </div> <!-- Portlet header ends -->
+   
+ <div class="portlet-content">
+ <div class="table-responsive">
+ <table id="user-signups"class="table table-striped table-bordered table-checkable"> 
+      
+ <thead> 
+ <tr> 
+ <th>Name</th> 
+ <th>Current Status</th> 
+ <th>Membership End Date</th>
+ <th>No of Cash based Applications</th> 
+ <th>No of Esugam Generated</th> 
+ <th>Activate/De-Activate User</th>
+ </tr> 
+ <thead> 
+      
+ <tbody>
+   <% @users.each do |user| %>
+   <% userid = user.authuser.id %>
    <% c = user.authuser.membership.id %>
-   <li> <%=  user.authuser.name %> |
-    <%= link_to "Membership Details", edit_membership_path(c) %>|
-    <%= link_to "De-activate User" , de_activate_user_path(user.authuser.id), method: :put %></li>
-</ul>
-<% end %>
-<% end %>
-<br/>
-<h3> Non approved Users </h3>
-<% @users.each do |user| %>
-<% if user.authuser.approved == false %>
-<% c = user.authuser.membership.id %>
-<ul>
-  <li><%= link_to user.authuser.name %> |
-  <%= link_to "Approve User" , activate_user_path(user.authuser.id), method: :put %></li>
+   <% @bills = user.authuser.bills %>
+   <% @cash_based_applications = @bills.where("ESUGAM IS NULL") %>
+   <% @esugam = @bills.where("ESUGAM IS NOT NULL") %>
+  
+   
+ <tr>
+   <td class="hidden-xs"><%= link_to user.authuser.name, authuser_path(userid)  %></td>
+   <td><%= user.authuser.approved %></td>
+   <td><%= link_to user.authuser.membership.membership_end_date.strftime("%d %b %Y") , edit_membership_path(c) %></td> 
+   <td><%= @cash_based_applications.count %></td>
+   <td><%= @esugam.count %></td>
+       
+   <% if user.authuser.approved == false %>
+   <td><%= link_to "Approve User" , activate_user_path(user.authuser.id), method: :put, data: {confirm: "Are You sure you want to approve the user"} %></td>
+     
+   <% elsif user.authuser.approved == true %>       
+   <td><%= link_to "De-activate User" , de_activate_user_path(user.authuser.id), method: :put, data: {confirm: "Are You sure you want to de-activate the user?"}  %></td> 
+<% end %>   
 
-</ul>
-
+</tr>
 <% end %>
-<% end %><br/>
+</tbody>    
+</table>
+  
+                       
+<div class="portlet-footer">
+<div class="text-right"> 
+  
+  Invite User <%= link_to new_authuser_invitation_path do %><button class="btn btn-success">Invite User</button>
+<% end %>
+</div> <!-- text-right ends here -->
+ </div> <!-- /.portlet-footer -->
+ </div> <!-- /.table-responsive -->
+ <div> <!-- /.portlet-content -->
+
+ </div> <!-- /.portlet -->
+ </div> <!-- /.row -->
+ 
+ 
+   
+   </div><!-- content container ends here -->
+   </div><!-- content ends here -->
+  </div><!-- container ends here -->
+  
+  </body>
+</html>
+
 
 
 

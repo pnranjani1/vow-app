@@ -1,5 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+
+ 
+</head>
+
+<body>
+
+ <div class="container">
+ <div class="content">
+ <div class="content-container">     
+   <div>
+    <h4 class="heading-inline"><%= current_authuser.name %></h4>        
+   </div>
+ <br>
+
 <h3> Membership Details </h3>
 Phone Number : <%= @membership.phone_number %><br/>
 Membership Start Date : <%= @membership.membership_start_date.strftime("%b %d, %y") %><br/>
 Memebership End Date : <%= @membership.membership_end_date.strftime("%b %d, %y") %><br/>
 Membership Status : <%= @membership.membership_status %>
+   
+   </div><!-- content container ends here -->
+   </div><!-- content ends here -->
+  </div><!-- container ends here -->
+  
+  </body>
+</html>
+

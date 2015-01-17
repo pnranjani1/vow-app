@@ -1,16 +1,90 @@
-<h2>Forgot your password?</h2>
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Vatonwheels</title>
+<meta charset="utf-8">    
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="description" content="Your description">
+<meta name="keywords" content="Your keywords">
+<meta name="author" content="Your name">
+<meta name = "format-detection" content = "telephone=no" />
+</head>
+  
+<body>
+<!--header-->
+
+<header class="clearfix">
+    <div class="container">
+       <h1 class="navbar-brand navbar-brand_ wow fadeInDown"><a href="index.html">Vatonwheels.com</a></h1>       
+       <ul class="follow_icon">
+              <li><a href="https://www.facebook.com/IPrimitusConsultancyServices" class="fa fa-facebook"></a></li>
+<li><a href="https://twitter.com/iPrimitus" class="fa fa-twitter"></a></li>
+<li><a href="https://www.linkedin.com/company/iprimitus-consultancy-services" class="fa fa-linkedin"></a></li>
+<li><a href="https://plus.google.com/108877132961366118945/videos" class="fa fa-google-plus"></a></li>
+                <li><a href="#" class="fa fa-youtube"></a></li>
+            </ul>
+    </div>   
+</header>
+
+<!--content-->
+ 
+<div class="content"> 
+<div class="register-container container">
+<div class="row"> 
+<div class="covrpage">         
+<div class="register">
+  <h2> Forgot Password </h2>
+  
 <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
-  <%= devise_error_messages! %>
+ <%= devise_error_messages! %>
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Send me reset password instructions" %>
-  </div>
+<div class="field">
+<%= f.label :email %><br />
+<%= f.email_field :email, autofocus: true %>
+</div>
+<br/>
+<div class="actions">
+  <%= f.submit "Send me reset password instructions", class: "grenbutton" %>
+</div>
 <% end %>
-
+<br/>
 <%= render "devise/shared/links" %>
+  
+</div>
+</div>
+   
+</div>
+</div>
+</div>
+
+  
+  
+  
+
+<!--footer-->
+<footer>
+<div class="container">
+<div class="row">
+<div class="col-lg-6 col-md-6 col-sm-12 wow fadeInUp"> 
+<div class="title">&copy; 2015 vatonwheels.com</div>
+<p class="prev"><a href="index-5.html">Privacy Policy</a></p>                 
+</div>  
+   
+<div class="col-lg-6 col-md-6 col-sm-12 wow fadeInUp">                             
+<div class="title">Design and Developed by</div>
+<p ><a href="http://iprimitus.com" target="_blank" class="iprim">iprimitus.com</a></p>
+</div>         
+                   
+            
+            
+</div>
+</div>
+  <!-- {%FOOTER_LINK} -->
+</footer>
+
+</body>
+</html>
+
+

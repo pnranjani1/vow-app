@@ -26,7 +26,9 @@
          <div class="portlet-footer">
        <div class="text-right">     
          Add Product <%= link_to  new_product_path do %>      
-       <button class="btn btn-sm btn-default">New</button>
+       <!-- <button class="btn btn-sm btn-default">New</button> -->
+         <button class="btn btn-success">Add Product</button>
+         
          <% end %>
          
        </div>
@@ -38,7 +40,7 @@
       <th> Units</th>
       <th> Belongs to Commodity</th> 
       <th> Edit </th>
-      <th> Delete </th>
+     
       </tr> 
       </thead> 
       <tbody> 
@@ -47,36 +49,30 @@
      <td><%= product.product_name %> </td>
      <td><%= product.units%> </td>
      <td><%= product.usercategory.commodity_name%> </td>
-     <td><%= link_to "Edit Product", edit_product_path(product.id), class: "btn btn-xs btn-primary" %></td>
-     <td><%= link_to "Delete Product", product_path(product.id), class:"btn btn-xs btn-primary", method: :delete, data: {confirm: "Are you sure you want to delete the product?"} %> </td>
+     <td><%= link_to edit_product_path(product.id), class: "btn btn-xs btn-primary" do %>
+<i class="fa fa-edit"></i>
+  <% end %>
+  </td> 
+ 
+   
         
         </tr>     
         <% end %>
         </tbody> 
         </table>
         
-        <h3> Import Products </h3>
-<%= form_tag products_product_import_path, multipart: true do %><br/>
-  <%= file_field_tag :file %> <br/><p>
-<%= submit_tag "Import Products" %>
+            
+<div class="portlet-footer">
+<div class="text-right">     
+Add Product <%= link_to  new_product_path do %>      
+<button class="btn btn-success">Add Product</button>
 <% end %>
-<br/>
-<%= link_to "Download Available Commodity List", products_usercategory_product_path(format: "xls") %> 
-<br/><p>
-<%= link_to "Format for Importing Products", products_product_download_path(format: "xls") %> 
-<p><b>Note: </b>When importing .xls files, save the file as <b>"excel 97-2003 workbook"</b> format to avoid errors</p>
-<br/><p>
-
- 
-        
-       <div class="portlet-footer">
-       <div class="text-right">     
-         Add Product <%= link_to  new_product_path do %>      
-       <button class="btn btn-sm btn-default">New</button>
-         <% end %>
-       </div>
-            </div> <!-- /.portlet-footer -->
+</div>
+</div> <!-- /.portlet-footer -->
                   
+   
+ 
+    
 
               </div> <!-- /.table-responsive -->
         <% end %>

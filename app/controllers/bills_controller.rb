@@ -1,7 +1,7 @@
 #require 'builder'
 class BillsController < ApplicationController
   #layout 'menu', :only => [:user_bill, :new, :create, :show, :local_sales, :interstate_sales, :tally_import]
-   layout_by_action [:user_bill, :new, :create, :show, :local_sales, :interstate_sales, :tally_import, :esnget, :bill_reports] => "menu"
+   layout_by_action [:user_bill, :new, :create, :show, :local_sales, :interstate_sales, :tally_import, :esnget, :bill_reports, :bill_local_sales_reports, :bill_interstate_sales_reports, :bill_tally_import_reports] => "menu"
   #, user_bill_summary: "menu1"
   
  #layout 'client', :only => [:user_bill_summary]
@@ -103,8 +103,16 @@ class BillsController < ApplicationController
      end
  
   
-  def bill_reports
+  def bill_local_sales_reports
   end
+  
+  def bill_interstate_sales_reports
+  end
+  
+  def bill_tally_import_reports
+  end
+  
+  
   
   def user_bill_summary
     @user = User.where(:client_id => current_authuser.id)

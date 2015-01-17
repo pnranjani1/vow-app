@@ -15,6 +15,7 @@
 //= require turbolinks
 //= require jquery
 //= require jquery_ujs
+//= require jquery-ui
 //= require nested_form
 //= require_tree .
 //= require bootstrap.min
@@ -28,5 +29,8 @@
 //= require target-admin
 //= require touchTouch.jquery
 //= require jquerycommen
+//= require bootstrap-fileupload
+//= require bootstrap-datepicker
+//= require form-extended
 
 

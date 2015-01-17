@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+
+</head>
+
+<body>
+
+ <div class="container">
+ <div class="content">
+ <div class="content-container">     
+   <div>
+    <h4 class="heading-inline"> Reports </h4>        
+   </div>
+ <br>
+ 
+
+<div class="row"> 
+<div class="portlet">
+
+<div class="portlet-header">
+<h3><i class="fa fa-user"></i>Interstate Sales XML</h3>
+</div> <!-- /.portlet-header -->
+
+<div class="portlet-content">
+       
+<div class="col-sm-8"> 
+<div class="row">  
+<div class="col-md-6">
+<div id="name" class="input-group">               
+  
+  <script>
+   $(function() {
+    $("#local_sales").monthpicker();
+    $("#interstate_sales").monthpicker();
+     });
+  </script>
+
+
+
+<script type="text/javascript">
+        $(function () {
+            $("#start_date").datepicker({ dateFormat: "dd/mm/yy" }).val()
+            $("#end_date").datepicker({ dateFormat: "dd/mm/yy" }).val()
+        });
+</script>
+
+<%= form_tag bills_interstate_sales_path(:format => "xml"), method: :get do %>
+<%= text_field_tag :choose_month, params[:choose_month], :id => "interstate_sales" , placeholder: "Select date to Generate Interstate Sales xml", class: "btn btn-default fileupload-exists"  %>
+   <%= submit_tag "Download" ,class: "btn btn-success"%>
+<% end %>
+
+ 
+
+</div>
+</div>
+</div>
+  </div>
+  
+  
+  </div>
+  </div>
+   </div>
+
+
+
+   
+   </div><!-- content container ends here -->
+   </div> <!-- content ends here -->
+  </div><!-- container ends here-->
+  
+  </body>
+</html>
+
+

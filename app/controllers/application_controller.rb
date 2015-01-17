@@ -68,7 +68,7 @@ class ApplicationController < ActionController::Base
     end
     
     def after_sign_out_path_for(authuser)
-      return root_path
+      return new_authuser_session_path
     end
   
   def after_update_profile_path_for(authuser)

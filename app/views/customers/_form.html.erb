@@ -1,3 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+
+</head>
+
+<body>
+
+ <div class="container">
+ <div class="content">
+ <div class="content-container">   
+   
+<div>
+<h4 class="heading-inline">Customers</h4>        
+</div>
+
+<br>
+<div class="row"> 
+<div class="portlet">
+
+<div class="portlet-header">
+<h3><i class="fa fa-user"></i> New customer</h3>
+</div> <!-- /.portlet-header -->
+
+<div class="portlet-content">
+        
 <%= form_for @customer do |f| %>
 <% if @customer.errors.any? %>
 <% @customer.errors.full_messages.each do|error|  %>
@@ -6,18 +35,73 @@
 </ul>
 <% end %>
 <% end %>
-<label> Name </label><br/>
-<%= f.text_field :name %><br/><p>
-<label> Email </label><br/>
-<%= f.text_field :email %><br/><p>
-<label> Tin Number <label><br/>
-<%= f.text_field :tin_number %><br/><p>
-<label> Phone number <label><br/>
-<%= f.text_field :phone_number %><br/><p>
-  <label> Address </label><br/>
-  <%= f.text_field :address %><br/><p>
-  <label> City </label><br/>
-  <%= f.text_field :city %><br/><p>
-  <%= f.submit %>
-  <% end %>
+<div class="row">    
+<div class="col-sm-6">           
+Name
+<div id="name" class="input-group">               
+<%= f.text_field :name, class: "form-control" %>
+<span class="input-group-addon"><i class="fa fa-user"></i></span>
+</div>
+</div> <!-- /.col -->
+
+<div class="col-sm-6">           
+Email
+<div id="email" class="input-group">          
+  <%= f.text_field :email, class: "form-control" %>
+<span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+</div>
+</div> <!-- /.col -->
+     
+<div class="col-sm-6">           
+Tin Number
+<div id="number" class="input-group">               
+<%= f.text_field :tin_number, class: "form-control" %>
+<span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
+</div>
+</div> <!-- /.col -->
+
+<div class="col-sm-6">           
+Phone Number
+<div id="phone" class="input-group">               
+<%= f.text_field :phone_number , class: "form-control" %>
+<span class="input-group-addon"><i class="fa fa-phone"></i></span>
+</div>
+</div> <!-- /.col -->
+  
+<div class="col-sm-6">           
+Address
+<div id="Password" class="form-group">               
+<%= f.text_field :address, class: "form-control" %>
+</div>
+</div> <!-- /.col -->
+            
+  
+<div class="col-sm-6">           
+City
+<div id="City" class="input-group">               
+<%= f.text_field :city , class: "form-control" %>
+<span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+</div>
+</div> <!-- /.col -->
+  </div>
+<div class="row portlet-content">       
+<%= f.submit "Create Customer", class: "btn btn-success" %>
+</div>
+<% end %>
+
+
+</div> <!-- /.portlet-content -->
+</div> <!-- /.portlet -->
+</div> <!-- /.row -->
+   
+   
+</div> <!--  content container ends here -->
+</div> <!-- content ends here -->
+</div> <!-- container ends here -->
+  
+</body>
+</html>
+
+
+
   

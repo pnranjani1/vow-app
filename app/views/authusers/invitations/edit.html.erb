@@ -1,93 +1,244 @@
-<h2><%= t 'devise.invitations.edit.header' %></h2>
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+</head>
+
+<body>
+
+<header class="clearfix">
+<div class="container">
+<h1 class="navbar-brand navbar-brand_ wow fadeInDown"><a href="index.html">Vatonwheels.com</a></h1>      
+<ul class="follow_icon">
+<li><a href="https://www.facebook.com/IPrimitusConsultancyServices" class="fa fa-facebook"></a></li>
+<li><a href="https://twitter.com/iPrimitus" class="fa fa-twitter"></a></li>
+<li><a href="https://www.linkedin.com/company/iprimitus-consultancy-services" class="fa fa-linkedin"></a></li>
+<li><a href="https://plus.google.com/108877132961366118945/videos" class="fa fa-google-plus"></a></li>
+<li><a href="#" class="fa fa-youtube"></a></li>
+</ul>
+</div>   
+</header>
+  <br/><p>
+  
+<div class="container">
+<div class="content">
+<div class="content-container">      
+  
+<div>
+  <div align="center"><h2 class="heading-inline">User Registration</h2></div>
+</div>
+<br>
 
 <%= form_for resource, :as => resource_name, :url => invitation_path(resource_name), :html => { :method => :put } do |f| %>
   <%= devise_error_messages! %>
   <%= f.hidden_field :invitation_token %>
 
-<div class="field">
-  <%= f.label :Name %><br />
-  <%= f.text_field :name, autofocus: true %>
-  </div>
+  
+<div class="row"> 
+<div class="portlet">
+  
+<div class="portlet-header">
+  <h3><i class="fa fa-user"></i>User Details</h3>
+</div> <!-- /.portlet-header -->
 
+<div class="portlet-content">
 
-  <div class="field">
-    <label>Password </label><br/>
-    <%= f.password_field :password %><br/><p>
-  </div>
+<div class="row">
 
-   <p><%= f.label :password_confirmation %><br />
-  <%= f.password_field :password_confirmation %></p>
+<div class="col-sm-4">           
+  Name
+<div id="name" class="input-group">      
+<%= f.text_field :name , class: "form-control", autofocus: true %>
+<span class="input-group-addon"><i class="fa fa-user"></i></span>
+</div>
+</div> <!-- /.col -->
+            
 
-
-<div>
-  <%= f.fields_for :address do |user_address| %>
-  <label> Address 1</label><br/>
-  <%= user_address.text_field :address_line_1 %><br><p>
+            
+<div class="col-sm-4">           
+  Password
+<div id="Password" class="input-group">               
+<%= f.password_field :password , class: "form-control" %>
+<span class="input-group-addon"><i class="fa fa-star"></i></span>
 </div>
-    
-<div>
-  <label> Address 2</label><br/>
-  <%= user_address.text_field :address_line_2 %><br/><p>
+</div> <!-- /.col -->
+            
+<div class="col-sm-4">           
+Confirm Password
+<div id="Password" class="input-group">               
+<%= f.password_field :password_confirmation , class: "form-control" %>
+<span class="input-group-addon"><i class="fa fa-star"></i></span>
 </div>
-    
-<div>
-  <label> Address 3 </label><br/>
-  <%= user_address.text_field :address_line_3 %><br/>
-</div>
-    
-<div>
-  <label> City </label><br/>
-  <%= user_address.text_field :city %><br/><p>
-</div>
-    
-<div>
-   <label> Country </label><br/>
-  <%= user_address.text_field :country %><br/><p>
-</div>
-<% end %>
-    
-<div>
-  <%= f.fields_for :bankdetail do |user_bank| %>
-  <label> Bank Account Number </label><br/>
-  <%= user_bank.text_field :bank_account_number %><br/><p>
-</div>
-    
-<div>
-  <label> IFSC Code </label><br/>
-  <%= user_bank.text_field :ifsc_code  %><br/><p>
- </div>
- <% end %>
-    
-<div>
-  <%= f.fields_for :membership do |user_membership| %>
-  <label> Phone Number </label><br/>
-  <%= user_membership.text_field :phone_number %><br><p>
-</div>
-
-<div>
+</div> <!-- /.col -->
+</div> <!-- row ends here -->
+  
+ <%= f.fields_for :membership do |user_membership| %>
   <%= user_membership.hidden_field :membership_start_date, :value => Date.today %>
   <%= user_membership.hidden_field :membership_end_date, :value => Date.today + 1.year %>
-  <br/><p>
+  
+ 
+  
+  <div class="row">
+<div class="col-sm-4">           
+Phone Number
+<div id="phone" class="input-group">      
+<%= user_membership.text_field :phone_number , class: "form-control" %>
+<span class="input-group-addon"><i class="fa fa-phone"></i></span>
 </div>
-    <% end %>
-    
-<div>
-  <%= f.fields_for :users do |user_detail| %>
-  <label> Tin Number </label><br/>
-  <%= user_detail.text_field :tin_number %><br/><p>
-</div>
-    
-<div>
-  <label> Esugam Username </label><br/>
-  <%= user_detail.text_field :esugam_username %><br/><p>
-</div>
-    
-<div>
-  <label> Esugam Password </label><br/>
-  <%= user_detail.password_field :esugam_password %><br/><p>
-</div>
-<% end %>
+</div> <!-- /.col -->
+ <% end %>  
+  
+</div> <!-- row ends here -->
+</div> <!-- /.portlet-content -->
+</div> <!-- /.portlet -->
+</div> <!-- /.row -->
+  <!-- client details ends here -->
+  
+<div class="row"> 
+<div class="portlet">
+  
+<div class="portlet-header">
+<h3><i class="fa fa-user"></i>Address Details</h3>
+</div> <!-- /.portlet-header -->
 
+<div class="portlet-content">
 
-  <p><%= f.submit t("devise.invitations.edit.submit_button") %></p>
+<div class="row">
+<%= f.fields_for :address do |user_address| %>
+<div class="col-sm-4">           
+Address 1
+<div id="Password" class="form-group">
+  <%= user_address.text_area :address_line_1, class: "form-control" %>
+</div>
+</div> <!-- /.col -->
+            
+<div class="col-sm-4">           
+Address 2
+<div id="Password" class="form-group">             
+  <%= user_address.text_area :address_line_2 , class: "form-control" %>
+</div>
+</div> <!-- /.col -->
+            
+<div class="col-sm-4">           
+Address 3
+<div id="Password" class="form-group">        
+  <%= user_address.text_area :address_line_3 , class: "form-control" %>
+</div>
+</div> <!-- /.col -->
+            
+<div class="col-sm-6">           
+City
+<div id="City" class="input-group">            
+<%=user_address.text_field :city , class: "form-control" %>
+<span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+</div>
+</div> <!-- /.col -->
+
+<div class="col-sm-6">           
+Country
+<div id="Country" class="input-group">       
+<%=user_address.text_field :country , class: "form-control" %>
+<span class="input-group-addon"><i class="fa fa-globe"></i></span>
+</div>
+</div> <!-- /.col -->
+
+<% end %>  
+</div> <!-- row ends here -->
+</div> <!-- /.portlet-content -->
+</div> <!-- /.portlet -->
+</div> <!-- /.row -->
+  <!-- address ends here -->
+  
+<div class="row"> 
+<div class="portlet">
+  
+<div class="portlet-header">
+<h3><i class="fa fa-user"></i>Bank Details</h3>
+</div> <!-- /.portlet-header -->
+
+<div class="portlet-content">
+
+<div class="row">
+<%= f.fields_for :bankdetail do |user_bank_detail| %>
+<div class="col-sm-4">           
+Bank Account Number
+<div id="Number" class="input-group">    
+<%= user_bank_detail.text_field :bank_account_number, class: "form-control"  %>
+<span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
+</div>
+</div> <!-- /.col -->
+            
+<div class="col-sm-4">           
+IFSC Code 
+<div id="ifsccode" class="input-group">              
+<%= user_bank_detail.text_field :ifsc_code, class: "form-control"  %>
+<span class="input-group-addon"><i class="fa fa-star"></i></span>
+</div>
+</div> <!-- /.col -->
+           
+<% end %>  
+</div> <!-- row ends here -->
+</div> <!-- /.portlet-content -->
+</div> <!-- /.portlet -->
+</div> <!-- /.row -->
+  
+  <!-- bank detail ends here -->
+  
+  
+<div class="row"> 
+<div class="portlet">
+  
+<div class="portlet-header">
+<h3><i class="fa fa-user"></i>Company Details</h3>
+</div> <!-- /.portlet-header -->
+
+<div class="portlet-content">
+
+<%= f.fields_for :users do |user| %>
+<div class="row">
+<div class="col-sm-3">           
+Tin Number
+<div id="number" class="input-group"> 
+<%= user.text_field :tin_number, class: "form-control" %>
+<span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
+</div>
+</div> <!-- /.col -->
+            
+<div class="col-sm-3">           
+Esugam Username 
+<div id="name" class="input-group" >        
+<%= user.text_field :esugam_username, class: "form-control" %>
+<span class="input-group-addon"><i class="fa fa-user"></i></span>
+</div>
+</div> <!-- /.col -->
+            
+<div class="col-sm-3">           
+Esugam Password
+<div id="Password" class="input-group">   
+  <%= user.password_field :esugam_password, class: "form-control" %>
+<span class="input-group-addon"><i class="fa fa-star"></i></span>
+</div>
+</div> <!-- /.col -->
 <% end %>
+  
+
+</div> <!-- row ends here -->
+</div> <!-- /.portlet-content -->
+</div> <!-- /.portlet -->
+</div> <!-- /.row -->
+  <!-- company detail ends here -->
+
+<div class="row">   
+  <%= f.submit t("devise.invitations.edit.submit_button"), class: "btn btn-success" %>
+  </div> 
+ 
+<% end %>
+  </div><!--  content container ends here -->
+  </div><!--content  ends here -->
+  </div><!-- container ends here -->
+  </body>
+</html>
+

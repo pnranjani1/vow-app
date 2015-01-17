@@ -4,10 +4,6 @@
   <meta charset="utf-8">
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width">
-
-  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,700italic,400,600,700">
-  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Oswald:400,300,700">
- 
 </head>
 
 <body>
@@ -66,20 +62,21 @@
  <tbody>
   <% @current_authuser_clients.each do |client| %>
   <% clientid = client.authuser.id %>
+   <%  c = client.authuser.membership.id %>
   <% @user = User.where(:client_id => clientid) %>
   <% @user_count = @user.count %>
   
  <tr>
- <td class="hidden-xs"><%= client.authuser.name %></td>
+   <td class="hidden-xs"><%= link_to client.authuser.name, authuser_path(clientid)  %></td>
  <td><%= client.authuser.approved %></td>
- <td><%= client.authuser.membership.membership_end_date.strftime("%d %b %Y") %></td> 
+   <td><%= link_to  client.authuser.membership.membership_end_date.strftime("%d %b %Y"), edit_membership_path(c)  %></td> 
  <td><%= @user_count %></td>
        
   <% if client.authuser.approved == false %>
-<td><%= link_to "Approve User" , activate_user_path(client.authuser.id), method: :put %></td>
+   <td><%= link_to "Approve User" , activate_user_path(client.authuser.id), method: :put, data: {confirm: "Are You sure you want to approve the client?"} %></td>
      
 <% elsif client.authuser.approved == true %>       
-<td><%= link_to "De-activate User" , de_activate_user_path(client.authuser.id), method: :put %></td> 
+<td><%= link_to "De-activate User" , de_activate_user_path(client.authuser.id), method: :put, data: {confirm: "Are You sure you want to de-activate the client?"}  %></td> 
 <% end %>   
 
 </tr>
@@ -90,15 +87,18 @@
                        
 <div class="portlet-footer">
 <div class="text-right">    
-Create a Chartered Accountant <%= link_to authusers_admin_new_path do %> <button class="btn btn-sm btn-default">Create CA</button>
+Create a Chartered Accountant <%= link_to authusers_admin_new_path do %> <button class="btn btn-success">Create CA</button>
 <% end %>
 </div> <!-- text-right ends here -->
  </div> <!-- /.portlet-footer -->
+   
+   
  </div> <!-- /.table-responsive -->
  <div> <!-- /.portlet-content -->
 
  </div> <!-- /.portlet -->
  </div> <!-- /.row -->
+   
  </div> <!-- /.content-container -->
  </div> <!-- /.content -->
  </div> <!-- /.container -->

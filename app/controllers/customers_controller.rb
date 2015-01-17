@@ -1,6 +1,6 @@
 class CustomersController < ApplicationController
   #layout 'menu', :only => [:user_customer, :new, :create, :edit, :update, :show, :destroy, :customer_import]
-    layout_by_action [:user_customer, :new, :create, :edit, :update, :show, :destroy, :customer_import] => "menu"
+    layout_by_action [:user_customer, :new, :create, :edit, :update, :show, :destroy, :customer_import, :customer_import_report] => "menu"
      
   filter_access_to :all
   before_filter :authenticate_authuser!
@@ -57,6 +57,9 @@ class CustomersController < ApplicationController
   def customer_import
     Customer.import(params[:file], current_authuser.id)
     redirect_to customers_user_customer_path, notice: "Customers Imported"
+  end
+  
+  def customer_import_report
   end
     
   

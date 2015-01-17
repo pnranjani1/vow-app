@@ -10,8 +10,6 @@
   <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
   <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
   
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,700italic,400,600,700">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald:400,300,700">
  
    <%= csrf_meta_tags %>
   
@@ -23,9 +21,8 @@
 </head>
  <body> 
   
-  <p class= "notice"><%= notice %></p>
-  <p class= "alert"><%= alert %></p>
-   
+ 
+  
   <% if authuser_signed_in? %>
    
 <div class="navbar">
@@ -57,23 +54,15 @@
           <ul class="dropdown-menu" role="menu">
 
             <li>
-              <a href="./page-profile.html">
+              <%= link_to authusers_client_new_path do %>
+<!-- <a href="./page-profile.html">-->
+                <i class="fa fa-user"></i> 
+              <!-- <a href="./page-profile.html"> -->
                 <i class="fa fa-user"></i> 
                 &nbsp;&nbsp;My Profile
-              </a>
+              <% end %>
             </li>
-            <li>
-              <a href="./page-pricing.html">
-                <i class="fa fa-dollar"></i> 
-                &nbsp;&nbsp;Plans &amp; Billing
-              </a>
-            </li>
-            <li>
-              <a href="./page-settings.html">
-                <i class="fa fa-cogs"></i> 
-                &nbsp;&nbsp;Settings
-              </a>
-            </li>
+            
             <li class="divider"></li>
             <li>
               <%= link_to destroy_authuser_session_path do %>
@@ -101,14 +90,23 @@
 <ul class="nav navbar-nav mainbar-nav">
         
 <!-- Dashboards -->
-<li class= "active">
-<%= link_to dashboards_user_dashboard_path do %>
+  <% if controller.controller_name == "dashboards" %>
+  <li class="active">
+    <% else %>
+    <li>
+      <% end %>
+  <%= link_to dashboards_user_dashboard_path  do %>
 <i class="fa fa-dashboard"></i> Dashboard
 <% end %>
 </li>
 
 <!-- Change Role -->
-<li>
+  <% if controller.action_name == "change_role" %>
+<li class= "active dropdown">
+  <% else %>
+  <li>
+    <% end %>
+
 <% if current_authuser.main_roles.count > 1 %>
 <%= link_to authusers_change_role_path do %> 
 <i class="fa fa-dashboard"></i> Change Role
@@ -117,36 +115,16 @@
 </li>
   
   
-<!-- Products -->
-<li>
-  <%= link_to products_product_user_path, class: "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>
-<i class="fa fa-align-left"></i>View Products<span class="caret"></span>    
-<% end %>
-  
-<ul class="dropdown-menu">   
-<li>
-  <% if current_authuser.auth_user_category.blank? %>
-  
-   <%= link_to new_auth_user_category_path do %>
-   <i class="fa fa-user nav-icon"></i> Add Commodity first  
-  <% end %>
-  <% elsif current_authuser.products.blank? %>
-  <%= link_to new_product_path do %>
-  <i class="fa fa-user nav-icon"></i> Add Product  
-  <% end %>
-  <% else %>
- <%= link_to products_product_user_path do %>
-<i class="fa fa-user nav-icon"></i> Manage Products</li>  
-<% end %>
-  <% end %>
-</ul>
-</li>
-
 
 <!-- User Commodities -->
-<li class="dropdown ">   
+  <% if controller.controller_name == "auth_user_categories" %>
+  <li class="active dropdown">
+    <% else %>
+    <li class="dropdown ">   
+      <% end %>
+
 <%= link_to auth_user_categories_path, class: "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>
-<i class="fa fa-files-o"></i>View Commodities<span class="caret"></span>
+<i class="fa fa-files-o"></i> Commodities<span class="caret"></span>
 <% end %>
 
 <ul class="dropdown-menu">   
@@ -164,11 +142,49 @@
 </li>
 
   
+<!-- Products -->
+  <% if controller.controller_name == "products" %>
+  <li class="active dropdown">
+    <% else %>
+    <li class="dropdown ">   
+      <% end %>
+
+  <%= link_to products_product_user_path, :class => "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>
+<i class="fa fa-align-left"></i>Products<span class="caret"></span>    
+<% end %>
+  
+<ul class="dropdown-menu">   
+<li>
+  <% if current_authuser.auth_user_category.blank? %>
+  
+   <%= link_to new_auth_user_category_path do %>
+   <i class="fa fa-user nav-icon"></i> Add Commodity first  
+  <% end %>
+  <% elsif current_authuser.products.blank? %>
+  <%= link_to new_product_path do %>
+  <i class="fa fa-user nav-icon"></i> Add Product  
+  <% end %>
+  <% else %>
+ <%= link_to products_product_user_path do %>
+<i class="fa fa-user nav-icon"></i> Manage Products</li>  
+<% end %>
+  <li><%= link_to products_product_import_report_path do %>
+<i class="fa fa-user nav-icon"></i> Import Products</li>  
+<% end %>
+  <% end %>
+</ul>
+</li>
+
 
 <!-- Customers -->
-<li class="dropdown">   
+  <% if controller.controller_name == "customers" %>
+  <li class="active dropdown">
+    <% else %>
+    <li class="dropdown ">   
+      <% end %>
+
 <%= link_to customers_user_customer_path, class: "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>
-<i class="fa fa-desktop"></i>View Customers<span class="caret"></span>
+<i class="fa fa-desktop"></i>Customers<span class="caret"></span>
 <% end %>
 
 <ul class="dropdown-menu">   
@@ -181,15 +197,22 @@
     <%= link_to customers_user_customer_path do %>
 <i class="fa fa-user nav-icon"></i> Manage Customers</li>  
 <% end %>
+  <li><%= link_to customers_customer_import_report_path do %>
+<i class="fa fa-user nav-icon"></i> Import Customer</li>  
+<% end %>
 <% end %>
 </ul>
 </li>
 
   
 <!--Bills -->
-   <li class="dropdown ">   
-<%= link_to bills_user_bill_path, class: "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>
-<i class="fa fa-align-left"></i>View Bills<span class="caret"></span>
+   <% if controller.controller_name == "bills" %>
+  <li class="active dropdown">
+    <% else %>
+    <li class="dropdown ">   
+      <% end %>
+  <%= link_to bills_user_bill_path, class: "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>
+<i class="fa fa-align-left"></i>Bills Management<span class="caret"></span>
 <% end %>
 
 <ul class="dropdown-menu">
@@ -199,8 +222,25 @@
 <li><%= link_to bills_user_bill_path do %>
 <i class="fa fa-user nav-icon"></i> View Bills </li>  
   <% end %>  
-  <li><%= link_to bills_bill_reports_path do %>
-<i class="fa fa-user nav-icon"></i> View Bill Reports </li>  
+ </ul>
+</li>
+  <!-- bills ends here -->
+  
+  
+     <li class="dropdown ">   
+    <%= link_to bills_bill_local_sales_reports_path, class: "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>
+<i class="fa fa-align-left"></i>Utilities<span class="caret"></span>
+<% end %>
+
+<ul class="dropdown-menu">
+  <li><%= link_to bills_bill_local_sales_reports_path do %>
+<i class="fa fa-user nav-icon"></i> Local Sales </li>  
+<% end %>
+  <li><%= link_to bills_bill_interstate_sales_reports_path do %>
+<i class="fa fa-user nav-icon"></i> Interstate Sales </li>  
+<% end %>
+  <li><%= link_to bills_bill_tally_import_reports_path do %>
+<i class="fa fa-user nav-icon"></i> Tally Importable </li>  
   <% end %>  
 </ul>
 </li>
@@ -213,12 +253,16 @@
 </div> <!-- /.mainbar-collapse -->   
 </div> <!-- /.container --> 
 </div> <!-- /.mainbar -->
+   
   <!--    <%= link_to "Sign out", destroy_authuser_session_path %> -->
 <!-- <%= link_to "Sign Out", destroy_authuser_session_path, method: :delete %> -->
   <% end %>
   <%= yield %>
+   
+  <p class= "notice"><%= notice %></p>
+  <p class= "alert"><%= alert %></p>
+   
  
-  
   
    <footer class="footer">
 

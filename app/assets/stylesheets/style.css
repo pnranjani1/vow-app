@@ -1,4 +1,22 @@
 
+.mytest{
+    width: 95%;
+    height: 40px;
+    background: green;
+    border: 1px solid #ddd;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+    -moz-box-shadow: 0 1px 3px 0 rgba(0,0,0,.1) inset;
+    -webkit-box-shadow: 0 1px 3px 0 rgba(0,0,0,.1) inset;
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,.1) inset;
+    font-family: 'Exo', Helvetica, Arial, sans-serif;
+    color: #888;
+    font-size: 14px;
+}
+
+
+
 @font-face {
   font-family: 'PT Sans';
   font-style: normal;
@@ -24,7 +42,7 @@ body {
 	background: #026e11;
 	font: 14px 'Roboto Condensed', "Helvetica Neue", Helvetica, Arial, sans-serif;
 	line-height: 1.428571429;
-	color: #6f6f6f;
+	color: #292929;
 }
 a {
 	text-decoration: none;
@@ -83,7 +101,7 @@ h3 {
 	font: bold 14px/24px 'Exo';
 	color: #3d3d3c;
 	margin: 0 0 15px 0;
-	text-transform: uppercase;
+	text-transform: capitalize;
 }
 .extra-wrap {
 	overflow: hidden;
@@ -362,7 +380,7 @@ nav.tm_navbar .sub-menu > ul li > ul li a:hover {
 .signinbut:hover{color:#000;}
 
 
-.covrpage{margin: 50px auto 50px auto; height: inherit; width:400px;}
+.covrpage{margin: 150px auto 50px auto; height: inherit; width:400px;}
 .videocover{margin: auto; height: inherit; width:600px;}
 .vid{width: 100%; height: 350px;}
 
@@ -387,7 +405,7 @@ h2 {
     text-align: center;
 }
 
-.register form {
+.register {
     padding: 20px 50px 40px 50px;
     background: #f8f8f8 url(pattern.jpg) left top repeat;
     -moz-border-radius: 8px;
@@ -399,13 +417,14 @@ h2 {
     text-align: center;
 }
 
-.register form h2 {
+.register h2 {
     margin-bottom: 25px;
     padding-bottom: 15px;   
     border-bottom: 2px dotted #bbb;
     font-size: 30px;
     font-weight: 400;
     text-align: center;
+  font-family: 'PT Sans';
 }
 
 .register form input {
@@ -422,6 +441,7 @@ h2 {
     font-family: 'Exo', Helvetica, Arial, sans-serif;
     color: #888;
     font-size: 14px;
+  padding-left: 10px;
 }
 
 .register form input:focus {
@@ -436,6 +456,7 @@ h2 {
     font-size: 16px;
     text-align: left;
     float: left;
+  font-family: 'PT Sans';
     font-weight: normal;
 }
 
@@ -493,7 +514,7 @@ h2 {
 }
 .raline {width: 100%; float: left; height: auto;}
 
-.grenbutton {
+.register form .grenbutton {
     cursor: pointer;       
     width: auto;    
     height: 42px;    
@@ -518,13 +539,13 @@ h2 {
     -ms-transition: all .2s;
 }
 
-.grenbutton:hover {
+.register form .grenbutton:hover {
     -moz-box-shadow: 0 -15px 30px 0 rgba(255,255,255,.05) inset;
     -webkit-box-shadow: 0 -15px 30px 0 rgba(255,255,255,.05) inset;
     box-shadow: 0 -15px 30px 0 rgba(255,255,255,.05) inset;
 }
 
-.grenbutton:active {
+.register form .grenbutton:active {
     -moz-box-shadow:
         0 -15px 30px 0 rgba(255,255,255,.05) inset,       
         0 5px 8px 0 rgba(0,0,0,.1) inset;

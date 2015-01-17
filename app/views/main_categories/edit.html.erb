@@ -1,5 +1,34 @@
+ <!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
 
-  <h3> Edit Commodity </h3>
+ 
+</head>
+
+<body>
+
+<div class="container">
+<div class="content">
+<div class="content-container">     
+
+<div>
+  <h4 class="heading-inline">Commodities</h4>        
+</div>
+
+<br>
+
+<div class="row"> 
+<div class="portlet">
+
+<div class="portlet-header">
+<h3><i class="fa fa-user"></i>Edit Commodity</h3>
+</div> <!-- /.portlet-header -->
+
+<div class="portlet-content">
+        
 
 <%= form_for(@category) do |f| %>
 
@@ -11,20 +40,62 @@
 <% end %>
 <% end %>
 
-<div>
-<label> Commodity Name </label><br/>
-  <%= f.text_field :commodity_name %><br/><p>
+<div class="col-sm-8"> 
+  
+<div class="row">  
+<label class="col-md-3">Commodity Name</label>
+<div class="col-md-6">
+<div id="name" class="input-group">               
+<%= f.text_field :commodity_name, class: "form-control" %>
+<span class="input-group-addon"><i class="fa fa-user"></i></span>
 </div>
-
-<div>
-  <label> Commodity Code </label><br/>
-  <%= f.text_field :commodity_code %><br/><p>
 </div>
-
-<div>
-  <label> Sub Commodity Code </label><br/>
-  <%= f.text_field :sub_commodity_code %><br/><p>
 </div>
+<br>
+  
+<div class="row">
+<label class="col-md-3">Commodity Code</label>
+<div class="col-md-6">
+<div id="name" class="input-group">               
+<%= f.text_field :commodity_code, class: "form-control" %>
+<span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
+</div>
+</div>
+</div>
+<br>
 
-<%= f.submit "Update Commodity" %>
-<% end %>
+<div class="row">
+<label class="col-md-3">Sub Commodity Code</label>
+<div class="col-md-6">
+<div id="name" class="input-group">               
+ <%= f.text_field :sub_commodity_code, class: "form-control" %>
+<span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
+</div>
+</div>
+</div>
+  
+<br/>
+  
+<div class="row">
+<div class="col-md-3"></div>
+<div class="col-md-6">
+  <%= f.submit "Update Commodity", class: "btn btn-success" %>
+</div>
+</div>
+  
+</div><!-- col-sm-8 ends here -->
+  
+  
+  <% end %>
+ 
+</div><!-- portlet eontent ends here -->
+</div><!-- portlet ends here -->
+</div><!-- row ends here -->
+  
+   </div><!-- content container ends here -->
+   </div><!-- content ends here -->
+  </div><!-- container ends here -->
+  
+</body>
+</html>
+  

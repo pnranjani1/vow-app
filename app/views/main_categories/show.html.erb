@@ -1,3 +1,24 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+
+ 
+</head>
+
+<body>
+
+ <div class="container">
+ <div class="content">
+ <div class="content-container">     
+   <div>
+    <h4 class="heading-inline"><%= current_authuser.name %></h4>        
+   </div>
+ <br>
+   
 <h3><%= @category.commodity_name %></h3>
 
 Commodity Name : <%=  @category.commodity_name %><p>
@@ -6,3 +27,11 @@ Commodity Name : <%=  @category.commodity_name %><p>
 <hr>
 
 <%= link_to "Delete Commodity" , main_category_path(@category.id), method: :delete, data: {confirm: "Are You sure you want to delete?"} %>
+   
+   </div><!-- content container ends here -->
+   </div><!-- content ends here -->
+  </div><!-- container ends here -->
+  
+  </body>
+</html>
+

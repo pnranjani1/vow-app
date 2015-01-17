@@ -1,6 +1,6 @@
 class ProductsController < ApplicationController
 #  layout 'menu' , :only => [:product_user, :new, :edit, :update, :destroy, :create, :show]
-  layout_by_action [:product_user, :new, :edit, :update, :destroy, :create, :show] => "menu"
+  layout_by_action [:product_user, :new, :edit, :update, :destroy, :create, :show, :product_import_report] => "menu"
   
   filter_access_to :all
   before_filter :authenticate_authuser!
@@ -90,6 +90,9 @@ class ProductsController < ApplicationController
     Product.import(params[:file], current_authuser.id)
    redirect_to products_product_user_path, notice: "Products Imported."
 end
+  
+  def product_import_report
+  end
   
   
     private

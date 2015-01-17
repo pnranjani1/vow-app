@@ -1,3 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+
+</head>
+
+<body>
+
+ <div class="container">
+ <div class="content">
+ <div class="content-container">     
+   <div>
+    <h4 class="heading-inline"><%= current_authuser.name %></h4>        
+   </div>
+ <br>
+
+
 <%= link_to "Download Excel", bills_user_bill_path(format: "xls") %> |
 <%= link_to "Download CSV", bills_user_bill_path(format: "csv") %><br/><p>
 
@@ -53,3 +73,12 @@ $(function() {
 <%= label_tag(:end_date , 'To : ')%> <%= text_field_tag :end_date, params[:end_date], :id => "end_date" %>
 	<%= submit_tag("Tally importable xml")%>
 <% end %>
+   
+   </div><!-- content container ends here -->
+   </div> <!-- content ends here -->
+  </div><!-- container ends here-->
+  
+  </body>
+</html>
+
+

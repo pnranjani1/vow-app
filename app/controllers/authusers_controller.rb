@@ -1,7 +1,7 @@
 class AuthusersController < ApplicationController
  # layout_by_action [:change_role, :change_role_update] => "menu1"
   before_filter :authenticate_authuser!
-
+  layout_by_action [:client_new] => "menu"
   #layout "menu1", :only => [ :change_role ]
   
    filter_access_to :all
@@ -45,12 +45,13 @@ class AuthusersController < ApplicationController
   def update
     @user = current_authuser
     if @user.update_attributes(set_params)
-      if current_authuser.main_roles.first == 'client'
+      flash[:notice]=  "Password updated successfully"
+     if current_authuser.main_roles.first == 'client'
 redirect_to dashboards_client_dashboard_path
       elsif current_authuser.main_roles.first == 'user'
-        redirect_to dashboards_user_dashboard_path
-    else
-        render action: 'force_password_change'
+       redirect_to dashboards_user_dashboard_path
+   else
+     render action: 'force_password_change'
     end
   end
   end
@@ -67,6 +68,7 @@ redirect_to dashboards_client_dashboard_path
     @client.address = Address.new
     @client.membership = Membership.new
     @client.bankdetail = Bankdetail.new
+    @client.permissions.build
     @client.clients.build   
     @client.users.build
     end
@@ -149,6 +151,7 @@ redirect_to dashboards_client_dashboard_path
 #     else
     #dashboards_admin_dashboard
     #params[:roles] = @user.current_role 
+    @user.current_role = params[:roles]
        redirect_to public_send("dashboards_#{params[:roles]}_dashboard_url") 
     #     end
   end
@@ -203,7 +206,8 @@ end
       {:bankdetail_attributes => [:id, :bank_account_number, :ifsc_code]},
       {:clients_attributes => [:id, :unique_reference_key, :remarks, :char, :digits, :created_by, :company]}, 
      {:main_role_ids => []},
-      {:users_attributes => [:id, :tin_number, :esugam_username, :esugam_password, :client_id]}
+      {:users_attributes => [:id, :tin_number, :esugam_username, :esugam_password, :client_id]},
+      {:permissions_attributes => [:main_role_id]}
      )
   end
   

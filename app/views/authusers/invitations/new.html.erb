@@ -1,12 +1,62 @@
-<h2><%= t "devise.invitations.new.header" %></h2>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
 
-<%= form_for resource, :as => resource_name, :url => invitation_path(resource_name), :html => {:method => :post} do |f| %>
+ 
+</head>
+
+<body>
+
+ <div class="container">
+ <div class="content">
+ <div class="content-container">     
+   <div>
+     <h4 class="heading-inline">User Management</h4>        
+   </div>
+ <br>
+   
+<div class="row"> 
+<div class="portlet">
+
+<div class="portlet-header">
+<h3><i class="fa fa-user"></i>Invite User</h3>
+</div> <!-- /.portlet-header -->
+
+<div class="portlet-content">
+       
+<div class="col-sm-8"> 
+  
+<div class="row">  
+<div class="col-md-6">
+<div id="name" class="input-group ">  
+  
+ <%= form_for resource, :as => resource_name, :url => invitation_path(resource_name), :html => {:method => :post} do |f| %>
   <%= devise_error_messages! %>
 
 <% resource.class.invite_key_fields.each do |field| -%>
-  <p><%= f.label field %><br />
-  <%= f.text_field field %>
+  <p><%= f.label field %>
+<%= f.text_field field, class: "form-control" %><br/><br/>
 <% end -%>
-
-  <p><%= f.submit t("devise.invitations.new.submit_button") %></p>
+    <p><%= f.submit t("devise.invitations.new.submit_button"), class: "btn btn-success" %>
 <% end %>
+
+</div>
+</div>
+</div>
+</div>
+  
+  
+</div><!-- portlet content ends here -->
+</div><!-- portlet ends here -->
+</div> <!-- row ends here -->
+
+
+</div><!-- content container ends here -->
+</div><!-- content ends here -->
+</div><!-- container ends here -->
+  
+</body>
+</html>

@@ -20,8 +20,8 @@
 </head>
  <body> 
   
-  <% if authuser_signed_in? %>
-   
+    <% if authuser_signed_in? %>   
+  
 <div class="navbar">
  <div class="container">
     
@@ -47,23 +47,13 @@
           <ul class="dropdown-menu" role="menu">
 
             <li>
-              <a href="./page-profile.html">
+             
+<!-- <a href="./page-profile.html">-->
                 <i class="fa fa-user"></i> 
+            
                 &nbsp;&nbsp;My Profile
-              </a>
             </li>
-            <li>
-              <a href="./page-pricing.html">
-                <i class="fa fa-dollar"></i> 
-                &nbsp;&nbsp;Plans &amp; Billing
-              </a>
-            </li>
-            <li>
-              <a href="./page-settings.html">
-                <i class="fa fa-cogs"></i> 
-                &nbsp;&nbsp;Settings
-              </a>
-            </li>
+           
             <li class="divider"></li>
             <li>
               <%= link_to destroy_authuser_session_path do %>
@@ -91,7 +81,11 @@
 <ul class="nav navbar-nav mainbar-nav">
         
 <!-- Dashboards -->
+  <% if controller.controller_name == "dashboards" %>
 <li class= "active">
+  <% else %>
+  <li>
+    <% end %>
 <% if permitted_to? :admin_dashboard , Dashboard.new %> 
 <%= link_to dashboards_admin_dashboard_path  do %>
 <i class="fa fa-dashboard"></i> Dashboard
@@ -105,7 +99,11 @@
 </li>
   
   <!-- Change Role -->
-<li>
+  <% if controller.action_name == "change_role" %>
+<li class= "active dropdown">
+  <% else %>
+  <li>
+    <% end %>
 <% if current_authuser.main_roles.count > 1 %>
 <%= link_to authusers_change_role_path do %> 
 <i class="fa fa-dashboard"></i> Change Role
@@ -115,34 +113,39 @@
   
 
 <!-- Customers --> 
-<% if permitted_to? :index, Customer.new %>
-<li class="dropdown">   
-<%= link_to customers_path, class: "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>
-<i class="fa fa-desktop"></i>View Customers<span class="caret"></span>
-<% end %>
+<!-- <% if permitted_to? :index, Customer.new %> -->
+<!-- <li class="dropdown">   -->
+<!-- <%= link_to customers_path, class: "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>-->
+<!-- <i class="fa fa-desktop"></i>View Customers<span class="caret"></span>-->
+<!-- <% end %> -->
 
-<ul class="dropdown-menu">   
-<li>
-<%= link_to customers_path do %>
-<i class="fa fa-user nav-icon"></i> Manage Customers</li>  
-<% end %>
-</ul>
-</li>
-<% end %>
+<!-- <ul class="dropdown-menu">    -->
+<!-- <li>-->
+<!-- <%= link_to customers_path do %> -->
+<!-- <i class="fa fa-user nav-icon"></i> Manage Customers</li>  -->
+<!-- <% end %> -->
+<!-- </ul>
+</li> -->
+<!-- <% end %> -->
         
 <!-- Bills Information -->
-<li>  
-<% if permitted_to? :index, Bill.new %>
-<%= link_to bills_path  do %>
-<i class="fa fa-align-left"></i> Bills Information
-<% end %>
-<% end %>
-</li>
+<!-- <li>   -->
+<!-- <% if permitted_to? :index, Bill.new %> -->
+<!-- <%= link_to bills_path  do %> -->
+<!-- <i class="fa fa-align-left"></i> Bills Information -->
+<!-- <% end %> -->
+<!-- <% end %> -->
+<!-- </li> -->
           
 <!-- Main Commodities -->  
 <% if permitted_to? :index, MainCategory.new %>
-<li class="dropdown ">   
-  <%= link_to main_categories_path, class: "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>
+  <% if controller.controller_name == "main_categories" %>
+<li class= "active dropdown">
+  <% else %>
+  <li>
+    <% end %>
+ 
+   <%= link_to main_categories_path, class: "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>
 <i class="fa fa-files-o"></i>Commodities<span class="caret"></span>
 <% end %>
 
@@ -157,7 +160,13 @@
 
 <!-- Taxes -->
   <% if permitted_to? :index, Tax.new %>
-<li class="dropdown ">   
+  <% if controller.controller_name == "taxes" %>
+<li class= "active dropdown">
+  <% else %>
+  <li>
+    <% end %>
+  
+
 <%= link_to taxes_path, class: "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>
 <i class="fa fa-external-link"></i>Tax Details<span class="caret"></span>
 <% end %>
@@ -184,13 +193,11 @@
    <!-- <%= link_to "Sign out", destroy_authuser_session_path %> -->
  
   <% end %>
-    
-  
   <%= yield %>
   
   <p class= "notice"><%= notice %></p>
-   <p class= "alert"><%= alert %></p>
-  
+  <p class= "alert"><%= alert %></p>
+ 
   
    <footer class="footer">
 

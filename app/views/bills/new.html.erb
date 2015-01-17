@@ -1,62 +1,198 @@
-<h3> Create New Bill </h3>
-<%= nested_form_for(@bill) do |f| %>
-  <% if @bill.errors.any? %>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+
+</head>
+
+<body>
+  
+<div class="container">
+<div class="content">
+<div class="content-container">      
+
+<div>
+<h4 class="heading-inline">Bills</h4>        
+</div>
+
+<br>
+      
+
+<div class="row"> 
+  <%= nested_form_for(@bill) do |f| %>
+<% if @bill.errors.any? %>
 <% @bill.errors.full_messages.each do |error| %>
 <ul>
   <li> <%= error %></li>
 </ul>
 <% end %>
 <% end %>
+  
+<div class="portlet">
 
-<label> Invoice Number </label><br/>
-<% if @bill.new_record? %>
-<%= f.text_field :invoice_number, :value => 1000 %>
-<% else %>
-<%= f.text_field :invoice_number, :value => 1001 %>
-<% end %>
-<br/><p>
+<div class="portlet-header">
+<h3><i class="fa fa-user"></i> Bill Details</h3>
+</div> <!-- /.portlet-header -->
 
+<div class="portlet-content">
 
+<div class="row"> 
+  
+<div class="col-sm-4">           
+<strong>Invoice Number</strong> 
+<div id="name" class="input-group">               
+<%= f.text_field :invoice_number , class: "form-control" %>
+<span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
+</div>
+</div> <!-- /.col -->
+            
+<div class="col-sm-4">           
+<strong>Bill Date</strong> 
+<div id="name" class="input-group">               
+<%= f.date_field :bill_date , :value => Date.today, class: "form-control" %>
+<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+</div>
+</div> <!-- /.col -->
+           
+<div class="col-sm-4">           
+<strong>Customer</strong> 
+<div id="name" class="input-group">               
+<%= f.collection_select :customer_id, Customer.where(:authuser_id => current_authuser.id), :id, :name, {prompt: "Select Customer"}, {class: "form-control"}  %>
+</div>
+</div> <!-- /.col -->
+            
+</div> <!-- row ends here -->
+</div> <!-- portlet content ends here -->
+</div><!-- portlet ends here -->
 
-<label> Bill Date </label><br/>
-<%= f.date_field :bill_date , :value => Date.today %><br/><p>
+  <!-- bill detail ends here -->
+  
+<div class="portlet">
 
+<div class="portlet-header">
+<h3><i class="fa fa-user"></i> Product Details</h3>
+</div> <!-- /.portlet-header -->
 
+<div class="portlet-content">
 
-<label> Customer</label><br/>
-<%= f.collection_select :customer_id, Customer.where(:authuser_id => current_authuser.id), :id, :name, :prompt => "Select Customer"  %><br/><p>
-
-
-
+<div class="row"> 
+  
 <%= f.fields_for :line_items do |bill_product| %>
-<label> Products </label><br/>
-<%= bill_product.collection_select  :product_id, Product.where(:authuser_id => current_authuser.id), :id, :product_name, :prompt => "Select Product" %><br/><p>
-
-<label> Quantity </label><br/>
-<%= bill_product.text_field :quantity %><br/><p>
-
-<label> Unit Price </label><br/>
-<%= bill_product.text_field :unit_price %><br/><p>
-
-<%= bill_product.link_to_remove "Remove this Product" %><br/><p>
-<% end %>
-<%= f.link_to_add "Add Product", :line_items %><br/><p>
-
-
-<label> Name Other charges, if any? </label><br/>
-<%= f.text_field :other_charges_info %><br/><p>
-
-<label> Other Charges Rate </label><br/>
-<%= f.text_field :other_charges %><br/><p>
-
-<label> Select Tax </label><br/>
-<%= f.collection_select :tax_id, Tax.all, :id, :tax %><br/><p>
-
-<label> Other Information </label><br/>
-<%= f.text_field :other_information %><br/><p>
-
-<%= f.submit %>
-
-<% end %>
+<div class="col-sm-2">           
+<strong>Product</strong> 
+ <div id="name" class="input-group">         
+<%= bill_product.collection_select :product_id, Product.where(:authuser_id => current_authuser.id), :id, :product_name,{prompt: "Select Product"}, {class: "form-control"} %>
+ </div> 
+</div> <!-- /.col -->
+ 
+            
+<div class="col-sm-3">           
+<strong>Quantity</strong> 
+<div id="name" class="input-group">               
+<%= bill_product.text_field :quantity , class: "form-control" %>
+<span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
+</div>
+</div> <!-- /.col -->
+           
+<div class="col-sm-3">           
+<strong>Unit Price</strong> 
+<div id="name" class="input-group">               
+<%= bill_product.text_field :unit_price, class: "form-control" %>
+<span class="input-group-addon"><i class="fa fa-money"></i></span>
+</div>
+</div> <!-- /.col -->
+  
+  <div class="col-sm-3">      
+ <div class="marggap">
+  <div class="btn btn-xs btn-primary" >
+ <%= bill_product.link_to_remove do %>
+   <i class="fa fa-times"></i>
+   <% end %>
+</div>
+  </div>
+  </div>
+  
+  <% end %>
+  </div>
+  
+  <div class="row">
+  <%= f.link_to_add "Add Product", :line_items, class: "btn btn-success" %><br/><p>
+  </div>
+  
 
   
+</div> <!-- portlet content ends here -->
+</div><!-- portlet ends here -->
+
+<!-- Product ends here -->
+  
+  <div class="portlet">
+
+<div class="portlet-header">
+<h3><i class="fa fa-user"></i> Other Information</h3>
+</div> <!-- /.portlet-header -->
+
+<div class="portlet-content">
+
+<div class="row"> 
+  
+<div class="col-sm-4">           
+<strong>Name Other Charges, if any?</strong> 
+<div id="name" class="input-group">               
+<%= f.text_field :other_charges_info, class: "form-control" %>
+<span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
+</div>
+</div> <!-- /.col -->
+            
+<div class="col-sm-4">           
+<strong>Other charges Rate</strong> 
+<div id="name" class="input-group">               
+<%= f.text_field :other_charges, class: "form-control" %>
+<span class="input-group-addon"><i class="fa fa-money"></i></span>
+</div>
+</div> <!-- /.col -->
+        
+ <div class="col-sm-4">           
+<strong>Tax Information</strong> 
+<div id="name" class="input-group">               
+  <%= f.collection_select :tax_id, Tax.all, :id, :tax ,{prompt: "Select Tax"}, {class: "form-control"} %>
+</div>
+</div> <!-- /.col -->
+  
+<div class="col-sm-6">           
+<strong>Other Information</strong> 
+<div id="name" class="input-group">               
+<%= f.text_field :other_information, class: "form-control" %>
+
+</div>
+</div> <!-- /.col -->
+            
+</div> <!-- row ends here -->
+</div> <!-- portlet content ends here -->
+</div><!-- portlet ends here -->
+
+
+
+<div class="row">               
+<div class="col-md-3">
+  <%= f.submit "Create Bill", class: "btn btn-success" %></div>
+  <% end %>
+</div> <!-- /.portlet-content -->
+  
+  
+  
+  
+
+</div> <!-- /.portlet -->
+</div> <!-- /.row -->
+
+</div> <!-- /.content-container -->      
+</div> <!-- /.content -->
+</div> <!-- /.container -->
+
+</body>
+</html>
+
+

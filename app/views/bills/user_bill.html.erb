@@ -32,51 +32,15 @@
 <% end %>
  
  <!--<img src="img/avatar-1-md.jpg" alt="Avatar" class="panel-list-avatar"> -->
- 
-<%= link_to "Download Excel", bills_user_bill_path(format: "xls") %> |
-<%= link_to "Download CSV", bills_user_bill_path(format: "csv") %><br/><p>
-
-<hr/>
-
-<script>
-   $(function() {
-    $("#local_sales").monthpicker();
-    $("#interstate_sales").monthpicker();
-     });
-  </script>
-
-    
-<script type="text/javascript">
-        $(function () {
-            $("#start_date").datepicker({ dateFormat: "dd/mm/yy" }).val()
-            $("#end_date").datepicker({ dateFormat: "dd/mm/yy" }).val()
-        });
-</script>
   
-   
-   <h3> Local Sales XML </h3><p>
-<%= form_tag bills_local_sales_path(:format => "xml"), method: :get do %>
-<%= text_field_tag :choose_month, params[:choose_month], :id => "local_sales" , placeholder: "Generate Local Sales xml"%>
-<%= submit_tag "Submit" %>
-<% end %>
-
-  <p>
-
   
-<h3>Download Tally importable xml file </h3>
-<%= form_tag  bills_tally_import_path( :format => :xml),method: "get" do  %>
-<%= label_tag(:start_date , 'From : ')%> <%= text_field_tag :start_date, params[:start_date], :id => "start_date" %>
-<%= label_tag(:end_date , 'To : ')%> <%= text_field_tag :end_date,params[:end_date], :id => "end_date" %>
-	<%= submit_tag("Tally importable xml")%>
-<% end %>
-
-<p>
- 
-<h3> Interstate Sales XML </h3><p>
-<%= form_tag bills_interstate_sales_path(:format => "xml"), method: :get do %>
-<%= text_field_tag :choose_month, params[:choose_month], :id => "interstate_sales" , placeholder: "Generate Interstate Sales xml"%>
-<%= submit_tag "Submit" %>
-<% end %>
+   <%= link_to bills_user_bill_path(format: "xls") do %>
+  <button class="btn btn-success">Download Excel</button> 
+  <% end %>
+  
+  <%= link_to bills_user_bill_path(format: "csv") do %>
+   <button class="btn btn-success">Download Csv</button>
+  <% end %>
 
 
  

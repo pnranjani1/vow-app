@@ -1,5 +1,23 @@
-<br/><p>
-<h4> Add User Role </h4>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+
+</head>
+
+<body>
+
+ <div class="container">
+ <div class="content">
+ <div class="content-container">     
+   <div>
+    <h4 class="heading-inline"><%= current_authuser.name %></h4>        
+   </div>
+ <br>
+
+   <h4> Add User Role </h4>
 <%= form_for(@client) do |f| %>
 
 <label> Add as User </label>
@@ -9,4 +27,12 @@
 <br/>
 <%= f.submit %>
 <%  end %>
+
+   </div><!-- content container ends here -->
+   </div> <!-- content ends here -->
+  </div><!-- container ends here-->
+  
+  </body>
+</html>
+
 

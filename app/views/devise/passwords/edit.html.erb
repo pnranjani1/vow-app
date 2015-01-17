@@ -1,22 +1,89 @@
-<h2>Change your password</h2>
 
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+</head>
+
+<body>
+
+<header class="clearfix">
+<div class="container">
+<h1 class="navbar-brand navbar-brand_ wow fadeInDown"><a href="index.html">Vatonwheels.com</a></h1>      
+<ul class="follow_icon">
+<li><a href="https://www.facebook.com/IPrimitusConsultancyServices" class="fa fa-facebook"></a></li>
+<li><a href="https://twitter.com/iPrimitus" class="fa fa-twitter"></a></li>
+<li><a href="https://www.linkedin.com/company/iprimitus-consultancy-services" class="fa fa-linkedin"></a></li>
+<li><a href="https://plus.google.com/108877132961366118945/videos" class="fa fa-google-plus"></a></li>
+<li><a href="#" class="fa fa-youtube"></a></li>
+</ul>
+</div>   
+</header>
+  <br/><p>
+  
+<div class="container">
+<div class="content">
+<div class="content-container">      
+  
+<div class="row"> 
+<div class="portlet">
+
+<div class="portlet-header">
+<h3><i class="fa fa-user"></i>Change Password</h3>
+</div> <!-- /.portlet-header -->
+
+<div class="portlet-content">
+        
+ <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
   <%= devise_error_messages! %>
   <%= f.hidden_field :reset_password_token %>
 
-  <div class="field">
-    <%= f.label :password, "New password" %><br />
-    <%= f.password_field :password, autofocus: true, autocomplete: "off" %>
-  </div>
+<div class="col-sm-8"> 
+  
+<div class="row">  
+<label class="col-md-3">New Password</label>
+<div class="col-md-6">
+<div id="name" class="input-group">               
+<%= f.password_field :password, autofocus: true, autocomplete: "off", class: "form-control" %>
+<span class="input-group-addon"><i class="fa fa-user"></i></span>
+</div>
+</div>
+</div>
+<br>
+  
+<div class="row">
+<label class="col-md-3"> Confirm Password</label>
+<div class="col-md-6">
+<div id="name" class="input-group">               
+<%= f.password_field :password_confirmation, autocomplete: "off", class: "form-control" %>
+<span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
+</div>
+</div>
+</div>
+<br>
 
-  <div class="field">
-    <%= f.label :password_confirmation, "Confirm new password" %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "off" %>
-  </div>
+  
+<div class="row">
+<div class="col-md-3"></div>
+<div class="col-md-6">
+  <%= f.submit "Change my password" , class: "btn btn-success" %><br/><p>
+    <%= render "devise/shared/links" %>
+</div>
+</div>
+  
+</div><!-- col-sm-8 ends here -->
+    <% end %>
+ 
+</div><!-- portlet eontent ends here -->
+</div><!-- portlet ends here -->
+</div><!-- row ends here -->
 
-  <div class="actions">
-    <%= f.submit "Change my password" %>
-  </div>
-<% end %>
+</div><!-- content conatiner ends here -->
+</div><!-- content ends here -->
+</div><!-- container ends here -->
 
-<%= render "devise/shared/links" %>
+  </body>
+  </html>
+

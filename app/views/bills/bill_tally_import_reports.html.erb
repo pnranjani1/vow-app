@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+
+</head>
+
+<body>
+
+ <div class="container">
+ <div class="content">
+ <div class="content-container">     
+   <div>
+    <h4 class="heading-inline"> Reports </h4>        
+   </div>
+ <br>
+ 
+
+<div class="row"> 
+<div class="portlet">
+
+<div class="portlet-header">
+<h3><i class="fa fa-user"></i>Tally Importable XML</h3>
+</div> <!-- /.portlet-header -->
+
+<div class="portlet-content">
+       
+<div class="col-sm-8"> 
+<div class="row">  
+<div class="col-md-6">
+<div id="name" class="input-group">               
+  
+  
+<script>
+   $(function() {
+    $("#local_sales").monthpicker();
+    $("#interstate_sales").monthpicker();
+     });
+  </script>
+
+<script type="text/javascript">
+        $(function () {
+            $("#start_date").datepicker({ dateFormat: "dd/mm/yy" }).val()
+            $("#end_date").datepicker({ dateFormat: "dd/mm/yy" }).val()
+        });
+</script>
+  
+<%= form_tag  bills_tally_import_path( :format => :xml),method: "get" do  %>
+  
+
+  <div class="row">
+  <div class="col-sm-6">
+<%= label_tag(:start_date , 'From : ')%> <%= text_field_tag :start_date, params[:start_date], :id => "start_date", :style => "z-index:1000;", :class => "form-control" %>
+    </div>
+  
+  
+  <div class="col-sm-6">    
+<%= label_tag(:end_date , 'To : ')%> <%= text_field_tag :end_date, params[:end_date], :id => "end_date", :style => "z-index:1000;", :class => "form-control" %>
+    </div>
+  </div>
+  <br/><br/>
+    <div class="row">
+    <div class="col-sm-6">
+      <%= submit_tag("Download", class: "btn btn-success")%>
+   <% end %>
+  </div>
+  </div>
+
+
+</div>
+</div>
+</div>
+  </div>
+  
+  
+  </div>
+  </div>
+   </div>
+
+
+
+   
+   </div><!-- content container ends here -->
+   </div> <!-- content ends here -->
+  </div><!-- container ends here-->
+  
+  </body>
+</html>
+
+

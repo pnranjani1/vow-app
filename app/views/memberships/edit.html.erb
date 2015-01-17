@@ -1,20 +1,102 @@
-<h3> Amend Client </h3>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+
+ 
+</head>
+
+<body>
+
+ <div class="container">
+ <div class="content">
+ <div class="content-container">     
+   <div>
+     <h4 class="heading-inline">Membership Details</h4>        
+   </div>
+ <br>
+
+
+<div class="row"> 
+<div class="portlet">
+
+<div class="portlet-header">
+<h3><i class="fa fa-user"></i> Amend Membership</h3>
+</div> <!-- /.portlet-header -->
+
+<div class="portlet-content">
+     
 <%= form_for(@membership) do |f| %><br>
 <% if @membership.errors.any? %>
 <%= @membership.errors.full_messages %><br/><p>
 <% end %>
+<div class="col-sm-8"> 
+       
+<div class="row">
+<label class="col-md-3">Phone Number</label>
+<div class="col-md-6">
+<div id="name" class="input-group"> 
+<%= f.text_field :phone_number , class: "form-control" %> 
+<span class="input-group-addon"><i class="fa fa-phone"></i></span>
+</div>
+</div>
+</div>
+ <br>
+      
+<div class="row">
+<label class="col-md-3">Membership Start Date</label>
+<div class="col-md-6">
+<div id="name" class="input-group">               
+<%= f.date_field :membership_start_date, class: "form-control" %>
+<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+</div>
+</div>
+</div>
+<br>
+      
+<div class="row">
+<label class="col-md-3">Membership End Date</label>
+<div class="col-md-6">
+<div id="name" class="input-group">               
+  <%= f.date_field :membership_end_date, class: "form-control" %>
+<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+</div>
+</div>
+</div>
+<br>
+             
+               
+<div class="row">
+<div class="col-md-3"></div>
+<div class="col-md-6">
+<%= f.submit "Update Membership" , class: "btn btn-success" %> 
+  <% end %>
+ </div>
+</div>
+   
+   
+</div>
+</div>
 
-<label> Phone Number </label><br/>
-<%= f.text_field :phone_number %><br/><p>
-
-<label> Membership Start Date </label><br/>
-<%= f.date_field :membership_start_date %><br/><p>
-
-<label> Membership End Date </label><br/>
-<%= f.date_field :membership_end_date %><br/><p>
 
 
-<%= f.submit "Update Membership" %>
-<% end %>
+            
+</div> <!-- /.portlet-content -->
+</div> <!-- /.portlet -->
+</div> <!-- /.row -->
+  
+ 
+
+   
+   </div><!-- content container ends here -->
+   </div><!-- content ends here -->
+  </div><!-- container ends here -->
+  
+  </body>
+  </html>
+
+
 
  

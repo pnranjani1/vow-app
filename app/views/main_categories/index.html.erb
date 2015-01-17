@@ -6,7 +6,7 @@
 <div class="content">
 <div class="content-container">       
   <div>
-    <h4 class="heading-inline">Manage Commodities</h4>        
+    <h4 class="heading-inline">Commodities</h4>        
    </div>
 <br>
 <div class="row"> 
@@ -27,7 +27,7 @@
 <th>Commodity Code</th>  
 <th>Sub Commodity Code</th>
 <th>Edit</th> 
-<th>Delete</th>                    
+<!-- <th>Delete</th>                     -->
 </tr> 
 </thead> 
 
@@ -37,11 +37,12 @@
 <td><%= category.commodity_name %></td> 
 <td><%= category.commodity_code %></td> 
 <td><%= category.sub_commodity_code %></td> 
-<td><%= link_to "Edit Commodity", edit_main_category_path(category.id), class: "btn btn-xs btn-primary" %>
-<i class="fa fa-pencil"></i>
+<td><%= link_to  edit_main_category_path(category.id), class: "btn btn-xs btn-primary" do %>
+<i class="fa fa-edit"></i>
+  <% end %>
 </td>
-  <td><%= link_to "Delete Commodity" , main_category_path(category.id), class: "btn btn-xs btn-primary",  method: :delete, data: {confirm: "Are You sure you want to delete?"} %>
-    <i class="fa fa-pencil"></i></td>
+  <!-- <td><%= link_to "Delete Commodity" , main_category_path(category.id), class: "btn btn-xs btn-primary",  method: :delete, data: {confirm: "Are You sure you want to delete?"} %>
+    <i class="fa fa-pencil"></i></td> -->
 
  </tr>   
 <% end %>
@@ -51,7 +52,7 @@
 <div class="portlet-footer">
 <div class="text-right">                  
 Create New Commodity <%= link_to new_main_category_path do %>
-<button class="btn btn-sm btn-primary"><i class="fa fa-plus-square"></i> New</button>
+<button class="btn btn-success"> New</button>
 <% end %>
 </div>
 </div> <!-- /.portlet-footer -->

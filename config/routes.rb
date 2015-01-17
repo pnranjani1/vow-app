@@ -52,7 +52,12 @@ Rails.application.routes.draw do
   get 'bills/user_bill'
   get 'bills/local_sales'
   get 'bills/interstate_sales'
-  get 'bills/bill_reports'
+  get 'bills/bill_local_sales_reports'
+  get 'bills/bill_interstate_sales_reports'
+  get 'bills/bill_tally_import_reports'
+  get 'products/product_import_report'
+  get 'customers/customer_import_report'
+    
   resources :authusers
   resources :users
   resources :bills

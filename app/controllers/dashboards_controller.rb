@@ -27,6 +27,16 @@ class DashboardsController < ApplicationController
   def client_dashboard   
     @users = User.where(:client_id => current_authuser.id)
     @bills = Bill.all
+    #@users_count = current_authuser.users.count
+    @users_count = @users.count
+    # to Calcualte total bills under the client
+   # users =  User.where(:client_id => current_authuser.id)
+    #users.each do |user|
+     # user_bills = user.authuser.bills
+      # @bills_count = user_bills.sum
+    #end
+    #@bills_count = user_bills.sum
+    
    # @invited_users = Authuser.where('invited_by_id = ? AND name =?', current_authuser.id , ' ')
   end
   

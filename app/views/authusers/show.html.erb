@@ -1,4 +1,130 @@
-<h3><%=  @user.name %></h3>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+</head>
 
-User Name : <%= @user.name %><br/>
-User Email: <%= @user.email %><br/>
+<body>
+  
+
+ <div class="container">
+ <div class="content">
+ <div class="content-container">     
+   <div>
+     <h4 class="heading-inline">User Profile</h4>        
+   </div>
+ 
+<div class="row"> 
+<div class="portlet portlet-table">
+<div class="portlet-header">
+<h3><i class="fa fa-group"></i>User Details</h3> 
+</div> <!-- /.portlet-header -->
+
+<div class="portlet-content">
+
+<table class="table">
+<tbody>
+<tr>
+<th><i class="fa fa-user"></i> Name :</th>
+  <td><%= @user.name %></td>
+</tr>
+
+<tr>
+<th><i class="fa fa-envelope"></i> Email :</th>
+  <td><%= @user.email %> </td>
+</tr>
+
+<tr>
+<th><i class="fa fa-phone"></i> Phone number :</th>
+<td><%= @user.membership.phone_number %></td>
+</tr>
+                  
+<tr>
+<th><i class="fa fa-map-marker"></i> Address 1 :</th>
+  <td><%= @user.address.address_line_1 %></td>
+</tr>
+                  
+<tr>
+<th><i class="fa fa-map-marker"></i> Address 2 :</th>
+<td><%= @user.address.address_line_2 %></td>
+</tr>
+    
+<tr>
+<th><i class="fa fa-map-marker"></i> Address 3 :</th>
+<td><%= @user.address.address_line_3 %></td>
+</tr>
+                  
+<tr>
+<th><i class="fa fa-dot-circle-o"></i> City :</th>
+  <td><%= @user.address.city %></td>
+</tr>
+                  
+<tr>
+<th><i class="fa fa-globe"></i> Country :</th>
+<td><%= @user.address.country %></td>
+</tr>
+                 
+<tr>
+<th><i class="fa fa-sort-numeric-asc"></i> Bank Account Number  :</th>
+<td><%= @user.bankdetail.bank_account_number %></td>
+</tr>
+                  
+<tr>
+<th><i class="fa fa-star"></i> IFSC Code :</th>
+<td><%= @user.bankdetail.ifsc_code %></td>
+</tr>
+                  
+<tr>
+<th><i class="fa fa-calendar"></i> Membership Start Date  :</th>
+  <td><%= @user.membership.membership_start_date.strftime("%d %b, %Y") %></td>
+</tr>
+                  
+<tr>
+<th><i class="fa fa-calendar"></i> Membership End Date :</th>
+<td><%= @user.membership.membership_end_date.strftime("%d %b, %Y") %></td>
+</tr>
+                  
+<tr>
+<th><i class="fa fa-sort-numeric-asc"></i> Tin Number :</th>
+  <td><%= @user.users.first.tin_number %></td>
+</tr>
+  
+  <tr>
+<th><i class="fa fa-user"></i> Company :</th>
+ <% if @user.main_roles.first.role_name == "client" %>
+<td><%= @user.clients.first.company %></td>
+    <% end %>
+</tr>
+          
+
+ 
+</tbody>
+</table>
+
+</div><!-- portlet content ends here -->
+  
+  
+</div><!-- portlet ends here -->
+</div><!-- row ends here -->
+    
+</div> <!-- /.content-container -->
+</div> <!-- /.content -->
+</div> <!-- /.container -->
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+ 
+
+
+
+
