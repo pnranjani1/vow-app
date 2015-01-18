@@ -48,6 +48,7 @@
         });
 </script>
 
+  
 <%= form_tag bills_interstate_sales_path(:format => "xml"), method: :get do %>
 <%= text_field_tag :choose_month, params[:choose_month], :id => "interstate_sales" , placeholder: "Select date to Generate Interstate Sales xml", class: "btn btn-default fileupload-exists"  %>
    <%= submit_tag "Download" ,class: "btn btn-success"%>

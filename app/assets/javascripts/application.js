@@ -16,7 +16,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require nested_form
-//= require monthpicker
+//= require bootstrap-datepicker
 //= require_tree .
 //= require bootstrap.min
 //= require camera

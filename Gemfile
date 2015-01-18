@@ -25,6 +25,7 @@ gem 'coffee-rails', '~> 4.0.0'
 
 # Use jquery as the JavaScript library
 #gem 'jquery-rails'
+gem 'bootstrap-datepicker-rails'
 gem 'jquery-rails', '2.0.2'
 gem 'rails3-jquery-autocomplete'
 gem 'spinjs-rails'
@@ -71,5 +72,5 @@ gem 'spring',        group: :development
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
-ruby "2.0.0"
+#ruby "2.0.0"
 

@@ -33,14 +33,18 @@
 <div id="name" class="input-group ">  
   
   
-<%= form_tag bills_local_sales_path(:format => "xml"), method: :get do %>
-  
-   <script>
+  <input type="text" id='datepicker' >
+
+ <script>
    $(function() {
     $("#local_sales").monthpicker();
+    $("#interstate_sales").monthpicker();
      });
-  </script>  
-  <%= text_field_tag :choose_month, params[:choose_month], :id => "local_sales", placeholder: "Select date to generate Local Sales xml", class: "btn btn-default fileupload-exists"  %>
+  </script>
+  
+  
+<%= form_tag bills_local_sales_path(:format => "xml"), method: :get do %>
+    <%= text_field_tag :choose_month, params[:choose_month], :id => 'local_sales', placeholder: "Select date to generate Local Sales xml", class: "btn btn-default fileupload-exists"  %>
   <%= submit_tag "Download" , class: "btn btn-success" %>
 <% end %>
   
