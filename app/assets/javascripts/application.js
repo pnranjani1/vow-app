@@ -20,6 +20,7 @@
 //= require_tree .
 //= require bootstrap.min
 //= require camera
+//= require monthpicker
 //= require jquery.carouFredSel-6.1.0-packed
 //= require jquery.easing.1.3
 //= require jquery.nicescroll.min
