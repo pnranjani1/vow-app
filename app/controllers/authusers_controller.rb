@@ -46,9 +46,9 @@ class AuthusersController < ApplicationController
     @user = current_authuser
     if @user.update_attributes(set_params)
       flash[:notice]=  "Password updated successfully"
-     if current_authuser.main_roles.first == 'client'
+      if current_authuser.main_roles.first.role_name == 'client'
 redirect_to dashboards_client_dashboard_path
-      elsif current_authuser.main_roles.first == 'user'
+      elsif current_authuser.main_roles.first.role_name == 'user'
        redirect_to dashboards_user_dashboard_path
    else
      render action: 'force_password_change'
@@ -170,6 +170,7 @@ end
     @user.membership = Membership.new
     @user.bankdetail = Bankdetail.new
     @user.address = Address.new
+    @user.permissions.build
     @user.users.build
   end
   

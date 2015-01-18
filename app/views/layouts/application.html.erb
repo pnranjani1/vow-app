@@ -31,6 +31,17 @@
   </button>
   <%= link_to "Vatonwheels.com", root_path , class: "navbar-brand " %> 
   </div> <!-- /.navbar-header -->
+   
+  <!--  <div class="col-md-8"> -->
+     <!-- <%= current_authuser.name %> -->
+     <!-- <% if current_authuser.main_roles.count >1 %> -->
+    <!-- <li>   -->  
+    <!-- <%= link_to authusers_change_role_path do %> -->
+    <!-- <i class="fa fa-dashboard"></i> Change Role -->
+    <!-- <% end %> -->
+    <!-- <% end %> -->
+    <!-- </li> -->
+   <!-- </div> -->
     
    <!-- right Navigation for profile -->
      <div class="navbar-collapse collapse">
@@ -98,15 +109,15 @@
 <% end %>
 </li>
   
-  <!-- Change Role -->
-  <% if controller.action_name == "change_role" %>
-<li class= "active dropdown">
-  <% else %>
-  <li>
-    <% end %>
+   <!-- Change Role --> 
+   <% if controller.action_name == "change_role" %> 
+<li class= "active dropdown"> 
+<% else %>
+  <li> 
+     <% end %>
 <% if current_authuser.main_roles.count > 1 %>
 <%= link_to authusers_change_role_path do %> 
-<i class="fa fa-dashboard"></i> Change Role
+<i class="fa fa-dashboard"></i> Change Role 
 <% end %>
 <% end %>
 </li>
@@ -193,10 +204,11 @@
    <!-- <%= link_to "Sign out", destroy_authuser_session_path %> -->
  
   <% end %>
-  <%= yield %>
-  
   <p class= "notice"><%= notice %></p>
   <p class= "alert"><%= alert %></p>
+  <%= yield %>
+  
+  
  
   
    <footer class="footer">

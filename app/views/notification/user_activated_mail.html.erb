@@ -4,7 +4,7 @@ Welcome to VatOnWheels!<br/><p>
 You Account on VatOnWheels has been created.<br/><p>
 Following are your credentials to login to the application:<br/>
 Username : <%= @user.email %> <br/>
-Password : <%= @user.password %><br/>
+Password : abcdefgh <br/>
 <br/>
 
 Click <%= link_to "here" , :controller => "devise/sessions", :action => "new", :host =>  "http://purple-wagon-47-179691.apse1.nitrousbox.com", :port => 3000  %> to login using the above credentials.<br/>
@@ -14,4 +14,4 @@ Please note, you are required to change the password on initial login to activat
 We thank you for an opportunity provided to serve you.<br/><p>
 
 Sincerely,<br/>
-VatOnWheels Team
+<%= link_to "Vaton Wheels Team" , :controller => "home_page", :action => "index", :host =>  "http://purple-wagon-47-179691.apse1.nitrousbox.com", :port => 3000  %>

@@ -33,9 +33,20 @@
   <i class="fa fa-cogs"></i>
   </button>
   <%= link_to "Vatonwheels.com", root_path , class: "navbar-brand " %> 
-   
-  
   </div> <!-- /.navbar-header -->
+   
+   <!-- <user name and change role -->
+   <!-- <div class="col-md-8"> -->
+     <!-- <%= current_authuser.name %> -->
+     <!-- <% if current_authuser.main_roles.count >1 %> -->
+      <!-- <li>     -->
+    <!-- <%= link_to authusers_change_role_path do %> -->
+ <!--   <i class="fa fa-dashboard"></i> Change Role -->
+    <!-- <% end %> -->
+       
+    <!--<% end %> -->
+    <!-- </li> -->
+   <!-- </div> -->
      
   
    
@@ -101,18 +112,30 @@
 </li>
 
 <!-- Change Role -->
-  <% if controller.action_name == "change_role" %>
-<li class= "active dropdown">
-  <% else %>
-  <li>
-    <% end %>
-
+     <% if controller.action_name == "change_role" %> 
+<li class= "active dropdown"> 
+<% else %>
+  <li> 
+     <% end %>
 <% if current_authuser.main_roles.count > 1 %>
 <%= link_to authusers_change_role_path do %> 
-<i class="fa fa-dashboard"></i> Change Role
+<i class="fa fa-dashboard"></i> Change Role 
 <% end %>
 <% end %>
 </li>
+
+  <!-- <% if controller.action_name == "change_role" %>
+<li class= "active dropdown"> -->
+  <!-- <% else %>
+  <li> -->
+    <!-- <% end %> -->
+
+<!-- <% if current_authuser.main_roles.count > 1 %> -->
+<!--<%= link_to authusers_change_role_path do %> 
+<i class="fa fa-dashboard"></i> Change Role -->
+<!-- <% end %> -->
+<!-- <% end %> -->
+<!-- </li>-->
   
   
 
