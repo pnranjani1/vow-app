@@ -98,7 +98,7 @@ class BillsController < ApplicationController
   
   
   def user_bill
-    @user_bills = Bill.where(:authuser_id => current_authuser.id).paginate(:page => params[:page], :per_page => 3)
+    @user_bills = Bill.where(:authuser_id => current_authuser.id).paginate(:page => params[:page], :per_page => 3).order('created_at DESC')
      #@users = User.paginate(:page => params[:page], :per_page => 5)
      respond_to do |format|
       format.html

@@ -77,14 +77,13 @@
 
 <div class="portlet-content">
 
-<div class="row"> 
-  
 <%= f.fields_for :line_items do |bill_product| %>
+<div class="row"> 
 <div class="col-sm-2">           
 <strong>Product</strong> 
  <div id="name" class="input-group">         
 <%= bill_product.collection_select :product_id, Product.where(:authuser_id => current_authuser.id), :id, :product_name,{prompt: "Select Product"}, {class: "form-control"} %>
- </div> 
+</div> 
 </div> <!-- /.col -->
  
             
@@ -114,22 +113,20 @@
 </div>
 </div>
  
+</div><!-- row ends here --><br/>
 <% end %>
-  </div>
-  
-<div class="row">
- <br/>
-<%= f.link_to_add "Add Product", :line_items, class: "btn btn-success" %><br/><p>
-</div>
   
 
-  
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= f.link_to_add "Add Product", :line_items, class: "btn btn-success" %><br/><p>
+<!-- </div> -->
+
 </div> <!-- portlet content ends here -->
 </div><!-- portlet ends here -->
 
 <!-- Product ends here -->
   
-  <div class="portlet">
+<div class="portlet">
 
 <div class="portlet-header">
 <h3><i class="fa fa-user"></i> Other Information</h3>
@@ -155,18 +152,18 @@
 </div>
 </div> <!-- /.col -->
         
- <div class="col-sm-4">           
+<div class="col-sm-4">           
 <strong>Tax Information</strong> 
 <div id="name" class="input-group">               
   <%= f.collection_select :tax_id, Tax.all, :id, :tax ,{prompt: "Select Tax"}, {class: "form-control"} %>
 </div>
 </div> <!-- /.col -->
+<br/><br/><br/><br/>
   
-<div class="col-sm-6">           
+<div class="col-sm-4">           
 <strong>Other Information</strong> 
 <div id="name" class="input-group">               
 <%= f.text_field :other_information, class: "form-control" %>
-
 </div>
 </div> <!-- /.col -->
             
@@ -180,13 +177,9 @@
 <div class="col-md-3">
   <%= f.submit "Create Bill", class: "btn btn-success" %></div>
   <% end %>
-</div> <!-- /.portlet-content -->
+</div>
+</div>
   
-  
-  
-  
-
-</div> <!-- /.portlet -->
 </div> <!-- /.row -->
 
 </div> <!-- /.content-container -->      
