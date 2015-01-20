@@ -45,6 +45,7 @@ require 'active_support/core_ext/date/conversions'
   has_one :membership, dependent: :destroy
   has_one :bankdetail, dependent: :destroy
  
+  #has_many :clients, class_name: 'Client', foreign_key: 'created_by'
  
   accepts_nested_attributes_for :membership
   accepts_nested_attributes_for :address
@@ -83,8 +84,10 @@ end
   
   def create_role_for_invitees
     if self.name.nil?
-      self.main_roles << MainRole.find_by_role_name("user")
-    end
+    # self.main_roles << MainRole.find_by_role_name("user")
+     #self.main_roles << MainRole.where(:role_name => "user")
+     self.permissions << Permission.new
+     end
   end
   
     

@@ -57,10 +57,15 @@ Rails.application.routes.draw do
   get 'bills/bill_tally_import_reports'
   get 'products/product_import_report'
   get 'customers/customer_import_report'
+  get 'bills/bill_details_client'
     
   resources :authusers
   resources :users
-  resources :bills
+  resources :bills do 
+    collection do 
+      post :generate_esugan
+    end
+  end
   resources :customers
   resources :main_categories
   resources :usercategories

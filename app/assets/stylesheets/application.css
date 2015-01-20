@@ -14,3 +14,40 @@
 *= require_tree .
  *= require_self
  */
+
+#new_user {
+  float: left;
+}
+
+#sugan_error {
+  color: red
+}
+
+.show-sugan{
+  display: block;
+}
+
+.hide-sugan {
+  display: none;
+}
+
+
+#user_notice{
+  font-weight: bold;
+  font-size: 1.2em;
+  padding: 10px 2px;
+}
+
+.visible {
+  display: block;
+}
+
+.hide {
+  display: none;
+}
+
+.success {
+  color: green;
+}
+
+

@@ -6,8 +6,6 @@ class BillsController < ApplicationController
   
  #layout 'client', :only => [:user_bill_summary]
   
-  
-  
   filter_access_to :all
   before_filter :authenticate_authuser!
     
@@ -46,8 +44,14 @@ class BillsController < ApplicationController
      
   end
   
-  
-  
+  def generate_esugan
+    @bill = Bill.where(id: params["bill_id"]).first
+     if @bill.present?
+      @bill.get_esugan_number
+       @error = " Oops ! Something went wrong !  " if @bill.esugam.blank?
+     end
+  end
+ 
   
   def show
     @bill = Bill.find(params[:id])
@@ -55,7 +59,8 @@ class BillsController < ApplicationController
       format.html  do
         if params[:cause] == "esn"
 
-          esugano=esnget(@bill)
+          #esugano = @bill.get_esugan_number
+          #esugano=esnget(@bill)
           if esugano != nil && esugano.length < 15
             @bill.update_attribute('esugam',esugano)
           end
@@ -93,7 +98,8 @@ class BillsController < ApplicationController
   
   
   def user_bill
-     @user_bills = Bill.where(:authuser_id => current_authuser.id)
+    @user_bills = Bill.where(:authuser_id => current_authuser.id).paginate(:page => params[:page], :per_page => 3)
+     #@users = User.paginate(:page => params[:page], :per_page => 5)
      respond_to do |format|
       format.html
        format.xml 
@@ -112,17 +118,43 @@ class BillsController < ApplicationController
   def bill_tally_import_reports
   end
   
-  
+ 
   
   def user_bill_summary
-    @user = User.where(:client_id => current_authuser.id)
+    @client_user = User.where(:client_id => current_authuser.id)
+    @clients = Client.where(:created_by => current_authuser.id)
+    @clients.each do |client|
+    client_id = client.authuser.id
+   @users = User.where(:client_id => 7)
+    #@clients = Client.where(:created_by => current_authuser.id)
+    #@clients.each do |client|
+     # client_id = client.authuser.id
+      #@user = Authuser.find(client_id)
+    # @user = User.where(:client_id => client_id).first
+    end
+        
   end
   
   def client_bill_summary
     @clients = Client.where(:created_by => current_authuser.id)
-    @users 
+    @clients.each do |client|
+      client_id = client.authuser.id
+      users = User.where(:client_id => client_id)
+      users.each do |user|
+      @users_bills = user.authuser.bills.count
+      end 
+    end
   end
   
+  
+  def bill_details_client
+   # clients =  Client.where(:created_by => current_authuser.id)
+    #clients.each do |client|
+     # id = client.authuser.id
+    @user = Authuser.find(7)
+   # end
+   @client_user = User.where(:client_id => @user.id)
+  end
  
   
   # def local_sales
@@ -181,7 +213,7 @@ end
 end
   end
  
-  
+=begin  
   def esnget(bill)
     @bill = bill  
     @tax_type = @bill.tax.tax_type
@@ -216,7 +248,6 @@ end
       browser.windows.last.use do
         url = browser.url
       end
-    
       
       browser.goto url
       browser.button(:value,"Continue").click rescue nil
@@ -252,10 +283,7 @@ end
         end
         sleep 3
       end
-
       sleep 5
-
-
     browser.text_field(:id, "ctl00_MasterContent_txtFromAddrs").set(@bill.authuser.address.city)
       browser.text_field(:id, "ctl00_MasterContent_txtToAddrs").set(@bill.customer.city)
       browser.text_field(:id, "ctl00_MasterContent_txt_commodityname").set(@product_name)
@@ -297,21 +325,16 @@ end
 
     end
     end
+=end
 
-  
-     
-  
+
+
   private
-  
   def set_params
-    params[:bill].permit(:invoice_number,:esugam, :bill_date, :customer_id, :authuser_id, :tax, :total_bill_price, :tax_id, :grand_total, :other_charges, :other_information, :other_charges_info,
+    params[:bill].permit(:invoice_number,:esugam, :bill_date, :customer_id, 
+      :authuser_id, :tax, :total_bill_price, :tax_id, :grand_total, :other_charges,
+      :other_information, :other_charges_info,
       {:line_items_attributes => [:product_id, :quantity, :unit_price, :total_price]},
-      {:tax_attributes => [:tax_type, :tax_rate, :tax]}
-      )
+      {:tax_attributes => [:tax_type, :tax_rate, :tax]})
   end
-  
-
-
-  
-   
-end
+  end

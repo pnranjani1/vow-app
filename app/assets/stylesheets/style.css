@@ -1,3 +1,8 @@
+.padboard{
+  border:1px solid #ccc;
+}
+   
+
 
 .mytest{
     width: 95%;
@@ -14,7 +19,6 @@
     color: #888;
     font-size: 14px;
 }
-
 
 
 @font-face {

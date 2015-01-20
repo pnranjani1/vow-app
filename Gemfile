@@ -38,6 +38,7 @@ gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0',         group: :doc
 gem 'will_paginate', '~>3.0'
+gem 'will_paginate-bootstrap'
 gem 'declarative_authorization'
 gem 'nested_form'
 gem 'prawn'
@@ -46,7 +47,9 @@ gem 'roo'
 gem 'layout_by_action'
 #gem  'watir-webdriver'
 group :development, :test do
-     gem 'sqlite3'
+  gem 'sqlite3'
+  gem 'hirb'
+    
 end
 
 group :production do

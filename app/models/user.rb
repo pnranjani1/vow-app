@@ -11,7 +11,6 @@ class User < ActiveRecord::Base
   has_many :products
   has_many :customers, dependent: :destroy
   has_many :taxes
- 
 
   def generate_client_id
     self.client_id = self.authuser.invited_by_id

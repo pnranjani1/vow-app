@@ -1,8 +1,9 @@
 class Client < ActiveRecord::Base
   #before_save :generate_unique_reference_key
  # before_save :generate_char
-  has_many :users, dependent: :destroy
-  belongs_to :authuser
+  
+  belongs_to :authuser, class_name: "Authuser" #, foreign_key: "created_by"
+  has_many :users
   
   #def char
    # self.char = self.authuser.name.slice!(0..3)

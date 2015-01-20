@@ -32,17 +32,22 @@
 <% end %>
  
  <!--<img src="img/avatar-1-md.jpg" alt="Avatar" class="panel-list-avatar"> -->
+  <%=  will_paginate  @user_bills, renderer: BootstrapPagination::Rails , class: "apple_pagination" %>
   
   
+  <div class="row">
+  <div class="col-md-2">
    <%= link_to bills_user_bill_path(format: "xls") do %>
   <button class="btn btn-success">Download Excel</button> 
   <% end %>
-  
+    </div>
+    
+    <div class="col-md-2">
   <%= link_to bills_user_bill_path(format: "csv") do %>
    <button class="btn btn-success">Download Csv</button>
   <% end %>
-
-
+    </div>
+  </div>
  
 
 </div> <!-- /.portlet-content -->

@@ -32,7 +32,7 @@
 <div class="col-md-6">
 <div id="name" class="input-group">               
   
-  <script>
+  <!-- <script>
    $(function() {
     $("#local_sales").monthpicker();
     $("#interstate_sales").monthpicker();
@@ -46,8 +46,13 @@
             $("#start_date").datepicker({ dateFormat: "dd/mm/yy" }).val()
             $("#end_date").datepicker({ dateFormat: "dd/mm/yy" }).val()
         });
+</script> -->
+  
+   <script type="text/javascript">
+  $(document).ready(function(){
+     $("#interstate_sales").datepicker({ dateFormat: "mm/yy" }).val()
+     });
 </script>
-
   
 <%= form_tag bills_interstate_sales_path(:format => "xml"), method: :get do %>
 <%= text_field_tag :choose_month, params[:choose_month], :id => "interstate_sales" , placeholder: "Select date to Generate Interstate Sales xml", class: "btn btn-default fileupload-exists"  %>

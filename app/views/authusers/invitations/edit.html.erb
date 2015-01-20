@@ -79,9 +79,8 @@ Confirm Password
   <%= user_membership.hidden_field :membership_start_date, :value => Date.today %>
   <%= user_membership.hidden_field :membership_end_date, :value => Date.today + 1.year %>
   
- 
   
-  <div class="row">
+<div class="row">
 <div class="col-sm-4">           
 Phone Number
 <div id="phone" class="input-group">      
@@ -90,7 +89,7 @@ Phone Number
 </div>
 </div> <!-- /.col -->
  <% end %>  
-  
+    
 </div> <!-- row ends here -->
 </div> <!-- /.portlet-content -->
 </div> <!-- /.portlet -->
@@ -187,6 +186,10 @@ IFSC Code
   
   <!-- bank detail ends here -->
   
+  <%= f.fields_for :permissions do |permission| %>
+  <%= permission.hidden_field :main_role_id, :value => 3.to_i %>
+  <% end %>
+  
   
 <div class="row"> 
 <div class="portlet">
@@ -218,12 +221,13 @@ Esugam Username
 <div class="col-sm-3">           
 Esugam Password
 <div id="Password" class="input-group">   
-  <%= user.password_field :esugam_password, class: "form-control" %>
+<%= user.password_field :esugam_password, class: "form-control" %>
 <span class="input-group-addon"><i class="fa fa-star"></i></span>
 </div>
 </div> <!-- /.col -->
 <% end %>
-  
+
+ 
 
 </div> <!-- row ends here -->
 </div> <!-- /.portlet-content -->

@@ -14,10 +14,12 @@
  <div class="content">
  <div class="content-container">     
    <div>
-    <h4 class="heading-inline"><%= current_authuser.name %></h4>        
-   </div>
+    <h4 class="heading-inline"><%= current_authuser.name %></h4>     
+    </div>
  <br>
 
+     
+ 
    
    <div class="row">   
    
@@ -28,9 +30,18 @@
  <span class="label label-success row-stat-badge"></span>
  </div> <!-- /.row-stat -->
  </div> <!-- /.col -->
-
- 
  </div> <!-- row ends here-->
+   
+   <% if alert %>
+   <div class="col-md-4">
+      <div class="alert alert-danger"><%= alert %></div>
+   </div>
+      <% end %>
+     <% if notice %>
+   <div class="col-md-8">
+      <div class= "alert alert-success"><%= notice %></div>
+   </div>
+      <% end %>
        
        
  <div class="row">

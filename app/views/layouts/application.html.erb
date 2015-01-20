@@ -140,13 +140,31 @@
 <!-- <% end %> -->
         
 <!-- Bills Information -->
-<!-- <li>   -->
-<!-- <% if permitted_to? :index, Bill.new %> -->
-<!-- <%= link_to bills_path  do %> -->
-<!-- <i class="fa fa-align-left"></i> Bills Information -->
-<!-- <% end %> -->
-<!-- <% end %> -->
-<!-- </li> -->
+  <% if controller.action_name == "client_bill_summary" %>
+ <li class="active">  
+   <% else %>
+  <li>
+  <% end %>
+   <% if permitted_to? :client_bill_summary, Bill.new %>
+<%= link_to bills_client_bill_summary_path  do %>
+<i class="fa fa-align-left"></i> Bills Information 
+ <% end %>
+<% end %> 
+</li>
+  
+  <!-- bills information for client -->
+  <% if controller.action_name == "bill_information_client" %>
+ <li class="active">  
+   <% else %>
+  <li>
+  <% end %>
+    <% if permitted_to? :bill_information_client, Bill.new %>
+    <%= link_to bills_user_bill_summary_path  do %>
+<i class="fa fa-align-left"></i> Bills Information 
+ <% end %>
+<% end %> 
+</li>
+  
           
 <!-- Main Commodities -->  
 <% if permitted_to? :index, MainCategory.new %>
@@ -195,22 +213,20 @@
 </ul><!-- nav navbar-nav mainbar-nav --ends here -->
   
 </div> <!-- /.mainbar-collapse -->   
-</div> <!-- /.container --> 
-</div> <!-- /.mainbar -->
+ </div> <!-- /.container --> 
+ </div> <!-- /.mainbar -->
+    <% end %>
+    <%= yield %>
    
-
 
   <!-- <%= link_to "Sign Out", destroy_authuser_session_path, method: :delete %> -->
    <!-- <%= link_to "Sign out", destroy_authuser_session_path %> -->
  
-  <% end %>
-  <p class= "notice"><%= notice %></p>
-  <p class= "alert"><%= alert %></p>
-  <%= yield %>
+ 
   
   
  
-  
+   
    <footer class="footer">
 
   <div class="container">

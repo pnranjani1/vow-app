@@ -23,7 +23,8 @@
 <li class="panel-list-title">
 <div class="panel-list-content">
  <!-- <span class="panel-list-time">20 mins</span> -->
-<%= link_to bill.customer.name, bill_path(bill.id) %> /
+
+<ul><li><%= link_to bill.customer.name, bill_path(bill.id) %> /
 <%=  bill.tax.tax_type %>
 <span class="panel-list-meta">Posted <%= time_ago_in_words (bill.created_at) %> ago</span></li>
 </ul>

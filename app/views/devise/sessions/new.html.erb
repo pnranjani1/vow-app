@@ -32,9 +32,16 @@
 <!--content-->
  
 <div class="content"> 
-<div class="register-container container">
-<div class="row"> 
-<div class="covrpage">         
+  <br/><br/><br/><br/>
+   <% if alert %>
+   <div class="col-md-4">
+      <div class="alert alert-danger"><%= alert %></div>
+   </div>
+      <% end %>
+  
+ <div class="register-container container">
+ <div class="row"> 
+ <div class="covrpage">         
 <div class="register">
 <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
 <h2>Sign in</h2>

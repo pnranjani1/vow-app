@@ -3119,7 +3119,7 @@ ul.support-list li {
   margin-left: 2.5em;
 }
 .scrollable-panel {
-  height: 300px;
+  height: 500px;
   overflow-y: hidden;
   outline: none;
 }

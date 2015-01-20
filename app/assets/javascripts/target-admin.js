@@ -389,3 +389,8 @@ var target_admin = function () {
 $(function () {
   target_admin.init ()
 })
+
+$("#spinneret").click(function(){
+		$("#spinme").spin();
+		$("#messpin").show();
+	});

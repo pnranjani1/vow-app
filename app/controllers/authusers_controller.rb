@@ -166,12 +166,13 @@ end
   #for User Creation
   
   def client_new
-    @user = Authuser.new
-    @user.membership = Membership.new
-    @user.bankdetail = Bankdetail.new
-    @user.address = Address.new
-    @user.permissions.build
-    @user.users.build
+    @user = current_authuser
+    #@user = Authuser.new
+   # @user.membership = Membership.new
+   # @user.bankdetail = Bankdetail.new
+   # @user.address = Address.new
+   # @user.permissions.build
+   # @user.users.build
   end
   
   def client_create

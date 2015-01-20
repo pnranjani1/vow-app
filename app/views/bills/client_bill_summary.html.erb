@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+  <body>
+  
+<div class="container">
+  <div class="content">
+    <div class="content-container">      
+      <div>
+        <h4 class="heading-inline">Bills Information</h4>        
+      </div>
+      <br/>
+        <strong> Total Number of Clients : </strong><%= @clients.count %>
+      <br/>
+      <br>
+      <div class="row"> 
+      <div class="portlet portlet-table">
+      <div class="portlet-header">
+      <h3><i class="fa fa-group"></i>Client Bills</h3> 
+      </div> <!-- /.portlet-header -->
+
+      <div class="portlet-content">
+      <div class="table-responsive">
+      <table id="user-signups" class="table table-striped table-bordered table-checkable"> 
+       
+      <thead> 
+      <tr> 
+      <th>Client Name</th> 
+      <th> No Of Users</th>
+    
+         
+      </tr> 
+      </thead> 
+      <tbody> 
+      <% @clients.each do|client| %>
+        <% client_id = client.authuser.id %>
+        <% @users = User.where(:client_id => client_id) %>
+        <% users_count = @users.count %>
+        
+        
+       <tr>                      
+         <td><%= link_to client.authuser.name, bills_bill_details_client_path(client.authuser.id) %> </td>
+         <td><%= users_count %></td>
+    
+    </tr>     
+    
+        <%  end %>
+    </tbody> 
+    </table>
+        
+                  
+</div> <!-- /.table-responsive -->
+</div> <!-- /.portlet-content -->
+</div> <!-- /.portlet -->
+</div> <!-- /.row -->
+
+</div> <!-- /.content-container -->
+</div> <!-- /.content -->
+</div> <!-- /.container -->
+    
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+

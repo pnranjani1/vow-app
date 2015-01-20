@@ -3,13 +3,17 @@
 <head>
 <title>Vatonwheels</title>
 <meta charset="utf-8">    
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
 
 <meta name="description" content="Your description">
 <meta name="keywords" content="Your keywords">
 <meta name="author" content="Your name">
 <meta name = "format-detection" content = "telephone=no" />
 
+  
 
   
 <script>
@@ -78,6 +82,27 @@
       }   
     });
 </script>
+  
+   <script type="text/javascript">
+
+        marqueeInit({
+            uniqueid: 'mycrawler1',
+            style: {
+                'padding':'5px',
+                'margin':'5px',
+                'width': '100%',
+                'height': 'auto'
+            },
+            inc: 2, //speed - pixel increment for each iteration of this marquee's movement
+            mouse: 'pause', //mouseover behavior ('pause' 'cursor driven' or false)
+            moveatleast: 2,
+            neutral: 150,
+            savedirection: true,
+            random: false
+        });
+ 
+    </script>
+    
 <!--<![endif]-->
 
 
@@ -114,7 +139,7 @@
   
 <div><%= image_tag "picture1.jpg" %><div class="camera-caption fadeIn"><p class="title">United by the hobby<br>of model aircraft flying</p></div></div>
 <!-- <div><%= image_tag "picture2.jpg" %><div class="camera-caption fadeIn"><p class="title">United by the hobby<br>of model aircraft flying</p></div></div>
-<div><%= image_tag "picture3.jpg" %><div class="camera-caption fadeIn"><p class="title">United by the hobby<br>of model aircraft flying</p></div></div> -->
+<div><%= image_tag "picture3.jpg" %><div class="camera-caption fadeIn"><p class="title">United by the hobby<br>of model aircraft flying</p></div></div>  -->
         
  <!-- <div data-src="picture1.jpg"><div class="camera-caption fadeIn"><p class="title">United by the hobby<br>of model aircraft flying</p></div></div>
         <div data-src="picture2.jpg"><div class="camera-caption fadeIn"><p class="title">Promoting the safe<br>radio model flying</p></div></div>
@@ -333,25 +358,16 @@
     
 <div class="thumb-box6">    
 <div class="container">
-<p class="title wow fadeIn"><span>our Clients</span></p>
-<div class="list_carousel1 responsive clearfix wow fadeInUp">
-
-<ul class="foo foo1">
-<li><a href="#"><%= image_tag("page1_company1.png", alt: " ") %></a></li>
-<li><a href="#"><%= image_tag("page1_company2.png", alt: " ") %></a></li>
-<li><a href="#"><%= image_tag("page1_company3.png", alt: " ") %></a></li>
-<li><a href="#"><%= image_tag("page1_company4.png", alt: " ") %></a></li>
-<li><a href="#"><%= image_tag("page1_company5.png", alt: " ") %></a></li>
-<li><a href="#"><%= image_tag("page1_company6.png", alt: " ") %></a></li>
-</ul>
-
-</div> <!-- "list_carousel1 responsive clearfix wow fadeInUp" ends here -->
-
   
-<div class="list_btn2 wow fadeInUp">
-<a class="prev prev1" href="#"></a>
-<a class="next next1" href="#"></a>
-</div>
+<p class="title wow fadeIn"><span>our Clients</span></p>
+<div class="marquee" id="mycrawler1">
+<%= image_tag("page1_company1.png", alt: " ", class: "padboard") %>
+<%= image_tag("page1_company2.png", alt: " ", class: "padboard") %>
+<%= image_tag("page1_company3.png", alt: " ", class: "padboard") %>
+<%= image_tag("page1_company4.png", alt: " ", class: "padboard") %>
+<%= image_tag("page1_company5.png", alt: " ", class: "padboard") %>
+<%= image_tag("page1_company6.png", alt: " ", class: "padboard") %>
+ </div>
 
 </div> <!-- container ends here -->
 </div> <!-- thumb-box6" edns here -->
