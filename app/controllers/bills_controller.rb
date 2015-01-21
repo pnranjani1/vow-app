@@ -147,13 +147,22 @@ class BillsController < ApplicationController
   end
   
   
+  
+  
   def bill_details_client
    # clients =  Client.where(:created_by => current_authuser.id)
     #clients.each do |client|
      # id = client.authuser.id
-    @user = Authuser.find(7)
-   # end
-   @client_user = User.where(:client_id => @user.id)
+    @user = Authuser.find(params[:id])
+    @client_user = User.where(:client_id => @user.id)
+    
+     #chosen_month = params[:choose_month]
+  #  @client_user = User.where('created_at >= ? AND created_at <= ? AND client_id = ?' ,chosen_month.to_date.beginning_of_month, chosen_month.to_date.end_of_month, @user.id) 
+    
+  #  respond_to do |format|
+  #  format.html
+   # format.xls 
+  #  end
   end
  
   

@@ -4671,6 +4671,7 @@ a.thumbnail.active {
   margin-bottom: 20px;
   border: 1px solid transparent;
   border-radius: 4px;
+  width: auto;
 }
 .alert h4 {
   margin-top: 0;
@@ -4701,6 +4702,7 @@ a.thumbnail.active {
   background-color: #dff0d8;
   border-color: #d6e9c6;
   color: #3c763d;
+  width: auto;
 }
 .alert-success hr {
   border-top-color: #c9e2b3;

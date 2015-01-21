@@ -9,30 +9,56 @@
 
 <body>
 
- <div class="container">
- <div class="content">
- <div class="content-container">     
+<div class="container">
+<div class="content">
+<div class="content-container">     
    <div>
-    <h4 class="heading-inline"><%= current_authuser.name %></h4>        
+    <h4 class="heading-inline">Roles </h4>        
    </div>
- <br>
+<br>
+ 
 
+<div class="row"> 
+<div class="portlet">
 
-<h4> Add User Role </h4>
+<div class="portlet-header">
+<h3><i class="fa fa-user"></i>Add User Role</h3>
+</div> <!-- /.portlet-header -->
+
+<div class="portlet-content">
+       
+<div class="col-sm-8"> 
+<div class="row">  
+<div class="col-md-6">
+<div id="name" class="input-group ">  
+  
 <%= form_for(@user, :url => '/clients/update') do |f| %>
 
 <label> Add as User </label>
-<%= f.check_box :role_user, {}, "true", "false" %><br/>
-
+&nbsp;&nbsp;&nbsp;<%= f.check_box :role_user, {}, "true", "false" %><br/>
+   
+<%= f.fields_for :users do |user| %>
+<%= user.hidden_field :client_id, :value => current_authuser.id %>
+<% end %>
 
 <br/>
-<%= f.submit %>
+  <%= f.submit "Add Role", class: "btn btn-success" %>
 <%  end %>
-
-   </div><!-- content container ends here -->
-   </div><!-- content ends here-->
-  </div><!-- container ends here-->
   
-  </body>
-</html>
 
+
+</div>
+</div>
+</div>
+</div> 
+  
+</div>
+</div>
+</div>
+  
+</div><!-- content container ends here -->
+</div> <!-- content ends here -->
+</div><!-- container ends here-->
+  
+</body>
+</html>

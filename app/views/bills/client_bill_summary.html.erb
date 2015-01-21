@@ -39,7 +39,7 @@
         
         
        <tr>                      
-         <td><%= link_to client.authuser.name, bills_bill_details_client_path(client.authuser.id) %> </td>
+         <td><%= link_to client.authuser.name, bills_bill_details_client_path(:id => client.authuser.id) %> </td>
          <td><%= users_count %></td>
     
     </tr>     
@@ -47,7 +47,7 @@
         <%  end %>
     </tbody> 
     </table>
-        
+      
                   
 </div> <!-- /.table-responsive -->
 </div> <!-- /.portlet-content -->

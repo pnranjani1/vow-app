@@ -19,10 +19,12 @@ Rails.application.routes.draw do
    post 'authusers/admin_create' => 'authusers#admin_create'
     get 'authusers/client_new' => 'authusers#client_new'
     post 'authusers/client_create' => 'authusers#client_create'
+    get 'authusers/admin_edit' => 'authusers#admin_edit'
+    post 'authusers/admin_update' => 'authusers#admin_update'
     
     get 'authusers/force_password_change' => 'authusers#force_password_change'
-    get 'authusers/:id/admin_edit' => 'authusers#admin_edit', :as => "admin_edit"
-    patch 'authusers/:id/admin_update' => 'authusers#admin_update', :as => "admin_update"
+   # get 'authusers/:id/admin_edit' => 'authusers#admin_edit', :as => "admin_edit"
+    #patch 'authusers/:id/admin_update' => 'authusers#admin_update', :as => "admin_update"
     
     get 'authusers/:id/client_edit' => 'authusers#client_edit', :as => "client_edit"
     patch 'authusers/:id/client_update' => 'authusers#client_update', :as => "client_update"
@@ -79,6 +81,7 @@ Rails.application.routes.draw do
   #resources :userprofiles
    resources :clients
   resources :admins
+  resources :enquiry_forms
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

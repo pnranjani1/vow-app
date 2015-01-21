@@ -29,6 +29,10 @@ class Notification < ActionMailer::Base
     mail(:to => @user.email, :subject => "Your account on VatonWheels will expire in 2 days, Contact your CA for further details ")
   end
   
+  def new_enquiry(enquiry_form)
+    @enquiry_form = enquiry_form
+    mail(:to => "ranjani@iprimitus.com", :subject => "VAtonWheels - New User Enquiry")
+  end
   
   
 end

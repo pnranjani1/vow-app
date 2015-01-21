@@ -68,7 +68,7 @@ redirect_to dashboards_client_dashboard_path
     @client.address = Address.new
     @client.membership = Membership.new
     @client.bankdetail = Bankdetail.new
-    @client.permissions.build
+   # @client.permissions.build
     @client.clients.build   
     @client.users.build
     end
@@ -91,16 +91,16 @@ redirect_to dashboards_client_dashboard_path
   
   
   def admin_edit
-    @client = Authuser.find(params[:id])  
+    @client = current_authuser
   end
   
     
   def admin_update
-    @client = Authuser.find(params[:id])
-    if @client.update_attributes(set_params)
-      redirect_to dashboards_client_dashboard_path
+    @client = current_authuser
+    if @client.save
+    redirect_to dashboards_client_dashboard_path
     else
-      render action: 'edit'
+      render action: 'admin_edit'
     end
   end
   
@@ -136,7 +136,8 @@ redirect_to dashboards_client_dashboard_path
       end
   end
   
- 
+  
+    
   def change_role
     @user = current_authuser
     @user_roles = current_authuser.main_roles

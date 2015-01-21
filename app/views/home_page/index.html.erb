@@ -128,6 +128,11 @@
 <li><a href="https://plus.google.com/108877132961366118945/videos" class="fa fa-google-plus"></a></li>
 <li><a href="#" class="fa fa-youtube"></a></li>
 </ul>
+  <% if notice %>
+   <div class="col-md-6">
+     <div class="alert alert-success"><%= notice %></div>
+   </div>
+      <% end %>
  
 </div>   <!-- container ends here -->
 </header>
@@ -405,37 +410,57 @@
 <br>
 </div> <!-- class="foo_info ends here -->
 </div> <!-- col-lg-4 col-md-4 col-sm-12 wow fadeInUp ends here -->
-            
+
+  
 <div class="col-lg-4 col-md-4 col-sm-12 wow fadeInUp" data-wow-delay="0.2s">
 <p class="title2">Quick Contact</p>
-                
+ <!--  For Enquiry , click <%= link_to "here", new_enquiry_form_path %> -->
+ <%= form_for(@enquiry_form) do |f| %>
 <div class="row">                
 <div class="col-lg-4 quickname">Name :</div>
-<div class="col-lg-8"><input type="text" placeholder="Name" class="quickfield"/></div>                
+<div class="col-lg-8">
+  <%= f.text_field :name , placeholder: "Name", class: "quickfield" %>
+<!--<input type="text" placeholder="Name" class="quickfield"/> -->
+</div>
+  
 </div> <!-- row ends here -->
                 
 <div class="row">                
 <div class="col-lg-4 quickname">Email :</div>
-<div class="col-lg-8"><input type="text" placeholder="Email" class="quickfield"/></div>                
+<div class="col-lg-8">
+<%= f.email_field :email, class: "quickfield", placeholder: "Email" %>
+<!-- <input type="text" placeholder="Email" class="quickfield"/> -->
+</div>
 </div> <!-- row ends here -->
                 
 <div class="row">                
 <div class="col-lg-4 quickname">Phone :</div>
-<div class="col-lg-8"><input type="text" placeholder="Phone" class="quickfield"/></div>                
+<div class="col-lg-8">
+<%= f.text_field :phone_number, placeholder: "Phone Number", class: "quickfield" %>  
+<!-- <input type="text" placeholder="Phone" class="quickfield"/> -->
+</div>
 </div> <!-- row ends here -->
                 
 <div class="row">                
-<div class="col-lg-4 quickname">Comment :</div>
-<div class="col-lg-8"><textarea class="quickfield2"></textarea></div>                	
+<div class="col-lg-4 quickname">Comments :</div>
+<div class="col-lg-8">
+<%= f.text_area :comments , class: "quickfield2" %>
+<!-- <textarea class="quickfield2"></textarea> -->
+</div>                	
 </div> <!-- row ends here -->
                 
 <div class="row">                
 <div class="col-lg-4 quickname"></div>
-<div class="col-lg-8"><a href="#" class="enterbut">Submit</a></div>                	
+<div class="col-lg-8">
+<%= f.submit "Submit", class: "enterbut" %>
+<% end %>
+ <!-- <a href="#" class="enterbut">Submit</a>-->
+  </div>                	
 </div> <!-- row ends here -->
                 
                 
 </div> <!-- col-lg-4 col-md-4 col-sm-12 wow fadeInUp ends here -->
+
 </div> <!-- footer row ends here -->
 </div> <!-- footer container ends here -->
   <!-- {%FOOTER_LINK} -->

@@ -74,11 +74,13 @@ Confirm Password
 <%= f.hidden_field :invited_by_id, :value => current_authuser.id %>
 <%= f.hidden_field :invited_by_type, :value => "Authuser" %>
   
-<div>
-  <%= f.fields_for :permissions  do |client_permission| %>
-  <%= client_permission.hidden_field :main_role_id, :value => 2.to_i %>
-<% end %>          
-  </div>
+<!-- <div> -->
+  <!-- <%= f.fields_for :permissions  do |client_permission| %> -->
+  <!-- <%= client_permission.hidden_field :main_role_id, :value => 2.to_i %> -->
+<!-- <% end %>          -->
+  <!-- </div>-->
+  
+  
 </div> <!-- row ends here -->
 </div> <!-- /.portlet-content -->
 </div> <!-- /.portlet -->
@@ -264,6 +266,7 @@ Company
 <span class="input-group-addon"><i class="fa fa-user"></i></span>
 </div>
 </div> <!-- /.col -->
+<%= user_client.hidden_field :created_by, :value => current_authuser.id %>
 <% end %>
 
 </div> <!-- row ends here -->
@@ -273,37 +276,36 @@ Company
   <!-- company detail ends here -->
 
     
+  
+ 
 <div class="row"> 
 <div class="portlet">
   
 <div class="portlet-header">
-<h3><i class="fa fa-user"></i>Remarks</h3>
+<h3><i class="fa fa-user"></i>Assign Roles</h3>
 </div> <!-- /.portlet-header -->
 
-<div class="portlet-content">
+<div class="portlet-content">  
+  
 <div class="row">
+<div class="col-sm-6">
+<div class="input-group">
 
-<%= f.fields_for :clients do |user_client| %>
-<div class="col-sm-6">           
-Remarks
-<div id="Remarks" class="input-group">     
-<%= user_client.text_field :remarks, class: "form-control" %>
-<span class="input-group-addon"><i class="fa fa-repeat"></i></span>
-</div>
-</div> <!-- /.col -->
-  <%= user_client.hidden_field :created_by, :value => current_authuser.id %>
-<% end %>
+<% MainRole.all.each do |role| %>
+<%= check_box_tag "authuser[main_role_ids][]", role.id, @client.main_role_ids.include?(role.id), :id => dom_id(role) %>
+&nbsp;&nbsp;<%= label_tag dom_id(role), role.role_name.capitalize %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<% end %><br/>
+
   
   
- 
+</div> <!-- input-group ends here -->
+</div> <!-- col  ends here -->
 
-</div> <!-- row ends here -->
+</div> <!-- /.row -->
 </div> <!-- /.portlet-content -->
 </div> <!-- /.portlet -->
 </div> <!-- /.row -->
-  <!-- remarks ends here -->
-
-
+  
 
 <div class="row">      
   <%= f.submit "Submit", class: "btn btn-success" %>
@@ -313,5 +315,6 @@ Remarks
   </div><!--  content container ends here -->
   </div><!--content  ends here -->
   </div><!-- container ends here -->
-  </body>
+  
+</body>
 </html>

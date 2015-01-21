@@ -38,9 +38,9 @@
    </div>
       <% end %>
      <% if notice %>
-   <div class="col-md-8">
+    <div class="col-md-8">
       <div class= "alert alert-success"><%= notice %></div>
-   </div>
+    </div>
       <% end %>
        
        
@@ -95,16 +95,27 @@
 </tbody>    
 </table>
   
-                       
 <div class="portlet-footer">
+<% if current_authuser.main_roles.count == 1 %> 
+<div class="col-md-6">
+<div class="text-left">  
+Add User Role <%= link_to clients_user_role_path do %><button class="btn btn-success">Add User Role</button>
+ <% end %>
+</div> <!-- text-left ends here -->
+  </div><!-- col ends here -->
+ 
+  <% end %>
+
+
 <div class="text-right"> 
-  
-  Invite User <%= link_to new_authuser_invitation_path do %><button class="btn btn-success">Invite User</button>
+Invite User <%= link_to new_authuser_invitation_path do %><button class="btn btn-success">Invite User</button>
 <% end %>
 </div> <!-- text-right ends here -->
- </div> <!-- /.portlet-footer -->
+ <br/>
+</div> <!-- /.portlet-footer -->
+   
  </div> <!-- /.table-responsive -->
- <div> <!-- /.portlet-content -->
+ </div> <!-- /.portlet-content -->
 
  </div> <!-- /.portlet -->
  </div> <!-- /.row -->

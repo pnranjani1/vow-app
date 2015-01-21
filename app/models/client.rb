@@ -5,6 +5,8 @@ class Client < ActiveRecord::Base
   belongs_to :authuser, class_name: "Authuser" #, foreign_key: "created_by"
   has_many :users
   
+  accepts_nested_attributes_for :users
+  
   #def char
    # self.char = self.authuser.name.slice!(0..3)
   #end
