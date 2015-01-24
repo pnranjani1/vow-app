@@ -13,11 +13,11 @@
        
   
   <% if client.authuser.approved == false %>
-   <td><%= link_to "Approve User" , activate_user_path(client.authuser.id), method: :put, data: {confirm: "Are You Sure You Want To Approve The Client?"} %></td>
+   <td><%= link_to "Approve User" , activate_user_path(client.authuser.id), method: :put, remote: true, data: {confirm: "Are You Sure You Want To Approve The Client?"} %></td>
    
        
 <% elsif client.authuser.approved == true %>       
-   <td><%= link_to "De-activate User" , de_activate_user_path(client.authuser.id), method: :put, data: {confirm: "Are You Sure You Want To De-Activate The Client?"}  %></td> 
+   <td><%= link_to "De-activate User" , de_activate_user_path(client.authuser.id), method: :put, remote: true, data: {confirm: "Are You Sure You Want To De-Activate The Client?"}  %></td> 
 <% end %>   
 
 </tr>
