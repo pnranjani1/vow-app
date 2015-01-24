@@ -110,13 +110,14 @@ redirect_to dashboards_client_dashboard_path
     invited_by_id =  user.invited_by_id
     role_invited_by = Permission.where(:authuser_id => invited_by_id)
     role_id = role_invited_by.first.main_role_id
-     if user.save
-      if role_id == 2
-      redirect_to dashboards_client_dashboard_path
-      elsif role_id == 1
-        redirect_to dashboards_admin_dashboard_path    
-       end
-  end
+    user.save
+   #  if user.save
+   #   if role_id == 2
+   #   redirect_to dashboards_client_dashboard_path
+   #   elsif role_id == 1
+   #     redirect_to dashboards_admin_dashboard_path    
+   #    end
+   #end
   end
     
   
@@ -127,13 +128,14 @@ redirect_to dashboards_client_dashboard_path
      invited_by_id =  user.invited_by_id
     role_invited_by = Permission.where(:authuser_id => invited_by_id)
     role_id = role_invited_by.first.main_role_id
-     if user.save
-      if role_id == 2
-      redirect_to dashboards_client_dashboard_path
-      elsif role_id == 1
-        redirect_to dashboards_admin_dashboard_path    
-      end
-      end
+    user.save
+    # if user.save
+    #  if role_id == 2
+    #  redirect_to dashboards_client_dashboard_path
+    #  elsif role_id == 1
+    #    redirect_to dashboards_admin_dashboard_path    
+    #  end
+    #  end
   end
     
   def change_role
