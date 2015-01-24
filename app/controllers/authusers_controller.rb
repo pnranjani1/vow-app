@@ -5,8 +5,6 @@ class AuthusersController < ApplicationController
   #layout "menu1", :only => [ :change_role ]
   
    filter_access_to :all
-  
- 
  
     def index
    # if params[:approved] == "false"
@@ -106,6 +104,7 @@ redirect_to dashboards_client_dashboard_path
   
   
   def activate_user
+    @current_authuser_clients = Client.where(:created_by => current_authuser.id)
     user = Authuser.find(params[:id])
     user.approved = true
     invited_by_id =  user.invited_by_id
@@ -122,6 +121,7 @@ redirect_to dashboards_client_dashboard_path
     
   
   def de_activate_user
+    @current_authuser_clients = Client.where(:created_by => current_authuser.id)
     user = Authuser.find(params[:id])
     user.approved = false
      invited_by_id =  user.invited_by_id
@@ -135,8 +135,6 @@ redirect_to dashboards_client_dashboard_path
       end
       end
   end
-  
-  
     
   def change_role
     @user = current_authuser
