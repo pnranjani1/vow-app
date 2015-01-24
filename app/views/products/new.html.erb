@@ -34,9 +34,7 @@
 <% if @product.errors.any? %>
 <% @product.errors.full_messages.each do |error| %>
 <ul>
-  <li>
-    <%= error %>
-  </li>
+    <li><div class= "alert alert-danger"><%= error %></div></li>
 </ul>
 <% end %>
 <% end %>
@@ -88,12 +86,12 @@
   <% end %>
  
 </div><!-- portlet eontent ends here -->
-<div><!-- portlet ends here -->
-<div><!-- row ends here -->
+</div><!-- portlet ends here -->
+</div><!-- row ends here -->
   
-   </div><!-- content container ends here -->
-   </div><!-- content ends here -->
-  </div><!-- container ends here -->
+</div><!-- content container ends here -->
+</div><!-- content ends here -->
+</div><!-- container ends here -->
   
 </body>
 </html>

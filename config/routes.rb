@@ -35,8 +35,8 @@ Rails.application.routes.draw do
  end
   
     put 'authusers/change_role_update' => 'authusers#change_role_update'
-  
-  
+  #map.readpdf "/home_page/readpdf", :controller => "home_page", :action => "readpdf"
+#  map.connect 'Terms of Service VatOnWheels.pdf', :controller=>'home_page', :action=>'readpdf'
   post 'admins/create'
   get 'clients/user_role'
   put 'clients/update_user_role'
@@ -60,6 +60,7 @@ Rails.application.routes.draw do
   get 'products/product_import_report'
   get 'customers/customer_import_report'
   get 'bills/bill_details_client'
+  get 'home_page/readpdf'
     
   resources :authusers
   resources :users

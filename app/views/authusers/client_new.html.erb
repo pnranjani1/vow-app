@@ -63,6 +63,15 @@ Confirm Password
 </div>
 </div> <!-- /.col -->
   
+<br/><br/>
+  
+<div class="col-sm-3">           
+Date Of Birth
+<div id="Password" class="input-group">               
+  <%= f.date_field :date_of_birth , :disabled => true, class: "form-control" %>
+<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+</div>
+</div> <!-- /.col -->
 
 </div> <!-- row ends here -->
 </div> <!-- /.portlet-content -->
@@ -103,7 +112,7 @@ Address 3
 </div>
 </div> <!-- /.col -->
             
-<div class="col-sm-6">           
+<div class="col-sm-4">           
 City
 <div id="City" class="input-group">            
 <%= user_address.text_field :city, class: "form-control" %>
@@ -111,7 +120,7 @@ City
 </div>
 </div> <!-- /.col -->
 
-<div class="col-sm-6">           
+<div class="col-sm-4">           
 Country
 <div id="Country" class="input-group">       
 <%= user_address.text_field :country , class: "form-control" %>

@@ -1,52 +1,70 @@
+
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width">
-
- 
-</head>
 
 <body>
+  
+<div class="container">
+<div class="content">
+<div class="content-container">      
+<div>
+<h4 class="heading-inline">Commodities</h4>        
+</div>
 
- <div class="container">
- <div class="content">
- <div class="content-container">     
-   <div>
-    <h4 class="heading-inline"><%= current_authuser.name %></h4>        
-   </div>
- <br>
+<br>
+      
+<div class="row"> 
+<div class="portlet">
 
-<h3> Create New Category </h3>
+<div class="portlet-header">
+<h3><i class="fa fa-user"></i> Add Commodity</h3>
+</div> <!-- /.portlet-header -->
 
-<%= nested_form_for(@user, :url => "/auth_user_categories/create") do |f| %>
-
-<% if @usercategory.errors.any? %>
-<% @usercategory.errors.full_messages.each do |error| %>
-<ul>
-  <li> <%= error %></li>
-</ul>
-<% end %>
+<div class="portlet-content">
+<%= form_for @usercategory do |f| %>
+  <% if @usercategory.errors.any? %>
+  <% @usercategory.errors.full_messages.each do |error| %>
+  <ul>
+    <li><div class="alert alert-danger"><%= error %></div></li>
+  </ul>
   <% end %>
+  <% end %>
+  
+<div class="col-sm-8"> 
+<div class="row">  
+<label class="col-md-3">Select Commodity</label>
+<div class="col-md-6">
+<div id="name" class="input-group">  
+<%= f.collection_select :main_category_id, @available_categories,  :id , :commodity_name, {prompt:  "Select Commodity"} ,{class: "form-control"} %>
+ <br/><br/><br/>
 
-
-<% f.fields_for :usercategories do |category| %>
-<%= category.collection_select :main_category_id, MainCategory.all,  :id , :commodity_name,  :prompt => "Select Commodity" %><br/><p>
-<%= category.link_to_remove "Remove Commodity" %><br/>
+  <%= f.submit "Create Commodity", class: "btn btn-success" %>
 <% end %>
-<%= f.link_to_add "Add Commodity", :usercategories %><br/><p>
 
-<%= f.submit  %>
-<% end %>
+        
 
+</div>
+</div>
+</div>
+  </div>
+  
+  
+  </div>
+  </div>
+   </div>
+
+
+
+   
    </div><!-- content container ends here -->
-   </div><!-- content ends here -->
-  </div><!-- container ends here -->
+   </div> <!-- content ends here -->
+  </div><!-- container ends here-->
   
   </body>
 </html>
 
 
 
+      
+    
 

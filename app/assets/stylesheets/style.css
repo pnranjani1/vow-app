@@ -2279,11 +2279,11 @@ footer .foo_info p {
 }
 .iprim{font: 14px 'Exo';
 	text-transform: uppercase;
-	color: #fed701;
+	color: #0000ff;
 	margin-bottom: 0;
 	padding: 10px 0px 5px 0px;	
 }
-.iprim:hover{color: #fff;
+.iprim:hover{color: #8b0000;
 	
 }
 /*========================================================

@@ -21,22 +21,22 @@
 </div> <!-- /.portlet-header -->
 
 <div class="portlet-content">
+<%= form_for @auth_user_category do |f| %>
+  
 <div class="col-sm-8"> 
 <div class="row">  
+<%= f.fields_for :usercategories do |category| %>
+<label class="col-md-3">Select Commodity</label>
 <div class="col-md-6">
 <div id="name" class="input-group">  
 
 
- <%= nested_form_for(@auth_user_category) do |f| %>
-<%= f.fields_for :usercategories do |category| %>
-
 <%= category.collection_select :main_category_id, MainCategory.all,  :id , :commodity_name, {prompt:  "Select Commodity"} ,{class: "form-control"} %>
-  <%= category.link_to_remove "Remove Commodity" %><br/><br/>
-<% end %>
-  <%= f.link_to_add "Click to add Commodity", :usercategories %><br/>
-<br/>
+ <% end %><br/><br/><br/>
+
   <%= f.submit "Create Commodity", class: "btn btn-success" %>
 <% end %>
+
         
 
 </div>

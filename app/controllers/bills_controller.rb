@@ -25,7 +25,7 @@ class BillsController < ApplicationController
   
   def create  
     @bill = Bill.new(set_params)
-    @bill_last = Bill.last || Bill.new
+   @bill_last = Bill.last || Bill.new
    @bill_last = Bill.last
    # if @bill_last.nil?
     #  @invoice_number = 1000
@@ -37,7 +37,8 @@ class BillsController < ApplicationController
     if @bill.save
       @bill.total_bill_price = @bill.line_items.sum(:total_price)
       @bill.save
-      redirect_to bills_user_bill_path
+      flash[:notice] = "Successfully created Bill"
+      redirect_to new_bill_path
     else
       render action: 'new'
     end
@@ -68,7 +69,8 @@ class BillsController < ApplicationController
       end
       format.pdf do
         pdf = BillPdf.new(@bill)
-        send_data pdf.render, filename: "#{@bill.customer.name}", type: "application/pdf", disposition: "attachment"
+        send_data pdf.render, filename: "#{@bill.customer.name} #{@bill.invoice_number}  #{@bill.bill_date.strftime("%b %d %Y")}.pdf", type: "application/pdf" , disposition: "inline"
+       # send_data pdf.render, filename: "#{@bill.customer.name} #{@bill.invoice_number}  #{@bill.bill_date.strftime("%b %d %Y")}", type: "application/pdf" ,disposition: "attachment"
     end
     end      
    #pdf.render
@@ -343,7 +345,7 @@ end
     params[:bill].permit(:invoice_number,:esugam, :bill_date, :customer_id, 
       :authuser_id, :tax, :total_bill_price, :tax_id, :grand_total, :other_charges,
       :other_information, :other_charges_info,
-      {:line_items_attributes => [:product_id, :quantity, :unit_price, :total_price]},
+      {:line_items_attributes => [:product_id, :quantity, :unit_price, :total_price, :_destroy]},
       {:tax_attributes => [:tax_type, :tax_rate, :tax]})
   end
   end

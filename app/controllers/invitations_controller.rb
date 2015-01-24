@@ -47,12 +47,12 @@ class InvitationsController < Devise::InvitationsController
 
   def update_sanitized_params
     devise_parameter_sanitizer.for(:accept_invitation) do |u|
-      u.permit(:name, :password, :password_confirmation, :invitation_token,
+      u.permit(:name, :password, :password_confirmation, :invitation_token, :date_of_birth,
          {:membership_attributes => [:id, :phone_number, :membership_start_date, :membership_end_date, :membership_status, :membership_duration]},
         {:address_attributes => [:id, :address_line_1, :address_line_2, :address_line_3, :city, :country]},
       {:bankdetail_attributes => [:id, :bank_account_number, :ifsc_code]},
       {:users_attributes => [:id, :tin_number, :esugam_username, :esugam_password, :client_id]},
-        {:permissions_attributes => [:main_role_id]}
+        {:permissions_attributes => [:id, :main_role_id]}
      )
     end
   end

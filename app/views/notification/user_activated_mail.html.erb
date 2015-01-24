@@ -1,8 +1,8 @@
 Dear <%= @user.name %>,<br/>
 <br/>
-Welcome to VatOnWheels!<br/><p>
-You Account on VatOnWheels has been created.<br/><p>
-Following are your credentials to login to the application:<br/>
+Welcome to VatOnWheels!<br/><br/>
+You Account on VatOnWheels has been created.<br/><br/>
+Following are your credentials to login to the application:<br/><br/>
 Username : <%= @user.email %> <br/>
 Password : abcdefgh <br/>
 <br/>
@@ -11,6 +11,7 @@ Click <%= link_to "here" , :controller => "devise/sessions", :action => "new", :
 <br/>
 Please note, you are required to change the password on initial login to activate your account.<br/>
 <br/>
+By Accepting this invitation, you agree to the VatOnWheels  <%= link_to "Terms Of Services",  :controller => "home_page", :action => "readpdf", host: 'http://purple-wagon-47-179691.apse1.nitrousbox.com' %>
 We thank you for an opportunity provided to serve you.<br/><p>
 
 Sincerely,<br/>

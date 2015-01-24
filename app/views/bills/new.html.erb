@@ -25,7 +25,7 @@
 <% if @bill.errors.any? %>
 <% @bill.errors.full_messages.each do |error| %>
 <ul>
-  <li> <%= error %></li>
+  <div class="alert alert-danger"><li><%= error %></li></div>
 </ul>
 <% end %>
 <% end %>
@@ -37,6 +37,10 @@
 </div> <!-- /.portlet-header -->
 
 <div class="portlet-content">
+  <% if notice %>
+  <div class="alert alert-success"><%= notice %></div> 
+  <% end %>
+ 
 
 <div class="row"> 
   
@@ -72,53 +76,75 @@
 <div class="portlet">
 
 <div class="portlet-header">
-<h3><i class="fa fa-user"></i> Product Details</h3>
+  <h3><i class="fa fa-user"></i> Item Details</h3>
 </div> <!-- /.portlet-header -->
 
-<div class="portlet-content">
+<div class="portlet-content" id="line_items_list">
 
 <%= f.fields_for :line_items do |bill_product| %>
-<div class="row"> 
-<div class="col-sm-2">           
-<strong>Product</strong> 
- <div id="name" class="input-group">         
-<%= bill_product.collection_select :product_id, Product.where(:authuser_id => current_authuser.id), :id, :product_name,{prompt: "Select Product"}, {class: "form-control"} %>
-</div> 
-</div> <!-- /.col -->
+  
+  <div class="row"> 
+    <div class="col-sm-2">           
+      <strong>Item</strong> 
+      <div id="name" class="input-group">         
+        <%= bill_product.collection_select :product_id, 
+          Product.where(:authuser_id => current_authuser.id), :id, :product_name, 
+          {prompt: "Select Product"}, {class: "form-control"} %>
+      </div> 
+    </div> <!-- /.col -->
  
-            
-<div class="col-sm-3">           
-<strong>Quantity</strong> 
-<div id="name" class="input-group">               
-<%= bill_product.text_field :quantity , class: "form-control" %>
-<span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
-</div>
-</div> <!-- /.col -->
+      <script> bindItemFields(); 
+        console.log("inner bind");
+          $(document).on('nested:fieldAdded', function(event){
+      //bindItemFields();
+      console.log("line 83");
+  });
+
+  </script> 
+    
+    <div class="col-sm-2">           
+      <strong>Quantity</strong> 
+      <div id="quantity_div" class="input-group">               
+        <%= bill_product.text_field :quantity , class: "form-control", id: 'quantity' %>
+        <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
+      </div>
+    </div> <!-- /.col -->
            
-<div class="col-sm-3">           
-<strong>Unit Price</strong> 
-<div id="name" class="input-group">               
-<%= bill_product.text_field :unit_price, class: "form-control" %>
-<span class="input-group-addon"><i class="fa fa-money"></i></span>
-</div>
-</div> <!-- /.col -->
+    <div class="col-sm-2">           
+      <strong>Unit Price</strong> 
+      <div id="unit_price_div" class="input-group">               
+        <%= bill_product.text_field :unit_price, class: "form-control", id: 'unit_price' %>
+        <span class="input-group-addon"><i class="fa fa-money"></i></span>
+      </div>
+    </div> <!-- /.col -->
   
-<div class="col-sm-3">      
-<div class="marggap">
-<div class="btn btn-xs btn-primary" >
-<%= bill_product.link_to_remove do %>
-<i class="fa fa-times"></i>
-<% end %>
-</div>
-</div>
-</div>
- 
-</div><!-- row ends here --><br/>
+    <div class="col-sm-2">           
+      <strong>Total</strong> 
+      <div id= "total_price_div" class= "input-group">               
+        <%= text_field_tag :total_price, nil, readonly: true, 
+          class: 'form-control', id: 'total_price' %>
+        <!--<%#= bill_product.text_field :unit_price, class: "form-control" %>-->
+        <span class="input-group-addon"><i class="fa fa-money"></i></span>
+      </div>
+    </div> <!-- /.col -->
+    
+    <div class="col-sm-4">      
+      <div class="marggap">
+        <div class="btn btn-xs btn-primary" >
+          <%= bill_product.link_to_remove do %>
+            <i class="fa fa-times"></i>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    
+  </div><!-- row ends here --><br/>
+  
 <% end %>
   
 
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= f.link_to_add "Add Product", :line_items, class: "btn btn-success" %><br/><p>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= f.link_to_add "Add Items", :line_items, class: "btn btn-success" %><br/><p>
 <!-- </div> -->
 
 </div> <!-- portlet content ends here -->
@@ -160,10 +186,10 @@
 </div> <!-- /.col -->
 <br/><br/><br/><br/>
   
-<div class="col-sm-4">           
-<strong>Other Information</strong> 
+<div class="col-sm-6">           
+  <strong>Other Information(To be printed on the bill)</strong> 
 <div id="name" class="input-group">               
-<%= f.text_field :other_information, class: "form-control" %>
+  <%= f.text_area :other_information, class: "form-control" %>
 </div>
 </div> <!-- /.col -->
             
@@ -174,13 +200,18 @@
 
 
 <div class="row">               
-<div class="col-md-3">
-  <%= f.submit "Create Bill", class: "btn btn-success" %></div>
+<div class="col-md-2">
+  <%= f.submit "Create Bill",  class: "btn btn-success" %>
+</div>
+<div class="col-md-2">
+  <%= link_to "Cancel", new_bill_path,  class: "btn btn-success" %>
+</div>
   <% end %>
 </div>
 </div>
   
-</div> <!-- /.row -->
+
+  
 
 </div> <!-- /.content-container -->      
 </div> <!-- /.content -->

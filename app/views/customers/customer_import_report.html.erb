@@ -9,8 +9,39 @@
 <div>
 <h4 class="heading-inline">Customers</h4>        
  </div>
+<br/>
 
-      <br>
+<div class="row"> 
+<div class="portlet">
+
+<div class="portlet-header">
+<h3><i class="fa fa-user"></i>Download Formats</h3>
+</div> <!-- /.portlet-header -->
+
+<div class="portlet-content">
+       
+<div class="col-sm-8"> 
+<div class="row">  
+<div class="col-md-6">
+<div id="name" class="input-group">  
+
+Download the Import Customer Format&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to customers_customer_download_path(format: "xls") do %> 
+   <button class="btn btn-success">Download</button>
+      <% end %>
+   
+</div> <!-- name -->
+</div> <!-- col-md-6 -->
+</div> <!-- row--><br/><br/>
+<p><b>Note: </b>When importing .xls files, save the file as <b>"excel 97-2003 workbook"</b> format to avoid errors</p>
+<br/><p>
+</div> <!-- col-sm-8"-->
+ 
+</div> <!-- /.portlet-content -->
+</div> <!-- /.portlet -->
+</div> <!-- /.row -->
+
+  
+  
 <div class="row"> 
 <div class="portlet portlet-table">
 <div class="portlet-header">
@@ -18,13 +49,11 @@
 </div> <!-- /.portlet-header -->
 
 <div class="portlet-content">
-        
 <div class="col-sm-8"> 
 <div class="row">  
 <div class="col-md-6">
 <div id="name" class="input-group">    
-                  
-
+        
 <%= form_tag customers_customer_import_path, multipart: true do %><br/>
   <%= file_field_tag :file %><br/><p>
   <%= submit_tag "Import Customers", class: "btn btn-success" %>
@@ -35,48 +64,11 @@
   </div>
   </div>
   </div>
-  
-  
-<div class="row"> 
-<div class="portlet">
-
-<div class="portlet-header">
-<h3><i class="fa fa-user"></i>Formats</h3>
-</div> <!-- /.portlet-header -->
-
-<div class="portlet-content">
-       
-<div class="col-sm-8"> 
-<div class="row">  
-<div class="col-md-6">
-<div id="name" class="input-group">  
- <%= link_to customers_customer_download_path(format: "xls") do %> 
-    <button class="btn btn-success">Format for Importing Customers</button>
-   <% end %>
-  
-  <br/><p>
-<p><b>Note: </b>When importing .xls files, save the file as <b>"excel 97-2003 workbook"</b> format to avoid errors</p>
-
-  
-  </div>
-  </div>
-  </div>
-  </div>
-  </div>
   </div>
   
   
- 
-
- 
-  
-
-           
-            
-    </div> <!-- /.content-container -->
-      
-  </div> <!-- /.content -->
-
+</div> <!-- /.content-container -->
+</div> <!-- /.content -->
 </div> <!-- /.container -->
 
 

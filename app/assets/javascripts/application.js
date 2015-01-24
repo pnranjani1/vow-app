@@ -36,16 +36,61 @@
 //= require_tree .
 
 $(document).ready(function(){
-
-
+  
 /* once the user submits the form just block it until it's processed 
   fully by the server side 
 */
   $('#user-notice').on('click', function(){
     App.blockUI( $('.portlet-content'));
   });
+  
+
+  
+  bindItemFields();
+  
+  $(document).on('click', '#line_items_fields_blueprint', function(){
+    bindItemFields();
+  });
 });
 
+  $(document).on('nested:fieldAdded', function(event){
+      bindItemFields();
+    calculateTotal();
+      console.log("line 83");
+  });
+
+ function calculateTotal(){
+   var result = $('div.fields').html();
+  console.log(result);
+   var quantity = parseInt($('#quantity').val());
+   var unit_price = parseInt($('#unit_price').val());
+   if(!(isNaN(quantity) || isNaN(unit_price))){
+     var total_result = quantity * unit_price
+     console.log("total result is " + total_result);
+     $('#total_price').val(total_result);
+   }
+   else{
+     $('#total_price').val(0);
+   }
+ }
+
+ function bindItemFields(){
+   console.log("Yes Just bound the things with you");
+  $('div.fields').on('keyup','#quantity', function(e) {
+    console.log("hitting the spot"+ e);
+    
+    
+    calculateTotal();
+  });
+  
+  $('div.fields').on('keyup', '#unit_price', function(e){
+    console.log("hitting the spot"+ e);
+    calculateTotal();
+  }); 
+ }
+
+
+ 
 var App = function(){
       return {
         blockUI: function(el){

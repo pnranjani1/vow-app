@@ -20,21 +20,13 @@
    
  <div class="col-sm-6 col-md-3">
  <div class="row-stat">
- <p class="row-stat-label">Total Esugam Generated</p>
- <h3 class="row-stat-value"><%= @esugam_count %></h3>
+ <p class="row-stat-label">Total No Of Chartered Accountants</p>
+   <h3 class="row-stat-value"><%= Client.where(:created_by => current_authuser.id).count %></h3>
  <span class="label label-success row-stat-badge"></span>
  </div> <!-- /.row-stat -->
  </div> <!-- /.col -->
 
- <div class="col-sm-6 col-md-3">
- <div class="row-stat">
- <p class="row-stat-label">Cash Based Applications</p>
- <h3 class="row-stat-value"><%= @number_of_cash_applications %></h3>
- <span class="label label-success row-stat-badge"></span>
- </div> <!-- /.row-stat -->
- </div> <!-- /.col -->
-
- </div> <!-- row ends here-->
+</div> <!-- row ends here-->
        
        
  <div class="row">
@@ -72,11 +64,13 @@
    <td><%= link_to  client.authuser.membership.membership_end_date.strftime("%d %b %Y"), edit_membership_path(c)  %></td> 
  <td><%= @user_count %></td>
        
+  
   <% if client.authuser.approved == false %>
-   <td><%= link_to "Approve User" , activate_user_path(client.authuser.id), method: :put, data: {confirm: "Are You sure you want to approve the client?"} %></td>
-     
+   <td><%= link_to "Approve User" , activate_user_path(client.authuser.id), method: :put, data: {confirm: "Are You Sure You Want To Approve The Client?"} %></td>
+   
+       
 <% elsif client.authuser.approved == true %>       
-<td><%= link_to "De-activate User" , de_activate_user_path(client.authuser.id), method: :put, data: {confirm: "Are You sure you want to de-activate the client?"}  %></td> 
+   <td><%= link_to "De-activate User" , de_activate_user_path(client.authuser.id), method: :put, data: {confirm: "Are You Sure You Want To De-Activate The Client?"}  %></td> 
 <% end %>   
 
 </tr>
@@ -87,7 +81,7 @@
                        
 <div class="portlet-footer">
 <div class="text-right">    
-Create a Chartered Accountant <%= link_to authusers_admin_new_path do %> <button class="btn btn-success">Create CA</button>
+<%= link_to authusers_admin_new_path do %> <button class="btn btn-success">Create CA</button>
 <% end %>
 </div> <!-- text-right ends here -->
  </div> <!-- /.portlet-footer -->

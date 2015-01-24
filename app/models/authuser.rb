@@ -22,6 +22,8 @@ require 'active_support/core_ext/date/conversions'
   devise :invitable, :database_authenticatable, :registerable,
   :recoverable, :rememberable, :trackable,:validatable
    
+ # validates :date_of_birth, presence: true
+  
   has_many :admins
   has_many :customers
   has_many :taxes
@@ -74,6 +76,18 @@ require 'active_support/core_ext/date/conversions'
     #return roles   
   #end
   
+  #has_many :invoice_items
+  #def total_profit
+   # invoice_items.sum(:profit)
+  #end
+  
+  def self.current
+    Thread.current[:authuser]
+  end
+  def self.current=(authuser)
+    Thread.current[:authuser] = authuser
+  end
+  
  def role_symbols
   main_roles.map do|role|
     role.role_name.underscore.to_sym
@@ -84,9 +98,9 @@ end
   
   def create_role_for_invitees
     if self.name.nil?
-    # self.main_roles << MainRole.find_by_role_name("user")
+     #self.main_roles << MainRole.find_by_role_name("user")
      #self.main_roles << MainRole.where(:role_name => "user")
-     self.permissions << Permission.new
+    self.permissions << Permission.new
      end
   end
   

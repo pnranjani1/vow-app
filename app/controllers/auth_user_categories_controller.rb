@@ -12,6 +12,7 @@ class AuthUserCategoriesController < ApplicationController
 
   def new
     @auth_user_category = AuthUserCategory.new
+    @auth_user_category.usercategories.build
    
     #@user = Authuser.find(current_authuser.id)
   end

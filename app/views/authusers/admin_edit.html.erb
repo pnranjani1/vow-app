@@ -70,6 +70,17 @@ Confirm Password
 </div>
 </div> <!-- /.col -->
   
+<br/><br/>
+  
+<div class="col-sm-3">           
+Date Of Birth
+<div id="Password" class="input-group">               
+  <%= f.date_field :date_of_birth , :disabled => true, class: "form-control" %>
+<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+</div>
+</div> <!-- /.col -->
+ 
+  
 <%= f.hidden_field :invited_by_id, :value => current_authuser.id %>
 <%= f.hidden_field :invited_by_type, :value => "Authuser" %>
   
@@ -100,21 +111,21 @@ Confirm Password
 <div class="col-sm-4">           
 Address 1
 <div id="Password" class="form-group">
-  <%= user_address.text_area :address_line_1, class: "form-control" %>
+  <%= user_address.text_field :address_line_1, class: "form-control" %>
 </div>
 </div> <!-- /.col -->
             
 <div class="col-sm-4">           
 Address 2
 <div id="Password" class="form-group">             
-  <%= user_address.text_area :address_line_2 , class: "form-control" %>
+  <%= user_address.text_field :address_line_2 , class: "form-control" %>
 </div>
 </div> <!-- /.col -->
             
 <div class="col-sm-4">           
 Address 3
 <div id="Password" class="form-group">        
-  <%= user_address.text_area :address_line_3 , class: "form-control" %>
+  <%= user_address.text_field :address_line_3 , class: "form-control" %>
 </div>
 </div> <!-- /.col -->
             

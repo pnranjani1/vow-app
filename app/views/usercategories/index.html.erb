@@ -1,4 +1,100 @@
+<!DOCTYPE html>
+<html>
 
+  <body>
+  
+<div class="container">
+  <div class="content">
+    <div class="content-container">      
+      <div>
+        <h4 class="heading-inline">Manage Commodities</h4>        
+      </div>
+
+      <br>
+      <div class="row"> 
+      <div class="portlet portlet-table">
+      <div class="portlet-header">
+      <h3><i class="fa fa-group"></i>Commodities List</h3> 
+      </div> <!-- /.portlet-header -->
+
+      <div class="portlet-content">
+      <div class="table-responsive">
+      <table id="user-signups" class="table table-striped table-bordered table-checkable"> 
+            
+      <thead> 
+      <tr> 
+      <th>Commodity Name</th> 
+      <th> Commodity ID</th>
+      </tr> 
+      </thead> 
+      <tbody> 
+        <% if @usercategories.blank? %>
+         <div class="portlet-footer">
+       <div class="text-right">     
+       <%= link_to  new_usercategory_path do %>      
+       <button class="btn btn-sm btn-default">Add Commodity</button>
+        <% end %>
+       </div>
+       </div> <!-- /.portlet-footer -->
+        <% end %>
+        
+        <% current_authuser.usercategories.each do |category| %>
+     <tr>                      
+       <td><%= category.commodity_name %> </td>
+       <td><%= category.id %> </td>
+       </tr>     
+        <% end %>
+       
+        </tbody> 
+        </table>
+            
+             
+       <div class="portlet-footer">
+       <div class="text-right">     
+     
+       <%#= link_to new_usercategory_path do %>      
+        <!-- #<button class="btn btn-success">Add Commodity</button> -->
+        <%# end %>
+
+       <!-- #Instead of creating button inside the link, you can directly 
+        #assign the redirection to the link_to and provide btn btn-success class, 
+        #to make the link look Like a button -->
+         <%= link_to 'Add Commodity', new_usercategory_path, class: 'btn btn-success' %> 
+       </div>
+       </div> <!-- /.portlet-footer -->
+       
+        </div> <!-- /.table-responsive -->
+        </div> <!-- /.portlet-content -->
+        </div> <!-- /.portlet -->
+
+        </div> <!-- /.row -->
+        </div> <!-- /.content-container -->
+        </div> <!-- /.content -->
+        </div> <!-- /.container -->
+
+
+
+  
+ 
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------
 <hr><br/>
 <h3> User Commodities </h3>
 <% current_authuser.usercategories.each do |category| %>

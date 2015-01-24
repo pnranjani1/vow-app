@@ -49,7 +49,7 @@ gem 'layout_by_action'
 group :development, :test do
   gem 'sqlite3'
   gem 'hirb'
-    
+  gem 'quiet_assets'
 end
 
 group :production do
@@ -75,5 +75,5 @@ gem 'spring',        group: :development
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
-ruby "2.0.0"
+#ruby "2.0.0"
 

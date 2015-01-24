@@ -1,6 +1,6 @@
 Dear <%= @user.invited_by.name %><br/><br/>
 
-<%= @user.name %> has accepted the invitation on VatOnWheels based on the request sent on <%= @user.invitation_sent_at.strftime("%b %d, %Y") %><br/><br/>
+<%= @user.name %> has accepted the invitation on VatOnWheels based on your request  %><br/><br/>
 
 To further enable the user  to work on the application, request you to activate this user by logging on to <%= link_to "Vaton Wheels" , :controller => "/devise/sessions", :action => "new", :host =>  "https://salty-bayou-8814.herokuapp.com"  %>
 

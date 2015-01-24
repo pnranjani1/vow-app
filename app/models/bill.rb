@@ -16,10 +16,11 @@ class Bill < ActiveRecord::Base
   validates :invoice_number, :bill_date, :tax_id, presence: true
   validates :invoice_number, :uniqueness => true
   validate :past_date
-  validates :line_items, presence: true
- 
+#  validates :line_items, presence: true
+ # validates :line_items , uniqueness: {:scope => :product_id, :message => "Selected Product is already added to the bill"}
+  #validates :line_items, uniqueness: {:message => "Selected Item is already added in the bill"}, :if => Authuser.current
   
-  accepts_nested_attributes_for :line_items
+  accepts_nested_attributes_for :line_items, :allow_destroy => true
   
 #  def generate_invoice_number
  #   if Bill.last.invoice_number.nil?

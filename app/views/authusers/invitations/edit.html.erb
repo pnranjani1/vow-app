@@ -34,6 +34,7 @@
 
 <%= form_for resource, :as => resource_name, :url => invitation_path(resource_name), :html => { :method => :put } do |f| %>
   <%= devise_error_messages! %>
+  
   <%= f.hidden_field :invitation_token %>
 
   
@@ -75,12 +76,22 @@ Confirm Password
 </div> <!-- /.col -->
 </div> <!-- row ends here -->
   
+<br/>
+  
+  
+<div class="row">
+<div class="col-sm-4">           
+Date Of Birth
+<div id="Password" class="input-group">               
+<%= f.date_field :date_of_birth ,  class: "form-control" %>
+<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+</div>
+</div> <!-- /.col -->
+   
  <%= f.fields_for :membership do |user_membership| %>
   <%= user_membership.hidden_field :membership_start_date, :value => Date.today %>
   <%= user_membership.hidden_field :membership_end_date, :value => Date.today + 1.year %>
   
-  
-<div class="row">
 <div class="col-sm-4">           
 Phone Number
 <div id="phone" class="input-group">      
@@ -89,6 +100,11 @@ Phone Number
 </div>
 </div> <!-- /.col -->
  <% end %>  
+  
+<%= f.fields_for :permissions do |permission| %>
+<%= permission.hidden_field :main_role_id, :value => 3.to_i %>
+<% end %>
+
     
 </div> <!-- row ends here -->
 </div> <!-- /.portlet-content -->
@@ -110,25 +126,25 @@ Phone Number
 <div class="col-sm-4">           
 Address 1
 <div id="Password" class="form-group">
-  <%= user_address.text_area :address_line_1, class: "form-control" %>
+  <%= user_address.text_field :address_line_1, class: "form-control" %>
 </div>
 </div> <!-- /.col -->
             
 <div class="col-sm-4">           
 Address 2
 <div id="Password" class="form-group">             
-  <%= user_address.text_area :address_line_2 , class: "form-control" %>
+  <%= user_address.text_field :address_line_2 , class: "form-control" %>
 </div>
 </div> <!-- /.col -->
             
 <div class="col-sm-4">           
 Address 3
 <div id="Password" class="form-group">        
-  <%= user_address.text_area :address_line_3 , class: "form-control" %>
+  <%= user_address.text_field :address_line_3 , class: "form-control" %>
 </div>
 </div> <!-- /.col -->
             
-<div class="col-sm-6">           
+<div class="col-sm-4">           
 City
 <div id="City" class="input-group">            
 <%=user_address.text_field :city , class: "form-control" %>
@@ -136,7 +152,7 @@ City
 </div>
 </div> <!-- /.col -->
 
-<div class="col-sm-6">           
+<div class="col-sm-4">           
 Country
 <div id="Country" class="input-group">       
 <%=user_address.text_field :country , class: "form-control" %>
@@ -186,9 +202,7 @@ IFSC Code
   
   <!-- bank detail ends here -->
   
-  <%= f.fields_for :permissions do |permission| %>
-  <%= permission.hidden_field :main_role_id, :value => 3.to_i %>
-  <% end %>
+
   
   
 <div class="row"> 

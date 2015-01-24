@@ -1,7 +1,9 @@
 class Product < ActiveRecord::Base
   #before_save :generate_permalink
     
-  validates :product_name, :units, presence: true
+  validates :units, presence: true
+  validates :product_name, presence: {:message => " - Product Name cannot be blank"}
+ # validates :product_name , uniqueness: {:message => " - Selected Product is already added"}, :if => Authuser.current
   #validates_associated :usercategories
   
   belongs_to :authuser

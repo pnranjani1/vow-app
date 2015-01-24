@@ -89,6 +89,22 @@
     .delegate('form a.remove_nested_fields', 'click', nestedFormEvents.removeFields);
 })(jQuery);
 
+/*
+function bindItemFields(){
+  $('#quantity_div').on('blur', '#quantity', function() {
+    console.log("hitting the spot");
+    calculateTotal();
+  });
+  
+   console.log("Getting ready here");
+  
+  $('#unit_price_div').on('blur',  '#unit_price', function(){
+    console.log("hitting the spot");
+    calculateTotal();
+  }); 
+ }
+*/
+
 // http://plugins.jquery.com/project/closestChild
 /*
  * Copyright 2011, Tobias Lindig

@@ -21,19 +21,17 @@
 </head>
  <body> 
   
- 
-  
-  <% if authuser_signed_in? %>
+<% if authuser_signed_in? %>
    
 <div class="navbar">
- <div class="container">
+<div class="container">
   
-   <div class="navbar-header">
-  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-  <i class="fa fa-cogs"></i>
-  </button>
-  <%= link_to "Vatonwheels.com", root_path , class: "navbar-brand " %> 
-  </div> <!-- /.navbar-header -->
+<div class="navbar-header">
+<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+<i class="fa fa-cogs"></i>
+</button>
+<%= link_to "Vatonwheels.com", root_path , class: "navbar-brand " %> 
+</div> <!-- /.navbar-header -->
    
    <!-- <user name and change role -->
    <!-- <div class="col-md-8"> -->
@@ -50,44 +48,42 @@
      
   
    
-   <!-- right Navigation for profile -->
-     <div class="navbar-collapse collapse">
-     <ul class="nav navbar-nav navbar-right">   
- 
-        <li class="dropdown navbar-profile">
-         <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;">
-         <%= image_tag "avatar-1-xs.jpg"  , class: "navbar-profile-avatar"%>
-           <!--<img src="img/avatar-1-xs.jpg" class="navbar-profile-avatar" alt="">  -->
-          <span class="navbar-profile-label">rod@rod.me &nbsp;</span>
-          <i class="fa fa-caret-down"></i>
-          </a>
+<!-- right Navigation for profile -->
+<div class="navbar-collapse collapse">
+<ul class="nav navbar-nav navbar-right">   
+<li class="dropdown navbar-profile">
+<a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;">
+<%= image_tag "avatar-1-xs.jpg"  , class: "navbar-profile-avatar"%>
+<!--<img src="img/avatar-1-xs.jpg" class="navbar-profile-avatar" alt="">  -->
+<span class="navbar-profile-label">rod@rod.me &nbsp;</span>
+<i class="fa fa-caret-down"></i>
+</a>
 
-          <ul class="dropdown-menu" role="menu">
-
-            <li>
-              <%= link_to authusers_client_new_path do %>
+<ul class="dropdown-menu" role="menu">
+<li>
+<%= link_to authusers_client_new_path do %>
 <!-- <a href="./page-profile.html">-->
-                <i class="fa fa-user"></i> 
-              <!-- <a href="./page-profile.html"> -->
-                <i class="fa fa-user"></i> 
-                &nbsp;&nbsp;My Profile
-              <% end %>
-            </li>
+<i class="fa fa-user"></i> 
+<!-- <a href="./page-profile.html"> -->
+<i class="fa fa-user"></i> 
+&nbsp;&nbsp;My Profile
+<% end %>
+</li>
             
-            <li class="divider"></li>
-            <li>
-              <%= link_to destroy_authuser_session_path do %>
-              <!--  <a href="./account-login.html"> -->
-                <i class="fa fa-sign-out"></i> 
-                 &nbsp;&nbsp;Logout
-              <% end %>
-              <!-- </a>-->
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </div> <!--/.navbar-collapse -->
-  </div> <!-- /.container -->
+<li class="divider"></li>
+<li>
+<%= link_to destroy_authuser_session_path do %>
+<!--  <a href="./account-login.html"> -->
+<i class="fa fa-sign-out"></i> 
+&nbsp;&nbsp;Logout
+<% end %>
+<!-- </a>-->
+</li>
+</ul>
+</li>
+</ul>
+</div> <!--/.navbar-collapse -->
+</div> <!-- /.container -->
 </div> <!-- /.navbar -->
        
  
@@ -101,22 +97,22 @@
 <ul class="nav navbar-nav mainbar-nav">
         
 <!-- Dashboards -->
-  <% if controller.controller_name == "dashboards" %>
-  <li class="active">
-    <% else %>
-    <li>
-      <% end %>
-  <%= link_to dashboards_user_dashboard_path  do %>
+<% if controller.controller_name == "dashboards" %>
+<li class="active">
+<% else %>
+<li>
+<% end %>
+<%= link_to dashboards_user_dashboard_path  do %>
 <i class="fa fa-dashboard"></i> Dashboard
 <% end %>
 </li>
 
 <!-- Change Role -->
-     <% if controller.action_name == "change_role" %> 
+<% if controller.action_name == "change_role" %> 
 <li class= "active dropdown"> 
 <% else %>
-  <li> 
-     <% end %>
+<li> 
+<% end %>
 <% if current_authuser.main_roles.count > 1 %>
 <%= link_to authusers_change_role_path do %> 
 <i class="fa fa-dashboard"></i> Change Role 
@@ -140,24 +136,24 @@
   
 
 <!-- User Commodities -->
-  <% if controller.controller_name == "auth_user_categories" %>
-  <li class="active dropdown">
-    <% else %>
-    <li class="dropdown ">   
-      <% end %>
+<% if controller.controller_name == "usercategories" %>
+<li class="active dropdown">
+<% else %>
+<li class="dropdown ">   
+<% end %>
 
-<%= link_to auth_user_categories_path, class: "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>
+<%= link_to usercategories_path, class: "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>
 <i class="fa fa-files-o"></i> Commodities<span class="caret"></span>
 <% end %>
 
 <ul class="dropdown-menu">   
 <li>
-  <% if current_authuser.auth_user_category.blank? %> 
-  <%= link_to new_auth_user_category_path do %>
-  <i class="fa fa-user nav-icon"></i> Add Commodity
-  <% end %>
-    <% else %> 
-    <%= link_to auth_user_categories_path do %>
+<% if current_authuser.usercategories.blank? %> 
+<%= link_to new_usercategory_path do %>
+<i class="fa fa-user nav-icon"></i> Add Commodity
+<% end %>
+<% else %> 
+<%= link_to usercategories_path do %>
 <i class="fa fa-user nav-icon"></i> Manage Commodities</li>  
 <% end %>
 <% end %>
@@ -166,45 +162,43 @@
 
   
 <!-- Products -->
-  <% if controller.controller_name == "products" %>
-  <li class="active dropdown">
-    <% else %>
-    <li class="dropdown ">   
-      <% end %>
-
-  <%= link_to products_product_user_path, :class => "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>
+<% if controller.controller_name == "products" %>
+<li class="active dropdown">
+<% else %>
+<li class="dropdown ">   
+<% end %>
+<%= link_to products_product_user_path, :class => "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>
 <i class="fa fa-align-left"></i>Products<span class="caret"></span>    
 <% end %>
   
 <ul class="dropdown-menu">   
 <li>
-  <% if current_authuser.auth_user_category.blank? %>
-  
-   <%= link_to new_auth_user_category_path do %>
-   <i class="fa fa-user nav-icon"></i> Add Commodity first  
-  <% end %>
-  <% elsif current_authuser.products.blank? %>
-  <%= link_to new_product_path do %>
-  <i class="fa fa-user nav-icon"></i> Add Product  
-  <% end %>
-  <% else %>
- <%= link_to products_product_user_path do %>
+<% if current_authuser.auth_user_category.blank? %>
+<%= link_to new_auth_user_category_path do %>
+<i class="fa fa-user nav-icon"></i> Add Commodity first  
+<% end %>
+<% elsif current_authuser.products.blank? %>
+<%= link_to new_product_path do %>
+<i class="fa fa-user nav-icon"></i> Add Product  
+<% end %>
+<% else %>
+<%= link_to products_product_user_path do %>
 <i class="fa fa-user nav-icon"></i> Manage Products</li>  
 <% end %>
-  <li><%= link_to products_product_import_report_path do %>
+<li><%= link_to products_product_import_report_path do %>
 <i class="fa fa-user nav-icon"></i> Import Products</li>  
 <% end %>
-  <% end %>
+<% end %>
 </ul>
 </li>
 
 
 <!-- Customers -->
-  <% if controller.controller_name == "customers" %>
-  <li class="active dropdown">
-    <% else %>
-    <li class="dropdown ">   
-      <% end %>
+<% if controller.controller_name == "customers" %>
+<li class="active dropdown">
+<% else %>
+<li class="dropdown ">   
+<% end %>
 
 <%= link_to customers_user_customer_path, class: "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>
 <i class="fa fa-desktop"></i>Customers<span class="caret"></span>
@@ -212,15 +206,15 @@
 
 <ul class="dropdown-menu">   
 <li>
-  <% if current_authuser.customers.blank? %> 
-  <%= link_to new_customer_path do %>
-  <i class="fa fa-user nav-icon"></i> Add Customer
-  <% end %>
-    <% else %> 
-    <%= link_to customers_user_customer_path do %>
+<% if current_authuser.customers.blank? %> 
+<%= link_to new_customer_path do %>
+<i class="fa fa-user nav-icon"></i> Add Customer
+<% end %>
+<% else %> 
+<%= link_to customers_user_customer_path do %>
 <i class="fa fa-user nav-icon"></i> Manage Customers</li>  
 <% end %>
-  <li><%= link_to customers_customer_import_report_path do %>
+<li><%= link_to customers_customer_import_report_path do %>
 <i class="fa fa-user nav-icon"></i> Import Customer</li>  
 <% end %>
 <% end %>
@@ -229,12 +223,12 @@
 
   
 <!--Bills -->
-   <% if controller.controller_name == "bills" %>
-  <li class="active dropdown">
-    <% else %>
-    <li class="dropdown ">   
-      <% end %>
-  <%= link_to bills_user_bill_path, class: "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>
+<% if controller.controller_name == "bills" %>
+<li class="active dropdown">
+<% else %>
+<li class="dropdown ">   
+<% end %>
+<%= link_to bills_user_bill_path, class: "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>
 <i class="fa fa-align-left"></i>Bills Management<span class="caret"></span>
 <% end %>
 
@@ -244,27 +238,27 @@
 <% end %>
 <li><%= link_to bills_user_bill_path do %>
 <i class="fa fa-user nav-icon"></i> View Bills </li>  
-  <% end %>  
- </ul>
+<% end %>  
+</ul>
 </li>
   <!-- bills ends here -->
   
   
-     <li class="dropdown ">   
-    <%= link_to bills_bill_local_sales_reports_path, class: "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>
+<li class="dropdown ">   
+<%= link_to bills_bill_local_sales_reports_path, class: "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>
 <i class="fa fa-align-left"></i>Utilities<span class="caret"></span>
 <% end %>
 
 <ul class="dropdown-menu">
-  <li><%= link_to bills_bill_local_sales_reports_path do %>
+<li><%= link_to bills_bill_local_sales_reports_path do %>
 <i class="fa fa-user nav-icon"></i> Local Sales </li>  
 <% end %>
-  <li><%= link_to bills_bill_interstate_sales_reports_path do %>
+<li><%= link_to bills_bill_interstate_sales_reports_path do %>
 <i class="fa fa-user nav-icon"></i> Interstate Sales </li>  
 <% end %>
-  <li><%= link_to bills_bill_tally_import_reports_path do %>
+<li><%= link_to bills_bill_tally_import_reports_path do %>
 <i class="fa fa-user nav-icon"></i> Tally Importable </li>  
-  <% end %>  
+<% end %>  
 </ul>
 </li>
   
@@ -279,27 +273,23 @@
    
   <!--    <%= link_to "Sign out", destroy_authuser_session_path %> -->
 <!-- <%= link_to "Sign Out", destroy_authuser_session_path, method: :delete %> -->
-  <% end %>
-  <%= yield %>
+<% end %>
+<%= yield %>
    
-  <p class= "notice"><%= notice %></p>
-  <p class= "alert"><%= alert %></p>
+<!-- <p class= "notice"><%= notice %></p>
+<p class= "alert"><%= alert %></p> -->
    
  
   
-   <footer class="footer">
+<footer class="footer">
+<div class="container">
+<div class="row">
 
-  <div class="container">
+<div class="col-sm-9">&copy; 2015 vatonwheels.com </div> <!-- /.col -->
+<div class="col-sm-3">Design and Developed by <a href="http://iprimitus.com" target="_blank" class="iprim">iprimitus.com</a></div> <!-- /.col -->
 
-    <div class="row">
-
- <div class="col-sm-3">&copy; 2015 vatonwheels.com Privacy Policy</div> <!-- /.col -->
- <div class="col-sm-3">Design and Developed by <a href="http://iprimitus.com" target="_blank" class="iprim">iprimitus.com</a></div> <!-- /.col -->
-
-      </div> <!-- /.row -->
-
-  </div> <!-- /.container -->
-  
+</div> <!-- /.row -->
+</div> <!-- /.container -->
 </footer>
 
 </body>

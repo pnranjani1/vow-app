@@ -84,10 +84,10 @@
    <td><%= @esugam.count %></td>
        
    <% if user.authuser.approved == false %>
-   <td><%= link_to "Approve User" , activate_user_path(user.authuser.id), method: :put, data: {confirm: "Are You sure you want to approve the user"} %></td>
+   <td><%= link_to "Approve User" , activate_user_path(user.authuser.id), method: :put, data: {confirm: "Are You Sure You Want To Approve The User"} %></td>
      
    <% elsif user.authuser.approved == true %>       
-   <td><%= link_to "De-activate User" , de_activate_user_path(user.authuser.id), method: :put, data: {confirm: "Are You sure you want to de-activate the user?"}  %></td> 
+   <td><%= link_to "De-activate User" , de_activate_user_path(user.authuser.id), method: :put, data: {confirm: "Are You Sure You Want To De-Activate The User?"}  %></td> 
 <% end %>   
 
 </tr>
@@ -99,7 +99,7 @@
 <% if current_authuser.main_roles.count == 1 %> 
 <div class="col-md-6">
 <div class="text-left">  
-Add User Role <%= link_to clients_user_role_path do %><button class="btn btn-success">Add User Role</button>
+<%= link_to clients_user_role_path do %><button class="btn btn-success">Add User Role</button>
  <% end %>
 </div> <!-- text-left ends here -->
   </div><!-- col ends here -->
@@ -108,7 +108,7 @@ Add User Role <%= link_to clients_user_role_path do %><button class="btn btn-suc
 
 
 <div class="text-right"> 
-Invite User <%= link_to new_authuser_invitation_path do %><button class="btn btn-success">Invite User</button>
+<%= link_to new_authuser_invitation_path do %><button class="btn btn-success">Invite User</button>
 <% end %>
 </div> <!-- text-right ends here -->
  <br/>

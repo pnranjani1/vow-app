@@ -32,7 +32,7 @@
 <% if @customer.errors.any? %>
 <% @customer.errors.full_messages.each do|error|  %>
 <ul>
-  <li><%= error %></li>
+  <li><div class= "alert alert-danger"><%= error %></div></li>
 </ul>
 <% end %>
 <% end %>
