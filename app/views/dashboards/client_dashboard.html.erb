@@ -66,33 +66,8 @@
  <th>Activate/De-Activate User</th>
  </tr> 
  <thead> 
-      
- <tbody>
-   <% @users.each do |user| %>
-   <% userid = user.authuser.id %>
-   <% c = user.authuser.membership.id %>
-   <% @bills = user.authuser.bills %>
-   <% @cash_based_applications = @bills.where("ESUGAM IS NULL") %>
-   <% @esugam = @bills.where("ESUGAM IS NOT NULL") %>
+  <%= render 'user_list' %> 
   
-   
- <tr>
-   <td class="hidden-xs"><%= link_to user.authuser.name, authuser_path(userid)  %></td>
-   <td><%= user.authuser.approved %></td>
-   <td><%= link_to user.authuser.membership.membership_end_date.strftime("%d %b %Y") , edit_membership_path(c) %></td> 
-   <td><%= @cash_based_applications.count %></td>
-   <td><%= @esugam.count %></td>
-       
-   <% if user.authuser.approved == false %>
-   <td><%= link_to "Approve User" , activate_user_path(user.authuser.id), method: :put, data: {confirm: "Are You Sure You Want To Approve The User"} %></td>
-     
-   <% elsif user.authuser.approved == true %>       
-   <td><%= link_to "De-activate User" , de_activate_user_path(user.authuser.id), method: :put, data: {confirm: "Are You Sure You Want To De-Activate The User?"}  %></td> 
-<% end %>   
-
-</tr>
-<% end %>
-</tbody>    
 </table>
   
 <div class="portlet-footer">
