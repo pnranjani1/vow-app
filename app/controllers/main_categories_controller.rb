@@ -22,6 +22,7 @@ class MainCategoriesController < ApplicationController
 #    @customer.authuser_id = current_authuser.id
     if @category.save
       redirect_to main_categories_path
+      flash[:notice] = "Commodity Successfully Created!"
     else
       render action: 'new'
     end

@@ -26,21 +26,30 @@
       <thead> 
       <tr> 
       <th>Client Name</th> 
-      <th> No Of Users</th>
-    
-         
-      </tr> 
+       <th> No Of Users</th>
+        <th>No of Cash Based Applications</th>
+      <th>No of Esugam Generated</th> 
+       </tr> 
       </thead> 
+        
       <tbody> 
       <% @clients.each do|client| %>
         <% client_id = client.authuser.id %>
         <% @users = User.where(:client_id => client_id) %>
         <% users_count = @users.count %>
         
+        <% bills = Bill.where(:client_id => client_id) %>
+        <% cash_based_applications = bills.where('ESUGAM IS NULL').count %>
+        <% bills_esugam = bills.where('ESUGAM IS NOT NULL').count %>
+  
+        
         
        <tr>                      
-         <td><%= link_to client.authuser.name, bills_bill_details_client_path(:id => client.authuser.id) %> </td>
-         <td><%= users_count %></td>
+         <td><%= link_to client.authuser.name, bills_bill_details_client_path(:id => client.authuser.id), class: "listconttext" %> </td>
+          <td><%= users_count %></td>
+         <td><%=  cash_based_applications %></td>
+        <td><%=  bills_esugam %></td>
+        
     
     </tr>     
     

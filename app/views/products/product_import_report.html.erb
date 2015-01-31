@@ -23,14 +23,14 @@
        
 <div class="col-sm-8"> 
 <div class="row">  
-<div class="col-md-6">
+<div class="col-md-7">
 <div id="name" class="input-group">  
 
-Download Existing Commodtiy List&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to products_usercategory_product_path(format: "xls") do %> <button class="btn btn-success">Download</button>
+  <strong>Download Existing Commodtiy List</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to products_usercategory_product_path(format: "xls") do %> <button class="btn btn-success">Download</button>
 <% end %>
   <br/><br/>
   
-Download the Import Product Format&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to products_product_download_path(format: "xls") do %> 
+<strong>Download the format for "Importing Products"</strong>&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to products_product_download_path(format: "xls") do %> 
    <button class="btn btn-success">Download</button>
       <% end %>
    
@@ -53,28 +53,41 @@ Download the Import Product Format&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to products_p
 <h3><i class="fa fa-group"></i> Import Products</h3> 
 </div> <!-- /.portlet-header -->
 
-<div class="portlet-content">
+  <% if alert %>
+  <br/>
+    <div class="col-md-6">
+      <div class= "alert alert-danger"><%= alert %>
+      </div>
+  </div>
+  <% end %>
   
+<div class="portlet-content">  
 <div class="col-sm-8"> 
 <div class="row">  
 <div class="col-md-6">
-<div class="input-group">    
-                  
+<div class="input-group">  
+  
+  <br/><br/>
+  
 <%= form_tag products_product_import_path, multipart: true  do %><br/>
- <%= file_field_tag :file %> <br/><p>
- 
-  <%= submit_tag "Import Products", class: "btn btn-success" %>
-<% end %>
+<%= file_field_tag :file , class: "form-control" %> <br/><br/><br/>
 
-  </div>
+
+<%= submit_tag "Import Products", class: "btn btn-success" %>
+<% end %>
+  
+  
+
+<br/><br/>
 </div>
 </div>
-  </div>
+</div>
+</div>
  
   
-  </div>
-  </div>
-   </div>
+</div>
+</div>
+</div>
   
 
   

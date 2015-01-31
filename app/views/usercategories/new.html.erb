@@ -23,11 +23,15 @@
 <div class="portlet-content">
 <%= form_for @usercategory do |f| %>
   <% if @usercategory.errors.any? %>
+  <div class="col-md-8">
+  <div class= "alert alert-danger">
   <% @usercategory.errors.full_messages.each do |error| %>
   <ul>
-    <li><div class="alert alert-danger"><%= error %></div></li>
+    <li><%= error %></li>
   </ul>
   <% end %>
+    </div>
+  </div>
   <% end %>
   
 <div class="col-sm-8"> 
@@ -38,7 +42,7 @@
 <%= f.collection_select :main_category_id, @available_categories,  :id , :commodity_name, {prompt:  "Select Commodity"} ,{class: "form-control"} %>
  <br/><br/><br/>
 
-  <%= f.submit "Create Commodity", class: "btn btn-success" %>
+  <%= f.submit "Add Commodity", class: "btn btn-success" %>
 <% end %>
 
         

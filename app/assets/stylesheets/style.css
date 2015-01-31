@@ -1,8 +1,14 @@
 .padboard{
   border:1px solid #ccc;
 }
-   
 
+.indextitle{
+  color: #990000;
+}
+   
+.comlin{ float:right; width:300px; height:inherit; margin:0px; padding:0px;}
+
+.listconttext{font-size:12px; color:#2880c4; line-height:20px;}
 
 .mytest{
     width: 95%;
@@ -403,7 +409,7 @@ nav.tm_navbar .sub-menu > ul li > ul li a:hover {
 h2 {
     margin-bottom: 25px;
     padding-bottom: 15px;   
-    border-bottom: 2px dotted #bbb;
+    /*border-bottom: 2px dotted #bbb; */
     font-size: 30px;
     font-weight: 400;
     text-align: center;

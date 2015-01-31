@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,6 +25,13 @@
 </ul>
 <% end %>
 <% end %>
+  <% if alert %>
+ <br/>
+ <div class="col-md-6">
+ <div class= "alert alert-danger"><%= alert %>
+ </div>
+ </div>
+ <% end %>
   
 <div class="row"> 
 <div class="portlet">
@@ -50,7 +56,7 @@
 <!-- <label>Email</label> -->
   Email
 <div id="email" class="input-group">               
-<%= f.text_field :email , class: "form-control" %>
+<%= f.text_field :email ,  class: "form-control" %>
 <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
 </div>
 </div> <!-- /.col -->

@@ -20,6 +20,12 @@
       <div class="portlet-content">
       <div class="table-responsive">
       <table id="user-signups" class="table table-striped table-bordered table-checkable"> 
+  <% if notice %>
+  <br/>
+  <div class="col-md-8">
+  <div class="alert alert-success"><%= notice %></div>
+  </div>
+  <% end %>
       <thead> 
       <tr> 
       <th>Customer Name</th> 

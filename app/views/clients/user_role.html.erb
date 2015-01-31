@@ -32,7 +32,7 @@
 <div class="col-md-6">
 <div id="name" class="input-group ">  
   
-<%= form_for(@user, :url => '/clients/update') do |f| %>
+  <%= form_for(@user, :url => '/clients/update') do |f| %>
 
 <label> Add as User </label>
 &nbsp;&nbsp;&nbsp;<%= f.check_box :role_user, {}, "true", "false" %><br/>

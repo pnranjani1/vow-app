@@ -22,10 +22,10 @@
        
 <div class="col-sm-8"> 
 <div class="row">  
-<div class="col-md-6">
+<div class="col-md-7">
 <div id="name" class="input-group">  
 
-Download the Import Customer Format&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to customers_customer_download_path(format: "xls") do %> 
+ <strong>Download the format for "Importing Customer"</strong>&nbsp;&nbsp;&nbsp;<%= link_to customers_customer_download_path(format: "xls") do %> 
    <button class="btn btn-success">Download</button>
       <% end %>
    
@@ -48,14 +48,22 @@ Download the Import Customer Format&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to customers
 <h3><i class="fa fa-group"></i>Import Customers</h3> 
 </div> <!-- /.portlet-header -->
 
+  <% if alert %>
+  <br/>
+    <div class="col-md-6">
+      <div class= "alert alert-danger"><%= alert %>
+      </div>
+  </div>
+  <% end %>
+  
 <div class="portlet-content">
 <div class="col-sm-8"> 
 <div class="row">  
 <div class="col-md-6">
 <div id="name" class="input-group">    
         
-<%= form_tag customers_customer_import_path, multipart: true do %><br/>
-  <%= file_field_tag :file %><br/><p>
+<%= form_tag customers_customer_import_path, multipart: true do %><br/><br/>
+  <%= file_field_tag :file, class: "form-control" %><br/><br/><br/>
   <%= submit_tag "Import Customers", class: "btn btn-success" %>
 <% end %><br/>
   </div>

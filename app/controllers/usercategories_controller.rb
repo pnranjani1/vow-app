@@ -19,6 +19,7 @@ class UsercategoriesController < ApplicationController
     
     if @usercategory.save 
       redirect_to usercategories_path(current_authuser.id)
+      flash[:notice] = "Commodity Added Successfully"
     else
       render action: 'new'
      end
@@ -54,7 +55,7 @@ class UsercategoriesController < ApplicationController
     @available_categories = Usercategory.available_categories(current_authuser)
     
     if @available_categories.blank?
-      flash[:alert] = 'Sorry, all categories are occupied.'
+      flash[:alert] = 'Sorry, all the commodities are already added.'
       redirect_to  usercategories_path
     end
   end

@@ -31,11 +31,15 @@
 
 <%= form_for(@product) do |f| %>
 <% if @product.errors.any? %>
+   <div class="col-md-6">
+  <div class= "alert alert-danger">
 <% @product.errors.full_messages.each do |error| %>
 <ul>
-   <li><div class= "alert alert-danger"><%= error %></div></li>
+   <li><%= error %></li>
 </ul>
 <% end %>
+     </div>
+  </div>
 <% end %>
 
 <div class="col-sm-8"> 
@@ -77,8 +81,8 @@
   <% end %>
  
 </div><!-- portlet eontent ends here -->
-<div><!-- portlet ends here -->
-<div><!-- row ends here -->
+</div><!-- portlet ends here -->
+</div><!-- row ends here -->
   
    </div><!-- content container ends here -->
    </div><!-- content ends here -->

@@ -37,17 +37,25 @@
 
 <div class="row">
 
-<div class="col-sm-4">           
+<div class="col-sm-3">           
   Name
 <div id="name" class="input-group">      
 <%= f.text_field :name, class: "form-control", autofocus: true %>
 <span class="input-group-addon"><i class="fa fa-user"></i></span>
 </div>
 </div> <!-- /.col -->
+
+<div class="col-sm-3">           
+ Email
+<div id="name" class="input-group">      
+  <%= f.email_field :email, class: "form-control" , :readonly => true %>
+<span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+</div>
+</div> <!-- /.col -->
+
+<!-- <%= f.hidden_field :email, :value => current_authuser.email %> -->
             
-<%= f.hidden_field :email, :value => current_authuser.email %>
-            
-<div class="col-sm-4">           
+<div class="col-sm-3">           
   Password
 <div id="Password" class="input-group">               
  <%= f.password_field :password, class: "form-control" %>
@@ -55,20 +63,21 @@
 </div>
 </div> <!-- /.col -->
             
-<div class="col-sm-4">           
+<div class="col-sm-3">           
 Confirm Password
 <div id="Password" class="input-group">               
  <%= f.password_field :password_confirmation, class: "form-control" %>
 <span class="input-group-addon"><i class="fa fa-star"></i></span>
 </div>
 </div> <!-- /.col -->
-  
-<br/><br/>
-  
+</div><!-- row ends here -->
+<br/>
+
+<div class="row">
 <div class="col-sm-3">           
 Date Of Birth
 <div id="Password" class="input-group">               
-  <%= f.date_field :date_of_birth , :disabled => true, class: "form-control" %>
+  <%= f.date_field :date_of_birth ,  class: "form-control" %>
 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 </div>
 </div> <!-- /.col -->

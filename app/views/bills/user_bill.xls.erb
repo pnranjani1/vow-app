@@ -14,11 +14,10 @@
     <td><%= bill.bill_date.strftime("%b %d %Y") %></td>
     <td><%= bill.customer.name %></td>
     <td><%= bill.customer.tin_number %></td>
-   <!-- <% bill.line_items.each do |a| %> -->
-    <!-- <td><%= a.product.product_name %></td> -->
     <td><%= bill.line_items.first.product.product_name %></td>
-    <% end %>
+   
     <td><%= bill.total_bill_price %></td>
+    
      <% end %>
     </tr>
    </table>

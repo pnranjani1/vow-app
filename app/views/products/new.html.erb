@@ -32,11 +32,15 @@
 
 <%= form_for(@product) do |f| %>
 <% if @product.errors.any? %>
+  <div class="col-md-6">
+  <div class= "alert alert-danger">
 <% @product.errors.full_messages.each do |error| %>
 <ul>
-    <li><div class= "alert alert-danger"><%= error %></div></li>
+    <li><%= error %></li>
 </ul>
 <% end %>
+  </div>
+  </div>
 <% end %>
 
 <div class="col-sm-8"> 

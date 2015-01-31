@@ -33,7 +33,12 @@
 <br>
 
 <%= form_for resource, :as => resource_name, :url => invitation_path(resource_name), :html => { :method => :put } do |f| %>
-  <%= devise_error_messages! %>
+ 
+ 
+    <%= devise_error_messages! %>
+ 
+  
+ 
   
   <%= f.hidden_field :invitation_token %>
 
@@ -58,10 +63,10 @@
 </div> <!-- /.col -->
             
 
-            
+  
 <div class="col-sm-4">           
   Password
-<div id="Password" class="input-group">               
+<div id="Password" class="input-group">  
 <%= f.password_field :password , class: "form-control" %>
 <span class="input-group-addon"><i class="fa fa-star"></i></span>
 </div>
@@ -249,8 +254,11 @@ Esugam Password
 </div> <!-- /.row -->
   <!-- company detail ends here -->
 
+By Clicking on the "Sign Up" button, you agree to the VatOnWheels <%= link_to "Terms Of Services", asset_path("Terms of Service VatOnWheels.pdf"), class: "listconttext", target: "blank" %>
+  <br/><br/>
 <div class="row">   
-  <%= f.submit t("devise.invitations.edit.submit_button"), class: "btn btn-success" %>
+  <!--<%= f.submit t("devise.invitations.edit.submit_button"), class: "btn btn-success" %> -->
+  <%= f.submit "Sign Up", class: "btn btn-success" %>
   </div> 
  
 <% end %>

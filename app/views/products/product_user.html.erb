@@ -20,6 +20,21 @@
       <div class="portlet-content">
       <div class="table-responsive">
       <table id="user-signups" class="table table-striped table-bordered table-checkable"> 
+        
+  <% if notice %>
+  <br/>
+  <div class="col-md-8">
+  <div class="alert alert-success"><%= notice %></div>
+  </div>
+  <% end %>
+                
+   <% if alert %>
+  <br/>
+  <div class="col-md-6">
+    <div class="alert alert-danger"><%= alert %></div>
+  </div>
+  <% end %>
+        
         <% if current_authuser.usercategories.blank? %> 
         <h5>Add Commodities first and then add products</h5>
          <% elsif current_authuser.products.blank? %>

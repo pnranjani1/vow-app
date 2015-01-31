@@ -17,7 +17,7 @@
 </div>
 <br>
 
-<%= form_for(@client, :url => '/authusers/admin_update') do |f| %><br/>
+<%= form_for(@client, :url => "/authusers/admin_update") do |f| %><br/>
 <% if @client.errors.any? %>
 <% @clients.errors.full_messages.each do|error| %>
 <ul>
@@ -25,6 +25,11 @@
 </ul>
 <% end %>
 <% end %>
+  <% if alert %>
+  <div class="col-md-8">
+    <div class="alert alert-danger"><%= alert %></div>
+    </div>
+  <% end %>
   
 <div class="row"> 
 <div class="portlet">
@@ -49,7 +54,7 @@
 <!-- <label>Email</label> -->
   Email
 <div id="email" class="input-group">               
-<%= f.text_field :email , class: "form-control" %>
+  <%= f.text_field :email , :readonly => true,  class: "form-control" %>
 <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
 </div>
 </div> <!-- /.col -->
@@ -69,20 +74,21 @@ Confirm Password
 <span class="input-group-addon"><i class="fa fa-star"></i></span>
 </div>
 </div> <!-- /.col -->
+  </div>
+<br/>
   
-<br/><br/>
-  
+<div class="row">
 <div class="col-sm-3">           
 Date Of Birth
 <div id="Password" class="input-group">               
-  <%= f.date_field :date_of_birth , :disabled => true, class: "form-control" %>
+<%= f.date_field :date_of_birth ,  class: "form-control" %>
 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 </div>
 </div> <!-- /.col -->
  
   
-<%= f.hidden_field :invited_by_id, :value => current_authuser.id %>
-<%= f.hidden_field :invited_by_type, :value => "Authuser" %>
+<!-- <%= f.hidden_field :invited_by_id, :value => current_authuser.id %>-->
+<!-- <%= f.hidden_field :invited_by_type, :value => "Authuser" %> -->
   
 <!-- <div> -->
   <!-- <%= f.fields_for :permissions  do |client_permission| %> -->
@@ -154,6 +160,10 @@ Phone Number
 <span class="input-group-addon"><i class="fa fa-phone"></i></span>
 </div>
 </div> <!-- /.col -->
+  
+<%= user_membership.hidden_field :membership_start_date %>
+<%= user_membership.hidden_field :membership_end_date %>
+  
 <% end %>  
 </div> <!-- row ends here -->
 </div> <!-- /.portlet-content -->
@@ -240,7 +250,6 @@ Company
 <span class="input-group-addon"><i class="fa fa-user"></i></span>
 </div>
 </div> <!-- /.col -->
-<%= user_client.hidden_field :created_by, :value => current_authuser.id %>
 <% end %>
 
 </div> <!-- row ends here -->

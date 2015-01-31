@@ -23,6 +23,7 @@ class CustomersController < ApplicationController
   @customer.authuser_id = current_authuser.id
     if @customer.save
       redirect_to customers_user_customer_path
+      flash[:notice] = "Customer Created Successfully"
     else
       render action: 'new'
     end
@@ -55,11 +56,27 @@ class CustomersController < ApplicationController
   
   
   def customer_import
-    Customer.import(params[:file], current_authuser.id)
-    redirect_to customers_user_customer_path, notice: "Customers Imported"
-  end
+     if params[:file].nil?
+       redirect_to customers_customer_import_report_path, alert: 'Please Select a file to import'
+    else
+    begin
+      Customer.import(params[:file], current_authuser.id)
+      redirect_to customers_user_customer_path, notice: "Customers Successfully Imported"
+    rescue       
+    # @error = "#{e.message}"
+      # flash[:alert] = "#{@customers.errors.full_messages}"
+       #flash[:alert] = "Check the data in excel"
+      redirect_to customers_customer_import_report_path,  alert: "Verify the data entered in the  selected excel file"
+    end
+     end
+   end
   
   def customer_import_report
+    @customer = Customer.new
+   # if @customer.valid?
+    #  @customer.save
+    #else
+      
   end
     
   

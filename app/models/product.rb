@@ -2,7 +2,8 @@ class Product < ActiveRecord::Base
   #before_save :generate_permalink
     
   validates :units, presence: true
-  validates :product_name, presence: {:message => " - Product Name cannot be blank"}
+  validates :product_name, presence: {:message => " - Product Name can't' be blank"}
+  validates :usercategory_id, presence: {:message => " - Select Commodity"}
  # validates :product_name , uniqueness: {:message => " - Selected Product is already added"}, :if => Authuser.current
   #validates_associated :usercategories
   

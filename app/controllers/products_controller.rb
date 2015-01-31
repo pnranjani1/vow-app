@@ -25,6 +25,7 @@ class ProductsController < ApplicationController
    params[:usercategory_id] = @product.usercategory_id
    if @product.save 
      redirect_to products_product_user_path(current_authuser.id)
+     flash[:notice] = "Product Created Successfully"
    else 
    render action: 'new'
     end
@@ -87,15 +88,28 @@ class ProductsController < ApplicationController
    
   
   def product_import
+    @product = Product.new
+    if params[:file].nil?
+      redirect_to products_product_import_report_path, alert: 'Please Select a file to import'
+    else
+     begin
    Product.import(params[:file], current_authuser.id)
-   redirect_to products_product_user_path, notice: "Products Imported."
+  redirect_to products_product_user_path, notice: "Products Successfully Imported."
+     rescue
+       #@product_errors =  @product.errors
+   # rescue
+       redirect_to products_product_import_report_path, alert: "Verify the data entered in the  selected excel file"
+    end
 end
-  
-  def product_import_report
   end
   
   
-    private
+  def product_import_report
+    @product = Product.new 
+    end
+  
+  
+ private
     
     def set_params
       params[:product].permit(:product_name, :units, :usercategory_id, :authuser_id, 

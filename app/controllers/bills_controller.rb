@@ -25,7 +25,8 @@ class BillsController < ApplicationController
   
   def create  
     @bill = Bill.new(set_params)
-   @bill_last = Bill.last || Bill.new
+    @bill.client_id = current_authuser.users.first.client_id
+    @bill_last = Bill.last || Bill.new
    @bill_last = Bill.last
    # if @bill_last.nil?
     #  @invoice_number = 1000
@@ -37,7 +38,7 @@ class BillsController < ApplicationController
     if @bill.save
       @bill.total_bill_price = @bill.line_items.sum(:total_price)
       @bill.save
-      flash[:notice] = "Successfully created Bill"
+      flash[:notice] = "Bill Created Successfully"
       redirect_to new_bill_path
     else
       render action: 'new'
@@ -140,7 +141,10 @@ class BillsController < ApplicationController
   def client_bill_summary
     @clients = Client.where(:created_by => current_authuser.id)
     @clients.each do |client|
-      client_id = client.authuser.id
+    client_id = client.authuser.id
+    #bills = Bill.where(:client_id => client_id)
+     # @bills_esugam = bills.where('ESUGAM IS NOT NULL').count
+      #@bills_cash_based_applications = bills.where('ESUGAM IS NULL').count
       users = User.where(:client_id => client_id)
       users.each do |user|
       @users_bills = user.authuser.bills.count
@@ -341,10 +345,12 @@ end
 
 
   private
+
+
   def set_params
     params[:bill].permit(:invoice_number,:esugam, :bill_date, :customer_id, 
       :authuser_id, :tax, :total_bill_price, :tax_id, :grand_total, :other_charges,
-      :other_information, :other_charges_info,
+      :other_information, :other_charges_info, :client_id,
       {:line_items_attributes => [:product_id, :quantity, :unit_price, :total_price, :_destroy]},
       {:tax_attributes => [:tax_type, :tax_rate, :tax]})
   end

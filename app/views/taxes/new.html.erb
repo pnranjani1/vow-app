@@ -30,6 +30,19 @@
         
 
 <%= form_for @tax do |f| %>
+  <% if @tax.errors.any? %>
+   <div class="col-md-6">
+  <div class= "alert alert-danger">
+  <% @tax.errors.full_messages.each do |error| %>
+<ul>
+    <li><%= error  %></li>
+</ul>
+  
+<% end %>
+  </div>
+  </div>
+<% end %>
+
 
 
 <div class="col-sm-8"> 

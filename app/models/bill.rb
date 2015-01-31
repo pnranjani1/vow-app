@@ -39,6 +39,9 @@ class Bill < ActiveRecord::Base
   #  last_invoice_number_used+1
 #end
   
+  
+ 
+  
   def past_date
     if self.bill_date < Date.today
       errors.add(:bill_date, 'Entered Bill Date is in the past')

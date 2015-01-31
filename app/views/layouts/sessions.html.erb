@@ -56,18 +56,16 @@
 </a>
 
 <ul class="dropdown-menu" role="menu">
-<% if current_authuser.main_roles.first.role_name == "client" %>
 <li>
+             
 <!-- <a href="./page-profile.html">-->
 <%= link_to authusers_admin_edit_path do %>
 <i class="fa fa-user"></i> 
 &nbsp;&nbsp;My Profile
 <% end %>
 </li>
-
-  
+           
 <li class="divider"></li>
-<% end %>           
 <li>
 <%= link_to destroy_authuser_session_path do %>
 <!--  <a href="./account-login.html"> -->
@@ -224,17 +222,7 @@
   <!-- <%= link_to "Sign Out", destroy_authuser_session_path, method: :delete %> -->
    <!-- <%= link_to "Sign out", destroy_authuser_session_path %> -->
  
-<footer class="footer">
-<div class="container">
-<div class="row">
 
-<div class="col-sm-9">&copy; 2015 vatonwheels.com </div> <!-- /.col --> 
-<div class="col-sm-3">Design and Developed by <a href="http://iprimitus.com" target="_blank" class="iprim">iprimitus.com</a></div> <!-- /.col -->
-
-</div> <!-- /.row -->
-</div> <!-- /.container -->
-  
-</footer>
 
 </body>
 </html>

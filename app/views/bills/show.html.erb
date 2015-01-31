@@ -20,7 +20,22 @@
 <div class="row"> 
 <div class="portlet">
 <div class="portlet-header">
+
+<div class="row">
+
+<div class="col-md-4">
 <h3><i class="fa fa-group"></i>Bill of <%= @bill.customer.name  %></h3> 
+</div>
+
+<div class="col-md-4">
+<h3><i class="fa fa-numeric"></i>Invoice Number&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= @bill.invoice_number %></h3> 
+</div>
+
+<div class="col-md-4">
+<h3><i class="fa fa-calender"></i>Bill Date&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= @bill.bill_date.strftime("%b %d, %Y") %></h3> 
+</div>  
+</div><!-- row ends here-->
+  
 </div> <!-- /.portlet-header -->
 
 <div class="portlet-content">
@@ -58,36 +73,70 @@
   <td><%= line_item.total_price  %></td>
  </tr>   
  <% end %>
+
+<tr>
+<td colspan="4">
+<div class="comlin">
+  
+<table class="table table-bordered table-checkable">
+    
+<tr>
+<td><strong>Bill Total</strong></td>
+<td><%= @bill.total_bill_price %></td>
+</tr>
+ 
+<tr>
+<td><strong><%= @bill.other_charges_info %></strong></td>
+<td><%= @bill.other_charges %></td>
+</tr>
+
+<tr>
+<% total = @bill.total_bill_price.to_f + @bill.other_charges.to_f %>    
+<td><strong><%= @bill.tax.tax_type %>  @ <%= @bill.tax.tax_rate %> % on <%= total %></strong></td>
+<td><%= (@bill.tax.tax_rate * 0.01*total).round(2) %></td>
+</tr>
+
+<tr>
+<td><strong>Grand Total</strong></td>
+<td><%= @bill.grand_total %></td>
+</tr>
+   
+</table>
+  
+<div class="col-md-2" align="left">
+<%= link_to "Generate PDF", bill_path(@bill.id, format: "pdf"), class: "btn btn-success", target: "blank"  %>
+</div>
+   
+<div class="col-md-2">
+<% if @bill.esugam == nil && @bill.tax.tax_type == "CST" %>
+<%= link_to 'Generate e-sugam', generate_esugan_bills_path(bill_id: @bill), method: :post, remote: true,
+       class: 'btn btn-success', id: 'user-notice' %>
+<% end %>
+  
+<br/><br/><br/>
+        <br/>
+  
+
+
+</div><!-- col-md-10 ends here -->
+
+
+</div> <!-- /.portlet-footer -->
+    
+</td>
+</tr>
+
 </tbody>
 </table>
 
-
-<div class="portlet-footer">
-<div class="text-left">     
-  
-<strong>Bill Total : </strong><%= @bill.total_bill_price %> <br/>
-<strong><%= @bill.other_charges_info %> : </strong><%= @bill.other_charges %><br/>
-<strong>Grand Total : </strong> <%= @bill.grand_total %><br/>
-  
-<% total = @bill.total_bill_price.to_f + @bill.other_charges.to_f %>    
-
-<strong><%= @bill.tax.tax_type %>  @ <%= @bill.tax.tax_rate %> % on <%= total %>  = </strong> <%= @bill.tax.tax_rate * 0.01*total %><br/>
-
-<strong>Other Information : </strong><%= @bill.other_information %>
-  <br>
-  <strong>Tax Type : </strong> <%= @bill.tax_type %>
-</div>
-</div> <!-- /.portlet-footer -->
-
 <div class="col-md-10">
-    
- <div class="col-md-2" align="left">
-   <%= link_to "Generate PDF", bill_path(@bill.id, format: "pdf"), class: "btn btn-success", target: "blank"  %>
- </div>
+<div class="col-md-2" align="left">
+<%= link_to "Generate PDF", bill_path(@bill.id, format: "pdf"), class: "btn btn-success", target: "blank"  %>
+</div>
    
 <div class="col-md-2">
-  <% if @bill.esugam == nil && @bill.tax.tax_type == "CST" %>
-  <%= link_to 'Generate e-sugam', generate_esugan_bills_path(bill_id: @bill), method: :post, remote: true,
+<% if @bill.esugam == nil && @bill.tax.tax_type == "CST" %>
+<%= link_to 'Generate e-sugam', generate_esugan_bills_path(bill_id: @bill), method: :post, remote: true,
         class: 'btn btn-success', id: 'user-notice' %>
   <% end %>
   
@@ -95,12 +144,10 @@
         <br/>
   
 </div> 
-
 </div><!-- col-md-10 ends here -->
    
-  
- </div> <!-- /.table-responsive -->
- </div> <!-- /.portlet-content -->
+</div> <!-- /.table-responsive -->
+</div> <!-- /.portlet-content -->
         
 </div> <!-- /.portlet -->
 </div> <!-- /.row -->

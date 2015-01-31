@@ -18,9 +18,9 @@ Rails.application.routes.draw do
    get 'authusers/admin_new' => 'authusers#admin_new'
    post 'authusers/admin_create' => 'authusers#admin_create'
     get 'authusers/client_new' => 'authusers#client_new'
-    post 'authusers/client_create' => 'authusers#client_create'
+    patch 'authusers/client_create' => 'authusers#client_create'
     get 'authusers/admin_edit' => 'authusers#admin_edit'
-    post 'authusers/admin_update' => 'authusers#admin_update'
+    patch 'authusers/admin_update' => 'authusers#admin_update'
     
     get 'authusers/force_password_change' => 'authusers#force_password_change'
    # get 'authusers/:id/admin_edit' => 'authusers#admin_edit', :as => "admin_edit"
@@ -46,6 +46,7 @@ Rails.application.routes.draw do
   post 'customers/customer_import'
   get 'products/product_user'
   post 'products/product_import'
+  post 'products/product_import_result'
   get 'customers/user_customer'
   get 'categories/user_category'
   get 'dashboards/admin_dashboard'
@@ -60,7 +61,7 @@ Rails.application.routes.draw do
   get 'products/product_import_report'
   get 'customers/customer_import_report'
   get 'bills/bill_details_client'
-  get 'home_page/readpdf'
+  get 'home_page/read_pdf'
     
   resources :authusers
   resources :users

@@ -21,6 +21,12 @@
       <div class="table-responsive">
       <table id="user-signups" class="table table-striped table-bordered table-checkable"> 
             
+  <% if notice %>
+  <br/>
+  <div class="col-md-8">
+  <div class="alert alert-success"><%= notice %></div>
+  </div>
+  <% end %>
       <thead> 
       <tr> 
       <th>Commodity Name</th> 
@@ -94,12 +100,3 @@
 
 
 
-------
-<hr><br/>
-<h3> User Commodities </h3>
-<% current_authuser.usercategories.each do |category| %>
-<ul>
-  <li><%= category.main_category.commodity_name %></li>
-    
-</ul>
-<% end %>

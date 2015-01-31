@@ -14,6 +14,7 @@ class TaxesController < ApplicationController
     @tax = Tax.new(set_params)
     if @tax.save
       redirect_to taxes_path
+      flash[:notice] = "Tax Created Successfully!"
     else
       render action: 'new'
     end

@@ -75,11 +75,13 @@ redirect_to dashboards_client_dashboard_path
   def admin_create
     @client = Authuser.new(set_params) 
     if @client.save 
-     redirect_to dashboards_admin_dashboard_path
-    else
-      render action: 'new'
+      redirect_to dashboards_admin_dashboard_path
+     else
+      redirect_to authusers_admin_new_path, alert: "Check whether the fields are entered with correct values"
+     end
     end
-  end
+  
+  
   #keep these for reference
   #if Authuser.joins(:permissions).where(:m_role_id => 1)
      #
@@ -89,35 +91,43 @@ redirect_to dashboards_client_dashboard_path
   
   
   def admin_edit
-    @client = current_authuser
+    @client = Authuser.find(current_authuser.id)
   end
   
     
   def admin_update
-    @client = current_authuser
-    if @client.save
+    @client = current_authuser    
+   # if @client.update_attributes(set_params)
+   # begin
+    if  @client.save
     redirect_to dashboards_client_dashboard_path
-    else
-      render action: 'admin_edit'
-    end
+      flash[:notice] = "Profile Updated Successfully"
+     else
+       redirect_to authusers_admin_edit_path, alert: "Check whether all the fields are entered"
+     end
+   
   end
+    
+    #if @client.save
+    #redirect_to dashboards_client_dashboard_path
+    #else
+     # render action: 'admin_edit'
+    #end
+  #end
   
   
   def activate_user
-    @current_authuser_clients = Client.where(:created_by => current_authuser.id)
     user = Authuser.find(params[:id])
     user.approved = true
-    invited_by_id =  user.invited_by_id
+     invited_by_id =  user.invited_by_id
     role_invited_by = Permission.where(:authuser_id => invited_by_id)
     role_id = role_invited_by.first.main_role_id
     user.save
-   #  if user.save
-   #   if role_id == 2
-   #   redirect_to dashboards_client_dashboard_path
-   #   elsif role_id == 1
-   #     redirect_to dashboards_admin_dashboard_path    
-   #    end
-   #end
+     if role_id == 2
+      redirect_to dashboards_client_dashboard_path
+    elsif role_id == 1
+       redirect_to dashboards_admin_dashboard_path    
+   end
   end
     
   
@@ -125,17 +135,17 @@ redirect_to dashboards_client_dashboard_path
     @current_authuser_clients = Client.where(:created_by => current_authuser.id)
     user = Authuser.find(params[:id])
     user.approved = false
+    
      invited_by_id =  user.invited_by_id
     role_invited_by = Permission.where(:authuser_id => invited_by_id)
     role_id = role_invited_by.first.main_role_id
     user.save
-    # if user.save
-    #  if role_id == 2
-    #  redirect_to dashboards_client_dashboard_path
-    #  elsif role_id == 1
-    #    redirect_to dashboards_admin_dashboard_path    
-    #  end
-    #  end
+     if role_id == 2
+      redirect_to dashboards_client_dashboard_path
+      elsif role_id == 1
+        redirect_to dashboards_admin_dashboard_path    
+    
+      end
   end
     
   def change_role
@@ -163,8 +173,9 @@ def force_password_change
 end
 
 
-  
-  #for User Creation
+# For user creation, views/authusers/invitations/new and edit are used. Devise_invitable is used to invite user and in the model all the required tables are invoked when user is invited
+
+#for User update profile
   
   def client_new
     @user = current_authuser
@@ -177,14 +188,16 @@ end
   end
   
   def client_create
-    @user = Authuser.new(set_params)
+    @user = current_authuser
     if @user.save
       redirect_to dashboards_user_dashboard_path
+      flash[:notice] = "Profile Updated Successfully"
   else
       render action: 'client_new'
   end
 end
   
+# client_edit and client_update are not used now
 
 def client_edit
   @user = Authuser.find(params[:id])

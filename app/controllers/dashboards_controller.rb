@@ -16,11 +16,9 @@ class DashboardsController < ApplicationController
    
     @current_authuser_clients = Client.where(:created_by => current_authuser.id)
     @count = @current_authuser_clients.count
-    
-     @esugam_count = Bill.where("esugam IS NOT NULL").count
+   
+    @esugam_count = Bill.where("esugam IS NOT NULL").count
     @number_of_cash_applications = Bill.where("esugam IS NULL").count
-    
-    #  @users = User.where(:client_id => current_authuser.id)
    end
   
   
@@ -29,6 +27,8 @@ class DashboardsController < ApplicationController
     @bills = Bill.all
     #@users_count = current_authuser.users.count
     @users_count = @users.count
+    @bills_esugam = Bill.where('client_id = ? AND ESUGAM IS NOT NULL', current_authuser.id)
+    @cash_based_applications = Bill.where('client_id = ? AND ESUGAM IS NULL', current_authuser.id)
     # to Calcualte total bills under the client
    # users =  User.where(:client_id => current_authuser.id)
     #users.each do |user|

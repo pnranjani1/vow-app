@@ -31,11 +31,16 @@
 <%= form_for(@category) do |f| %>
 
 <% if @category.errors.any? %>
+  <div class="col-md-6">
+  <div class= "alert alert-danger">
 <% @category.errors.full_messages.each do |error| %>
 <ul>
-  <li> <%= error %></li>
+    <li><%= error  %></li>
 </ul>
+  
 <% end %>
+  </div>
+  </div>
 <% end %>
 
 <div class="col-sm-8"> 

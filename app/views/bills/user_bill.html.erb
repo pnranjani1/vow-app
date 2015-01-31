@@ -24,7 +24,7 @@
 <ul class="panel-lists">
 <li class="panel-list-title">
 <div class="panel-list-content">
-<%= link_to bill.customer.name, bill_path(bill.id) %> /
+<%= link_to bill.customer.name, bill_path(bill.id), class: "listconttext" %> /
 <%= bill.invoice_number %> /
 <%=  bill.tax.tax_type %>
 <span class="panel-list-meta">Posted <%= time_ago_in_words (bill.created_at) %> ago</span>

@@ -1,5 +1,6 @@
 class Notification < ActionMailer::Base
-  default from: "support@fhqpro.com"
+ # default from: "support@fhqpro.com"
+  default from: "support@vatonwheels.com"
   
   
   def new_category(usercategory)
@@ -31,7 +32,7 @@ class Notification < ActionMailer::Base
   
   def new_enquiry(enquiry_form)
     @enquiry_form = enquiry_form
-    mail(:to => "ranjani@iprimitus.com", :subject => "VAtonWheels - New User Enquiry")
+    mail(:to => "ranjani@iprimitus.com", :subject => "VatonWheels - New User Enquiry")
   end
   
   

@@ -1,89 +1,88 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width">
-</head>
-
-<body>
-
- <div class="container">
- <div class="content">
- <div class="content-container">     
-   <div>
-    <h4 class="heading-inline"><%= current_authuser.name %></h4>        
-   </div>
- <br>
-
- <div class="row">   
-   
- <div class="col-sm-6 col-md-3">
- <div class="row-stat">
- <p class="row-stat-label">Total No Of Chartered Accountants</p>
-   <h3 class="row-stat-value"><%= Client.where(:created_by => current_authuser.id).count %></h3>
- <span class="label label-success row-stat-badge"></span>
- </div> <!-- /.row-stat -->
- </div> <!-- /.col -->
-
-</div> <!-- row ends here-->
+<div class="container">
+<div class="content">
+<div class="content-container">     
+<div>
+<h4 class="heading-inline"><%= current_authuser.name %></h4>        
+</div>       
+<br>
+<div class="row">
+<div class="col-sm-6 col-md-3">
+<div class="row-stat">
+<p class="row-stat-label">Total No Of Chartered <br/>Accountants</p>
+<h3 class="row-stat-value">
+<%= Client.where(:created_by => current_authuser.id).count %>
+</h3>           
+<span class="label label-success row-stat-badge"></span>
+</div> <!-- /.row-stat -->
+</div> <!-- /.col -->
+</div> <!-- row ends here-->   
        
+<div class="row">
+<div class="portlet portlet-table">
+<div class="portlet-header">
+<h3>
+<i class="fa fa-group"></i>               
+You have <%= pluralize(@count, "Chartered Accountant") %>
+</h3>
+</div> <!-- Portlet header ends -->
+<div class="portlet-content">
+                      
+<div class="table-responsive">
+<table id="user-signups" 
+class="table table-striped table-bordered table-checkable"> 
+<thead> 
+<tr> 
+<th>Name</th> 
+<th>Current Status</th> 
+<th>Membership End Date</th>
+<th>Number of Users</th>
+<th>Activate/De-Activate User</th>
+</tr> 
+</thead> 
+<tbody>
+ <% @current_authuser_clients.each do |client| %>
+ <% clientid = client.authuser.id %>
+ <%  c = client.authuser.membership.id %>
+ <% @user = User.where(:client_id => clientid) %>
+  <% @user_count = @user.count %>
+  
+  
+<tr>
+  <td class="hidden-xs"><%= link_to client.authuser.name, authuser_path(clientid), class: "listconttext"  %></td>
+  <td><%= client.authuser.approved %></td>
+
+<td><%= link_to  client.authuser.membership.membership_end_date.strftime("%d %b %Y"), edit_membership_path(c), class: "listconttext"  %></td> 
+ <td><%= @user_count %></td>
        
- <div class="row">
- <div class="portlet portlet-table">
- 
- <div class="portlet-header">
- <h3><i class="fa fa-group"></i>               
- You have <%= pluralize(@count, "Chartered Accountant") %></h3>
- </div> <!-- Portlet header ends -->
+  
+<% if client.authuser.approved == false %>
+<td><%= link_to "Approve User" , activate_user_path(client.authuser.id), method: :put, data: {confirm: "Are You Sure You Want To Approve The Client?"}, class: "listconttext" %></td>
    
- <div class="portlet-content">
- <div class="table-responsive">
- <table id="user-signups"class="table table-striped table-bordered table-checkable"> 
-      
- <thead> 
- <tr> 
- <th>Name</th> 
- <th>Current Status</th> 
- <th>Membership End Date</th>
- <th>Number of Users</th>
- <th>Activate/De-Activate User</th>
- </tr> 
- <thead> 
+       
+<% elsif client.authuser.approved == true %>       
+<td><%= link_to "De-activate User" , de_activate_user_path(client.authuser.id), method: :put, data: {confirm: "Are You Sure You Want To De-Activate The Client?"}, class: "listconttext"  %></td> 
+<% end %>   
+
+</tr>
+<% end %>
+
+</tbody>    
  
- <div id ='users_div'> 
-   <%= render 'user_list' %>   
-  </div>  
-  
-</table>
-  
-                       
+
+</table>           
 <div class="portlet-footer">
 <div class="text-right">    
-<%= link_to authusers_admin_new_path do %> <button class="btn btn-success">Create CA</button>
+<%= link_to authusers_admin_new_path do %> 
+<button class="btn btn-success">Create CA</button>
 <% end %>
 </div> <!-- text-right ends here -->
- </div> <!-- /.portlet-footer -->
-   
-   
- </div> <!-- /.table-responsive -->
- <div> <!-- /.portlet-content -->
+</div> <!-- /.portlet-footer -->
+</div> <!-- /.table-responsive -->
+</div> <!-- /.portlet-content -->
+</div> <!-- /.portlet -->
+</div> <!-- /.row -->
 
- </div> <!-- /.portlet -->
- </div> <!-- /.row -->
-   
- </div> <!-- /.content-container -->
- </div> <!-- /.content -->
- </div> <!-- /.container -->
-
-</body>
-</html>
-
-
-
-
-
-
-
-
+</div> <!-- /.content-container -->
+</div> <!-- /.content -->
+</div> <!-- /.container -->
  

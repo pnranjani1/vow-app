@@ -24,7 +24,8 @@
 
 <div class="portlet-content">
 
-<table class="table">
+
+<table class="table ">
 <tbody>
 <tr>
 <th><i class="fa fa-user"></i> Name :</th>
@@ -35,7 +36,17 @@
 <th><i class="fa fa-envelope"></i> Email :</th>
   <td><%= @user.email %> </td>
 </tr>
-
+  
+  
+<tr>
+<th><i class="fa fa-calendar"></i> Date of Birth :</th>
+<% if @user.date_of_birth.present? %>
+<td><%= @user.date_of_birth.strftime("%b %d, %Y") %> </td>
+  <% else %>
+  <td> Not entered by user </td>
+</tr>
+  <% end %>
+  
 <tr>
 <th><i class="fa fa-phone"></i> Phone number :</th>
 <td><%= @user.membership.phone_number %></td>
@@ -92,14 +103,11 @@
 </tr>
   
   <tr>
+<% if @user.main_roles.first.role_name == "client" %>
 <th><i class="fa fa-user"></i> Company :</th>
- <% if @user.main_roles.first.role_name == "client" %>
 <td><%= @user.clients.first.company %></td>
-    <% end %>
+<% end %>
 </tr>
-          
-
- 
 </tbody>
 </table>
 

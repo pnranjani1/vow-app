@@ -24,20 +24,23 @@ class Customer < ActiveRecord::Base
  # end
   
    def self.import(file, current_authuser)
+     
     spreadsheet = open_spreadsheet(file)
     header = spreadsheet.row(1)
     (2..spreadsheet.last_row).each do |i|
       row = Hash[[header, spreadsheet.row(i)].transpose]
       customer = Customer.find_by_email(row["Email"]) || Customer.new
      # product.attributes = row.to_hash.slice('product_name', 'units', 'usercategory_id')
-      customer.name = row["Customer Name"].to_s
+      
+        customer.name = row["Customer Name"].to_s
         customer.email = row["Email"]
         customer.tin_number = row["Tin Number"].to_i
         customer.phone_number = row["Phone Number"].to_i
         customer.address = row["Address"]
         customer.city = row["City"]
         customer.authuser_id = current_authuser
-        customer.save!
+         customer.save!
+         
     end
    end
       

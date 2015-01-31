@@ -30,10 +30,12 @@ class ClientsController < ApplicationController
   end
   
   def update
-     @user = current_authuser.clients.first 
-    if  params[:role_user] = true
-    Permission.create(:authuser_id => current_authuser.id, :main_role_id => 3)
-      redirect_to dashboards_client_dashboard_path
+    @user = current_authuser.clients.first 
+     if  params[:role_user] = true
+     Permission.create(:authuser_id => current_authuser.id, :main_role_id => 3)
+       user = User.where(:authuser_id => current_authuser.id)
+       user.first.client_id = current_authuser.id
+    redirect_to dashboards_client_dashboard_path
       
       #Permission.create(:authuser_id => current_authuser.id, :main_role_id => 6)
     end
@@ -67,18 +69,18 @@ class ClientsController < ApplicationController
  # @user = Client.where(:authuser_id => current_authuser.id)  
   def update_user_role
    @user = current_authuser.clients.first 
-    if params[:add_user_role] == true
-      @user.add_user_role = true
+    #if params[:add_user_role] == true
+     # @user.add_user_role = true
       Permission.create(:authuser_id => current_authuser.id, :main_role_id => 3)
       redirect_to dashboards_client_dashboard_path
-  end
+  #end
   end
   
   
   private
   def set_params
     params[:client].permit(:authuser_id, :remarks,  :role_user,
-      {:users_attributes => [:tin_number, :esugam_username, :esugam_password, :authuser_id, :client_id]}
+      {:users_attributes => [:id, :tin_number, :esugam_username, :esugam_password, :authuser_id, :client_id]}
       )
   end 
     

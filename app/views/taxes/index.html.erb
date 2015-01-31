@@ -22,7 +22,12 @@
 <div class="portlet-content">
 <div class="table-responsive">
 <table id="user-signups" class="table table-striped table-bordered table-checkable"> 
-
+ <% if notice %>
+  <br/>
+  <div class="col-md-6">
+  <div class="alert alert-success"><%= notice %></div>
+  </div>
+  <% end %>
 <thead> 
 <tr> 
 <th>Tax Type</th> 
@@ -49,9 +54,8 @@
                
 <div class="portlet-footer">
 <div class="text-right">                  
-Create New Tax <%= link_to new_tax_path do %>
-<button class="btn btn-success"> New</button>
-<% end %>
+  <%= link_to "Add Tax", new_tax_path , class: "btn btn-success" %>
+
 </div>
 </div> <!-- /.portlet-footer -->
                   

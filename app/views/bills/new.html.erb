@@ -23,11 +23,15 @@
 <div class="row"> 
   <%= nested_form_for(@bill) do |f| %>
 <% if @bill.errors.any? %>
+  <div class="col-md-6">
+  <div class="alert alert-danger">
 <% @bill.errors.full_messages.each do |error| %>
 <ul>
-  <div class="alert alert-danger"><li><%= error %></li></div>
-</ul>
+ <li><%= error %></li>
+ </ul>
 <% end %>
+    </div>
+  </div>
 <% end %>
   
 <div class="portlet">
@@ -46,9 +50,13 @@
   
 <div class="col-sm-4">           
 <strong>Invoice Number</strong> 
-<div id="name" class="input-group">               
-<%= f.text_field :invoice_number , class: "form-control" %>
-<span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
+<div id="name" class="input-group">    
+<% if Bill.last == nil %> 
+<%= f.text_field :invoice_number , :readonly => true, :value => 1000.to_i, class: "form-control" %> 
+<% else %>
+<%= f.text_field :invoice_number , :readonly => true, :value => Bill.last.invoice_number + 1.to_i,  class: "form-control" %>
+<% end %>
+  <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
 </div>
 </div> <!-- /.col -->
             
@@ -86,8 +94,8 @@
   <div class="row"> 
     <div class="col-sm-2">           
       <strong>Item</strong> 
-      <div id="name" class="input-group">         
-        <%= bill_product.collection_select :product_id, 
+      <div id="name" class="input-group">    
+      <%= bill_product.collection_select :product_id, 
           Product.where(:authuser_id => current_authuser.id), :id, :product_name, 
           {prompt: "Select Product"}, {class: "form-control"} %>
       </div> 

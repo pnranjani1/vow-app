@@ -17,7 +17,12 @@
     <h4 class="heading-inline"><%= current_authuser.name %></h4>        
    </div>
  <br>
-   
+   <% if notice %>
+   <div class="col-md-8">
+     <div class="alert alert-success"><%= notice %>
+     </div>
+   </div>
+   <% end %>
    
    
    </div><!-- content container ends here -->

@@ -6,6 +6,8 @@ class Tax < ActiveRecord::Base
   belongs_to :authuser
   has_many :bills
   
+  validates :tax_type, :tax_rate, presence: true
+  
   def tax_type_with_rate
     self.tax = "#{self.tax_type} #{self.tax_rate}"
   end
