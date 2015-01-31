@@ -103,22 +103,7 @@
    
 </table>
   
-<div class="col-md-2" align="left">
-<%= link_to "Generate PDF", bill_path(@bill.id, format: "pdf"), class: "btn btn-success", target: "blank"  %>
-</div>
-   
-<div class="col-md-2">
-<% if @bill.esugam == nil && @bill.tax.tax_type == "CST" %>
-<%= link_to 'Generate e-sugam', generate_esugan_bills_path(bill_id: @bill), method: :post, remote: true,
-       class: 'btn btn-success', id: 'user-notice' %>
-<% end %>
-  
-<br/><br/><br/>
-        <br/>
-  
 
-
-</div><!-- col-md-10 ends here -->
 
 
 </div> <!-- /.portlet-footer -->
