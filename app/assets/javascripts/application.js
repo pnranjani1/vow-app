@@ -43,7 +43,7 @@ $(document).ready(function(){
   $('#user-notice').on('click', function(){
     App.blockUI( $('.portlet-content'));
   });
-  
+  });
   
 
 
