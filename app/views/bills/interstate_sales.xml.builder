@@ -12,7 +12,7 @@ xml.ISSale do
         xml.PurName bill.customer.name 
         xml.PurAddr bill.customer.address        
         xml.InvNo bill.invoice_number
-        xml.InvDate bill.bill_date.strftime(" %d %b %Y")
+           xml.InvDate bill.bill_date.strftime("%Y%m%d")
         xml.NetVal bill.total_bill_price
         xml.TaxCh bill.tax.tax_rate
         xml.OthCh bill.other_charges

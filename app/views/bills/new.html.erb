@@ -22,6 +22,7 @@
 
 <div class="row"> 
   <%= nested_form_for(@bill) do |f| %>
+
 <% if @bill.errors.any? %>
   <div class="col-md-6">
   <div class="alert alert-danger">
@@ -33,6 +34,7 @@
     </div>
   </div>
 <% end %>
+  
   
 <div class="portlet">
 
@@ -101,41 +103,28 @@
       </div> 
     </div> <!-- /.col -->
  
-      <script> bindItemFields(); 
-        console.log("inner bind");
-          $(document).on('nested:fieldAdded', function(event){
-      //bindItemFields();
-      console.log("line 83");
-  });
-
-  </script> 
     
-    <div class="col-sm-2">           
+  
+    
+    <div class="col-sm-3">           
       <strong>Quantity</strong> 
       <div id="quantity_div" class="input-group">               
-        <%= bill_product.text_field :quantity , class: "form-control", id: 'quantity' %>
+        <%= bill_product.text_field :quantity , class: "form-control" %>
         <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
       </div>
     </div> <!-- /.col -->
            
-    <div class="col-sm-2">           
+    <div class="col-sm-3">           
       <strong>Unit Price</strong> 
       <div id="unit_price_div" class="input-group">               
-        <%= bill_product.text_field :unit_price, class: "form-control", id: 'unit_price' %>
-        <span class="input-group-addon"><i class="fa fa-money"></i></span>
-      </div>
-    </div> <!-- /.col -->
-  
-    <div class="col-sm-2">           
-      <strong>Total</strong> 
-      <div id= "total_price_div" class= "input-group">               
-        <%= text_field_tag :total_price, nil, readonly: true, 
-          class: 'form-control', id: 'total_price' %>
-        <!--<%#= bill_product.text_field :unit_price, class: "form-control" %>-->
+        <%= bill_product.text_field :unit_price, class: "form-control" %>
         <span class="input-group-addon"><i class="fa fa-money"></i></span>
       </div>
     </div> <!-- /.col -->
     
+        
+  
+ 
     <div class="col-sm-4">      
       <div class="marggap">
         <div class="btn btn-xs btn-primary" >

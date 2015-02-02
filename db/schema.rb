@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150130093021) do
+ActiveRecord::Schema.define(version: 20150202064909) do
 
   create_table "addresses", force: true do |t|
     t.string   "address_line_1"
@@ -95,6 +95,7 @@ ActiveRecord::Schema.define(version: 20150130093021) do
     t.string   "other_charges_info"
     t.string   "esugam"
     t.integer  "client_id"
+    t.float    "total_price"
   end
 
   create_table "clients", force: true do |t|
@@ -146,6 +147,7 @@ ActiveRecord::Schema.define(version: 20150130093021) do
     t.integer  "quantity"
     t.float    "unit_price"
     t.float    "total_price"
+    t.float    "total_item_price"
   end
 
   create_table "main_categories", force: true do |t|

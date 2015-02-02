@@ -44,51 +44,39 @@ $(document).ready(function(){
     App.blockUI( $('.portlet-content'));
   });
   
-
   
-  bindItemFields();
-  
-  $(document).on('click', '#line_items_fields_blueprint', function(){
-    bindItemFields();
-  });
-});
+/* For nested_form in new_bill  */
 
-  $(document).on('nested:fieldAdded', function(event){
-      bindItemFields();
-    calculateTotal();
-      console.log("line 83");
-  });
+  $(document).on('nested:fieldAdded:line_items', function(event){
+  var field = event.field;
 
- function calculateTotal(){
-   var result = $('div.fields').html();
-  console.log(result);
-   var quantity = parseInt($('#quantity').val());
-   var unit_price = parseInt($('#unit_price').val());
-   if(!(isNaN(quantity) || isNaN(unit_price))){
-     var total_result = quantity * unit_price
-     console.log("total result is " + total_result);
-     $('#total_price').val(total_result);
-   }
-   else{
-     $('#total_price').val(0);
-   }
- }
-
- function bindItemFields(){
-   console.log("Yes Just bound the things with you");
-  $('div.fields').on('keyup','#quantity', function(e) {
-    console.log("hitting the spot"+ e);
+  $(field).on('change', function(){    
+    var quantity = field.find('input.quantity').val().trim();
+    var unit_price = field.find('input.unit-price').val().trim();
+    var final_result = getTotalRate(quantity, unit_price)
     
-    
-    calculateTotal();
-  });
-  
-  $('div.fields').on('keyup', '#unit_price', function(e){
-    console.log("hitting the spot"+ e);
-    calculateTotal();
-  }); 
- }
+    var total_item_price_field = field.find('input.unit-price').parent().find('input.total-item-price'); 
 
+    if(final_result >= 0){
+     $(total_item_price_field).val(final_result);
+    }
+
+  });
+})
+
+ 
+function getTotalRate(duration, task_rate) {
+  var quantity = parseInt(quantity);
+  var unit_price = parseInt(unit_price); 
+  var result = quantity * unit_price
+  
+  if(result >= 0){
+    return result; 
+  }  
+}
+  
+  
+  
 
  
 var App = function(){
