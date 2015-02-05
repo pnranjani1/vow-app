@@ -60,7 +60,7 @@
 </div> <!-- /.col -->
             
 <div class="col-sm-3">           
-  Password
+  Password<normal>(Min 8 characters)</normal>
 <div id="Password" class="input-group">               
 <%= f.password_field :password , class: "form-control" %>
 <span class="input-group-addon"><i class="fa fa-star"></i></span>
@@ -68,7 +68,7 @@
 </div> <!-- /.col -->
             
 <div class="col-sm-3">           
-Confirm Password
+Confirm Password<normal>(Min 8 characters)</normal>
 <div id="Password" class="input-group">               
 <%= f.password_field :password_confirmation , class: "form-control" %>
 <span class="input-group-addon"><i class="fa fa-star"></i></span>
@@ -154,7 +154,7 @@ Country
   
 <%= f.fields_for :membership do |user_membership| %>
 <div class="col-sm-4">           
-Phone Number
+Mobile Number<normal>(should be 10 numbers)</normal>
 <div id="phone" class="input-group">      
 <%= user_membership.text_field :phone_number , class: "form-control" %>
 <span class="input-group-addon"><i class="fa fa-phone"></i></span>
@@ -183,7 +183,7 @@ Phone Number
 <div class="row">
 <%= f.fields_for :bankdetail do |user_bank_detail| %>
 <div class="col-sm-4">           
-Bank Account Number
+Bank Account Number<normal>(should be between 6 to 15 numbers)</normal>
 <div id="Number" class="input-group">    
 <%= user_bank_detail.text_field :bank_account_number, class: "form-control"  %>
 <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
@@ -218,7 +218,7 @@ IFSC Code
 <%= f.fields_for :users do |user| %>
 <div class="row">
 <div class="col-sm-3">           
-Tin Number
+Tin Number<normal>(should be 11 numbers)</normal>
 <div id="number" class="input-group"> 
 <%= user.text_field :tin_number, class: "form-control" %>
 <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
@@ -234,7 +234,7 @@ Esugam Username
 </div> <!-- /.col -->
             
 <div class="col-sm-3">           
-Esugam Password
+Esugam Password<normal>(Min 8 characters)</normal>
 <div id="Password" class="input-group">   
   <%= user.password_field :esugam_password, class: "form-control" %>
 <span class="input-group-addon"><i class="fa fa-star"></i></span>

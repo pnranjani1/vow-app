@@ -32,7 +32,7 @@ class Notification < ActionMailer::Base
   
   def new_enquiry(enquiry_form)
     @enquiry_form = enquiry_form
-    mail(:to => "ranjani@iprimitus.com", :subject => "VatonWheels - New User Enquiry")
+    mail(:to => "support@vatonwheels.com", :subject => "VatonWheels - New User Enquiry")
   end
   
   
