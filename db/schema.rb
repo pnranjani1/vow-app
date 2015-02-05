@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150202064909) do
+ActiveRecord::Schema.define(version: 20150205075604) do
 
   create_table "addresses", force: true do |t|
     t.string   "address_line_1"
@@ -73,7 +73,7 @@ ActiveRecord::Schema.define(version: 20150202064909) do
 
   create_table "bankdetails", force: true do |t|
     t.integer  "authuser_id"
-    t.integer  "bank_account_number"
+    t.string   "bank_account_number"
     t.string   "ifsc_code"
     t.datetime "created_at"
     t.datetime "updated_at"
