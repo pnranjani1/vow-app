@@ -30,7 +30,7 @@ authorization do
     has_permission_on [:products], :to => [:new, :create, :show, :edit, :update, :product_user, :product_import, :product_import_report, :product_import_result]
     has_permission_on [:customers], :to => [:new, :create, :show, :edit, :update, :destroy, :user_customer, :customer_import, :customer_import_report]
     has_permission_on [:bills], :to => [:new, :create, :show, :local_sales, :interstate_sales, :tally_import, :user_bill, :bill_reports, :generate_esugan, :local_sales_reports, :interstate_sales_reports, :tally_import_reports, :bill_local_sales_reports, :bill_interstate_sales_reports, :bill_tally_import_reports]
-    has_permission_on [:authusers], :to => [:client_edit, :client_update, :change_role]
+    has_permission_on [:authusers], :to => [:client_edit, :client_update, :change_role, :client_create]
  #   has_permission_on [:main_categories], :to => [:index]
        
   end
