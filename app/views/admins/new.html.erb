@@ -8,6 +8,20 @@
 
 <body>
 
+<header class="clearfix">
+<div class="container">
+<h1 class="navbar-brand navbar-brand_ wow fadeInDown"><a href="index.html">Vatonwheels.com</a></h1>      
+<ul class="follow_icon">
+<li><a href="https://www.facebook.com/IPrimitusConsultancyServices" class="fa fa-facebook"></a></li>
+<li><a href="https://twitter.com/iPrimitus" class="fa fa-twitter"></a></li>
+<li><a href="https://www.linkedin.com/company/iprimitus-consultancy-services" class="fa fa-linkedin"></a></li>
+<li><a href="https://plus.google.com/108877132961366118945/videos" class="fa fa-google-plus"></a></li>
+<li><a href="#" class="fa fa-youtube"></a></li>
+</ul>
+</div>   
+</header>
+  <br/><p>
+  
 
   
 <div class="container">
@@ -20,6 +34,7 @@
 <br>
   
 <%= form_for(@admin, :url => '/admins') do |f| %>
+  
 <% if @admin.errors.any? %>
 <% @admin.errors.full_messages.each do|error| %>
 <ul>
@@ -27,47 +42,100 @@
 </ul>
 <% end %>
 <% end %>
-<label> Name </label><br/>
- <%= f.text_field :name, autofocus: true %><br/><p>
-<label> Email </label><br/>
-<%= f.text_field :email %><br/><p>
-<label> Password </label><br/>
-<%= f.password_field :password %><br/><p>
+  
+  
+<div class="row"> 
+<div class="portlet">
+<div class="portlet-content">
 
+<div class="row">
+<div class="col-sm-4">           
+  Name
+<div id="name" class="input-group">      
+<%= f.text_field :name , class: "form-control", autofocus: true %>
+<span class="input-group-addon"><i class="fa fa-user"></i></span>
+</div>
+</div> <!-- /.col -->
+  
+<div class="col-sm-4">           
+  Email
+<div id="name" class="input-group">      
+  <%= f.email_field :email , class: "form-control" %>
+<span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+</div>
+</div> <!-- /.col -->
+    
+
+<div class="col-sm-4">           
+Password
+<div id="name" class="input-group">      
+  <%= f.password_field :password , class: "form-control" %>
+<span class="input-group-addon"><i class="fa fa-user"></i></span>
+</div>
+</div> <!-- /.col -->
+  
 <%= f.hidden_field :invited_by_id %>
-
-<label> Phone Number </label><br/>
+ </div>
+  <br/>
+  
+<div class="row">
 <%= f.fields_for :membership do |admin_membership| %>
-<%= admin_membership.text_field :phone_number %><br/><p>
-
+<div class="col-sm-3">           
+Mobile Number
+<div id="name" class="input-group">      
+<%= admin_membership.text_field :phone_number, class: "form-control " %>
+<span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
+</div>
+</div> <!-- /.col -->
 
 <%= admin_membership.hidden_field :membership_start_date, :value => Date.today %>
 <%= admin_membership.hidden_field :membership_end_date, :value => Date.today+ 10.years %><br/>
 <% end %>
 
+<div class="col-sm-3">           
+Address 
 <%= f.fields_for :address do |admin_address| %>
-<label> Address 1 </label><br/>
-<%= admin_address.text_field :address_line_1 %><br/><p>
-
-<label> City </label><br/>
-<%= admin_address.text_field :city %><br/><p>
-
-<label> Country </label><br/>
-<%= admin_address.text_field :country %><br/><p>
+<div id="name" class="input-group">      
+<%= admin_address.text_field :address_line_1, class: "form-control " %>
+<span class="input-group-addon"><i class="fa fa-user"></i></span>
+</div>
+</div> <!-- /.col -->
+  
+<div class="col-sm-3">           
+City 
+<div id="name" class="input-group">      
+<%= admin_address.text_field :city,  class: "form-control " %>
+<span class="input-group-addon"><i class="fa fa-user"></i></span>
+</div>
+</div> <!-- /.col -->
+  
+<div class="col-sm-3">           
+Country 
+<div id="name" class="input-group">      
+<%= admin_address.text_field :country,  class: "form-control " %>
+<span class="input-group-addon"><i class="fa fa-user"></i></span>
+</div>
+</div> <!-- /.col -->
 <% end %>
-
+  </div>
+  
+  
 <%= f.fields_for :permissions do |admin_permission| %>
 <%= admin_permission.hidden_field :main_role_id, :value => 1.to_i %>
 <% end %>
 
 <%= f.hidden_field :approved, :value => true %>
 
-<%= f.submit  %>
-  <% end %>
+<%= f.submit "Create Admin", class: "btn btn-success" %>
+<% end %>
   
   </div><!--  content container ends here -->
   </div><!--content  ends here -->
   </div><!-- container ends here -->
+  
+  </div>
+    </div>
+    </div>
   
 </body>
 </html>
