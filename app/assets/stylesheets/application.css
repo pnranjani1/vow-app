@@ -52,4 +52,5 @@
   color: green;
 }
 
+.required input:after { content:"*"; }
 

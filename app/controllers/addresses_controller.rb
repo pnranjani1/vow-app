@@ -46,7 +46,7 @@ class AddressesController < ApplicationController
   private
   
   def set_params
-    params[:address].permit(:address_line_1, :address_line_2, :address_line_3, :city, :country, :authuser_id)
+    params[:address].permit(:address_line_1, :address_line_2, :address_line_3, :city, :state, :country, :authuser_id)
    end
   
 

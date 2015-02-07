@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   #controllers: {invitations: 'authusers/invitations'}
   
   root 'home_page#index'
-  
+   
   devise_scope :authuser do
     
     get 'auth_user_categories/product_list' => 'auth_user_categories#product_list'
@@ -63,7 +63,7 @@ Rails.application.routes.draw do
   get 'bills/bill_details_client'
   get 'home_page/read_pdf'
     
-  resources :authusers
+  resources :authusers  
   resources :users
   resources :bills do 
     collection do 

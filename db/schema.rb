@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150205075604) do
+ActiveRecord::Schema.define(version: 20150206070349) do
 
   create_table "addresses", force: true do |t|
     t.string   "address_line_1"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 20150205075604) do
     t.integer  "authuser_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "state"
   end
 
   create_table "admins", force: true do |t|
@@ -80,7 +81,7 @@ ActiveRecord::Schema.define(version: 20150205075604) do
   end
 
   create_table "bills", force: true do |t|
-    t.integer  "invoice_number"
+    t.string   "invoice_number"
     t.datetime "bill_date"
     t.integer  "customer_id"
     t.integer  "authuser_id"
@@ -123,6 +124,7 @@ ActiveRecord::Schema.define(version: 20150205075604) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "permalink"
+    t.string   "state"
   end
 
   create_table "dashboards", force: true do |t|
@@ -231,6 +233,7 @@ ActiveRecord::Schema.define(version: 20150205075604) do
     t.string   "esugam_username"
     t.string   "esugam_password"
     t.string   "tin_number"
+    t.string   "company"
   end
 
 end

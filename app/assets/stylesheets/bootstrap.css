@@ -5439,6 +5439,7 @@ button.close {
 }
 .tooltip {
   position: absolute;
+  color: #fff;
   z-index: 1030;
   display: block;
   visibility: visible;

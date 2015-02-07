@@ -14,7 +14,7 @@ class Bill < ActiveRecord::Base
   belongs_to :tax
   
   validates :invoice_number, :bill_date, :tax_id, presence: true
-  validates :invoice_number, :uniqueness => true
+  validates :invoice_number, :uniqueness => {:scope => :authuser_id}
   validate :past_date
 #  validates :line_items, presence: true
  # validates :line_items , uniqueness: {:scope => :product_id, :message => "Selected Product is already added to the bill"}

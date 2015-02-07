@@ -5,7 +5,7 @@ class Customer < ActiveRecord::Base
   has_many :bills
   
   
-  validates :name, :email, :tin_number, :phone_number, :address, :city, presence: true
+  validates :name, :email, :tin_number, :phone_number, :address, :city, :state, presence: true
    validates :tin_number, length: { is: 11}
   validates :phone_number, length: { is: 10}
   validates :phone_number, numericality: {only_integer: true}
@@ -35,9 +35,10 @@ class Customer < ActiveRecord::Base
         customer.name = row["Customer Name"].to_s
         customer.email = row["Email"]
         customer.tin_number = row["Tin Number"].to_i
-        customer.phone_number = row["Phone Number"].to_i
+      customer.phone_number = row["Mobile Number"].to_i
         customer.address = row["Address"]
         customer.city = row["City"]
+        customer.state = row["State"]
         customer.authuser_id = current_authuser
          customer.save!
          

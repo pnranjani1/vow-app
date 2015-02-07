@@ -53,12 +53,8 @@
 <div class="col-sm-4">           
 <strong>Invoice Number</strong> 
 <div id="name" class="input-group">    
-<% if Bill.last == nil %> 
-<%= f.text_field :invoice_number , :readonly => true, :value => 1000.to_i, class: "form-control" %> 
-<% else %>
-<%= f.text_field :invoice_number , :readonly => true, :value => Bill.last.invoice_number + 1.to_i,  class: "form-control" %>
-<% end %>
-  <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
+<%= f.text_field :invoice_number, class: "form-control" %> 
+<span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
 </div>
 </div> <!-- /.col -->
             

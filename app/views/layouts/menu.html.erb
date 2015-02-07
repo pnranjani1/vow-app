@@ -179,11 +179,14 @@
 <% end %>
 <% elsif current_authuser.products.blank? %>
 <%= link_to new_product_path do %>
-<i class="fa fa-user nav-icon"></i> Add Product  
+  <i class="fa fa-user nav-icon"></i> Add Product </li>
+<% end %>
+<li><%= link_to products_product_import_report_path do %>
+<i class="fa fa-user nav-icon"></i> Import Products</li>  
 <% end %>
 <% else %>
 <%= link_to products_product_user_path do %>
-<i class="fa fa-user nav-icon"></i> Manage Products</li>  
+<li><i class="fa fa-user nav-icon"></i> Manage Products</li>  
 <% end %>
   <li><%= link_to products_product_import_report_path do %>
 <i class="fa fa-user nav-icon"></i> Import Products</li>  
@@ -209,10 +212,13 @@
 <% if current_authuser.customers.blank? %> 
 <%= link_to new_customer_path do %>
 <i class="fa fa-user nav-icon"></i> Add Customer
+  <% end %></li>
+<li><%= link_to customers_customer_import_report_path do %>
+<i class="fa fa-user nav-icon"></i> Import Customer</li>  
 <% end %>
 <% else %> 
 <%= link_to customers_user_customer_path do %>
-<i class="fa fa-user nav-icon"></i> Manage Customers</li>  
+<li><i class="fa fa-user nav-icon"></i> Manage Customers</li>  
 <% end %>
 <li><%= link_to customers_customer_import_report_path do %>
 <i class="fa fa-user nav-icon"></i> Import Customer</li>  

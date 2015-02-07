@@ -73,11 +73,11 @@ redirect_to dashboards_client_dashboard_path
   
   
   def admin_create
-    @client = Authuser.new(set_params) 
-    if @client.save 
+    @client = Authuser.new
+    if @client.update_attributes(set_params)
       redirect_to dashboards_admin_dashboard_path
      else
-      redirect_to authusers_admin_new_path, alert: "Check whether the fields are entered with correct values"
+      render action: 'admin_new'
      end
     end
   
@@ -96,16 +96,14 @@ redirect_to dashboards_client_dashboard_path
   
     
   def admin_update
-    @client = current_authuser    
-   # if @client.update_attributes(set_params)
-   # begin
-    if  @client.save
-    redirect_to dashboards_client_dashboard_path
-      flash[:notice] = "Profile Updated Successfully"
-     else
-       redirect_to authusers_admin_edit_path, alert: "Check whether all the fields are entered"
-     end
    
+    @client = current_authuser    
+    if  @client.update_attributes(set_params)
+    redirect_to dashboards_client_dashboard_path
+    else   
+    render action: 'admin_edit'
+     end
+    
   end
     
     #if @client.save
@@ -189,7 +187,7 @@ end
   
   def client_create
     @user = current_authuser
-    if @user.save
+    if @user.update_attributes(set_params)
       redirect_to dashboards_user_dashboard_path
       flash[:notice] = "Profile Updated Successfully"
   else
@@ -218,11 +216,11 @@ end
   def set_params
     params[:authuser].permit(:name, :email, :password, :password_confirmation, :approved, :invited_by_id, :invited_by_type, :date_of_birth,
      {:membership_attributes => [:id, :phone_number, :membership_start_date, :membership_end_date, :membership_status, :membership_duration]},
-       {:address_attributes => [:id, :address_line_1, :address_line_2, :address_line_3, :city, :country]},
+       {:address_attributes => [:id, :address_line_1, :address_line_2, :address_line_3, :city, :state, :country]},
       {:bankdetail_attributes => [:id, :bank_account_number, :ifsc_code]},
       {:clients_attributes => [:id, :unique_reference_key, :remarks, :char, :digits, :created_by, :company]}, 
      {:main_role_ids => []},
-      {:users_attributes => [:id, :tin_number, :esugam_username, :esugam_password, :client_id]},
+      {:users_attributes => [:id, :tin_number, :esugam_username, :esugam_password, :client_id, :company]},
       {:permissions_attributes => [:main_role_id]}
      )
   end

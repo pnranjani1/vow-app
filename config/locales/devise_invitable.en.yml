@@ -16,7 +16,7 @@ en:
       invitation_instructions:
         subject: 'VatOnWheels- User Invitation'
         hello: 'Dear   %{email}'
-        someone_invited_you: 'Welcome To VatOnWheels!   You are invited to join VatOnWheels.You may accept this request by clicking Accept Invitation.'
+        someone_invited_you: 'Welcome To VatOnWheels!.   You are invited to join VatOnWheels.You may accept this request by clicking Accept Invitation.'
        
         accept: 'Accept invitation'
         ignore: "Note: If you are not interested to accept the request or not an intended user,you may ignore this mail.<br/><br/>

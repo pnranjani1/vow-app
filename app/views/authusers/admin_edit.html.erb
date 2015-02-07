@@ -19,12 +19,15 @@
 
 <%= form_for(@client, :url => "/authusers/admin_update") do |f| %><br/>
 <% if @client.errors.any? %>
-<% @clients.errors.full_messages.each do|error| %>
+  <div class="alert alert-danger">
+<% @client.errors.full_messages.each do|error| %>
 <ul>
   <li><%= error %></li>
 </ul>
 <% end %>
+  </div>
 <% end %>
+  
   <% if alert %>
   <div class="col-md-8">
     <div class="alert alert-danger"><%= alert %></div>
@@ -43,7 +46,7 @@
 <div class="row">
 
 <div class="col-sm-3">           
-  Name
+  Name&nbsp;<b style="color:red">*</b>
 <div id="name" class="input-group">      
 <%= f.text_field :name , class: "form-control", autofocus: true %>
 <span class="input-group-addon"><i class="fa fa-user"></i></span>
@@ -52,7 +55,7 @@
             
 <div class="col-sm-3">           
 <!-- <label>Email</label> -->
-  Email
+  Email&nbsp;<b style="color:red">*</b>
 <div id="email" class="input-group">               
   <%= f.text_field :email , :readonly => true,  class: "form-control" %>
 <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
@@ -60,32 +63,54 @@
 </div> <!-- /.col -->
             
 <div class="col-sm-3">           
-  Password<normal>(Min 8 characters)</normal>
+  Password&nbsp;<b style="color:red">*</b>
+<div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Min 8 Characters">
 <div id="Password" class="input-group">               
 <%= f.password_field :password , class: "form-control" %>
 <span class="input-group-addon"><i class="fa fa-star"></i></span>
 </div>
-</div> <!-- /.col -->
-            
-<div class="col-sm-3">           
-Confirm Password<normal>(Min 8 characters)</normal>
-<div id="Password" class="input-group">               
-<%= f.password_field :password_confirmation , class: "form-control" %>
-<span class="input-group-addon"><i class="fa fa-star"></i></span>
 </div>
 </div> <!-- /.col -->
-  </div>
-<br/>
-  
+            
+<div class="col-sm-3">   
+ Confirm Password&nbsp;<b style="color:red">*</b>
+<div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Minimum 8 Characters">
+<div id="Password" class="input-group">   
+<%= f.password_field :password_confirmation , class: "form-control" %> 
+<span class="input-group-addon"><i class="fa fa-star"></i></span>
+</div>
+</div>
+</div> <!-- /.col -->
+
+</div><!-- Row ends here -->
+<br/>   
+
 <div class="row">
 <div class="col-sm-3">           
-Date Of Birth
+Date Of Birth&nbsp;<b style="color:red">*</b>
+<div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Enter Your Date Of Birth">
 <div id="Password" class="input-group">               
 <%= f.date_field :date_of_birth ,  class: "form-control" %>
 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 </div>
+</div>
 </div> <!-- /.col -->
  
+<%= f.fields_for :membership do |user_membership| %>
+<div class="col-sm-4">           
+Mobile Number&nbsp;<b style="color:red">*</b>
+<div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Should be 10 numbers">
+<div id="phone" class="input-group">      
+<%= user_membership.text_field :phone_number , class: "form-control" %>
+<span class="input-group-addon"><i class="fa fa-phone"></i></span>
+</div>
+</div>
+</div> <!-- /.col -->
+  
+<%= user_membership.hidden_field :membership_start_date %>
+<%= user_membership.hidden_field :membership_end_date %>
+  
+<% end %>  
   
 <!-- <%= f.hidden_field :invited_by_id, :value => current_authuser.id %>-->
 <!-- <%= f.hidden_field :invited_by_type, :value => "Authuser" %> -->
@@ -115,28 +140,28 @@ Date Of Birth
 <div class="row">
 <%= f.fields_for :address do |user_address| %>
 <div class="col-sm-4">           
-Address 1
+Address Line 1&nbsp;<b style="color:red">*</b>
 <div id="Password" class="form-group">
   <%= user_address.text_field :address_line_1, class: "form-control" %>
 </div>
 </div> <!-- /.col -->
             
 <div class="col-sm-4">           
-Address 2
+Address Line 2&nbsp;<b style="color:red">*</b>
 <div id="Password" class="form-group">             
   <%= user_address.text_field :address_line_2 , class: "form-control" %>
 </div>
 </div> <!-- /.col -->
             
 <div class="col-sm-4">           
-Address 3
+Address Line 3
 <div id="Password" class="form-group">        
   <%= user_address.text_field :address_line_3 , class: "form-control" %>
 </div>
 </div> <!-- /.col -->
             
 <div class="col-sm-4">           
-City
+City&nbsp;<b style="color:red">*</b>
 <div id="City" class="input-group">            
 <%=user_address.text_field :city , class: "form-control" %>
 <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
@@ -144,7 +169,15 @@ City
 </div> <!-- /.col -->
 
 <div class="col-sm-4">           
-Country
+State&nbsp;<b style="color:red">*</b>
+<div id="Country" class="input-group">       
+<%= user_address.text_field :state , class: "form-control" %>
+<span class="input-group-addon"><i class="fa fa-globe"></i></span>
+</div>
+</div> <!-- /.col -->
+  
+<div class="col-sm-4">           
+Country&nbsp;<b style="color:red">*</b>
 <div id="Country" class="input-group">       
 <%=user_address.text_field :country , class: "form-control" %>
 <span class="input-group-addon"><i class="fa fa-globe"></i></span>
@@ -152,19 +185,7 @@ Country
 </div> <!-- /.col -->
 <% end %>  
   
-<%= f.fields_for :membership do |user_membership| %>
-<div class="col-sm-4">           
-Mobile Number<normal>(should be 10 numbers)</normal>
-<div id="phone" class="input-group">      
-<%= user_membership.text_field :phone_number , class: "form-control" %>
-<span class="input-group-addon"><i class="fa fa-phone"></i></span>
-</div>
-</div> <!-- /.col -->
-  
-<%= user_membership.hidden_field :membership_start_date %>
-<%= user_membership.hidden_field :membership_end_date %>
-  
-<% end %>  
+
 </div> <!-- row ends here -->
 </div> <!-- /.portlet-content -->
 </div> <!-- /.portlet -->
@@ -183,15 +204,17 @@ Mobile Number<normal>(should be 10 numbers)</normal>
 <div class="row">
 <%= f.fields_for :bankdetail do |user_bank_detail| %>
 <div class="col-sm-4">           
-Bank Account Number<normal>(should be between 6 to 15 numbers)</normal>
+Bank Account Number&nbsp;<b style="color:red">*</b>
+<div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Should be between 6 and 15 numbers">
 <div id="Number" class="input-group">    
 <%= user_bank_detail.text_field :bank_account_number, class: "form-control"  %>
 <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
 </div>
+</div>
 </div> <!-- /.col -->
             
 <div class="col-sm-4">           
-IFSC Code 
+IFSC Code &nbsp;<b style="color:red">*</b>
 <div id="ifsccode" class="input-group">              
 <%= user_bank_detail.text_field :ifsc_code, class: "form-control"  %>
 <span class="input-group-addon"><i class="fa fa-star"></i></span>
@@ -218,10 +241,12 @@ IFSC Code
 <%= f.fields_for :users do |user| %>
 <div class="row">
 <div class="col-sm-3">           
-Tin Number<normal>(should be 11 numbers)</normal>
+Tin Number
+<div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Should be 11 Numbers">
 <div id="number" class="input-group"> 
 <%= user.text_field :tin_number, class: "form-control" %>
 <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
+</div>
 </div>
 </div> <!-- /.col -->
             
@@ -234,7 +259,7 @@ Esugam Username
 </div> <!-- /.col -->
             
 <div class="col-sm-3">           
-Esugam Password<normal>(Min 8 characters)</normal>
+Esugam Password
 <div id="Password" class="input-group">   
   <%= user.password_field :esugam_password, class: "form-control" %>
 <span class="input-group-addon"><i class="fa fa-star"></i></span>

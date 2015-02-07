@@ -33,6 +33,7 @@
 //= jquery.flexslider.min
 //= require jquery.min
 //= require sliderscript
+//= require tooltip
 //= require_tree .
 
 $(document).ready(function(){
@@ -68,3 +69,11 @@ var App = function(){
   }
   }
   }();
+
+$(document).ready(function() {
+  $('.has-tooltip').tooltip();
+});
+
+$(document).ready(function() {
+ $('[data-toggle="tooltip"]').tooltip()
+ })

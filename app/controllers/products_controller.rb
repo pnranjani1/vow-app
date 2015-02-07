@@ -92,12 +92,12 @@ class ProductsController < ApplicationController
     if params[:file].nil?
       redirect_to products_product_import_report_path, alert: 'Please Select a file to import'
     else
-     begin
+      #elsif
+      begin
    Product.import(params[:file], current_authuser.id)
   redirect_to products_product_user_path, notice: "Products Successfully Imported."
-     rescue
-       #@product_errors =  @product.errors
-   # rescue
+      #@product_errors =  @product.errors
+   rescue
        redirect_to products_product_import_report_path, alert: "Verify the data entered in the  selected excel file"
     end
 end

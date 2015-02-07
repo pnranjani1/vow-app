@@ -26,8 +26,8 @@ class BillsController < ApplicationController
   def create  
     @bill = Bill.new(set_params)
     @bill.client_id = current_authuser.users.first.client_id
-    @bill_last = Bill.last || Bill.new
-   @bill_last = Bill.last
+   # @bill_last = Bill.last || Bill.new
+   #@bill_last = Bill.last
    # if @bill_last.nil?
     #  @invoice_number = 1000
     #else
@@ -39,7 +39,7 @@ class BillsController < ApplicationController
       @bill.total_bill_price = @bill.line_items.sum(:total_price)
       @bill.save
       flash[:notice] = "Bill Created Successfully"
-      redirect_to new_bill_path
+      redirect_to bill_path(@bill.id)
     else
       render action: 'new'
     end
