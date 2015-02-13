@@ -53,7 +53,7 @@ class AdminsController < ApplicationController
   def set_params
     params[:authuser].permit(:name, :email, :password, :approved,
       {:membership_attributes => [:phone_number, :membership_start_date, :membership_end_date]},
-      {:address_attributes => [:address_line_1, :address_line_2, :address_line_3, :city, :country]},
+      {:address_attributes => [:address_line_1, :address_line_2, :address_line_3, :city, :country, :state]},
       {:permissions_attributes => [:main_role_id, :authuser_id]}
       )
   end
