@@ -52,19 +52,20 @@
 
  </tr>   
 <% end %>
+   
 </tbody> 
 </table>
-                
+
+
 <div class="portlet-footer">
 <div class="text-right">                  
 <%= link_to "Add Commodity", new_main_category_path, class: "btn btn-success" %>
-
-
 </div>
 </div> <!-- /.portlet-footer -->
-  
+<%=  will_paginate  @categories, renderer: BootstrapPagination::Rails , class: "apple_pagination" %>    
 </div> <!-- /.table-responsive -->
 </div> <!-- /.portlet-content -->
+
   
 </div> <!-- /.portlet -->
 </div> <!-- /.row -->

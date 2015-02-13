@@ -37,8 +37,9 @@
 <% end %>
 
 <div class="row">
+<b style="color:red">*</b> Indicates the mandatory fields<br/><br/>
 <div class="col-sm-6 marggap">    
-Name
+Name&nbsp;&nbsp;<b style="color:red">*</b>
 <div id="name" class="input-group">               
 <%= f.text_field :name, class: "form-control" %>
 <span class="input-group-addon"><i class="fa fa-user"></i></span>
@@ -46,7 +47,7 @@ Name
 </div> <!-- /.col -->
 
 <div class="col-sm-6 marggap">    
-Email
+Email&nbsp;&nbsp;<b style="color:red">*</b>
 <div id="email" class="input-group">          
   <%= f.text_field :email, class: "form-control" %>
 <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
@@ -57,13 +58,15 @@ Email
  
  <div class="row">
 <div class="col-sm-6 marggap">    
-Tin Number
+Tin Number&nbsp;&nbsp;<b style="color:red">*</b>
+<div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Should Be 11 numbers">
 <div id="number" class="input-group">               
 <%= f.text_field :tin_number, class: "form-control" %>
 <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
 </div>
 </div> <!-- /.col -->
-
+</div>
+  
 <div class="col-sm-6 marggap">    
 Phone Number
 <div id="phone" class="input-group">               
@@ -89,8 +92,17 @@ City
 <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
 </div>
 </div> <!-- /.col -->
-  
 </div> <!-- row ends here -->
+  
+  <div class="row">
+  <div class="col-sm-6 marggap">  
+State
+<div id="City" class="input-group">               
+<%= f.text_field :state , class: "form-control" %>
+<span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+</div>
+</div> <!-- /.col -->
+</div>
   
 <div class="row portlet-content">       
   <%= f.submit "Update Customer", class: "btn btn-success" %>

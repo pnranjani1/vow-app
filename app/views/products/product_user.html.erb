@@ -85,32 +85,16 @@
 </div>
 </div> <!-- /.portlet-footer -->
                   
-   
- 
-    
-
-              </div> <!-- /.table-responsive -->
-        <% end %>
-                  
-            </div> <!-- /.portlet-content -->
-
-          
-
-          </div> <!-- /.portlet -->
-
-
-      </div> <!-- /.row -->
-
-    </div> <!-- /.content-container -->
-      
-  </div> <!-- /.content -->
-
+   <%=  will_paginate  @user_products, renderer: BootstrapPagination::Rails , class: "apple_pagination" %>                
+ </div> <!-- /.table-responsive -->
+ <% end %>
+ </div> <!-- /.portlet-content -->
+ </div> <!-- /.portlet -->
+</div> <!-- /.row -->
+</div> <!-- /.content-container -->
+</div> <!-- /.content -->
 </div> <!-- /.container -->
 
-
-
-  
- 
 </body>
 </html>
 

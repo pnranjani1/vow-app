@@ -69,9 +69,17 @@
   
   <br/><br/>
   
-<%= form_tag products_product_import_path, multipart: true  do %><br/>
+  <%= form_tag products_product_import_path, multipart: true  do %><br/>
 <%= file_field_tag :file , class: "form-control" %> <br/><br/><br/>
-
+  <% if @product.errors.any? %>
+   <div class="alert alert-danger">
+     <% @product.errors.full_messages.each do|error| %>
+<ul>
+  <li><%= error  %></li>
+</ul>
+<% end %>
+  </div>
+<% end %>
 
 <%= submit_tag "Import Products", class: "btn btn-success" %>
 <% end %>

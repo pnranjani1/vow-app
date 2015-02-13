@@ -2,6 +2,10 @@
   border:1px solid #ccc;
 }
 
+.nametitle{
+  color: #006600;
+  font-weight: bold;
+}
 .indextitle{
   color: #990000;
 }

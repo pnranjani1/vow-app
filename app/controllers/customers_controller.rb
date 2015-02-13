@@ -50,7 +50,7 @@ class CustomersController < ApplicationController
   end
   
   def user_customer
-    @user_customers =  Customer.where(:authuser_id => current_authuser.id)
+    @user_customers =  Customer.where(:authuser_id => current_authuser.id).paginate(:page => params[:page], :per_page => 5)
     
   end
   
@@ -66,7 +66,7 @@ class CustomersController < ApplicationController
     # @error = "#{e.message}"
       # flash[:alert] = "#{@customers.errors.full_messages}"
        #flash[:alert] = "Check the data in excel"
-      redirect_to customers_customer_import_report_path,  alert: "Verify the data entered in the  selected excel file"
+      redirect_to customers_customer_import_report_path,  alert: "Name, Email and Tin Number can't be Blank, TIN Number should be 11 numbers"
     end
      end
    end

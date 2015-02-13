@@ -82,7 +82,7 @@ class="table table-striped table-bordered table-checkable">
  
 <tr>
   <td class="hidden-xs"><%= link_to user.authuser.name, authuser_path(userid), class: "listconttext"  %></td>
- <td><%= user.authuser.approved %></td>
+  <td><%= human_boolean(user.authuser.approved) %></td>
  <td><%= link_to user.authuser.membership.membership_end_date.strftime("%d %b %Y") , edit_membership_path(c) ,  class: "listconttext"%></td> 
  <td><%= @cash_based_applications.count %></td>
    <td><%= @esugam.count %></td>
@@ -97,8 +97,6 @@ class="table table-striped table-bordered table-checkable">
 </tr>
 <% end %>
 </tbody>    
-
-   
 </table>
 
 <div class="portlet-footer">
@@ -118,6 +116,7 @@ class="table table-striped table-bordered table-checkable">
 <% end %>
 </div> <!-- text-right ends here -->
 <br/>
+  <%=  will_paginate  @users, renderer: BootstrapPagination::Rails , class: "apple_pagination" %>    
 </div> <!-- /.portlet-footer -->
 </div> <!-- /.table-responsive -->
 </div> <!-- /.portlet-content -->

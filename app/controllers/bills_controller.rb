@@ -70,7 +70,7 @@ class BillsController < ApplicationController
       end
       format.pdf do
         pdf = BillPdf.new(@bill)
-        send_data pdf.render, filename: "#{@bill.customer.name} #{@bill.invoice_number}  #{@bill.bill_date.strftime("%b %d %Y")}.pdf", type: "application/pdf" , disposition: "inline"
+        send_data pdf.render, filename: "#{@bill.customer.name}  #{@bill.invoice_number}  #{@bill.bill_date.strftime("%b %d %Y")}.pdf", type: "application/pdf" , disposition: "inline"
        # send_data pdf.render, filename: "#{@bill.customer.name} #{@bill.invoice_number}  #{@bill.bill_date.strftime("%b %d %Y")}", type: "application/pdf" ,disposition: "attachment"
     end
     end      
@@ -101,7 +101,7 @@ class BillsController < ApplicationController
   
   
   def user_bill
-    @user_bills = Bill.where(:authuser_id => current_authuser.id).paginate(:page => params[:page], :per_page => 3).order('created_at DESC')
+    @user_bills = Bill.where(:authuser_id => current_authuser.id).paginate(:page => params[:page], :per_page => 5).order('created_at DESC')
      #@users = User.paginate(:page => params[:page], :per_page => 5)
      respond_to do |format|
       format.html
@@ -350,7 +350,7 @@ end
   def set_params
     params[:bill].permit(:invoice_number,:esugam, :bill_date, :customer_id, 
       :authuser_id, :tax, :total_bill_price, :tax_id, :grand_total, :other_charges,
-      :other_information, :other_charges_info, :client_id,
+:other_information, :other_charges_info, :client_id, :transporter_name, :vechicle_number, :gc_lr_number,:lr_date, 
       {:line_items_attributes => [:product_id, :quantity, :unit_price, :total_price, :_destroy]},
       {:tax_attributes => [:tax_type, :tax_rate, :tax]})
   end

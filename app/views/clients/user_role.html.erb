@@ -37,10 +37,6 @@
 <label> Add as User </label>
 &nbsp;&nbsp;&nbsp;<%= f.check_box :role_user, {}, "true", "false" %><br/>
    
-<%= f.fields_for :users do |user| %>
-<%= user.hidden_field :client_id, :value => current_authuser.id %>
-<% end %>
-
 <br/>
   <%= f.submit "Add Role", class: "btn btn-success" %>
 <%  end %>

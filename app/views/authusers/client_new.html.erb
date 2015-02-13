@@ -29,6 +29,7 @@
 <% end %>
   
 <div class="row"> 
+ <b style="color:red">*</b> Indicates the mandatory fields<br/><br/>
 <div class="portlet">
   
 <div class="portlet-header">
@@ -175,11 +176,9 @@ Country&nbsp;<b style="color:red">*</b>
 <%= f.fields_for :bankdetail do |user_bank_detail| %>
 <div class="col-sm-4">           
 Bank Account Number&nbsp;<b style="color:red">*</b>
-<div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Should Be Between 6 and 15 numbers">
 <div id="Number" class="input-group">    
 <%= user_bank_detail.text_field :bank_account_number, class: "form-control"  %>
 <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
-</div>
 </div>
 </div> <!-- /.col -->
             

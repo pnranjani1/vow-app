@@ -138,17 +138,17 @@ class Bill < ActiveRecord::Base
         rescue => e
           sleep 3
         end
-      else
-        browser.text_field(:id, "ctl00_MasterContent_txtTIN").set(@customer_tin_number)
-        begin
-          browser.text_field(:id, "ctl00_MasterContent_txtFromAddrs").set("BANGALORE")
-        rescue => e
-          sleep 3
         end
-        sleep 3
-      end
+    
+        
+      if @tax_type == "VAT"
+      browser.text_field(:id, "ctl00_MasterContent_txtTIN").set(@customer_tin_number)
+      browser.send_keys :tab
+     end
+       
+        
 
-      sleep 5
+      sleep 10
       browser.text_field(:id, "ctl00_MasterContent_txtFromAddrs").set(@bill.authuser.address.city)
       browser.text_field(:id, "ctl00_MasterContent_txtToAddrs").set(@bill.customer.city)
       browser.text_field(:id, "ctl00_MasterContent_txt_commodityname").set(@product_name)
@@ -179,9 +179,7 @@ class Bill < ActiveRecord::Base
       else
         esugam = nil
         logger.error "esugam not scraped properly ,mostly"
-        #flash.now[:error]= "There has been an error in generating the esugam,
-        #try again later , if the error does not go away check the esugam username and password , 
-        #if everything is ok and a number is still not generated , contact the webmaster"
+       
       end
       
       return esugam

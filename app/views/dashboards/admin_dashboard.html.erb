@@ -49,7 +49,7 @@ class="table table-striped table-bordered table-checkable">
   
 <tr>
   <td class="hidden-xs"><%= link_to client.authuser.name, authuser_path(clientid), class: "listconttext"  %></td>
-  <td><%= client.authuser.approved %></td>
+  <td><%= human_boolean(client.authuser.approved) %></td>
 
 <td><%= link_to  client.authuser.membership.membership_end_date.strftime("%d %b %Y"), edit_membership_path(c), class: "listconttext"  %></td> 
  <td><%= @user_count %></td>
@@ -76,6 +76,7 @@ class="table table-striped table-bordered table-checkable">
 <button class="btn btn-success">Create CA</button>
 <% end %>
 </div> <!-- text-right ends here -->
+<%=  will_paginate   @current_authuser_clients, renderer: BootstrapPagination::Rails , class: "apple_pagination" %>   
 </div> <!-- /.portlet-footer -->
 </div> <!-- /.table-responsive -->
 </div> <!-- /.portlet-content -->

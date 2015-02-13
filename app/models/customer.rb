@@ -5,13 +5,13 @@ class Customer < ActiveRecord::Base
   has_many :bills
   
   
-  validates :name, :email, :tin_number, :phone_number, :address, :city, :state, presence: true
+  validates :name, :email, :tin_number,  presence: true
    validates :tin_number, length: { is: 11}
-  validates :phone_number, length: { is: 10}
-  validates :phone_number, numericality: {only_integer: true}
-  validates :email, confirmation: true
+#  validates :phone_number, length: { is: 10}
+ # validates :phone_number, numericality: {only_integer: true}
+  #validates :email, confirmation: true
   validates_format_of :email, {:with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, :message => "Doesn't look like an email address"}
-  validates :email, uniqueness: {case_sensitive: false}
+  #validates :email, uniqueness: {case_sensitive: false}
   
  
  # def to_param

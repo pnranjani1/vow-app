@@ -1,3 +1,6 @@
+
+App.unBlockUI($('#bill_body'));
+
 <% if @error.present? %>
   $('#sugan_error').text(" Error: <%= @error %>");
   $('#sugan_error').removeClass();
@@ -7,6 +10,5 @@
   $('#sugan_error').removeClass();
   $('#sugan_error').addClass('hide-sugan');
    $('#sugan_text').text("<%= @bill.esugam %>");
+  $("#esugam_div").html("<%= escape_javascript( render(:partial => "bills/esugam_button")) %>");
 <% end %>
-
-App.unBlockUI($('.portlet-content'));

@@ -2,12 +2,22 @@ Dear <%= @user.name %>,<br/>
 <br/>
 Welcome to VatOnWheels!<br/><br/>
 You Account on VatOnWheels has been created.<br/><br/>
+
+<% if @user.main_roles.first.role_name == "client" %>
 Following are your credentials to login to the application:<br/><br/>
 Username : <%= @user.email %> <br/>
 Password : abcdefgh <br/>
 <br/>
+<% end %>
 
-Click <%= link_to "here" , :controller => "devise/sessions", :action => "new", :host =>  "https://salty-bayou-8814.herokuapp.com"  %> to login using the above credentials.<br/> 
+
+Click <%= link_to "here" , :controller => "devise/sessions", :action => "new", :host =>  "https://salty-bayou-8814.herokuapp.com"  %> to login .<br/> 
+
+
+
+
+<!-- <%=  link_to "Click" , edit_authuser_password_url(@user, :reset_password_token => @user.reset_password_token) %> -->
+
 
   
 <br/>

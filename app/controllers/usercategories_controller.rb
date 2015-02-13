@@ -5,7 +5,8 @@ class UsercategoriesController < ApplicationController
   layout_by_action [:new, :create, :show, :edit, :update, :index] => "menu"
   
   def index
-    @usercategories = current_authuser.usercategories
+  #  @usercategories = current_authuser.usercategories.paginate(:page => params[:page], :per_page => 3)
+    @usercategories = Usercategory.where(:authuser_id => current_authuser.id).paginate(:page => params[:page], :per_page => 1)
   end
   
   def new

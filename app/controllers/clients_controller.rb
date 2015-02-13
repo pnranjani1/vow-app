@@ -33,12 +33,13 @@ class ClientsController < ApplicationController
     @user = current_authuser.clients.first 
      if  params[:role_user] = true
      Permission.create(:authuser_id => current_authuser.id, :main_role_id => 3)
-       user = User.where(:authuser_id => current_authuser.id)
-       user.first.client_id = current_authuser.id
+      users = User.where(:authuser_id => current_authuser.id)
+      @users = users.first
+      @users.update_attribute(:client_id, current_authuser.id)
+     #@users.client_id = current_authuser.id
+       #user.first.client_id = current_authuser.id
     redirect_to dashboards_client_dashboard_path
-      
-      #Permission.create(:authuser_id => current_authuser.id, :main_role_id => 6)
-    end
+  end
   end
   
    # @client = current_authuser.clients.first 

@@ -11,7 +11,11 @@ xml.ENVELOPE do
      xml.REPORTNAME "Vouchers"
     
       xml.STATICVARIABLES do 
-        xml.SVCURRENTCOMPANY current_authuser.name
+        if current_authuser.main_roles.first.role_name == "user"
+          xml.SVCURRENTCOMPANY current_authuser.users.first.company
+        elsif current_authuser.main_roles.first.role_name == "client"
+          xml.SVCURRENTCOMPANY current_authuser.clients.first.company
+        end
        #xml.SVCURRENTCOMPANY bill.authuser.name
     
       end

@@ -39,6 +39,7 @@
   
   
 <div class="row"> 
+  <b style="color:red">*</b> Indicates the mandatory fields<br/><br/>
 <div class="portlet">
   
 <div class="portlet-header">
@@ -104,7 +105,7 @@ Date Of Birth&nbsp;<b style="color:red">*</b>
   
   <%= f.fields_for :clients do |user_client| %>
  <div class="col-sm-3">           
-Company&nbsp;<b style="color:red">*</b>
+Company
 <div id="Remarks" class="input-group">     
 <%= user_client.text_field :company, class: "form-control" %>
 <span class="input-group-addon"><i class="fa fa-user"></i></span>
@@ -201,12 +202,10 @@ Country&nbsp;<b style="color:red">*</b>
 <%= f.fields_for :bankdetail do |user_bank_detail| %>
 <div class="col-sm-4">           
 Bank Account Number&nbsp;<b style="color:red">*</b>
-<div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Should be between 6 and 15(only numbers)">
 <div id="Number" class="input-group">    
 <%= user_bank_detail.text_field :bank_account_number, class: "form-control"  %>
 <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
 </div>
-  </div>
 </div> <!-- /.col -->
             
 <div class="col-sm-4">           
@@ -284,27 +283,27 @@ Mobile Number&nbsp;<b style="color:red">*</b>
 <%= f.fields_for :users do |user| %>
 <div class="row">
 <div class="col-sm-3">           
-Tin Number
+Tin Number&nbsp;<b style="color:red">*</b>
 <div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Should be 11 numbers">
 <div id="number" class="input-group"> 
-<%= user.text_field :tin_number, class: "form-control" %>
+  <%= user.text_field :tin_number, :value => "12345678901", class: "form-control" %>
 <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
 </div>
 </div>
 </div> <!-- /.col -->
             
 <div class="col-sm-3">           
-Esugam Username 
+Esugam Username&nbsp;<b style="color:red">*</b>
 <div id="name" class="input-group" >        
-<%= user.text_field :esugam_username, class: "form-control" %>
+  <%= user.text_field :esugam_username, :value => "esugamuser", class: "form-control" %>
 <span class="input-group-addon"><i class="fa fa-user"></i></span>
 </div>
 </div> <!-- /.col -->
             
 <div class="col-sm-3">           
-Esugam Password
+Esugam Password&nbsp;<b style="color:red">*</b>
 <div id="Password" class="input-group">   
-  <%= user.password_field :esugam_password, class: "form-control" %>
+  <%= user.password_field :esugam_password, :value => "esugampassword",class: "form-control" %>
 <span class="input-group-addon"><i class="fa fa-star"></i></span>
 </div>
 </div> <!-- /.col -->

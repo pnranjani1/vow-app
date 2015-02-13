@@ -14,7 +14,7 @@ class DashboardsController < ApplicationController
   def admin_dashboard
     #@clients = Client.where(:authuser_id => current_authuser.id)
    
-    @current_authuser_clients = Client.where(:created_by => current_authuser.id)
+    @current_authuser_clients = Client.where(:created_by => current_authuser.id).paginate(:page => params[:page], :per_page => 5)
     @count = @current_authuser_clients.count
    
     @esugam_count = Bill.where("esugam IS NOT NULL").count
@@ -23,7 +23,7 @@ class DashboardsController < ApplicationController
   
   
   def client_dashboard   
-    @users = User.where(:client_id => current_authuser.id)
+    @users = User.where(:client_id => current_authuser.id).paginate(:page => params[:page], :per_page => 5)
     @bills = Bill.all
     #@users_count = current_authuser.users.count
     @users_count = @users.count

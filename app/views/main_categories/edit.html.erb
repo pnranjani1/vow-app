@@ -45,9 +45,9 @@
 <% end %>
 
 <div class="col-sm-8"> 
-  
+<b style="color:red">*</b> Indicates the mandatory fields<br/><br/>
 <div class="row">  
-<label class="col-md-3">Commodity Name</label>
+<label class="col-md-3">Commodity Name&nbsp;&nbsp;<b style="color:red">*</b></label>
 <div class="col-md-6">
 <div id="name" class="input-group">               
 <%= f.text_field :commodity_name, class: "form-control" %>
@@ -58,7 +58,7 @@
 <br>
   
 <div class="row">
-<label class="col-md-3">Commodity Code</label>
+<label class="col-md-3">Commodity Code&nbsp;&nbsp;<b style="color:red">*</b></label>
 <div class="col-md-6">
 <div id="name" class="input-group">               
 <%= f.text_field :commodity_code, class: "form-control" %>

@@ -148,6 +148,57 @@
 <div class="portlet">
 
 <div class="portlet-header">
+<h3><i class="fa fa-user"></i> Transporter /Owner  Details</h3>
+</div> <!-- /.portlet-header -->
+
+<div class="portlet-content">
+
+<div class="row"> 
+  
+<div class="col-sm-3">           
+<strong>Transporter Name</strong> 
+<div id="name" class="input-group">               
+  <%= f.text_field :transporter_name, class: "form-control" %>
+<span class="input-group-addon"><i class="fa fa-user"></i></span>
+</div>
+</div> <!-- /.col -->
+            
+<div class="col-sm-3">           
+<strong>Vehicle Number</strong> 
+<div id="name" class="input-group">               
+  <%= f.text_field :vechicle_number, class: "form-control" %>
+<span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
+</div>
+</div> <!-- /.col -->
+        
+<div class="col-sm-3">           
+<strong>GC/LR Number</strong> 
+<div id="name" class="input-group">               
+<%= f.text_field :gc_lr_number, class: "form-control" %>
+<span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
+</div>
+</div> <!-- /.col -->
+
+<div class="col-sm-3">           
+<strong>LR Date</strong> 
+<div id="name" class="input-group">               
+<%= f.date_field :lr_date, class: "form-control" %>
+<span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
+</div>
+</div> <!-- /.col -->
+  
+
+            
+</div> <!-- row ends here -->
+</div> <!-- portlet content ends here -->
+</div><!-- portlet ends here -->
+
+<!-- Tranport Details ends Here -->  
+  
+  
+<div class="portlet">
+
+<div class="portlet-header">
 <h3><i class="fa fa-user"></i> Other Information</h3>
 </div> <!-- /.portlet-header -->
 

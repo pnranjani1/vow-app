@@ -8,12 +8,11 @@ class Notification < ActionMailer::Base
     mail(:to => "nvranjani@gmail.com", :subject => "New category added to user")
   end
   
-   
-  
-  
   def user_activated_mail(user)
     @user = user
-    @url = 'edit_password_reset_url'
+    #@token = @user.reset_password_token.digest(@user, :reset_passowrd_token)
+   #@token = Devise.token_generator.generate(@user, :reset_password_token)
+    #to_adapter.find_first(reset_password_token: @token)
     mail(:to => @user.email, :subject => "Welcome to VatonWheels!! . Your Accout has been activated!")
   end
 
@@ -32,7 +31,8 @@ class Notification < ActionMailer::Base
   
   def new_user(user)
    @user = user
-    mail(:to =>  @user.invited_by.email , :subject => "VatOnWheels – New User #{@user.name} Registration!")
+    mail(:to =>  @user.invited_by.email ,:subject => "VatOnWheels – New User #{@user.name} Registration!")
+    #
   end
 
   

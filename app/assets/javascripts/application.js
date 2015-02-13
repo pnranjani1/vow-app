@@ -29,46 +29,43 @@
 //= require bootstrap-fileupload
 //= require bootstrap-datepicker
 //= require logoslider
-//= require jquery.blockUI
 //= jquery.flexslider.min
 //= require jquery.min
 //= require sliderscript
-//= require tooltip
+//= require jquery.blockUI
 //= require_tree .
 
-$(document).ready(function(){
-  
-/* once the user submits the form just block it until it's processed 
-  fully by the server side 
-*/
-  $('#user-notice').on('click', function(){
-    App.blockUI( $('.portlet-content'));
-  });
-  });
-  
-
-
- 
 var App = function(){
-      return {
-        blockUI: function(el){
-        el.block({
+  return {
+    blockUI: function(el){
+      el.block({
         message: '',
         css: {backgroundColor: 'none'},
         overlayCSS: {
-        backgroundColor:'#FFFFFF',
-        //You will find loader image, in your assets/images folder.
-        backgroundImage: "url('/assets/loader.gif')",
-        backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'center',
-        opacity: 0.67
-      }
-    });
-  },unBlockUI: function(el){
-    el.unblock();
+          backgroundColor:'#FFFFFF',
+          backgroundImage: "url('/assets/loader.gif')",
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center',
+          opacity: 0.67
+        }
+      });
+    },
+    unBlockUI: function(el){
+      el.unblock();
+    }
   }
-  }
-  }();
+}();
+
+$(document).ready(function(){
+
+/* once the user submits the form just block it until it's processed 
++  fully by the server side 
++*/
+  $('#user-notice').on('click', function(){
+    App.blockUI( $('#bill_body'));
+  });
+});
+ 
 
 $(document).ready(function() {
   $('.has-tooltip').tooltip();

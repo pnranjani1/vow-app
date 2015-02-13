@@ -13,7 +13,7 @@ class EnquiryFormsController < ApplicationController
     if @enquiry_form.save
       Notification.new_enquiry(@enquiry_form).deliver
       redirect_to '/'
-      flash[:notice] = "Your Enquiry has been posted successfully, Our representative will conatct you soon"
+      flash[:notice] = "Your Enquiry has been posted successfully, Our representative will contact you soon"
     end 
   end
   

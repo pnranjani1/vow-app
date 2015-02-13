@@ -6,7 +6,7 @@ class MainCategoriesController < ApplicationController
   #before_filter :get_customer, only: [:show, :edit, :update, :destroy]
   
   def index
-    @categories = MainCategory.all
+    @categories = MainCategory.all.paginate(:page => params[:page], :per_page => 5)
   end
   
   def show

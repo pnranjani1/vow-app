@@ -30,11 +30,12 @@
 
 <%= form_for @tax do |f| %>
 
-
+ 
 <div class="col-sm-8"> 
-  
+<b style="color:red">*</b> Indicates the mandatory fields<br/><br/>
+ 
 <div class="row">  
-<label class="col-md-3">Tax Type</label>
+<label class="col-md-3">Tax Type&nbsp;&nbsp;<b style="color:red">*</b></label>
 <div class="col-md-6">
 <div id="name" class="input-group">               
 <%= f.text_field :tax_type ,class: "form-control" %>
@@ -45,7 +46,7 @@
 <br>
   
 <div class="row">
-<label class="col-md-3">Tax Rate</label>
+<label class="col-md-3">Tax Rate&nbsp;&nbsp;<b style="color:red">*</b></label>
 <div class="col-md-6">
 <div id="name" class="input-group">               
   <%= f.text_field :tax_rate, class: "form-control" %>

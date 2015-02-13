@@ -26,6 +26,7 @@ class InvitationsController < Devise::InvitationsController
  
   end
   
+   
   def user_edit
     @user = Authuser.find(params[:id])
   end

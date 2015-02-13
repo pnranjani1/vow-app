@@ -20,7 +20,7 @@ require 'active_support/core_ext/date/conversions'
  
   
   devise :invitable, :database_authenticatable, :registerable,
-  :recoverable, :rememberable, :trackable,:validatable
+  :recoverable, :rememberable, :trackable,:validatable, :timeoutable
    
  # validates :date_of_birth, presence: true
   
@@ -152,9 +152,12 @@ end
  end
 
  def inactive_message 
-    if !approved? 
-      :not_approved 
-       else 
+  # if !approved? && invitation_accepted_at == Time.now-5.minutes
+   if !approved? && self.name.present? && sign_in_count == 0
+     :not_approved 
+   elsif !approved
+     :waiting_for_approval
+   else
       super 
     end 
   end
@@ -173,10 +176,10 @@ end
     
   
  
-  
-  def send_admin_mail
-    if self.name.present? && self.approved == false
-    Notification.new_user(self).deliver
+   def send_admin_mail
+   #  if self.name.present? && sign_in_count == 0 && invitation_accepted_at.to_i == updated_at.to_i
+     if invitation_accepted_at.to_i == updated_at.to_i 
+   Notification.new_user(self).deliver
   end
   end
   

@@ -67,7 +67,7 @@ class ProductsController < ApplicationController
    end
   
     def product_user
-      @user_products = Product.where(:authuser_id => current_authuser.id)
+      @user_products = Product.where(:authuser_id => current_authuser.id).paginate(:page => params[:page], :per_page => 5)
     end
   
   def usercategory_product
@@ -88,19 +88,19 @@ class ProductsController < ApplicationController
    
   
   def product_import
-    @product = Product.new
-    if params[:file].nil?
+    @product = params[:file]
+    if @product.nil?
       redirect_to products_product_import_report_path, alert: 'Please Select a file to import'
+   
     else
-      #elsif
       begin
-   Product.import(params[:file], current_authuser.id)
-  redirect_to products_product_user_path, notice: "Products Successfully Imported."
-      #@product_errors =  @product.errors
-   rescue
-       redirect_to products_product_import_report_path, alert: "Verify the data entered in the  selected excel file"
+    Product.import(params[:file], current_authuser.id)
+   redirect_to products_product_user_path, notice: "Products Successfully Imported."
+      rescue
+        redirect_to products_product_import_report_path,  alert: "Product Name, Units and Usercategory Id can't be blank"
     end
-end
+     
+  end
   end
   
   

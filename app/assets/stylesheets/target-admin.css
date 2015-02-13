@@ -3121,7 +3121,7 @@ ul.support-list li {
   margin-left: 2.5em;
 }
 .scrollable-panel {
-  height: 500px;
+  height: 600px;
   overflow-y: hidden;
   outline: none;
 }
