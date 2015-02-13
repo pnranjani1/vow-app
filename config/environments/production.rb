@@ -78,7 +78,7 @@ Rails.application.configure do
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
-  config.action_mailer.default_url_options = {:host => 'https://stark-depths-9183.herokuapp.com'}
+  config.action_mailer.default_url_options = {:host => "https://sheltered-woodland-8526.herokuapp.com"}
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
