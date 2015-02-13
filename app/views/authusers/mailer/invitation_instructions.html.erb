@@ -2,7 +2,7 @@
 
 <p><%= I18n.t("devise.mailer.invitation_instructions.someone_invited_you", url: root_url) %></p>
 
-<p><%= link_to I18n.t("devise.mailer.invitation_instructions.accept"), accept_invitation_url(@resource, :invitation_token => @token,  host: 'http://purple-wagon-47-179691.apse1.nitrousbox.com') %></p>
+<p><%= link_to I18n.t("devise.mailer.invitation_instructions.accept"), accept_invitation_url(@resource, :invitation_token => @token,  host: "https://sheltered-woodland-8526.herokuapp.com") %></p>
  
 
 <p><%= I18n.t("devise.mailer.invitation_instructions.ignore").html_safe %></p>
