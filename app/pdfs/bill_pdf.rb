@@ -80,17 +80,17 @@ end
        
       def bill_transport   
         
-        if @bill.transporter_name == nil
+        if @bill.transporter_name == ""
           draw_text "Goods Through : NA" , :style => :bold, :at => [30, 510], size: 11
         else
         draw_text "Goods Through : #{@bill.transporter_name}" , :style => :bold, :at => [30, 510], size: 11
         end
-        if @bill.gc_lr_number == nil
+        if @bill.gc_lr_number == ""
         draw_text "LR Number : NA" , :style => :bold, :at => [280, 510] , size: 11
         else
           draw_text "LR Number : #{@bill.gc_lr_number} " , :style => :bold, :at => [280, 510], size: 11
         end
-        if @bill.vechicle_number == nil
+        if @bill.vechicle_number == ""
           draw_text "Vehicle Number : NA" , :style => :bold, :at => [30, 490], size: 11
         else
           draw_text "Vehicle Number : #{@bill.vechicle_number} " , :style => :bold, :at => [30, 490], size: 11
@@ -139,13 +139,25 @@ end
  data =  [["Bill Total", "#{@bill.total_bill_price}"]]
 table(data,  :cell_style => {:font_style => :bold},:column_widths => [140, 65], :position => 295)
         
+     if @bill.other_charges_info != ""
  data = [["#{@bill.other_charges_info}", "#{@bill.other_charges}"]]
  table(data, :cell_style => {:font_style => :bold},:column_widths =>[140, 65], :position => 295)
-        
+     elsif @bill.other_charges_info == ""
+       data = [["Other Charges", "NA"]]
+ table(data, :cell_style => {:font_style => :bold},:column_widths =>[140, 65], :position => 295)
+     end
+     
+     if @bill.other_charges != nil     
  total = @bill.total_bill_price + @bill.other_charges
      data = [["#{@bill.tax.tax} on #{total}", "#{(@bill.tax.tax_rate*0.01* total).round(2)}"]]
  table(data, :cell_style => {:font_style => :bold},:column_widths => [140, 65], :position => 295)
-        
+   else 
+    total = @bill.total_bill_price 
+     data = [["#{@bill.tax.tax} on #{total}", "#{(@bill.tax.tax_rate*0.01* total).round(2)}"]]
+ table(data, :cell_style => {:font_style => :bold},:column_widths => [140, 65], :position => 295)    
+    end
+
+
  data = [["Grand Total", "#{@bill.grand_total}"]]
  table(data, :cell_style => {:font_style => :bold}, :column_widths => [140, 65], :position => 295)
  end
