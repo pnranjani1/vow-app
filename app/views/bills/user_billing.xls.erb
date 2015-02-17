@@ -1,0 +1,18 @@
+<table border="1">
+  <tr>
+    <th>User Name</th>
+    <th>Total Number of Bills</th>
+    <th>No Of esugam generated</th>
+    <th>No Of Cash Based Applications</th>
+   </tr>
+
+ <% @client_user.each do|user| %>
+    <tr>
+      <td><%= user.authuser.name %> </td>
+      <td><%= @user_bills.where(:authuser_id => user.authuser.id).count %></td>
+      <td><%= @user_bills.where('ESUGAM IS NOT NULL AND authuser_id = ?', user.authuser.id ).count %></td>
+      <td><%= @user_bills.where('ESUGAM IS NULL AND authuser_id = ?', user.authuser.id).count%></td>
+    </tr>
+  <% end %>
+   
+   </table>

@@ -1,0 +1,18 @@
+<table border="1">
+  <tr>
+    <th>Client Name</th>
+    <th>Total Number of Bills</th>
+    <th>No Of esugam generated</th>
+    <th>No Of Cash Based Applications</th>
+   </tr>
+
+  <% @clients.each do|client| %>
+    <tr>
+      <td><%= client.authuser.name %> </td>
+      <td><%= @user_bills.where(:client_id => client.authuser.id).count %></td>
+      <td><%= @user_bills.where('ESUGAM IS NOT NULL AND client_id = ?', client.authuser.id ).count %></td>
+      <td><%= @user_bills.where('ESUGAM IS NULL AND client_id = ?', client.authuser.id).count%></td>
+    </tr>
+  <% end %>
+   
+   </table>

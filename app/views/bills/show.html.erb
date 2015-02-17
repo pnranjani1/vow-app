@@ -39,16 +39,28 @@
   <hr/>
   <div class="row">
 
+<% if @bill.transporter_name != "" %>
 <div class="col-md-3">
   <h3><i class="fa fa-group"></i>Transporter Name&nbsp;&nbsp;: &nbsp;&nbsp;&nbsp;<%= @bill.transporter_name  %></h3> 
 </div>
-
+<% else %>
+<div class="col-md-3">
+<h3><i class="fa fa-group"></i>Transporter Name&nbsp;&nbsp;: &nbsp;&nbsp;&nbsp; NA</h3> 
+</div>
+<% end %>
+    
+<% if @bill.gc_lr_number != "" %>
 <div class="col-md-3">
 <h3><i class="fa fa-numeric"></i>GC/LR number&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= @bill.gc_lr_number %></h3> 
 </div>
+<% else %>
+<div class="col-md-3">
+<h3><i class="fa fa-numeric"></i>GC/LR number&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NA </h3> 
+</div>
+<% end %>
 
 <div class="col-md-3">
-<% if @bill.vechicle_number == nil %>
+<% if @bill.vechicle_number == "" %>
 <h3><i class="fa fa-calender"></i>Vehicle Number&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NA</h3> 
   <% else %>
 <h3><i class="fa fa-calender"></i>Vehicle Number&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= @bill.vechicle_number %></h3> 
@@ -113,9 +125,9 @@
 <td><%= @bill.total_bill_price %></td>
 </tr>
  
-  <% if @bill.other_charges_info.present? %>
+<% if @bill.other_charges_information_id != nil %>
 <tr>
-<td><strong><%= @bill.other_charges_info %></strong></td>
+  <td><strong><%= @bill.other_charges_information.other_charges %></strong></td>
 <td><%= @bill.other_charges %></td>
 </tr>
   <% end %>

@@ -32,21 +32,21 @@
 <div class="col-md-6">
 <div id="name" class="input-group">               
   
-  <!-- <script>
-   $(function() {
-    $("#local_sales").monthpicker();
-    $("#interstate_sales").monthpicker();
-     });
-  </script>
-
-
-
-<script type="text/javascript">
-        $(function () {
-            $("#start_date").datepicker({ dateFormat: "dd/mm/yy" }).val()
-            $("#end_date").datepicker({ dateFormat: "dd/mm/yy" }).val()
-        });
-</script> -->
+ <script type="text/javascript">
+$(function() {
+    $('#date-picker').datepicker( {
+        changeMonth: true,
+        changeYear: true,
+        showButtonPanel: true,
+        dateFormat: 'MM yy',
+        onClose: function(dateText, inst) { 
+            var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+            var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+            $(this).datepicker('setDate', new Date(year, month, 1));
+        }
+    });
+});
+</script>
   
    <script type="text/javascript">
   $(document).ready(function(){
@@ -55,7 +55,7 @@
 </script>
   
 <%= form_tag bills_interstate_sales_path(:format => "xml"), method: :get do %>
-<%= text_field_tag :choose_month, params[:choose_month], :id => "interstate_sales" , placeholder: "Select month to Generate Interstate Sales xml", class: "btn btn-default fileupload-exists"  %>
+  <%= text_field_tag :choose_month, params[:choose_month], :id => "date-picker" , placeholder: "Select month to Generate Interstate Sales xml", class: "btn btn-default fileupload-exists"  %>
    <%= submit_tag "Download" ,class: "btn btn-success"%>
 <% end %>
 

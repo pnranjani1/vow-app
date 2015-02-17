@@ -13,7 +13,7 @@
  <div class="content">
  <div class="content-container">     
    <div>
-    <h4 class="heading-inline"> Reports </h4>        
+    <h4 class="heading-inline"> Bill Management </h4>        
    </div>
  <br>
  
@@ -22,7 +22,7 @@
 <div class="portlet">
 
 <div class="portlet-header">
-<h3><i class="fa fa-user"></i>Local Sales XML</h3>
+<h3><i class="fa fa-user"></i>Billing Reports</h3>
 </div> <!-- /.portlet-header -->
 
 <div class="portlet-content">
@@ -32,8 +32,6 @@
 <div class="col-md-6">
 <div id="name" class="input-group ">  
   
-  
-
   
 <script type="text/javascript">
 $(function() {
@@ -51,17 +49,13 @@ $(function() {
 });
 </script>
    
- <script type="text/javascript">
-  $(document).ready(function(){
-     $("#local_sales").datepicker({ dateFormat: "mm/yy" }).val()
-      });
-</script>
+
   
-<%= form_tag bills_local_sales_path(:format => "xml"), method: :get do %>
-  <%= text_field_tag :choose_month, params[:choose_month], :id => 'date-picker', placeholder: "Select month to generate Local Sales xml", class: "btn btn-default fileupload-exists"  %>
+  <%= form_tag bills_client_monthly_bill_path(:format => "xls"), method: :get do %>
+  <%= text_field_tag :choose_month, params[:choose_month], :id => 'date-picker', placeholder: "Select month to generate Billing Report", class: "btn btn-default fileupload-exists"  %>
   <%= submit_tag "Download" , class: "btn btn-success" %>
 <% end %>
-  
+
  
 
 </div>

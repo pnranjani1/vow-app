@@ -143,30 +143,61 @@
 <!-- <% end %> -->
         
 <!-- Bills Information -->
-<% if controller.action_name == "client_bill_summary" %>
-<li class="active">  
+<% if controller.controller_name == "bills" %>
+<li class="active dropdown">  
 <% else %>
-<li>
+<li class="dropdown">
 <% end %>
+  
 <% if permitted_to? :client_bill_summary, Bill.new %>
-<%= link_to bills_client_bill_summary_path  do %>
-<i class="fa fa-align-left"></i> Bills Information 
+<%= link_to bills_client_bill_summary_path, class: "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>
+<i class="fa fa-align-left"></i> Bills Information<span class="caret"></span>
 <% end %>
 <% end %> 
+  
+<ul class="dropdown-menu"> 
+<% if permitted_to? :client_bill_summary, Bill.new %>
+<li><%= link_to bills_client_bill_summary_path do %>
+  <i class="fa fa-align-left"></i>&nbsp;&nbsp;Total Bills</li>
+<% end %>
+<% end %>
+  
+<li> 
+  <% if permitted_to? :client_billing_report, Bill.new %>
+  <%= link_to bills_client_billing_report_path do %>
+  <i class="fa fa-align-left"></i>&nbsp;&nbsp;Monthly Bill </li>
+<% end %>
+<% end %>
+  </ul>
 </li>
   
-  <!-- bills information for client -->
-<% if controller.action_name == "bill_information_client" %>
-<li class="active">  
+<!-- bills information for client -->
+<% if controller.controller_name == "bills" %>
+<li class="active dropdown">  
 <% else %>
-<li>
+<li class="dropdown">
 <% end %>
-<% if permitted_to? :bill_information_client, Bill.new %>
-<%= link_to bills_user_bill_summary_path  do %>
-<i class="fa fa-align-left"></i> Bills Information 
+<% if permitted_to? :user_bill_summary, Bill.new %>
+<%= link_to bills_user_bill_summary_path, class: "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>
+<i class="fa fa-align-left"></i>Bill Information<span class="caret"></span>
 <% end %>
+<% end %>
+  
+<ul class="dropdown-menu">   
+<% if permitted_to? :user_bill_summary, Bill.new %>
+<li><%= link_to bills_user_bill_summary_path  do %>
+<i class="fa fa-align-left"></i> Total Bills </li>
+<% end %>
+<% end %>
+  
+<% if permitted_to? :user_billing_report, Bill.new %>
+<li><%= link_to bills_user_billing_report_path do %>
+<i class="fa fa-align-left"></i> Monthly Bills  </li>
 <% end %> 
+<% end %>
+</ul>
 </li>
+  
   
           
 <!-- Main Commodities -->  

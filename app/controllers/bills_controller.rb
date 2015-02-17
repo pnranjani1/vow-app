@@ -18,9 +18,8 @@ class BillsController < ApplicationController
   
   def new
     @bill = Bill.new
-    @bill_last = Bill.last
-   
-   end
+    @customer = Customer.new
+  end
   
   
   def create  
@@ -124,7 +123,7 @@ class BillsController < ApplicationController
  
   
   def user_bill_summary
-    @client_user = User.where(:client_id => current_authuser.id)
+    @client_user = User.where(:client_id => current_authuser.id).paginate(:page => params[:page], :per_page => 5)
     @clients = Client.where(:created_by => current_authuser.id)
     @clients.each do |client|
     client_id = client.authuser.id
@@ -139,7 +138,7 @@ class BillsController < ApplicationController
   end
   
   def client_bill_summary
-    @clients = Client.where(:created_by => current_authuser.id)
+    @clients = Client.where(:created_by => current_authuser.id).paginate(:page => params[:page], :per_page => 5)
     @clients.each do |client|
     client_id = client.authuser.id
     #bills = Bill.where(:client_id => client_id)
@@ -152,7 +151,19 @@ class BillsController < ApplicationController
     end
   end
   
-  
+
+def client_billing_report
+end
+
+def client_monthly_bill
+   chosen_month = params[:choose_month]
+  @clients = Client.where(:created_by => current_authuser.id)
+ @user_bills = Bill.where('created_at >= ? AND created_at <= ? ',chosen_month.to_date.beginning_of_month, chosen_month.to_date.end_of_month)
+    respond_to do |format|
+     format.html
+     format.xls 
+end
+end
   
   
   def bill_details_client
@@ -228,6 +239,19 @@ end
 end
   end
  
+def user_billing
+  chosen_month = params[:choose_month]
+  @client_user = User.where(:client_id => current_authuser.id)
+ @user_bills = Bill.where('created_at >= ? AND created_at <= ? ',chosen_month.to_date.beginning_of_month, chosen_month.to_date.end_of_month)
+    respond_to do |format|
+     format.html
+     format.xls 
+end
+end
+
+def user_billing_report
+end
+
 =begin  
   def esnget(bill)
     @bill = bill  
@@ -349,9 +373,9 @@ end
 
   def set_params
     params[:bill].permit(:invoice_number,:esugam, :bill_date, :customer_id, 
-      :authuser_id, :tax, :total_bill_price, :tax_id, :grand_total, :other_charges,
-:other_information, :other_charges_info, :client_id, :transporter_name, :vechicle_number, :gc_lr_number,:lr_date, 
+      :authuser_id, :tax, :total_bill_price, :tax_id, :grand_total, :other_charges, :other_charges_information_id,:other_information, :other_charges_info, :client_id, :transporter_name, :vechicle_number, :gc_lr_number,:lr_date, 
       {:line_items_attributes => [:product_id, :quantity, :unit_price, :total_price, :_destroy]},
-      {:tax_attributes => [:tax_type, :tax_rate, :tax]})
+      {:tax_attributes => [:tax_type, :tax_rate, :tax]}
+      )
   end
   end

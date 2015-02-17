@@ -96,7 +96,7 @@ end
           draw_text "Vehicle Number : #{@bill.vechicle_number} " , :style => :bold, :at => [30, 490], size: 11
         end
         if @bill.lr_date == nil
-          draw_text "LR Date   : NA" , :style => :bold, :at => [280, 490], size: 11
+          draw_text "LR Date       : NA" , :style => :bold, :at => [280, 490], size: 11
         else
           draw_text "LR Date       : #{@bill.lr_date.strftime("%d %b %Y")} " , :style => :bold, :at => [280, 490], size: 11
         end
@@ -139,14 +139,14 @@ end
  data =  [["Bill Total", "#{@bill.total_bill_price}"]]
 table(data,  :cell_style => {:font_style => :bold},:column_widths => [140, 65], :position => 295)
         
-     if @bill.other_charges_info != ""
- data = [["#{@bill.other_charges_info}", "#{@bill.other_charges}"]]
+     if @bill.other_charges_information_id != nil
+       data = [["#{@bill.other_charges_information.other_charges}", "#{@bill.other_charges}"]]
  table(data, :cell_style => {:font_style => :bold},:column_widths =>[140, 65], :position => 295)
-     elsif @bill.other_charges_info == ""
+     elsif @bill.other_charges_information_id == nil
        data = [["Other Charges", "NA"]]
  table(data, :cell_style => {:font_style => :bold},:column_widths =>[140, 65], :position => 295)
      end
-     
+          
      if @bill.other_charges != nil     
  total = @bill.total_bill_price + @bill.other_charges
      data = [["#{@bill.tax.tax} on #{total}", "#{(@bill.tax.tax_rate*0.01* total).round(2)}"]]

@@ -23,7 +23,7 @@ class DashboardsController < ApplicationController
   
   
   def client_dashboard   
-    @users = User.where(:client_id => current_authuser.id).paginate(:page => params[:page], :per_page => 5)
+  @users = User.where(:client_id => current_authuser.id).paginate(:page => params[:page], :per_page => 5)
     @bills = Bill.all
     #@users_count = current_authuser.users.count
     @users_count = @users.count

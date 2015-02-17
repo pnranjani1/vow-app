@@ -5,6 +5,7 @@
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width">
 
+  
 </head>
 
 <body>
@@ -50,7 +51,7 @@
 
 <div class="row"> 
   
-<div class="col-sm-4">           
+<div class="col-sm-3">           
 <strong>Invoice Number</strong> 
 <div id="name" class="input-group">    
 <%= f.text_field :invoice_number, class: "form-control" %> 
@@ -58,7 +59,7 @@
 </div>
 </div> <!-- /.col -->
             
-<div class="col-sm-4">           
+<div class="col-sm-3">           
 <strong>Bill Date</strong> 
 <div id="name" class="input-group">               
 <%= f.date_field :bill_date , :value => Date.today, class: "form-control" %>
@@ -66,13 +67,15 @@
 </div>
 </div> <!-- /.col -->
            
-<div class="col-sm-4">           
+<div class="col-sm-3">           
 <strong>Customer</strong> 
 <div id="name" class="input-group">               
 <%= f.collection_select :customer_id, Customer.where(:authuser_id => current_authuser.id), :id, :name, {prompt: "Select Customer"}, {class: "form-control"}  %>
 </div>
 </div> <!-- /.col -->
-            
+  
+
+  
 </div> <!-- row ends here -->
 </div> <!-- portlet content ends here -->
 </div><!-- portlet ends here -->
@@ -208,7 +211,7 @@
 <div class="col-sm-4">           
 <strong>Name Other Charges, if any?</strong> 
 <div id="name" class="input-group">               
-<%= f.text_field :other_charges_info, class: "form-control" %>
+  <%= f.collection_select :other_charges_information_id, OtherChargesInformation.all, :id, :other_charges,  {:prompt => "Select"} , {:class => "form-control"} %>
 <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
 </div>
 </div> <!-- /.col -->

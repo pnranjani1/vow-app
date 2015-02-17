@@ -4,7 +4,8 @@ class Bill < ActiveRecord::Base
   before_save :generate_grand_total
   before_save :generate_tax_type
   
-    
+  belongs_to :other_charges_information
+  
   has_many :line_items 
   has_many :products, through: :line_items
   

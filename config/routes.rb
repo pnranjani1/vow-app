@@ -62,6 +62,10 @@ Rails.application.routes.draw do
   get 'customers/customer_import_report'
   get 'bills/bill_details_client'
   get 'home_page/read_pdf'
+  get 'bills/user_billing'
+  get 'bills/user_billing_report'
+  get 'bills/client_monthly_bill'
+  get 'bills/client_billing_report'
     
   resources :authusers  
   resources :users
