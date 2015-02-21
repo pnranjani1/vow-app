@@ -178,7 +178,9 @@ end
  
    def send_admin_mail
    #  if self.name.present? && sign_in_count == 0 && invitation_accepted_at.to_i == updated_at.to_i
-     if invitation_accepted_at.to_i == updated_at.to_i 
+     #if invitation_accepted_at.to_i == updated_at.to_i 
+     #if self.name.present? && sign_in_count == 0 && self.bankdetail.bank_account_number.present?
+     if self.name.present? && self.approved == false && sign_in_count == 0
    Notification.new_user(self).deliver
   end
   end

@@ -20,7 +20,13 @@
 
 <br>
       
-
+  <script type="text/javascript">
+  $(document).ready(function(){
+     $("#bill_date").datepicker({ dateFormat: "dd/mm/yy" }).val()
+     $("#lr_date").datepicker({ dateFormat: "dd/mm/yy" }).val()
+    });
+</script>
+  
 <div class="row"> 
   <%= nested_form_for(@bill) do |f| %>
 
@@ -62,7 +68,7 @@
 <div class="col-sm-3">           
 <strong>Bill Date</strong> 
 <div id="name" class="input-group">               
-<%= f.date_field :bill_date , :value => Date.today, class: "form-control" %>
+  <%= f.text_field :bill_date , :value => Date.today, class: "form-control", :id => "bill_date" %>
 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 </div>
 </div> <!-- /.col -->
@@ -185,7 +191,7 @@
 <div class="col-sm-3">           
 <strong>LR Date</strong> 
 <div id="name" class="input-group">               
-<%= f.date_field :lr_date, class: "form-control" %>
+<%= f.text_field :lr_date, class: "form-control", :id => "lr_date" %>
 <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
 </div>
 </div> <!-- /.col -->
@@ -211,7 +217,7 @@
 <div class="col-sm-4">           
 <strong>Name Other Charges, if any?</strong> 
 <div id="name" class="input-group">               
-  <%= f.collection_select :other_charges_information_id, OtherChargesInformation.all, :id, :other_charges,  {:prompt => "Select"} , {:class => "form-control"} %>
+<%= f.collection_select :other_charges_information_id, OtherChargesInformation.all, :id, :other_charges,  {:prompt => "Select"} , {:class => "form-control"} %>
 <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
 </div>
 </div> <!-- /.col -->

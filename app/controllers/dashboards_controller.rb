@@ -14,7 +14,7 @@ class DashboardsController < ApplicationController
   def admin_dashboard
     #@clients = Client.where(:authuser_id => current_authuser.id)
    
-    @current_authuser_clients = Client.where(:created_by => current_authuser.id).paginate(:page => params[:page], :per_page => 5)
+    @current_authuser_clients = Client.where(:created_by => current_authuser.id).paginate(:page => params[:page], :per_page => 5).order('created_at DESC')
     @count = @current_authuser_clients.count
    
     @esugam_count = Bill.where("esugam IS NOT NULL").count
@@ -23,12 +23,14 @@ class DashboardsController < ApplicationController
   
   
   def client_dashboard   
-  @users = User.where(:client_id => current_authuser.id).paginate(:page => params[:page], :per_page => 5)
+    date = Date.today.strftime("%Y%m%d")
+  @users = User.where(:client_id => current_authuser.id).paginate(:page => params[:page], :per_page => 5).order('created_at DESC')
     @bills = Bill.all
     #@users_count = current_authuser.users.count
     @users_count = @users.count
-    @bills_esugam = Bill.where('client_id = ? AND ESUGAM IS NOT NULL', current_authuser.id)
-    @cash_based_applications = Bill.where('client_id = ? AND ESUGAM IS NULL', current_authuser.id)
+    @users_current_month = @users.where('created_at >= ? AND created_at <= ?', date.to_date.beginning_of_month, date.to_date.end_of_month)
+    @bills_esugam = Bill.where('client_id = ? AND ESUGAM IS NOT NULL AND created_at >= ? AND created_at <= ?', current_authuser.id, date.to_date.beginning_of_month, date.to_date.end_of_month)
+    @cash_based_applications = Bill.where('client_id = ? AND ESUGAM IS NULL AND created_at >= ? AND created_at <= ?', current_authuser.id, date.to_date.beginning_of_month, date.to_date.end_of_month)
     # to Calcualte total bills under the client
    # users =  User.where(:client_id => current_authuser.id)
     #users.each do |user|
@@ -42,6 +44,9 @@ class DashboardsController < ApplicationController
   
   
   def user_dashboard
+    date = Date.today.strftime("%Y%m%d")
+    @bills_esugam = Bill.where('authuser_id = ? AND ESUGAM IS NOT NULL AND created_at >= ? AND created_at <= ?', current_authuser.id, date.to_date.beginning_of_month, date.to_date.end_of_month)
+    @cash_based_applications = Bill.where('authuser_id = ? AND ESUGAM IS NULL AND created_at >= ? AND created_at <= ?', current_authuser.id, date.to_date.beginning_of_month, date.to_date.end_of_month) 
   end
   
   def user_request

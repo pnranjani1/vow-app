@@ -62,16 +62,23 @@
 <td><%= @user.address.address_line_2 %></td>
 </tr>
     
+<!-- <% if @user.address.address_line_3.present? %> -->
 <tr>
 <th><i class="fa fa-map-marker"></i> Address 3 :</th>
 <td><%= @user.address.address_line_3 %></td>
 </tr>
-                  
+  <!-- <% end %> -->
+  
 <tr>
 <th><i class="fa fa-dot-circle-o"></i> City :</th>
   <td><%= @user.address.city %></td>
 </tr>
-                  
+  
+<tr>
+<th><i class="fa fa-globe"></i> State :</th>
+  <td><%= @user.address.state %></td>
+</tr>
+  
 <tr>
 <th><i class="fa fa-globe"></i> Country :</th>
 <td><%= @user.address.country %></td>
@@ -103,9 +110,12 @@
 </tr>
   
   <tr>
-<% if @user.main_roles.first.role_name == "client" %>
+ <% if @user.main_roles.first.role_name == "client" %>
 <th><i class="fa fa-user"></i> Company :</th>
 <td><%= @user.clients.first.company %></td>
+    <% elsif @user.main_roles.first.role_name == "user" %>
+<th><i class="fa fa-user"></i> Company :</th>
+<td><%= @user.users.first.company %></td>
 <% end %>
 </tr>
 </tbody>

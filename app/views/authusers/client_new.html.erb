@@ -16,7 +16,12 @@
 <h4 class="heading-inline">Update Profile</h4>
 </div>
 <br>
-
+<script type="text/javascript">
+  $(document).ready(function(){
+     $("#dob").datepicker({ dateFormat: "dd/mm/yy" }).val()
+   });
+</script>
+  
 <%= form_for(@user, :url => '/authusers/client_create') do |f| %>
 <% if @user.errors.any? %>
   <div class="alert alert-danger">
@@ -83,9 +88,9 @@ Confirm Password&nbsp;<b style="color:red">*</b>
 <div class="row">
 <div class="col-sm-3">           
 Date Of Birth&nbsp;<b style="color:red">*</b>
-<div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Enter Your Date of Birth">
+<div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Select Your Date of Birth">
 <div id="Password" class="input-group">               
-  <%= f.date_field :date_of_birth ,  class: "form-control" %>
+<%= f.text_field :date_of_birth ,  class: "form-control", :id => "dob" %>
 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 </div>
 </div>

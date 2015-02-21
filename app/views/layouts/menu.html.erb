@@ -136,7 +136,7 @@
   
   
 <!--Bills -->
-<% if controller.controller_name == "bills" %>
+  <% if controller_name == "bills" && action_name == "new" || action_name == "user_bill" %>
 <li class="active dropdown">
 <% else %>
 <li class="dropdown ">   
@@ -250,10 +250,13 @@
 </li>
 
   
-  
-  
+  <!-- utilities -->
+<% if controller_name == "bills" && action_name == "bill_local_sales_reports" || action_name == "bill_interstate_sales_reports" || action_name == "bill_tally_import_reports" %>
+<li class="active dropdown">
+<% else %>
 <li class="dropdown ">   
-<%= link_to bills_bill_local_sales_reports_path, class: "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>
+<% end %>
+  <%= link_to  bills_bill_local_sales_reports_path, class: "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>
 <i class="fa fa-align-left"></i>Utilities<span class="caret"></span>
 <% end %>
 

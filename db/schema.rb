@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150214063918) do
+ActiveRecord::Schema.define(version: 20150219104947) do
 
   create_table "addresses", force: true do |t|
     t.string   "address_line_1"
@@ -218,6 +218,7 @@ ActiveRecord::Schema.define(version: 20150214063918) do
     t.text     "number"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "bill_id"
   end
 
   create_table "taxes", force: true do |t|

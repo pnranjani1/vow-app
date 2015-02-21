@@ -46,7 +46,7 @@ en:
         signed_up_but_not_approved: 'You have signed up successfully but your account has not been approved by your administrator yet'
     failure:
       not_approved: 'Your account has been created on VatOnWheels! , It will be activated soon!'
-      waiting_for_approval: "Your Account is not yet Activated!"
+      waiting_for_approval: "Your Account is not Activated!. Please Contact your CA"
       
       
       

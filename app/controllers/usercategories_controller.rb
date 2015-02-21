@@ -6,7 +6,7 @@ class UsercategoriesController < ApplicationController
   
   def index
   #  @usercategories = current_authuser.usercategories.paginate(:page => params[:page], :per_page => 3)
-    @usercategories = Usercategory.where(:authuser_id => current_authuser.id).paginate(:page => params[:page], :per_page => 1)
+    @usercategories = Usercategory.where(:authuser_id => current_authuser.id).paginate(:page => params[:page], :per_page => 5)
   end
   
   def new

@@ -95,7 +95,7 @@ class Bill < ActiveRecord::Base
     @other_value = 0
    
     @total_amount = @bill.total_bill_price
-    if @bill.other_charges_info != "" && @bill.other_charges != nil
+    if @bill.other_charges_information_id != nil && @bill.other_charges != nil
       @total_amount += @bill.other_charges
     end
     
@@ -121,14 +121,14 @@ class Bill < ActiveRecord::Base
       browser.text_field(:id, "Password").set(@bill.authuser.users.first.esugam_password)
       browser.button(:value,"Login").click
       browser.goto "http://164.100.80.121/vat2/web_vat505/Vat505_Etrans.aspx?mode=new"
-      browser.goto "http://164.100.80.121/vat2/web_vat505/Vat505_Etrans.aspx?mode=new"
+     # browser.goto "http://164.100.80.121/vat2/web_vat505/Vat505_Etrans.aspx?mode=new"
       #browser.button(:value,"Continue").click rescue nil
       #browser.goto "#{url}/CheckInvoiceEnabled.aspx?Form=ESUGAM1"
       if @tax_type == "CST"
         browser.radio(:id, "ctl00_MasterContent_rdoStatCat_1").set
         sleep 5
         browser.text_field(:id, "ctl00_MasterContent_txtTIN").set(@customer_tin_number)
-        begin
+         begin
           browser.text_field(:id, "ctl00_MasterContent_txtFromAddrs").set("BANGALORE")
         rescue => e
           sleep 3
@@ -190,7 +190,7 @@ class Bill < ActiveRecord::Base
         logger.info "My Required esugan number is #{e.to_s}"
         self.update_attributes(esugam: e.to_s) if (e.to_s.size  < 15)
         # I am dumping all response here.
-        Sugan.create(number: e.to_s)
+      Sugan.create(number: e.to_s)
         
         esugam = nil
         #flash.now[:error] = "There has been an error in generating the esugam,try again later , 

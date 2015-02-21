@@ -17,6 +17,15 @@
 </div>
 <br>
 
+<script type="text/javascript">
+  $(document).ready(function(){
+     $("#dob").datepicker({ dateFormat: "dd/mm/yy" }).val()
+     $("#start_date").datepicker({ dateFormat: "dd/mm/yy" }).val()
+     $("#end_date").datepicker({ dateFormat: "dd/mm/yy" }).val()
+     
+  });
+</script>
+  
   <%= form_for(@client, :url => '/authusers/admin_create') do |f| %><br/>
 <% if @client.errors.any? %>
   <div class="alert alert-danger">
@@ -92,9 +101,9 @@ Confirm Password&nbsp;<b style="color:red">*</b>
 <div class="row">
 <div class="col-sm-3">           
 Date Of Birth&nbsp;<b style="color:red">*</b>
-<div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Enter Your Date Of Birth">
+<div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Select Your Date Of Birth">
 <div id="Password" class="input-group">               
-<%= f.date_field :date_of_birth , class: "form-control" %>
+<%= f.text_field :date_of_birth , class: "form-control", :id => "dob" %>
 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 </div>
 </div>
@@ -236,10 +245,11 @@ IFSC Code&nbsp; <b style="color:red">*</b>
 
 <div class="row">
 <%= f.fields_for :membership do |user_membership| %>
+  
 <div class="col-sm-4">           
   Membership Start Date&nbsp;<b style="color:red">*</b>
 <div id="dp-ex-2" class="input-group">
-  <%= user_membership.date_field :membership_start_date, :value => Date.today,  class: "form-control" %>
+  <%= user_membership.text_field :membership_start_date, :value => Date.today, class: "form-control", :id => "start_date" %>
 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 </div>
 </div> <!-- /.col -->
@@ -247,7 +257,7 @@ IFSC Code&nbsp; <b style="color:red">*</b>
 <div class="col-sm-4">           
 Membership End Date&nbsp; <b style="color:red">*</b>
 <div id="dp-ex-3" class="input-group" >         
-  <%= user_membership.date_field :membership_end_date , :value => Date.today + 1.year, class: "form-control" %>
+<%= user_membership.text_field :membership_end_date , :value => Date.today + 1.year, class: "form-control", :id => "end_date" %>
 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 </div>
 </div> <!-- /.col -->
