@@ -31,7 +31,7 @@ class Notification < ActionMailer::Base
   
   def new_user(user)
    @user = user
-    mail(:to =>  @user.invited_by.email ,:subject => "VatOnWheels – New User #{@user.name} Registration!")
+   mail(:to =>  @user.invited_by.email ,:subject => "VatOnWheels – New User #{@user.name} Registration!")
    end
 
   

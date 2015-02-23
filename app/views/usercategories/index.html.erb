@@ -44,7 +44,7 @@
        </div> <!-- /.portlet-footer -->
         <% end %>
         
-        <% current_authuser.usercategories.each do |category| %>
+        <% @usercategories.each do |category| %>
      <tr>                      
        <td><%= category.commodity_name %> </td>
        <td><%= category.id %> </td>
