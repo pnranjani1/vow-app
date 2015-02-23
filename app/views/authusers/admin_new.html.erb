@@ -100,7 +100,7 @@ Confirm Password&nbsp;<b style="color:red">*</b>
 
 <div class="row">
 <div class="col-sm-3">           
-Date Of Birth&nbsp;<b style="color:red">*</b>
+Date Of Birth(Format: dd/mm/yyyy)&nbsp;<b style="color:red">*</b>
 <div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Select Your Date Of Birth">
 <div id="Password" class="input-group">               
 <%= f.text_field :date_of_birth , class: "form-control", :id => "dob" %>
@@ -247,7 +247,7 @@ IFSC Code&nbsp; <b style="color:red">*</b>
 <%= f.fields_for :membership do |user_membership| %>
   
 <div class="col-sm-4">           
-  Membership Start Date&nbsp;<b style="color:red">*</b>
+  Membership Start Date(Format: dd/mm/yyyy)&nbsp;<b style="color:red">*</b>
 <div id="dp-ex-2" class="input-group">
   <%= user_membership.text_field :membership_start_date, :value => Date.today, class: "form-control", :id => "start_date" %>
 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
@@ -255,7 +255,7 @@ IFSC Code&nbsp; <b style="color:red">*</b>
 </div> <!-- /.col -->
             
 <div class="col-sm-4">           
-Membership End Date&nbsp; <b style="color:red">*</b>
+Membership End Date(Format: dd/mm/yyyy)&nbsp; <b style="color:red">*</b>
 <div id="dp-ex-3" class="input-group" >         
 <%= user_membership.text_field :membership_end_date , :value => Date.today + 1.year, class: "form-control", :id => "end_date" %>
 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>

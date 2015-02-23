@@ -87,7 +87,7 @@ Confirm Password&nbsp;<b style="color:red">*</b>
 
 <div class="row">
 <div class="col-sm-3">           
-Date Of Birth&nbsp;<b style="color:red">*</b>
+Date Of Birth(Format: dd/mm/yyyy)&nbsp;<b style="color:red">*</b>
 <div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Select Your Date of Birth">
 <div id="Password" class="input-group">               
 <%= f.text_field :date_of_birth ,  class: "form-control", :id => "dob" %>
@@ -280,7 +280,7 @@ Company&nbsp;<b style="color:red">*</b>
 </div>
 </div> <!-- /.col -->
   
-<%= user_detail.hidden_field :client_id, :value => current_authuser.id %>
+  <%= user_detail.hidden_field :client_id, :value => current_authuser.invited_by.id %>
 <% end %>
   
 
