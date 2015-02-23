@@ -108,7 +108,8 @@ class Bill < ActiveRecord::Base
     begin
       browser = Watir::Browser.new :phantomjs
      # browser.goto  "http://vat.kar.nic.in/"
-      browser.goto "http://164.100.80.121/vat2/"
+     # browser.goto "http://164.100.80.121/vat2/"
+      browser.goto "http://sugam.kar.nic.in"
       url = nil
       browser.windows.last.use do
         url = browser.url
