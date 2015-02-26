@@ -1,12 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width">
-</head>
-
-<body>
 
 <div class="container">
 <div class="content">
@@ -22,7 +13,7 @@
 <div class="portlet">
 
 <div class="portlet-header">
-<h3><i class="fa fa-user"></i>Create Commodity</h3>
+<h3><i class="fa fa-group"></i>Create Commodity</h3>
 </div> <!-- /.portlet-header -->
 
 <div class="portlet-content">
@@ -44,13 +35,13 @@
 <% end %>
 
 <div class="col-sm-8"> 
-  <b style="color:red">*</b> Indicates the mandatory fields<br/><br/>
+  <b style="color:red">*</b>&nbsp;<b> Indicates the mandatory fields</b><br/><br/>
 <div class="row">  
   <label class="col-md-3">Commodity Name&nbsp;&nbsp;<b style="color:red">*</b></label>
 <div class="col-md-6">
 <div id="name" class="input-group">               
+<span class="input-group-addon"><i class="fa fa-yen"></i></span>
 <%= f.text_field :commodity_name, class: "form-control" %>
-<span class="input-group-addon"><i class="fa fa-user"></i></span>
 </div>
 </div>
 </div>
@@ -60,8 +51,8 @@
 <label class="col-md-3">Commodity Code&nbsp;&nbsp;<b style="color:red">*</b></label>
 <div class="col-md-6">
 <div id="name" class="input-group">               
+  <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
 <%= f.text_field :commodity_code, class: "form-control" %>
-<span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
 </div>
 </div>
 </div>
@@ -71,8 +62,8 @@
 <label class="col-md-3">Sub Commodity Code</label>
 <div class="col-md-6">
 <div id="name" class="input-group">               
- <%= f.text_field :sub_commodity_code, class: "form-control" %>
 <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
+<%= f.text_field :sub_commodity_code, class: "form-control" %>
 </div>
 </div>
 </div>
@@ -99,8 +90,5 @@
    </div><!-- content ends here -->
   </div><!-- container ends here -->
   
-</body>
-</html>
-
 
 

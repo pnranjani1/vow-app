@@ -6,7 +6,7 @@ class MainCategoriesController < ApplicationController
   #before_filter :get_customer, only: [:show, :edit, :update, :destroy]
   
   def index
-    @categories = MainCategory.all.paginate(:page => params[:page], :per_page => 5)
+    @categories = MainCategory.all.order('commodity_name').paginate(:page => params[:page], :per_page => 5)
   end
   
   def show
@@ -52,6 +52,34 @@ class MainCategoriesController < ApplicationController
     @user = Authuser.find(params[:id])
   end
   
+  def category_download
+    @category = MainCategory
+    respond_to do |format|
+      format.html
+      format.xls
+    end
+  end
+   
+  
+  def category_import
+    @category = params[:file]
+    if @category.nil?
+      redirect_to main_categories_category_import_report_path, alert: 'Please Select a file to import'
+   
+    else
+      begin
+        MainCategory.import(params[:file])
+        redirect_to main_categories_path, notice: "Commodities Successfully Imported."
+      rescue
+        redirect_to main_categories_category_import_report_path,  alert: "Commodity Name and Commodity Code can't be blank"
+    end
+  end
+ end
+  
+  
+  def category_import_report
+    @category = MainCategory.new 
+    end
   
   private
   def set_params

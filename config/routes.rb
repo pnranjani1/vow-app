@@ -66,6 +66,11 @@ Rails.application.routes.draw do
   get 'bills/user_billing_report'
   get 'bills/client_monthly_bill'
   get 'bills/client_billing_report'
+  post 'customers/newcustomer_in_bill'
+  post 'products/newproduct_in_bill'
+  post 'main_categories/category_import'
+  get 'main_categories/category_import_report'
+  get 'main_categories/category_download'
     
   resources :authusers  
   resources :users

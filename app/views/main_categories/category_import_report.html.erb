@@ -7,7 +7,7 @@
 <div class="content">
 <div class="content-container">      
  <div>
- <h4 class="heading-inline">Products</h4>        
+ <h4 class="heading-inline">Main Commodities</h4>        
  </div>
 
 <br>
@@ -26,11 +26,8 @@
 <div class="col-md-7">
 <div id="name" class="input-group">  
 
-  <strong>Download Existing Commodtiy List</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to products_usercategory_product_path(format: "xls") do %> <button class="btn btn-success">Download</button>
-<% end %>
-  <br/><br/>
-  
-<strong>Download the format for "Importing Products"</strong>&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to products_product_download_path(format: "xls") do %> 
+ 
+<strong>Download the format for "Importing Commodities"</strong>&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to main_categories_category_download_path(format: "xls") do %> 
    <button class="btn btn-success">Download</button>
       <% end %>
    
@@ -50,7 +47,7 @@
 <div class="portlet portlet-table">
   
 <div class="portlet-header">
-<h3><i class="fa fa-group"></i> Import Products</h3> 
+<h3><i class="fa fa-group"></i> Import Commodities</h3> 
 </div> <!-- /.portlet-header -->
 
   <% if alert %>
@@ -69,19 +66,9 @@
   
   <br/><br/>
   
-  <%= form_tag products_product_import_path, multipart: true  do %><br/>
+  <%= form_tag main_categories_category_import_path, multipart: true  do %><br/>
 <%= file_field_tag :file , class: "form-control" %> <br/><br/><br/>
-  <% if @product.errors.any? %>
-   <div class="alert alert-danger">
-     <% @product.errors.full_messages.each do|error| %>
-<ul>
-  <li><%= error  %></li>
-</ul>
-<% end %>
-  </div>
-<% end %>
-
-<%= submit_tag "Import Products", class: "btn btn-success" %>
+<%= submit_tag "Import Commodities", class: "btn btn-success" %>
 <% end %>
   
   

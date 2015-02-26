@@ -22,7 +22,7 @@
 <div class="portlet">
 
 <div class="portlet-header">
-<h3><i class="fa fa-user"></i> Update customer</h3>
+<h3><i class="fa fa-group"></i> Update customer</h3>
 </div> <!-- /.portlet-header -->
 
 <div class="portlet-content">
@@ -37,20 +37,20 @@
 <% end %>
 
 <div class="row">
-<b style="color:red">*</b> Indicates the mandatory fields<br/><br/>
+  <b style="color:red">*</b>&nbsp;<b> Indicates the mandatory fields</b><br/><br/>
 <div class="col-sm-6 marggap">    
 Name&nbsp;&nbsp;<b style="color:red">*</b>
 <div id="name" class="input-group">               
-<%= f.text_field :name, class: "form-control" %>
 <span class="input-group-addon"><i class="fa fa-user"></i></span>
+  <%= f.text_field :name, class: "form-control" %>
 </div>
 </div> <!-- /.col -->
 
 <div class="col-sm-6 marggap">    
 Email&nbsp;&nbsp;<b style="color:red">*</b>
 <div id="email" class="input-group">          
-  <%= f.text_field :email, class: "form-control" %>
 <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+<%= f.text_field :email, class: "form-control" %>
 </div>
 </div> <!-- /.col -->
  
@@ -59,10 +59,10 @@ Email&nbsp;&nbsp;<b style="color:red">*</b>
  <div class="row">
 <div class="col-sm-6 marggap">    
 Tin Number&nbsp;&nbsp;<b style="color:red">*</b>
-<div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Should Be 11 numbers">
+<div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Should Be 11 Digits">
 <div id="number" class="input-group">               
-<%= f.text_field :tin_number, class: "form-control" %>
 <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
+<%= f.text_field :tin_number, class: "form-control" %>
 </div>
 </div> <!-- /.col -->
 </div>
@@ -70,8 +70,8 @@ Tin Number&nbsp;&nbsp;<b style="color:red">*</b>
 <div class="col-sm-6 marggap">    
 Phone Number
 <div id="phone" class="input-group">               
-<%= f.text_field :phone_number , class: "form-control" %>
 <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+<%= f.text_field :phone_number , class: "form-control" %>
 </div>
 </div> <!-- /.col -->
 </div>
@@ -88,8 +88,8 @@ Address
 <div class="col-sm-6 marggap">             
 City
 <div id="City" class="input-group">               
-<%= f.text_field :city , class: "form-control" %>
 <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+  <%= f.text_field :city , class: "form-control" %>
 </div>
 </div> <!-- /.col -->
 </div> <!-- row ends here -->
@@ -98,8 +98,8 @@ City
   <div class="col-sm-6 marggap">  
 State
 <div id="City" class="input-group">               
-<%= f.text_field :state , class: "form-control" %>
 <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+  <%= f.text_field :state , class: "form-control" %>
 </div>
 </div> <!-- /.col -->
 </div>

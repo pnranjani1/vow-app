@@ -147,10 +147,10 @@
 
 <ul class="dropdown-menu">
 <li><%= link_to new_bill_path do %>
-<i class="fa fa-user nav-icon"></i> Create New Bill</li>  
+<i class="fa fa-align-center nav-icon"></i> Create New Bill</li>  
 <% end %>
 <li><%= link_to bills_user_bill_path do %>
-<i class="fa fa-user nav-icon"></i> View Bills </li>  
+<i class="fa fa-align-center nav-icon"></i> View Bills </li>  
 <% end %>  
 </ul>
 </li>
@@ -172,11 +172,11 @@
 <li>
 <% if current_authuser.usercategories.blank? %> 
 <%= link_to new_usercategory_path do %>
-<i class="fa fa-user nav-icon"></i> Add Commodity
+<i class="fa fa-yen nav-icon"></i> Add Commodity
 <% end %>
 <% else %> 
 <%= link_to usercategories_path do %>
-<i class="fa fa-user nav-icon"></i> Manage Commodities</li>  
+<i class="fa fa-yen nav-icon"></i> Manage Commodities</li>  
 <% end %>
 <% end %>
 </ul>
@@ -190,28 +190,28 @@
 <li class="dropdown ">   
 <% end %>
 <%= link_to products_product_user_path, :class => "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>
-<i class="fa fa-align-left"></i>Products<span class="caret"></span>    
+<i class="fa fa-gift"></i>Products<span class="caret"></span>    
 <% end %>
   
 <ul class="dropdown-menu">   
 <li>
 <% if current_authuser.usercategories.blank? %> 
 <%= link_to new_usercategory_path do %>
-<i class="fa fa-user nav-icon"></i> Add Commodity First
+<i class="fa fa-yen nav-icon"></i> Add Commodity First
 <% end %>
 <% elsif current_authuser.products.blank? %>
 <%= link_to new_product_path do %>
-  <i class="fa fa-user nav-icon"></i> Add Product </li>
+  <i class="fa fa-ruble nav-icon"></i> Add Product </li>
 <% end %>
 <li><%= link_to products_product_import_report_path do %>
-<i class="fa fa-user nav-icon"></i> Import Products</li>  
+<i class="fa fa-arrow-up nav-icon"></i> Import Products</li>  
 <% end %>
 <% else %>
 <%= link_to products_product_user_path do %>
-<li><i class="fa fa-user nav-icon"></i> Manage Products</li>  
+<li><i class="fa fa-ruble nav-icon"></i> Manage Products</li>  
 <% end %>
   <li><%= link_to products_product_import_report_path do %>
-<i class="fa fa-user nav-icon"></i> Import Products</li>  
+<i class="fa fa-arrow-up nav-icon"></i> Import Products</li>  
 <% end %>
 <% end %>
 </ul>
@@ -236,14 +236,14 @@
 <i class="fa fa-user nav-icon"></i> Add Customer
   <% end %></li>
 <li><%= link_to customers_customer_import_report_path do %>
-<i class="fa fa-user nav-icon"></i> Import Customer</li>  
+<i class="fa fa-arrow-up nav-icon"></i> Import Customer</li>  
 <% end %>
 <% else %> 
 <%= link_to customers_user_customer_path do %>
-<li><i class="fa fa-user nav-icon"></i> Manage Customers</li>  
+<li><i class="fa fa-tasks nav-icon"></i> Manage Customers</li>  
 <% end %>
 <li><%= link_to customers_customer_import_report_path do %>
-<i class="fa fa-user nav-icon"></i> Import Customer</li>  
+<i class="fa fa-arrow-up nav-icon"></i> Import Customer</li>  
 <% end %>
 <% end %>
 </ul>
@@ -257,18 +257,18 @@
 <li class="dropdown ">   
 <% end %>
   <%= link_to  bills_bill_local_sales_reports_path, class: "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>
-<i class="fa fa-align-left"></i>Utilities<span class="caret"></span>
+<i class="fa fa-download"></i>Utilities<span class="caret"></span>
 <% end %>
 
 <ul class="dropdown-menu">
 <li><%= link_to bills_bill_local_sales_reports_path do %>
-<i class="fa fa-user nav-icon"></i> Local Sales </li>  
+<i class="fa fa-download nav-icon"></i> Local Sales </li>  
 <% end %>
 <li><%= link_to bills_bill_interstate_sales_reports_path do %>
-<i class="fa fa-user nav-icon"></i> Interstate Sales </li>  
+<i class="fa fa-download nav-icon"></i> Interstate Sales </li>  
 <% end %>
 <li><%= link_to bills_bill_tally_import_reports_path do %>
-<i class="fa fa-user nav-icon"></i> Tally Importable </li>  
+<i class="fa fa-download nav-icon"></i> Tally Importable </li>  
 <% end %>  
 </ul>
 </li>
@@ -290,7 +290,8 @@
 <!-- <p class= "notice"><%= notice %></p>
 <p class= "alert"><%= alert %></p> -->
    
- 
+  
+   
   
 <footer class="footer">
 <div class="container">
@@ -303,6 +304,11 @@
 </div> <!-- /.container -->
 </footer>
 
+
+   <%= yield :customer %>  
+   <%= yield :pdf %>
+   <%= yield :product %>
+   
 </body>
 </html>
 

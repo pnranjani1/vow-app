@@ -1,14 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width">
 
-  
-</head>
-
-<body>
   
 <div class="container">
 <div class="content">
@@ -47,7 +37,7 @@
 <div class="portlet">
 
 <div class="portlet-header">
-<h3><i class="fa fa-user"></i> Bill Details</h3>
+<h3><i class="fa fa-tags"></i> Bill Details</h3>
 </div> <!-- /.portlet-header -->
 
 <div class="portlet-content">
@@ -57,29 +47,138 @@
  
 
 <div class="row"> 
+  <b style="color:red">*</b> <b>Indicates the mandatory fields</b><br/><br/>
   
 <div class="col-sm-3">           
-<strong>Invoice Number</strong> 
+<strong>Invoice Number &nbsp;<b style="color:red">*</b></strong> 
 <div id="name" class="input-group">    
-<%= f.text_field :invoice_number, class: "form-control" %> 
 <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
+ <%= f.text_field :invoice_number, class: "form-control" %> 
 </div>
 </div> <!-- /.col -->
             
 <div class="col-sm-3">           
-<strong>Bill Date</strong> 
+<strong>Bill Date&nbsp;<b style="color:red">*</b></strong> 
 <div id="name" class="input-group">               
-  <%= f.text_field :bill_date , :value => Date.today, class: "form-control", :id => "bill_date" %>
 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+<%= f.text_field :bill_date , :value => Date.today, class: "form-control", :id => "bill_date" %>
 </div>
 </div> <!-- /.col -->
            
 <div class="col-sm-3">           
-<strong>Customer</strong> 
+<strong>Customer&nbsp;<b style="color:red">*</b></strong> 
 <div id="name" class="input-group">               
 <%= f.collection_select :customer_id, Customer.where(:authuser_id => current_authuser.id), :id, :name, {prompt: "Select Customer"}, {class: "form-control"}  %>
 </div>
 </div> <!-- /.col -->
+  
+    <!-- Button trigger modal -->
+<button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">
+  New Customer
+</button>
+  
+  <%= content_for :customer do %>
+    
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Add Customer</h4>
+      </div>
+      <div class="modal-body">
+        <%= form_for(@customer, :url => '/customers/newcustomer_in_bill') do |f| %>
+<% if @customer.errors.any? %>
+  <div class="col-md-8">
+  <div class= "alert alert-danger">
+<% @customer.errors.full_messages.each do|error|  %>
+<ul>
+  <li><%= error %></li>
+</ul>
+<% end %>
+  </div>
+  </div>
+<% end %>
+<div class="row">    
+  &nbsp;&nbsp;<b style="color:red">*</b> &nbsp;<b>Indicates the mandatory fields</b><br/><br/>
+<div class="col-sm-6 marggap">   
+Name&nbsp;&nbsp;<b style="color:red">*</b>
+<div id="name" class="input-group">               
+<span class="input-group-addon"><i class="fa fa-user"></i></span>
+<%= f.text_field :name, class: "form-control" %>
+</div>
+</div> <!-- /.col -->
+
+<div class="col-sm-6 marggap">  
+Email&nbsp;&nbsp;<b style="color:red">*</b>
+<div id="email" class="input-group">          
+<span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+<%= f.text_field :email, class: "form-control" %>
+</div>
+</div> <!-- /.col -->
+ </div>
+ 
+<div class="row">    
+<div class="col-sm-6 marggap">  
+Tin Number&nbsp;&nbsp;<b style="color:red">*</b>
+<div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Should Be 11 numbers">
+<div id="number" class="input-group">               
+<span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
+<%= f.text_field :tin_number, class: "form-control" %>
+</div>
+</div> <!-- /.col -->
+  </div>
+<div class="col-sm-6 marggap">  
+Phone Number
+<div id="phone" class="input-group">               
+<span class="input-group-addon"><i class="fa fa-phone"></i></span>
+<%= f.text_field :phone_number , class: "form-control" %>
+</div>
+</div> <!-- /.col -->
+ </div>  
+  
+ <div class="row">
+<div class="col-sm-6 marggap">  
+Address
+<div id="Password" class="form-group">               
+<%= f.text_field :address, class: "form-control" %>
+</div>
+</div> <!-- /.col -->
+            
+  
+<div class="col-sm-6 marggap">  
+City
+<div id="City" class="input-group">               
+<span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+<%= f.text_field :city , class: "form-control" %>
+</div>
+</div> <!-- /.col -->
+</div><!-- row ends here -->
+  
+<div class="row">
+  <div class="col-sm-6 marggap">  
+State
+<div id="City" class="input-group">               
+<span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+<%= f.text_field :state , class: "form-control" %>
+</div>
+</div> <!-- /.col -->
+  </div>
+  
+<div class="row portlet-content">       
+<%= f.submit "Create Customer", class: "btn btn-success" %>
+</div>
+<% end %>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <% end %>
+  
+  
+
   
 </div> <!-- row ends here -->
 </div> <!-- portlet content ends here -->
@@ -90,7 +189,7 @@
 <div class="portlet">
 
 <div class="portlet-header">
-  <h3><i class="fa fa-user"></i> Item Details</h3>
+  <h3><i class="fa fa-ruble"></i> Item Details</h3>
 </div> <!-- /.portlet-header -->
 
 <div class="portlet-content" id="line_items_list">
@@ -99,7 +198,7 @@
   
   <div class="row"> 
     <div class="col-sm-2">           
-      <strong>Item</strong> 
+      <strong>Item&nbsp;<b style="color:red">*</b></strong> 
       <div id="name" class="input-group">    
       <%= bill_product.collection_select :product_id, 
           Product.where(:authuser_id => current_authuser.id), :id, :product_name, 
@@ -111,25 +210,22 @@
   
     
     <div class="col-sm-3">           
-      <strong>Quantity</strong> 
+      <strong>Quantity&nbsp;<b style="color:red">*</b></strong> 
       <div id="quantity_div" class="input-group">               
-        <%= bill_product.text_field :quantity , class: "form-control" %>
         <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
-      </div>
+        <%= bill_product.text_field :quantity , class: "form-control" %>
+        </div>
     </div> <!-- /.col -->
            
     <div class="col-sm-3">           
-      <strong>Unit Price</strong> 
+      <strong>Unit Price&nbsp;<b style="color:red">*</b></strong> 
       <div id="unit_price_div" class="input-group">               
-        <%= bill_product.text_field :unit_price, class: "form-control" %>
         <span class="input-group-addon"><i class="fa fa-money"></i></span>
-      </div>
+        <%= bill_product.text_field :unit_price, class: "form-control" %>
+              </div>
     </div> <!-- /.col -->
     
-        
-  
- 
-    <div class="col-sm-4">      
+  <div class="col-sm-2">      
       <div class="marggap">
         <div class="btn btn-xs btn-primary" >
           <%= bill_product.link_to_remove do %>
@@ -139,14 +235,96 @@
       </div>
     </div>
     
-  </div><!-- row ends here --><br/>
-  
+   
+    <!-- Button trigger modal -->
+<button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal1">
+  New Product
+</button>
+
+    <%= content_for :product do %>
+<!-- Modal -->
+<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Add Product</h4>
+      </div>
+      <div class="modal-body">
+ <%= form_for(@product, :url => '/products/newproduct_in_bill') do |f| %>
+<% if @product.errors.any? %>
+  <div class="col-md-6">
+  <div class= "alert alert-danger">
+<% @product.errors.full_messages.each do |error| %>
+<ul>
+    <li><%= error %></li>
+</ul>
 <% end %>
+  </div>
+  </div>
+<% end %>
+
+ 
+        <b style="color:red">*</b>&nbsp;<b> Indicates the mandatory fields</b><br/><br/>
+  
+<div class="row">
+<label class="col-md-3">Belongs to Commodity&nbsp;&nbsp;<b style="color:red">*</b></label>
+<div class="col-md-6">
+<div id="name" class="input-group">               
+<%= f.collection_select :usercategory_id, Usercategory.where(:authuser_id => current_authuser.id), :id, :commodity_name, {prompt: "Select Commodity"}, {class: "form-control"} %>
+</div>
+</div>
+</div>
+  <br/>
+  
+<div class="row">  
+<label class="col-md-3">Product Name&nbsp;&nbsp;<b style="color:red">*</b></label>
+<div class="col-md-6">
+<div id="name" class="input-group">               
+<span class="input-group-addon"><i class="fa fa-user"></i></span>
+<%= f.text_field :product_name , class: "form-control" %>
+</div>
+</div>
+</div>
+<br>
+  
+<div class="row">
+<label class="col-md-3">Unit&nbsp;&nbsp;<b style="color:red">*</b></label>
+<div class="col-md-6">
+<div id="name" class="input-group">               
+<span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
+<%= f.text_field :units, class: "form-control" %>
+</div>
+</div>
+</div>
+<br>
+
+  
+<div class="row">
+<div class="col-md-3"></div>
+<div class="col-md-6">
+<%= f.submit "Create Product", class: "btn btn-success" %>
+</div>
+</div>
+  
+
+<% end %><!-- form_for ends here -->
+    
+      </div>
+     </div>
+  </div>
+</div>
+    
+    <% end %><!-- content_for ends here -->
+    
+        
+  </div><!-- row ends here --><br/>
+<% end %><!-- nested_form ends here -->
   
 
 
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= f.link_to_add "Add Items", :line_items, class: "btn btn-success" %><br/><p>
-<!-- </div> -->
+   <!-- </div> -->
 
 </div> <!-- portlet content ends here -->
 </div><!-- portlet ends here -->
@@ -156,7 +334,7 @@
 <div class="portlet">
 
 <div class="portlet-header">
-<h3><i class="fa fa-user"></i> Transporter /Owner  Details</h3>
+<h3><i class="fa fa-share"></i> Transporter /Owner  Details</h3>
 </div> <!-- /.portlet-header -->
 
 <div class="portlet-content">
@@ -166,32 +344,32 @@
 <div class="col-sm-3">           
 <strong>Transporter Name</strong> 
 <div id="name" class="input-group">               
-  <%= f.text_field :transporter_name, class: "form-control" %>
 <span class="input-group-addon"><i class="fa fa-user"></i></span>
+<%= f.text_field :transporter_name, class: "form-control" %>
 </div>
 </div> <!-- /.col -->
             
 <div class="col-sm-3">           
 <strong>Vehicle Number</strong> 
 <div id="name" class="input-group">               
-  <%= f.text_field :vechicle_number, class: "form-control" %>
 <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
+<%= f.text_field :vechicle_number, class: "form-control" %>
 </div>
 </div> <!-- /.col -->
         
 <div class="col-sm-3">           
 <strong>GC/LR Number</strong> 
 <div id="name" class="input-group">               
-<%= f.text_field :gc_lr_number, class: "form-control" %>
 <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
+<%= f.text_field :gc_lr_number, class: "form-control" %>
 </div>
 </div> <!-- /.col -->
 
 <div class="col-sm-3">           
 <strong>LR Date</strong> 
 <div id="name" class="input-group">               
-<%= f.text_field :lr_date, class: "form-control", :id => "lr_date" %>
 <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
+<%= f.text_field :lr_date, class: "form-control", :id => "lr_date" %>
 </div>
 </div> <!-- /.col -->
   
@@ -207,7 +385,7 @@
 <div class="portlet">
 
 <div class="portlet-header">
-<h3><i class="fa fa-user"></i> Other Information</h3>
+<h3><i class="fa fa-th"></i> Other Information</h3>
 </div> <!-- /.portlet-header -->
 
 <div class="portlet-content">
@@ -216,31 +394,31 @@
 <div class="col-sm-4">           
 <strong>Name Other Charges, if any?</strong> 
 <div id="name" class="input-group">               
-<%= f.collection_select :other_charges_information_id, OtherChargesInformation.all, :id, :other_charges,  {:prompt => "Select"} , {:class => "form-control"} %>
 <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
+  <%= f.collection_select :other_charges_information_id, OtherChargesInformation.all, :id, :other_charges,  {:prompt => "Select"} , {:class => "form-control"} %>
 </div>
 </div> <!-- /.col -->
             
 <div class="col-sm-4">           
 <strong>Other charges Rate</strong> 
 <div id="name" class="input-group">               
-<%= f.text_field :other_charges, class: "form-control" %>
 <span class="input-group-addon"><i class="fa fa-money"></i></span>
+<%= f.text_field :other_charges, class: "form-control" %>
 </div>
 </div> <!-- /.col -->
         
 <div class="col-sm-4">           
-<strong>Tax Information</strong> 
+<strong>Tax Information&nbsp;<b style="color:red">*</b></strong> 
 <div id="name" class="input-group">               
   <%= f.collection_select :tax_id, Tax.all, :id, :tax ,{prompt: "Select Tax"}, {class: "form-control"} %>
 </div>
 </div> <!-- /.col -->
 <br/><br/><br/><br/>
   
-<div class="col-sm-6">           
+<div class="col-sm-9">           
   <strong>Other Information(To be printed on the bill)</strong> 
 <div id="name" class="input-group">               
-  <%= f.text_area :other_information, class: "form-control" %>
+  <%= f.text_area :other_information, :cols => 100, class: "form-control" %>
 </div>
 </div> <!-- /.col -->
             
@@ -268,7 +446,4 @@
 </div> <!-- /.content -->
 </div> <!-- /.container -->
   
-</body>
-</html>
-
 

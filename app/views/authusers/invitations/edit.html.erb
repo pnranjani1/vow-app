@@ -43,7 +43,7 @@
 
   
 <div class="row"> 
- <b style="color:red">*</b> Indicates the mandatory fields<br/><br/>
+  <b style="color:red">*</b>&nbsp;<b> Indicates the mandatory fields</b><br/><br/>
 <div class="portlet">
   
 <div class="portlet-header">
@@ -57,8 +57,8 @@
 <div class="col-sm-4">           
   Name&nbsp;<b style="color:red">*</b>
 <div id="name" class="input-group">      
-<%= f.text_field :name , class: "form-control", autofocus: true %>
 <span class="input-group-addon"><i class="fa fa-user"></i></span>
+<%= f.text_field :name , class: "form-control", autofocus: true %>
 </div>
 </div> <!-- /.col -->
             
@@ -68,8 +68,8 @@
   Password&nbsp;<b style="color:red">*</b>
 <div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Minimum 8 Characters">
 <div id="Password" class="input-group">  
-<%= f.password_field :password , class: "form-control" %>
 <span class="input-group-addon"><i class="fa fa-star"></i></span>
+<%= f.password_field :password , class: "form-control" %>
 </div>
 </div>
 </div> <!-- /.col -->
@@ -78,8 +78,8 @@
 Confirm Password&nbsp;<b style="color:red">*</b>
 <div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Minimum 8 Characters">
 <div id="Password" class="input-group">               
-<%= f.password_field :password_confirmation , class: "form-control" %>
 <span class="input-group-addon"><i class="fa fa-star"></i></span>
+<%= f.password_field :password_confirmation , class: "form-control" %>
 </div>
 </div>
 </div> <!-- /.col -->
@@ -93,8 +93,8 @@ Confirm Password&nbsp;<b style="color:red">*</b>
 Date Of Birth(Format: dd/mm/yyyy)&nbsp;<b style="color:red">*</b>
 <div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Enter Your Date of Birth">
 <div id="Password" class="input-group">               
-<%= f.text_field :date_of_birth ,  class: "form-control", :id => "dob" %>
 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+<%= f.text_field :date_of_birth ,  class: "form-control", :id => "dob" %>
 </div>
 </div>
 </div> <!-- /.col -->
@@ -105,10 +105,10 @@ Date Of Birth(Format: dd/mm/yyyy)&nbsp;<b style="color:red">*</b>
   
 <div class="col-sm-4">           
 Mobile Number&nbsp;<b style="color:red">*</b>
-<div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Should Be 10 Numbers">
+<div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Should Be 10 Digits">
 <div id="phone" class="input-group">      
-<%= user_membership.text_field :phone_number , class: "form-control" %>
 <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+<%= user_membership.text_field :phone_number , class: "form-control" %>
 </div>
 </div>
 </div> <!-- /.col -->
@@ -160,16 +160,16 @@ Address Line 3
 <div class="col-sm-4">           
 City&nbsp;<b style="color:red">*</b>
 <div id="City" class="input-group">            
-<%=user_address.text_field :city , class: "form-control" %>
 <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+<%=user_address.text_field :city , class: "form-control" %>
 </div>
 </div> <!-- /.col -->
 
 <div class="col-sm-4">           
 State&nbsp;<b style="color:red">*</b>
 <div id="Country" class="input-group">       
-  <%=user_address.text_field :state , class: "form-control" %>
 <span class="input-group-addon"><i class="fa fa-globe"></i></span>
+<%=user_address.text_field :state , class: "form-control" %>
 </div>
 </div> <!-- /.col -->
   
@@ -177,8 +177,8 @@ State&nbsp;<b style="color:red">*</b>
 <div class="col-sm-4">           
 Country&nbsp;<b style="color:red">*</b>
 <div id="Country" class="input-group">       
-<%=user_address.text_field :country , class: "form-control" %>
 <span class="input-group-addon"><i class="fa fa-globe"></i></span>
+  <%=user_address.text_field :country , class: "form-control" %>
 </div>
 </div> <!-- /.col -->
 
@@ -203,16 +203,17 @@ Country&nbsp;<b style="color:red">*</b>
 <div class="col-sm-4">           
 Bank Account Number&nbsp;<b style="color:red">*</b>
 <div id="Number" class="input-group">    
-<%= user_bank_detail.text_field :bank_account_number, class: "form-control"  %>
 <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
+<%= user_bank_detail.text_field :bank_account_number, class: "form-control"  %>
 </div>
 </div> <!-- /.col -->
             
 <div class="col-sm-4">           
 IFSC Code &nbsp;<b style="color:red">*</b>
 <div id="ifsccode" class="input-group">              
-<%= user_bank_detail.text_field :ifsc_code, class: "form-control"  %>
 <span class="input-group-addon"><i class="fa fa-star"></i></span>
+<%= user_bank_detail.text_field :ifsc_code, class: "form-control"  %>
+
 </div>
 </div> <!-- /.col -->
            
@@ -240,10 +241,10 @@ IFSC Code &nbsp;<b style="color:red">*</b>
 <div class="row">
 <div class="col-sm-3">           
 Tin Number&nbsp;<b style="color:red">*</b>
-<div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Should Be 11 Numbers">
+<div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Should Be 11 Digits">
 <div id="number" class="input-group"> 
-<%= user.text_field :tin_number, class: "form-control" %>
 <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
+<%= user.text_field :tin_number, class: "form-control" %>
 </div>
 </div>
 </div> <!-- /.col -->
@@ -251,16 +252,16 @@ Tin Number&nbsp;<b style="color:red">*</b>
 <div class="col-sm-3">           
 Esugam Username &nbsp;<b style="color:red">*</b>
 <div id="name" class="input-group" >        
-<%= user.text_field :esugam_username, class: "form-control" %>
 <span class="input-group-addon"><i class="fa fa-user"></i></span>
+<%= user.text_field :esugam_username, class: "form-control" %>
 </div>
 </div> <!-- /.col -->
             
 <div class="col-sm-3">           
 Esugam Password&nbsp;<b style="color:red">*</b>
 <div id="Password" class="input-group">   
-<%= user.password_field :esugam_password, class: "form-control" %>
 <span class="input-group-addon"><i class="fa fa-star"></i></span>
+  <%= user.password_field :esugam_password, class: "form-control" %>
 </div>
 </div> <!-- /.col -->
 
@@ -268,8 +269,8 @@ Esugam Password&nbsp;<b style="color:red">*</b>
   <div class="col-sm-3">           
 Company&nbsp;<b style="color:red">*</b>
 <div id="Password" class="input-group">   
-<%= user.text_field :company, class: "form-control" %>
 <span class="input-group-addon"><i class="fa fa-user"></i></span>
+<%= user.text_field :company, class: "form-control" %>
 </div>
 </div> <!-- /.col -->
   

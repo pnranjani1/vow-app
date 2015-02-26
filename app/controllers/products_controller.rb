@@ -109,6 +109,17 @@ class ProductsController < ApplicationController
     end
   
   
+  
+  def newproduct_in_bill
+    @product = Product.new
+    @product.authuser_id = current_authuser.id
+    if @product.update_attributes(set_params)
+      redirect_to new_bill_path
+    else
+      render action: 'new'
+    end
+  end
+  
  private
     
     def set_params

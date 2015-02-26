@@ -88,7 +88,7 @@ class Bill < ActiveRecord::Base
     @customer_tin_number = @bill.customer.tin_number
     @customer_name_address = @bill.customer.name + @bill.customer.city
     @customer_name = @bill.customer.name
-   # @bill_product =  @bill.line_items.first.product.product_name
+   #@bill_product =  @bill.line_items.first.product.product_name
     @product_name =  @bill.line_items.first.product.product_name
     @commodity_name =  @bill.products.first.usercategory.main_category.commodity_name
     @quantity_units = " "+ @bill.line_items.first.quantity.to_s + " " +@bill.line_items.first.product.units
@@ -131,7 +131,7 @@ class Bill < ActiveRecord::Base
         browser.text_field(:id, "ctl00_MasterContent_txtTIN").set(@customer_tin_number)
          begin
           browser.text_field(:id, "ctl00_MasterContent_txtFromAddrs").set("BANGALORE")
-        rescue => e
+         rescue => e
           sleep 3
         end
         sleep 5
@@ -191,8 +191,7 @@ class Bill < ActiveRecord::Base
         logger.info "My Required esugan number is #{e.to_s}"
         self.update_attributes(esugam: e.to_s) if (e.to_s.size  < 15)
         # I am dumping all response here.
-      Sugan.create(number: e.to_s)
-        
+        Sugan.create(number: e.to_s)  
         esugam = nil
         #flash.now[:error] = "There has been an error in generating the esugam,try again later , 
         #if the error does not go away check the esugam username and password , 

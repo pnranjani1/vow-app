@@ -1,13 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width">
 
-</head>
-
-<body>
 
  <div class="container">
  <div class="content">
@@ -109,8 +100,8 @@
 <tr>                      
 <td><%= line_item.product.product_name  %></td> 
   <td><%= line_item.quantity %></td> 
-  <td><%= line_item.unit_price %></td> 
-  <td><%= line_item.total_price  %></td>
+  <td><%= number_with_delimiter(line_item.unit_price, :delimiter => ',') %></td> 
+  <td><%= number_with_delimiter(line_item.total_price, :delimiter => ',')  %></td>
  </tr>   
  <% end %>
 
@@ -122,25 +113,25 @@
     
 <tr>
 <td><strong>Bill Total</strong></td>
-<td><%= @bill.total_bill_price %></td>
+  <td><%= number_with_delimiter(@bill.total_bill_price, :delimiter => ',') %></td>
 </tr>
  
 <% if @bill.other_charges_information_id != nil %>
 <tr>
   <td><strong><%= @bill.other_charges_information.other_charges %></strong></td>
-<td><%= @bill.other_charges %></td>
+  <td><%= number_with_delimiter(@bill.other_charges, :delimiter => ',') %></td>
 </tr>
   <% end %>
   
 <tr>
 <% total = @bill.total_bill_price.to_f + @bill.other_charges.to_f %>    
-<td><strong><%= @bill.tax.tax_type %>  @ <%= @bill.tax.tax_rate %> % on <%= total %></strong></td>
-<td><%= (@bill.tax.tax_rate * 0.01*total).round(2) %></td>
+  <td><strong><%= @bill.tax.tax_type %>  @ <%= @bill.tax.tax_rate %> % on <%=number_with_delimiter(total, :delimiter => ',') %></strong></td>
+  <td><%=  number_with_delimiter((@bill.tax.tax_rate * 0.01*total).round(2), :delimiter => ',') %></td>
 </tr>
 
 <tr>
 <td><strong>Grand Total</strong></td>
-<td><%= @bill.grand_total %></td>
+  <td><%= number_with_delimiter(@bill.grand_total, :delimiter => ',') %></td>
 </tr>
    
 </table>
@@ -160,7 +151,46 @@
 <div class="col-md-2" align="left">
 <%= link_to "Generate PDF", bill_path(@bill.id, format: "pdf"), class: "btn btn-success", target: "blank"  %>
 </div>
+ 
+ <% 
+=begin %>
+  <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+  Select PDF format
+</button>
 
+  <%= content_for :pdf do %> 
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+      </div>
+      <div class="modal-body">
+       <form action="">
+<input type="radio" name="pdf" value="1">Format 1<br>
+<input type="radio" name="pdf" value="2">Format 2
+         <input type="radio" name="pdf" value="3">Format 3
+         <input type="radio" name="pdf" value="4">Format 4
+         
+         <input type="submit" value="Submit">
+</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <% end %> 
+ <%  
+=end %>
+  
+  
   <div id='esugam_div'>
     <%= render 'esugam_button' %> 
   </div>
@@ -186,10 +216,6 @@
 </div> <!-- contemt ends here -->
 </div> <!-- container ends here -->
   
-</body>
-</html>
-
-
 
 
 

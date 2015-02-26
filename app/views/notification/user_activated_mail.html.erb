@@ -1,17 +1,20 @@
 Dear <%= @user.name %>,<br/>
 <br/>
 Welcome to VatOnWheels!<br/><br/>
-You Account on VatOnWheels has been created.<br/><br/>
 
 <% if @user.main_roles.first.role_name == "client" %>
+You Account on VatOnWheels has been created.<br/><br/>
 Following are your credentials to login to the application:<br/><br/>
 Username : <%= @user.email %> <br/>
 Password : abcdefgh <br/>
 <br/>
 <% end %>
 
+<% if @user.main_roles.first.role_name == "user" %>
+Your Account on VatOnWheels has been approved.<br/><br/>
+<% end %>
 
-Click <%= link_to "here" , :controller => "devise/sessions", :action => "new", :host =>  "https://sheltered-woodland-8526.herokuapp.com"  %> to login .<br/> 
+Click <%= link_to "here" , :controller => "devise/sessions", :action => "new", :host =>  "https://sheltered-woodland-8526.herokuapp.com"  %> to login to VatOnWheels.com<br/> 
 
 
 
@@ -21,7 +24,7 @@ Click <%= link_to "here" , :controller => "devise/sessions", :action => "new", :
 
   
 <br/>
-Please note, you are required to change the password on initial login to activate your account.<br/>
+Please note, you are required to change the password on initial login.<br/>
 <br/>
 By Accepting this invitation, you agree to the VatOnWheels  <%= link_to "Terms Of Services",  :controller => "home_page", :action => "read_pdf", host: 'https://sheltered-woodland-8526.herokuapp.com' %><br/><br/>
 We thank you for an opportunity provided to serve you.<br/><p>

@@ -19,20 +19,15 @@ class BillsController < ApplicationController
   def new
     @bill = Bill.new
     @customer = Customer.new
+    @product = Product.new
   end
   
   
   def create  
     @bill = Bill.new(set_params)
+    @customer = Customer.new
+    @product = Product.new
     @bill.client_id = current_authuser.users.first.client_id
-   # @bill_last = Bill.last || Bill.new
-   #@bill_last = Bill.last
-   # if @bill_last.nil?
-    #  @invoice_number = 1000
-    #else
-     # @invoice_number = @bill_last.invoice_number +1 
-    #end
-  
     @bill.authuser_id = current_authuser.id
     if @bill.save
       @bill.total_bill_price = @bill.line_items.sum(:total_price)

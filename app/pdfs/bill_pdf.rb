@@ -7,6 +7,8 @@ class BillPdf < Prawn::Document
     super()
      @bill = bill
      @user = Authuser.find(@bill.authuser_id)
+     stroke_bounds
+
      bill_title
      bill_user
      logo(@user)
@@ -17,8 +19,9 @@ class BillPdf < Prawn::Document
      table_price_list
      authority
      terms_and_conditions
-     footer
-     end
+     #footer
+     stroke_bounds 
+    end
 
 
  # :margin => [10, 20, 30, 40]
@@ -114,10 +117,10 @@ end
       #self.row_colors = ["FFFFFF", "DDDDDD"]
         #self.row_colors = ["FFFFFF", "D3D3D3"]
       self.header = true
-          self.width = 500
+          self.width = 530
           self.column(0).width = 120
           self.column(1).width = 75
-          self.column(2).width = 100
+          self.column(2).width = 115
           self.column(2).width = 100
          end
   end
@@ -134,11 +137,11 @@ end
 
    def table_price_list
  data =  [["Bill Total", "#{@bill.total_bill_price}"]]
-table(data,  :cell_style => {:font_style => :bold},:column_widths => [140, 65], :position => 295)
+table(data,  :cell_style => {:font_style => :bold},:column_widths => [125, 110], :position => 295)
         
      if @bill.other_charges_information_id != nil
        data = [["#{@bill.other_charges_information.other_charges}", "#{@bill.other_charges}"]]
- table(data, :cell_style => {:font_style => :bold},:column_widths =>[140, 65], :position => 295)
+ table(data, :cell_style => {:font_style => :bold},:column_widths =>[125, 110], :position => 295)
      elsif @bill.other_charges_information_id == nil
        data = [["Other Charges", "NA"]]
  table(data, :cell_style => {:font_style => :bold},:column_widths =>[140, 65], :position => 295)
@@ -147,16 +150,16 @@ table(data,  :cell_style => {:font_style => :bold},:column_widths => [140, 65], 
      if @bill.other_charges != nil     
  total = @bill.total_bill_price + @bill.other_charges
      data = [["#{@bill.tax.tax} on #{total}", "#{(@bill.tax.tax_rate*0.01* total).round(2)}"]]
- table(data, :cell_style => {:font_style => :bold},:column_widths => [140, 65], :position => 295)
+ table(data, :cell_style => {:font_style => :bold},:column_widths => [125, 110], :position => 295)
    else 
     total = @bill.total_bill_price 
      data = [["#{@bill.tax.tax} on #{total}", "#{(@bill.tax.tax_rate*0.01* total).round(2)}"]]
- table(data, :cell_style => {:font_style => :bold},:column_widths => [140, 65], :position => 295)    
+ table(data, :cell_style => {:font_style => :bold},:column_widths => [125, 110], :position => 295)    
     end
 
 
  data = [["Grand Total", "#{@bill.grand_total}"]]
- table(data, :cell_style => {:font_style => :bold}, :column_widths => [140, 65], :position => 295)
+ table(data, :cell_style => {:font_style => :bold}, :column_widths => [125, 110], :position => 295)
  end
 
       
@@ -189,12 +192,12 @@ end
 
 end
  
-def footer
-  move_down 70
-  indent 200 do
- text "We Thank You for your Business", size: 12
-end
-end
+#def footer
+ # move_down 70
+ # indent 200 do
+ #text "We Thank You for your Business", size: 12
+#end
+#end
 
 end
 end
@@ -214,6 +217,13 @@ end
 #options = { :at =>  [250, 0],
  # :start_count_at => 1}
 #number_pages string, options
+
+ repeat :all do
+      #Create a bounding box and move it up 18 units from the bottom boundry of the page
+      bounding_box [bounds.left, bounds.bottom + 18], width: bounds.width do
+        text "We Thank You for Your Business", size: 10, align: :center
+      end
+    end
 
 end
 end

@@ -22,7 +22,7 @@
 <div class="portlet">
 
 <div class="portlet-header">
-<h3><i class="fa fa-user"></i>Interstate Sales XML</h3>
+<h3><i class="fa fa-group"></i>Interstate Sales XML</h3>
 </div> <!-- /.portlet-header -->
 
 <div class="portlet-content">
@@ -55,7 +55,7 @@ $(function() {
 </script>
   
 <%= form_tag bills_interstate_sales_path(:format => "xml"), method: :get do %>
-  <%= text_field_tag :choose_month, params[:choose_month], :id => "date-picker" , placeholder: "Select month to Generate Interstate Sales xml", class: "btn btn-default fileupload-exists"  %>
+  <%= text_field_tag :choose_month, params[:choose_month], :id => "date-picker" , placeholder: "Select month to Generate Interstate Sales xml", class: "btn btn-default fileupload-exists"  %>&nbsp;&nbsp;&nbsp;
    <%= submit_tag "Download" ,class: "btn btn-success"%>
 <% end %>
 

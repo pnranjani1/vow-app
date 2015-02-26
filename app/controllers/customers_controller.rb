@@ -89,6 +89,16 @@ class CustomersController < ApplicationController
   end
    
   
+  def newcustomer_in_bill
+    @customer = Customer.new
+    @customer.authuser_id = current_authuser.id
+    if @customer.update_attributes(set_params)
+      redirect_to new_bill_path
+     else
+      render action: 'new'
+     end
+  end
+  
   private
   def set_params
     params[:customer].permit(:name, :email, :tin_number, :phone_number, :address, :city, :authuser_id, :state)

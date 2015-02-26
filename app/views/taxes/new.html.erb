@@ -23,7 +23,7 @@
 <div class="portlet">
 
 <div class="portlet-header">
-<h3><i class="fa fa-user"></i>Create Tax</h3>
+<h3><i class="fa fa-bell"></i>Create Tax</h3>
 </div> <!-- /.portlet-header -->
 
 <div class="portlet-content">
@@ -46,13 +46,13 @@
 
 
 <div class="col-sm-8"> 
-<b style="color:red">*</b> Indicates the mandatory fields<br/><br/>
+  <b style="color:red">*</b>&nbsp;<b>Indicates the mandatory fields</b><br/><br/>
 <div class="row">  
 <label class="col-md-3">Tax Type&nbsp;&nbsp;<b style="color:red">*</b></label>
 <div class="col-md-6">
 <div id="name" class="input-group">               
+<span class="input-group-addon"><i class="fa fa-bell"></i></span>
 <%= f.text_field :tax_type ,class: "form-control" %>
-<span class="input-group-addon"><i class="fa fa-user"></i></span>
 </div>
 </div>
 </div>
@@ -62,8 +62,9 @@
 <label class="col-md-3">Tax Rate&nbsp;&nbsp;<b style="color:red">*</b></label>
 <div class="col-md-6">
 <div id="name" class="input-group">               
-  <%= f.text_field :tax_rate, class: "form-control" %>
 <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
+<%= f.text_field :tax_rate, class: "form-control" %>
+
 </div>
 </div>
 </div>

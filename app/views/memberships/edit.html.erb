@@ -27,7 +27,15 @@
 </div> <!-- /.portlet-header -->
 
 <div class="portlet-content">
+   
+  <script type="text/javascript">
+  $(document).ready(function(){
+     $("#date").datepicker({ dateFormat: "dd/mm/yy" }).val()
+    
      
+  });
+</script>
+  
 <%= form_for(@membership) do |f| %><br>
 <% if @membership.errors.any? %>
 <%= @membership.errors.full_messages %><br/><p>
@@ -38,8 +46,8 @@
 <label class="col-md-3">Phone Number</label>
 <div class="col-md-6">
 <div id="name" class="input-group"> 
-<%= f.text_field :phone_number , class: "form-control" %> 
 <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+<%= f.text_field :phone_number , class: "form-control" %> 
 </div>
 </div>
 </div>
@@ -49,8 +57,8 @@
 <label class="col-md-3">Membership Start Date</label>
 <div class="col-md-6">
 <div id="name" class="input-group">               
-<%= f.date_field :membership_start_date, class: "form-control" %>
 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+  <%= f.date_field :membership_start_date, class: "form-control" %>
 </div>
 </div>
 </div>
@@ -60,8 +68,8 @@
 <label class="col-md-3">Membership End Date</label>
 <div class="col-md-6">
 <div id="name" class="input-group">               
-  <%= f.date_field :membership_end_date, class: "form-control" %>
 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+<%= f.text_field :membership_end_date, class: "form-control", :id => "date" %>
 </div>
 </div>
 </div>

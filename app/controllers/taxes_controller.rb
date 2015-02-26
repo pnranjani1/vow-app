@@ -3,7 +3,7 @@ class TaxesController < ApplicationController
   before_filter :authenticate_authuser!
   
   def index
-    @taxes = Tax.all.paginate(:page => params[:page], :per_page => 5)
+    @taxes = Tax.all.order('tax_rate').paginate(:page => params[:page], :per_page => 5)
   end
   
   def new
