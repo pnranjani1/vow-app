@@ -42,10 +42,16 @@
 </tr>     
     
 <%  end %>
-</tbody> 
+</tbody>
 </table>
-        
+ 
+ 
+    &nbsp;&nbsp;&nbsp;&nbsp; <%= will_paginate @client_user,  renderer: BootstrapPagination::Rails , class: "apple_pagination" %>    
+ 
   <br/>
+   
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to "Back", bills_client_bill_summary_path, class: "btn btn-success" %>
+   <br/><br/>
   
 <!-- 
   <script type="text/javascript">

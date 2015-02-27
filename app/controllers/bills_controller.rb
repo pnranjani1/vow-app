@@ -166,7 +166,7 @@ end
     #clients.each do |client|
      # id = client.authuser.id
     @user = Authuser.find(params[:id])
-    @client_user = User.where(:client_id => @user.id)
+    @client_user = User.where(:client_id => @user.id).paginate(:page => params[:page], :per_page => 5)
     
      #chosen_month = params[:choose_month]
   #  @client_user = User.where('created_at >= ? AND created_at <= ? AND client_id = ?' ,chosen_month.to_date.beginning_of_month, chosen_month.to_date.end_of_month, @user.id) 

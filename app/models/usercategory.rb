@@ -1,6 +1,6 @@
 class Usercategory < ActiveRecord::Base
   before_save :generate_commodity_name
-  validates :main_category_id, presence: { message: " - Select Commodity First"}
+  validates :main_category_id, presence: { message: " - Select Commodity "}
 
   #has_many :taxes
   belongs_to :authuser
