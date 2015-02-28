@@ -1600,11 +1600,11 @@ h2 {
 	padding-bottom: 13px;
 }
 .list1 li {
-	font-size: 14px;
-	line-height: 1.428571429;
+	font-size: 12px;
+	line-height:20px;
 	margin: 0 0 4px 0;
-	padding-left: 11px;
-	background: url(list_point.png) left 8px no-repeat;
+	padding-left: 15px;
+	background: url(blackdot.png) left 3px no-repeat;
 }
 .list1 li a {
 	color: #949393;
