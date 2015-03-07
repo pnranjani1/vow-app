@@ -29,6 +29,7 @@
        <th> No Of Users</th>
         <th>No of Cash Based Applications</th>
       <th>No of Esugam Generated</th> 
+        <th>Download PDF</th>
        </tr> 
       </thead> 
         
@@ -49,6 +50,7 @@
           <td><%= users_count %></td>
          <td><%=  cash_based_applications %></td>
         <td><%=  bills_esugam %></td>
+         <td><%= link_to "PDF Invoice", bills_bill_details_client_path(:id => client.authuser.id, format: "pdf"), class: "btn btn-success", target: "blank" %></td>
         
     
     </tr>     
@@ -57,7 +59,8 @@
     </tbody> 
     </table>
         <%=  will_paginate  @clients, renderer: BootstrapPagination::Rails , class: "apple_pagination" %>
-                  
+           
+        
 </div> <!-- /.table-responsive -->
 </div> <!-- /.portlet-content -->
 </div> <!-- /.portlet -->

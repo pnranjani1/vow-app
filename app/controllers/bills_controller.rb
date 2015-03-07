@@ -161,21 +161,17 @@ end
 end
   
   
-  def bill_details_client
-   # clients =  Client.where(:created_by => current_authuser.id)
-    #clients.each do |client|
-     # id = client.authuser.id
+  def bill_details_client 
     @user = Authuser.find(params[:id])
-    @client_user = User.where(:client_id => @user.id).paginate(:page => params[:page], :per_page => 5)
-    
-     #chosen_month = params[:choose_month]
-  #  @client_user = User.where('created_at >= ? AND created_at <= ? AND client_id = ?' ,chosen_month.to_date.beginning_of_month, chosen_month.to_date.end_of_month, @user.id) 
-    
-  #  respond_to do |format|
-  #  format.html
-   # format.xls 
-  #  end
-  end
+   @client_user = User.where(:client_id => @user.id).paginate(:page => params[:page], :per_page => 5)
+    respond_to do |format|
+      format.html
+    format.pdf do
+    pdf = AdminBillPdf.new(@user)
+      send_data pdf.render, filename: "#{@user.name}-bill.pdf", type: "application/pdf", disposition: "inline"
+      end
+    end
+   end
  
   
   # def local_sales
