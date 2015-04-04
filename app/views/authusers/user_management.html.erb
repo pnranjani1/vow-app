@@ -1,0 +1,59 @@
+<div class="container">
+ <div class="content">
+<div class="content-container">     
+<div>
+<h4 class="heading-inline"><%= current_authuser.name %></h4>     
+</div>
+<br>
+         
+<div class="row">
+<div class="portlet">
+<div class="portlet-header">
+<h3><i class="fa fa-group"></i>               
+You have Invited <%= pluralize(@users.count, 'User') %> till now.&nbsp;&nbsp;
+  Out of the <%= pluralize(@users.count, 'User') %>, <%= pluralize(@users_accepted.count, 'User') %> have accepted your invitation</h3>
+</div> <!-- Portlet header ends -->
+  
+<div class="portlet-content">
+<div class="col-md-4">
+  <h3> List of invited users</h3>
+  <% @users.each do |user| %>
+ <ul>
+    <li><%= user.email %></li>
+    </ul>
+  <% end %>
+  <%= will_paginate @users, renderer: BootstrapPagination::Rails , class: "apple_pagination" %>
+  </div>
+  
+<div class="col-md-4">
+  <h3>Users who have accepted the invitation</h3>
+  <%  @users_accepted.each do |user| %>
+  <ul>
+    <li><%= user.email %> </li>
+  </ul>
+  <% end %>
+  <%= will_paginate @users_accepted, renderer: BootstrapPagination::Rails , class: "apple_pagination" %>
+  </div>
+
+    
+  <div class="col-md-4">
+    <h3> Users whose invitation expired </h3>
+    <% @users_expired_invitation.each do |user| %>
+    <ul>
+      <li><%= user.email %></li>
+    </ul>
+    <% end %>
+  <%= will_paginate @users_expired_invitation, renderer: BootstrapPagination::Rails, class: "apple_pagination" %>
+   </div>
+
+
+  </div>
+  &nbsp;&nbsp;&nbsp; <b>Note:</b>If the user has failed to accept the invitation within the time limit(2 days), the invitation will expire.To invite the same user, kindly contact admin.<br/><br/>
+</div> <!-- /.portlet -->
+  
+  </div> <!-- /.row -->
+
+</div><!-- content container ends here -->
+</div><!-- content ends here -->
+</div><!-- container ends here -->
+  

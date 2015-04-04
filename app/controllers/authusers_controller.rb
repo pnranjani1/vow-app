@@ -211,6 +211,12 @@ end
         end
       end
      
+
+def user_management
+  @users = Authuser.where(:invited_by_id => current_authuser.id).order('created_at DESC').paginate(:page => params[:page], :per_page => 10)
+  @users_accepted = Authuser.where('invited_by_id = ? AND invitation_accepted_at IS NOT NULL', current_authuser.id).order('created_at DESC').paginate(:page => params[:page], :per_page => 10)
+  @users_expired_invitation = Authuser.where('invited_by_id =? AND invitation_sent_at <= ? AND invitation_accepted_at IS NULL', current_authuser.id, Date.today-2.days).order('created_at DESC').paginate(:page => params[:page], :per_page => 10) 
+end
   
   private
   def set_params

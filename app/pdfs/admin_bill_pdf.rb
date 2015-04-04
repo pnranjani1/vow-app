@@ -8,112 +8,128 @@ class AdminBillPdf < Prawn::Document
     @user = user
     stroke_bounds
     bill_title
-    bill_iprimitus
+    invoice_details
     logo
     bill_user
     bill_table
-    client_users
-    total_cost
-    authority
-  end
+    amount_words
+    #authority
+    bank_details
+    contact
+   end
      
   def bill_title
-    draw_text "INVOICE", :at => [225,690],size: 22
-    draw_text "Bill for : #{Date.today.strftime("%B %Y")}" ,:at => [350,670],size:12
+    font "Times-Roman"
+    draw_text "INVOICE", :at => [225,650],size: 18
+    draw_text "Date:  #{Date.today.strftime( "%B %d, %Y")}", :at => [40, 570], size: 12
+    #draw_text "Bill for : #{Date.today.strftime("%B %Y")}" ,:at => [350,670],size:12
   end
 
-  def bill_iprimitus
-    draw_text "Company", at: [10,630], size: 14, :style => :bold
-    bounding_box([10,620], width: 300) do
-      text "iPrimitus Consultancy Services", size: 12
-      text "Bangalore", size:12
+  def invoice_details
+  draw_text 'Invoice#'"#{Date.today.strftime("%Y%m%d")}-VOW", :at => [350, 570], size: 12
+draw_text "Ref: Professional Services", :at => [350, 550], size: 12
+  end
+
+   def logo
+    filename = "app/assets/images/iprimitus.jpg"
+    image filename, at: [10,710], width: 120, height: 110
+   end
+
+   def  bill_user
+   #  draw_text "Chartered Accountant", at: [350,630], size: 14, :style => :bold
+     
+     bounding_box([40,550],:width =>300) do
+     text "<u>To:</u>", size: 12, :inline_format => true
+       move_down 10
+     text "#{@user.name},", size: 12 
+      if @user.clients.first.company.present?
+     text "#{@user.clients.first.company},", size: 12
+      end
+     text "#{@user.address.address_line_1},", size: 12
+     text "#{@user.address.address_line_2},", size: 12
+     text "#{@user.address.city}", size: 12
+   end
+end
+
+ def bill_table 
+  total_bills = Bill.where('created_at >= ? AND created_at <= ? AND client_id = ?', Date.today.beginning_of_month, Date.today.end_of_month, @user.id).count
+  amount  = total_bills * 1
+  bounding_box([30, 450], width: 580) do 
+    data =  ([ ["Sl.No", "Particulars", "Total Bills", "Currency", "Amount"],
+    ["1", "Professional Services Vatonwheels.com", total_bills, "INR", amount]
+    ])
+     move_down 20
+    table(data) do
+      row(0).font_style = :bold
+      row(0).size = 11
+      row(0).background_color = '778899'
+      columns(0..4).align = :center
+      self.header = true
+      self.width = 470
+      self.column(0).width = 50
+      self.column(1).width = 180
+      self.column(2).width = 80
+      self.column(3).width = 80
+      self.column(4).width = 80
+    end   
+    data = ([ ["Total", amount.to_s+".00"] ])
+    table(data) do
+      self.column(0).width = 390
+      self.column(1).width = 80
+      self.column(0).align = :right
+      self.column(0..1).font_style = :bold
+      self.column(1).align = :center
+     end
+   end 
+end
+
+  def amount_words
+    indent 210 do
+       total_bills = Bill.where('created_at >= ? AND created_at <= ? AND client_id = ?', Date.today.beginning_of_month, Date.today.end_of_month, @user.id).count
+  amount  = total_bills * 1
+      move_down 5
+      text "(Rupees #{amount.to_words.capitalize} only)", :align => :center
+   end
+ end
+
+#def authority
+#  move_down 40
+ # indent 300 do
+ #   text " For iPrimitus Consultancy Services LLP"
+  #  move_down 30
+   # text " Authorized signatory"
+  #end
+#end
+
+  def bank_details
+    move_down 110
+    indent 20 do
+      text "<u>Bank Details</u>", size: 12, :inline_format => true
+      text "Beneficiary A/c: iPrimitus Consultancy Services LLP", size:11
+      text "A/c No: <b>913020026884292</b>", size: 11, :inline_format => true
+      text "Bank and Branch: AXIS Bank Ltd., COX TOWN Branch, Bangalore[KT]", size: 11
+      text "IFS Code: UTIB0000231", size: 11
+      text "SWIFT Code: AXISINBB114",  size: 11
     end
   end
 
 
-  def logo
-    filename = "app/assets/images/iprimitus.jpg"
-    image filename, at: [10,710], width: 150, height: 60
-  end
+  def contact
+    stroke_rectangle [20,110], 400, 60
+    text_box "Payment is due immediate.", :at => [25, 100],  size: 10
+    text_box "If you have any questions concerning this invoice, contact us.", :at => [25, 90], size: 10
+    text_box "Phone: 91 80 41123752", size: 10, :at => [25, 80]
+    text_box " Email: <u>support@vatonwheels.com</u>", size: 10, :at => [25, 70], :inline_format => true
+ 
 
-  def  bill_user
-     draw_text "Chartered Accountant", at: [350,630], size: 14, :style => :bold
-     bounding_box([350,620],:width =>300) do
-       if @user.clients.first.company.present?
-     text "#{@user.clients.first.company}", size: 12
-       end
-     text "#{@user.address.address_line_1}", size: 12
-     text "#{@user.address.address_line_2}", size: 12
-     text "#{@user.address.city}", size: 12
-     end
-    move_down 10
-    stroke_horizontal_rule
-  end
-  
-    
-  
-       def bill_table           
-     draw_text "Bill Details of Each User", at: [20,530], size: 12
-     bounding_box([20,510], :width => 550) do
-     table client_users do
-     row(0).font_style = :bold
-     row(0).background_color = '778899'  
-     columns(0..3).align = :center
-      self.header = true
-      self.width = 500
-      self.column(0).width = 150
-      self.column(1).width = 125
-      self.column(2).width = 125
-      self.column(3).width = 100
-       end
-  end
-     end
-  
-
- def client_users
-   client_user = User.where(:client_id => @user.id)
-   [["User Name", "Cash Applications", "E-Sugam generated", "Amount"]] +
-   client_user.map do |user|
-     cash_based_applications = user.authuser.bills.where('created_at >= ? AND created_at <= ? AND ESUGAM IS NULL', Date.today.beginning_of_month, Date.today.end_of_month).count
-     esugam_generated = user.authuser.bills.where('created_at >= ? AND created_at <= ? AND ESUGAM IS NOT NULL', Date.today.beginning_of_month, Date.today.end_of_month).count
-     total_bills = cash_based_applications + esugam_generated
-     amount  = total_bills* 1
-     [user.authuser.name, cash_based_applications, esugam_generated, amount]
-   end
-    
-  end 
-
-
-
-  def total_cost
-    total_bills = Bill.where('created_at >=? AND created_at <= ? AND client_id =?', Date.today.beginning_of_month, Date.today.end_of_month, @user.id ).count
-    data = [["Total Bills", total_bills]]
-    table(data, :cell_style => {:font_style => :bold}, :column_widths => [125,100],:position => 295)
-    data = [["Bill Amount", (total_bills*1) ]]
-    table(data, :cell_style => {:font_style => :bold}, :column_widths => [125,100], :position => 295)
-  end
-     end
-    
-  def authority
-    move_down 150
-    indent 350 do
-      text "iPrimitus Consultancy Services", :style => :bold
-      move_down 30
-      text "Authorized Signatory", :style => :bold
-   
-  end
-  
-  
- repeat :all do
+    repeat :all do
       #Create a bounding box and move it up 18 units from the bottom boundry of the page
       bounding_box [bounds.left, bounds.bottom + 18], width: bounds.width do
-        text "We Thank You for Your Business", size: 10, align: :center
+        text "This is a computer generated invoice and requires no signature", size: 10, align: :center
       end
-    end
-
-
-  end
-
+   end
   
+end
+     
 
- 
+end

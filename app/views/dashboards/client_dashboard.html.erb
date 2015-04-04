@@ -114,7 +114,9 @@ class="table table-striped table-bordered table-checkable">
 <div class="text-right"> 
 <%= link_to new_authuser_invitation_path do %>
 <button class="btn btn-success">Invite User</button>
-<% end %>
+<% end %><br/><br/>
+  
+  <%= link_to "Manage Users", authusers_user_management_path,  class: "btn btn-success" %>
 </div> <!-- text-right ends here -->
 <br/>
   <%=  will_paginate  @users, renderer: BootstrapPagination::Rails , class: "apple_pagination" %>    
