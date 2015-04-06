@@ -1,9 +1,9 @@
 <div class="container">
- <div class="content">
+<div class="content">
 <div class="content-container">     
-<div>
-<h4 class="heading-inline"><%= current_authuser.name %></h4>     
-</div>
+  <div>
+    <h4 class="heading-inline"><%= current_authuser.name %></h4>     
+  </div>
 <br>
          
 <div class="row">
@@ -89,6 +89,7 @@ You have Invited <%= pluralize(@users.count, 'User') %> till now.&nbsp;&nbsp;
            </tr>
          <% end %>
       </tbody>
+      
     </table>
   <%= will_paginate @users_expired_invitation, renderer: BootstrapPagination::Rails, class: "apple_pagination" %>
   </div>

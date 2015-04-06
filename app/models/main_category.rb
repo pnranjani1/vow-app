@@ -1,7 +1,7 @@
 class MainCategory < ActiveRecord::Base
  # before_save :generate_permalink
   
-  validates :commodity_name, :commodity_code, presence: true
+  validates :commodity_name, presence: true
   
   belongs_to :authuser
   
