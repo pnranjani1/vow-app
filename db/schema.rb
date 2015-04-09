@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150225075803) do
+ActiveRecord::Schema.define(version: 20150408121900) do
 
   create_table "addresses", force: true do |t|
     t.string   "address_line_1"
@@ -116,6 +116,7 @@ ActiveRecord::Schema.define(version: 20150225075803) do
     t.string   "role_user"
     t.integer  "created_by"
     t.boolean  "approved"
+    t.string   "referred_by"
   end
 
   create_table "customers", force: true do |t|

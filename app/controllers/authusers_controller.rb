@@ -160,10 +160,15 @@ redirect_to dashboards_client_dashboard_path
 #     else
     #dashboards_admin_dashboard
     #params[:roles] = @user.current_role 
-    #@user.current_role = params[:roles]
-       redirect_to public_send("dashboards_#{params[:roles]}_dashboard_url") 
-    #     end
-  end
+    #@user.current_role = params[:roles]'
+    if params[:roles].blank?
+      redirect_to authusers_change_role_path
+     flash[:notice] =  "Please select a role"
+    else
+      redirect_to public_send("dashboards_#{params[:roles]}_dashboard_url")      
+       
+    end
+    end
   
 
 def force_password_change

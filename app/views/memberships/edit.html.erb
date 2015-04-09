@@ -30,9 +30,8 @@
    
   <script type="text/javascript">
   $(document).ready(function(){
-     $("#date").datepicker({ dateFormat: "dd/mm/yy" }).val()
-    
-     
+     $("#start_date").datepicker({ dateFormat: "dd/mm/yy" }).val()
+    $("#end_date").datepicker({ dateFormat: "dd/mm/yy" }).val()     
   });
 </script>
   
@@ -58,7 +57,7 @@
 <div class="col-md-6">
 <div id="name" class="input-group">               
 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-  <%= f.date_field :membership_start_date, class: "form-control" %>
+  <%= f.text_field :membership_start_date, :value => f.object.membership_start_date.strftime("%d-%m-%Y"), class: "form-control", :id => "start_date" %>
 </div>
 </div>
 </div>
@@ -69,7 +68,7 @@
 <div class="col-md-6">
 <div id="name" class="input-group">               
 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-<%= f.text_field :membership_end_date, class: "form-control", :id => "date" %>
+  <%= f.text_field :membership_end_date, :value => f.object.membership_end_date.strftime("%d-%m-%Y"), class: "form-control", :id => "end_date" %>
 </div>
 </div>
 </div>
