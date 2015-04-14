@@ -44,6 +44,7 @@ require 'active_support/core_ext/date/conversions'
    has_many :clients, dependent: :destroy
   has_many :users, dependent: :destroy
   
+  
   has_one :address, dependent: :destroy
   has_one :membership, dependent: :destroy
   has_one :bankdetail, dependent: :destroy

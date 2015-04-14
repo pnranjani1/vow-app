@@ -111,8 +111,20 @@ Company
 <%= user_client.text_field :company, class: "form-control" %>
 </div>
 </div> <!-- /.col -->
-<%= user_client.hidden_field :created_by, :value => current_authuser.id %>
-<% end %>
+ <%= user_client.hidden_field :created_by, :value => current_authuser.id %>
+  
+  
+<div class="col-sm-3">           
+Referred By
+<div id="Remarks" class="input-group">     
+<span class="input-group-addon"><i class="fa fa-user"></i></span>
+  <%= user_client.collection_select :referral_id, Referral.all, :id, :name,{prompt: "Select Referral"}, {class: "form-control"} %>
+</div>
+</div> <!-- /.col -->
+
+  <% end %>
+  
+
 <!-- <div> -->
   <!-- <%= f.fields_for :permissions  do |client_permission| %> -->
   <!-- <%= client_permission.hidden_field :main_role_id, :value => 2.to_i %> -->

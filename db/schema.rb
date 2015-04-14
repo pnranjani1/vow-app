@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150408121900) do
+ActiveRecord::Schema.define(version: 20150413083145) do
 
   create_table "addresses", force: true do |t|
     t.string   "address_line_1"
@@ -117,6 +117,7 @@ ActiveRecord::Schema.define(version: 20150408121900) do
     t.integer  "created_by"
     t.boolean  "approved"
     t.string   "referred_by"
+    t.integer  "referral_id"
   end
 
   create_table "customers", force: true do |t|
@@ -213,6 +214,18 @@ ActiveRecord::Schema.define(version: 20150408121900) do
     t.datetime "updated_at"
     t.integer  "authuser_id"
     t.string   "permalink"
+  end
+
+  create_table "referrals", force: true do |t|
+    t.string   "name"
+    t.string   "address_line_1"
+    t.string   "address_line_2"
+    t.string   "state"
+    t.string   "country"
+    t.string   "mobile_number"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "email"
   end
 
   create_table "sugans", force: true do |t|

@@ -1,0 +1,56 @@
+<div class="container">
+ <div class="content">
+   <br/>
+  <div class="content-container">
+
+     <div class="row">
+      <div class="portlet">
+       <div class="portlet-header">
+         <h3><i class="fa fa-group"></i>
+         <% referrals = @clients.uniq.pluck(:referred_by) %>
+          <% uniq_referrals = referrals.select! {|x| x != nil} %> 
+          You have <%= uniq_referrals.count %> referrals !</h3>
+       </div>
+  
+        <div class="portlet-content">
+          <div class="table">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Referral</th>
+                  <th>No of CA Referred</th>
+                  <th>No Of Users</th>
+                  <th>No Of Bills</th>
+                  <th>Pdf Invoice</th>
+                </tr>                
+              </thead>
+              <tbody>
+              <% referrals = Client.pluck(:referred_by) %>
+              <% ref = referrals.select {|x| x != nil} %>
+              <% re = ref.uniq %>
+              <% re.each do |r| %>
+              <% clients = Client.where(:referred_by => r) %>
+                <% clients.uniq.each do |client| %>
+                  <% users = User.where(:client_id => client.authuser.id) %>
+                  <% bills = Bill.where(:client_id => client.authuser.id) %>
+                <tr>
+                  <td><%= r %></td>
+                  <td><%= clients.count %></td>
+                  <td> <%= users.count %></td>
+                  <td><%= bills.count %></td>
+                  <td><%= link_to "Invoice", clients_referral_invoice_path(format: "pdf"), class: "btn btn-success", target: "blank" %></td>
+                  
+                </tr>
+                <% end %>
+              <% end %>
+              </tbody>
+              
+            </table>
+          </div><!-- table class ends here -->
+        </div><!-- portlet content ends here -->
+      </div><!-- portlet ends here -->
+     </div><!-- row ends here -->
+  
+    </div><!-- content-container ends here -->
+  </div><!-- content ends here -->
+</div><!-- container ends here -->

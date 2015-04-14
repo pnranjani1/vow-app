@@ -117,7 +117,13 @@
 <th><i class="fa fa-user"></i> Company :</th>
 <td><%= @user.users.first.company %></td>
 <% end %>
+</tr> 
+    
+<tr>   
+<th><i class="fa fa-user"></i> Referred By :</th>
+<td><%= @user.clients.first.referred_by %></td>
 </tr>
+  
 </tbody>
 </table>
 

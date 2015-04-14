@@ -1,0 +1,102 @@
+<div class="container">
+  <div class="content">
+    <div class="content-container">
+      
+      <div>
+        <h4 class="heading-inline">Referrals</h4>
+      </div>
+      
+      <div class="row"> 
+        <div class="portlet">
+
+        <div class="portlet-header">
+          <h3><i class="fa fa-group"></i> New Referral</h3>
+        </div> <!-- portlet-header ends here -->
+        
+        
+        <div class="portlet-content">
+            
+          <%= form_for(@referral) do |f| %>
+          <% if @referral.errors.any? %>
+          <div class="col-md-8">
+            <div class="alert alert-danger">
+              <% @referral.errors.full_messages.each do |error| %>
+              <ul>
+                <li><%= error %></li>
+              </ul>
+              <% end %>
+            </div><!-- alert ends here -->
+          </div><!-- col ends here -->
+            <% end %>
+          <div class="row">
+                
+            <div class="col-md-4">
+              Name
+              <div id="name"class="input-group">
+                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                <%= f.text_field :name, class: "form-control", autofocus: true %>
+               </div>
+            </div>
+            
+            <div class="col-md-4">
+              Email
+              <div id="name" class="input-group">
+                <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+                <%= f.text_field :email, class: "form-control" %>
+              </div>
+            </div>
+            
+            <div class="col-md-4">
+              Mobile number
+              <div id="name" class="input-group">
+                <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
+                <%= f.text_field :mobile_number, :class => "form-control" %>
+              </div>
+             </div>
+          </div><!-- row ends here -->
+          <br/>           
+           <div class="row">
+            <div class="col-md-4">
+              Address Line 1
+              <div id="Password" class="form-group">
+             <%= f.text_field :address_line_1, :class => "form-control" %>
+            </div>
+          </div>
+            
+               
+            <div class="col-md-4">
+              Address Line 2
+              <div id="Password" class="form-group">
+               <%= f.text_field :address_line_2, :class => "form-control" %>
+            </div>
+          </div>
+            
+               
+            <div class="col-md-4">
+              State
+              <div id="Password" class="form-group">
+               <%= f.text_field :state, :class => "form-control" %>
+            </div>
+          </div>
+          </div><!-- row ends here -->
+          <br/>
+              
+           <div class="row">
+            <div class="col-md-4">
+              Country
+              <div id="Password" class="form-group">
+               <%= f.text_field :country, :class => "form-control" %>
+            </div>
+          </div>
+         </div><!-- row ends here -->
+         <br/><br/>
+
+          <%= f.submit "Update Referral", class: "btn btn-success" %>
+          <% end %>
+        </div><!-- portlet content ends here  -->
+       </div><!-- portlet ends here -->
+      </div><!-- row ends here   -->
+
+    </div><!-- content-container ends here -->
+  </div><!-- content ends here -->
+</div><!-- container ends here -->

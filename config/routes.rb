@@ -72,6 +72,9 @@ Rails.application.routes.draw do
   post 'main_categories/category_import'
   get 'main_categories/category_import_report'
   get 'main_categories/category_download'
+  get 'clients/referred'
+  get 'clients/referral_invoice'
+  get 'referrals/referral_bill'
     
   resources :authusers  
   resources :users
@@ -94,6 +97,7 @@ Rails.application.routes.draw do
    resources :clients
   resources :admins
   resources :enquiry_forms
+  resources :referrals
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

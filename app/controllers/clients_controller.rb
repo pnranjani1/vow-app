@@ -78,6 +78,30 @@ class ClientsController < ApplicationController
   end
   
   
+  def referred
+    @clients = Client.all
+  end
+  
+  def referral_invoice
+    @clients = Client.all
+    referrals = @clients.uniq.pluck(:referred_by)
+    uniq_referrals = referrals.select! { |x| x != nil}
+   
+    
+      respond_to do |format|
+         uniq_referrals.each do |referral|
+        @referral = referral
+         format.html
+         format.pdf do
+           pdf = ReferralBillPdf.new(@referral)
+           send_data pdf.render, filename: "#{referral}-bill.pdf", type: "application/pdf", disposition: "inline"
+         end
+      end
+    end
+ end
+ 
+  
+  
   private
   def set_params
     params[:client].permit(:authuser_id, :remarks,  :role_user,

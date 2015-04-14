@@ -1,0 +1,69 @@
+<div class="container">
+  <div class="content">
+    <div class="content-container">
+      
+      <div class="row">
+       
+        <div class="portlet portlet-table">
+          <div class="portlet-header">
+            <h3>
+              <i class="fa fa-group"></i>
+              You have <%= pluralize(@count, "Referral") %>
+            </h3>
+          </div><!-- portlet-header ends here -->
+           
+          <div class="portlet-content">
+           
+            <div class="table-responsive">        
+              <table class="table table-bordered">
+              <% if notice %>
+              <div class="col-md-8">
+              <div class="alert alert-success">
+                <%= notice %>
+              </div><!-- alert ends here -->
+              </div><!-- col ends here -->
+              <% end %>
+              
+                     <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th> Email </th>
+                        <th>Mobile number</th>
+                        <th>Edit</th>
+                        <th>Billing</th>
+                       </tr>
+                   <thead>
+      
+                   <tbody>
+                      <% @referrals.each do |referral| %>
+                      <tr>
+                        <td><%= link_to referral.name, referrals_referral_bill_path(:id => referral.id), class: "listconttext" %></td>
+                        <td><%= referral.email %></td>
+                        <td><%= referral.mobile_number %></td>
+                        <td><%= link_to edit_referral_path(referral.id), class: "btn btn-xs btn-primary" do %>
+                          <i class="fa fa-edit"></i>
+                          <% end %>
+                         </td>
+                        <td><%= link_to "Invoice", referrals_referral_bill_path(:id => referral.id, format: "pdf"),class: "btn btn-success", target: "blank" %></td>
+                      </tr>
+                      <% end %>
+                    </tbody>
+                 </table>
+              
+              <div class="portlet-footer">
+                <div class="text-right">
+                  <%= link_to "Add Referral", new_referral_path, class: "btn btn-success" %>
+                 </div><!-- text-right ends here -->
+                </div><!-- portlet footer ends here  -->
+              <%= will_paginate @referrals, renderer: BootstrapPagination::Rails, class: "apple-pagination" %>
+              
+             </div><!-- table responsive ends here -->
+            </div><!-- portlet-content ends here -->
+           </div><!--portlet portlet-table ends here -->
+         
+        </div><!--  row ends here -->
+      
+    </div><!-- conent-container ends here -->
+  </div><!-- content ends here -->
+</div> <!-- container ends here -->
+        

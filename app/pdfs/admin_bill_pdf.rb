@@ -37,19 +37,19 @@ draw_text "Ref: Professional Services", :at => [350, 550], size: 12
 
    def  bill_user
    #  draw_text "Chartered Accountant", at: [350,630], size: 14, :style => :bold
-     
      bounding_box([40,550],:width =>300) do
-     text "<u>To:</u>", size: 12, :inline_format => true
+       text "<u>To:</u>", size: 12, :inline_format => true
        move_down 10
-     text "#{@user.name},", size: 12 
-      if @user.clients.first.company.present?
-     text "#{@user.clients.first.company},", size: 12
-      end
-     text "#{@user.address.address_line_1},", size: 12
-     text "#{@user.address.address_line_2},", size: 12
-     text "#{@user.address.city}", size: 12
-   end
-end
+       text "#{@user.name},", size: 12 
+          if @user.clients.first.company.present?
+             text "#{@user.clients.first.company},", size: 12
+          end
+        text "#{@user.address.address_line_1},", size: 12
+        text "#{@user.address.address_line_2},", size: 12
+        text "#{@user.address.city}", size: 12
+       end
+  end
+
 
  def bill_table 
   total_bills = Bill.where('created_at >= ? AND created_at <= ? AND client_id = ?', Date.today.beginning_of_month, Date.today.end_of_month, @user.id).count

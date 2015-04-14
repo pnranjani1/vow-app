@@ -41,7 +41,8 @@ class="table table-striped table-bordered table-checkable">
 </tr> 
 </thead> 
 <tbody>
- <% @current_authuser_clients.each do |client| %>
+ 
+ <% @current_authuser_clients.each do |client| %> 
  <% clientid = client.authuser.id %>
  <%  c = client.authuser.membership.id %>
  <% @user = User.where(:client_id => clientid) %>
@@ -63,7 +64,7 @@ class="table table-striped table-bordered table-checkable">
 <% elsif client.authuser.approved == true %>       
 <td><%= link_to "De-activate User" , de_activate_user_path(client.authuser.id), method: :put, data: {confirm: "Are You Sure You Want To De-Activate The Client?"}, class: "listconttext"  %></td> 
 <% end %> 
-  <td><%= client.referred_by %></td>
+  <td><%= client.referral.name %></td>
 
 </tr>
 <% end %>

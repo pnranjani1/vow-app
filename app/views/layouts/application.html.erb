@@ -251,7 +251,27 @@
 </ul>
 </li>
 <% end %>
+  
+  <% if controller.controller_name == "referrals" %> 
+<li class= "active dropdown"> 
+<% else %>
+<li> 
+<% end %>
 
+  <%= link_to referrals_path, class: "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>
+<i class="fa fa-align-left"></i>Referrals<span class="caret"></span>
+<% end %>
+
+<ul class="dropdown-menu">
+   <li><%= link_to referrals_path do %>
+<i class="fa fa-align-center nav-icon"></i> Manage referrals </li>  
+<% end %>  
+  <li><%= link_to referrals_referral_bill_path do %>
+<i class="fa fa-align-center nav-icon"></i> Referral Bills</li>  
+<% end %>
+ 
+</ul>
+</li>
     
 </ul><!-- nav navbar-nav mainbar-nav --ends here -->
   

@@ -1,0 +1,46 @@
+<div class="container">
+  <div class="content">
+    <div class="content-container">
+
+      <div class="row">
+        <div class="portlet portlet-table">
+          
+          <div class="portlet-header">
+            <h3><i class="fa fa-group"></i>
+              <%= "#{@referral.name}" %> has Referred <%= pluralize(@count, "Chartered Accountant") %></h3>
+          </div><!-- portlet header ends here -->
+          
+          <div class="portlet-content">
+              <div class="table-responsive">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th>CA Name</th>
+                        <th>No Of Users</th>
+                         <th>No Of Bills</th>
+                      </tr>
+                    </thead>
+                     
+                    <tbody>
+                     <% @clients.each do |client| %>
+                      <% users = User.where(:client_id => client.authuser.id) %>
+                      <% bills = Bill.where(:client_id => client.authuser.id) %>
+                      
+                      <tr>
+                        <td><%= client.authuser.name %></td>
+                        <td><%= users.count %></td>
+                        <td><%= bills.count %></td>
+                      </tr>
+                     <% end %>
+                    </tbody>
+                </table>
+                <br/>
+                &nbsp;&nbsp;&nbsp;<%= link_to "Back", referrals_path , class: "btn btn-success" %>
+                <br/><br/>
+            </div><!-- table responsive ends here -->
+          </div><!-- portlet-content ends here -->
+        </div><!-- portlet table ends here -->
+      </div><!-- row ends here -->
+    </div><!-- content-container ends here -->
+  </div><!-- content ends here -->
+  </div><!-- container ends here -->
