@@ -79,24 +79,13 @@ class ClientsController < ApplicationController
   
   
   def referred
-    @clients = Client.all
+    @client = Client.find(params[:id])
   end
   
   def referral_invoice
-    @clients = Client.all
-    referrals = @clients.uniq.pluck(:referred_by)
-    uniq_referrals = referrals.select! { |x| x != nil}
-   
-    
-      respond_to do |format|
-         uniq_referrals.each do |referral|
-        @referral = referral
-         format.html
-         format.pdf do
-           pdf = ReferralBillPdf.new(@referral)
-           send_data pdf.render, filename: "#{referral}-bill.pdf", type: "application/pdf", disposition: "inline"
-         end
-      end
+    @client = Client.find(params[:id])
+    if @client.update_attributes(set_params)
+      redirect_to dashboards_admin_dashboard_path(current_authuser)
     end
  end
  
@@ -104,7 +93,7 @@ class ClientsController < ApplicationController
   
   private
   def set_params
-    params[:client].permit(:authuser_id, :remarks,  :role_user,
+    params[:client].permit(:authuser_id, :remarks,  :role_user, :referral_id,
       {:users_attributes => [:id, :tin_number, :esugam_username, :esugam_password, :authuser_id, :client_id]}
       )
   end 

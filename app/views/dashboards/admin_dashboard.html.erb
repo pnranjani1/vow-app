@@ -64,7 +64,12 @@ class="table table-striped table-bordered table-checkable">
 <% elsif client.authuser.approved == true %>       
 <td><%= link_to "De-activate User" , de_activate_user_path(client.authuser.id), method: :put, data: {confirm: "Are You Sure You Want To De-Activate The Client?"}, class: "listconttext"  %></td> 
 <% end %> 
+  
+  <% if client.referral.present? %>
   <td><%= client.referral.name %></td>
+  <% else %>
+  <td> Saket Bardia </td>
+  <% end %>
 
 </tr>
 <% end %>

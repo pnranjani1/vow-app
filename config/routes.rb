@@ -73,7 +73,7 @@ Rails.application.routes.draw do
   get 'main_categories/category_import_report'
   get 'main_categories/category_download'
   get 'clients/referred'
-  get 'clients/referral_invoice'
+  patch 'clients/referral_invoice'
   get 'referrals/referral_bill'
     
   resources :authusers  
