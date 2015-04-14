@@ -1,5 +1,5 @@
 class ReferralsController < ApplicationController
-  before_filter :authenticate_authuser!
+ # before_filter :authenticate_authuser!
   
   def index
     @referrals = Referral.all.order('created_at DESC').paginate(:page => params[:per_page], :per_page => 5)
