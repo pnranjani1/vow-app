@@ -82,7 +82,7 @@ class ClientsController < ApplicationController
     @client = Client.find(params[:id])
   end
   
-  def referral_invoice
+  def referral_update
     @client = Client.find(params[:id])
     if @client.update_attributes(set_params)
       redirect_to dashboards_admin_dashboard_path(current_authuser)

@@ -1,6 +1,6 @@
 authorization do
   role :admin do
-    has_permission_on [:authusers, :addresses, :bank_details, :bills, :clients, :customers, :invitations, :main_categories, :memberships, :products, :taxes, :referrals], :to => [:index, :new, :create, :edit, :show, :update, :destroy, :admin_new, :admin_create, :admin_update, :change_role, :client_new, :client_create, :local_sales, :interstate_sales, :tally_import, :user_category, :user_customer, :product_category, :activate_user, :de_activate_user, :client_bill_summary, :bill_details_client, :force_password_change, :client_monthly_bill, :user_billing_report, :client_billing_report, :referred, :referral_invoice, :referral_bill ]
+    has_permission_on [:authusers, :addresses, :bank_details, :bills, :clients, :customers, :invitations, :main_categories, :memberships, :products, :taxes, :referrals], :to => [:index, :new, :create, :edit, :show, :update, :destroy, :admin_new, :admin_create, :admin_update, :change_role, :client_new, :client_create, :local_sales, :interstate_sales, :tally_import, :user_category, :user_customer, :product_category, :activate_user, :de_activate_user, :client_bill_summary, :bill_details_client, :force_password_change, :client_monthly_bill, :user_billing_report, :client_billing_report, :referred, :referral_update, :referral_bill ]
     has_permission_on [:dashboards], :to => [:admin_dashboard]
     has_permission_on [:main_categories], :to => [:category_import, :category_import_report]
    # has_permission_on [:new, :create, :show, :edit, :index, :update, :destroy]

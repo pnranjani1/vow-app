@@ -11,7 +11,7 @@
   
         <div class="portlet-content">
           <div class="col-md-4">
-          <%= form_for(@client, :url => "referral_invoice") do |f| %>
+            <%= form_for @client, url:  {action: "referral_update", params: {id: @client.id}} do |f| %>
           
           
           <%= f.label :referral_id %><br/>
