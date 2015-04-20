@@ -48,6 +48,8 @@ require 'active_support/core_ext/date/conversions'
   has_one :address, dependent: :destroy
   has_one :membership, dependent: :destroy
   has_one :bankdetail, dependent: :destroy
+  
+  has_many :cainvoices
  
   #has_many :clients, class_name: 'Client', foreign_key: 'created_by'
  

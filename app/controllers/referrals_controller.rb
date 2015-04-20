@@ -59,6 +59,8 @@ class ReferralsController < ApplicationController
  end
   
   
+  
+  
   private
   def set_params
     params[:referral].permit(:name, :email, :address_line_1, :address_line_2, :state, :country, :mobile_number)
