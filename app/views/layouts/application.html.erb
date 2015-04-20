@@ -252,6 +252,7 @@
 </li>
 <% end %>
   
+  <% if permitted_to? :index, Referral.new %>
   <% if controller.controller_name == "referrals" %> 
 <li class= "active dropdown"> 
 <% else %>
@@ -272,6 +273,7 @@
  
 </ul>
 </li>
+<% end %>
     
 </ul><!-- nav navbar-nav mainbar-nav --ends here -->
   

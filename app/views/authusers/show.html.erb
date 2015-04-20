@@ -120,8 +120,15 @@
 </tr> 
     
 <tr>   
+  <% if @user.main_roles.first.role_name == "client" %>
+  <% if @user.clients.first.referral.present? %>
 <th><i class="fa fa-user"></i> Referred By :</th>
-<td><%= @user.clients.first.referred_by %></td>
+  <td><%= @user.clients.first.referral.name %></td>
+  <% elsif %>
+  <th><i class="fa fa-user"></i> Referred By</th>
+  <td> iPrimitus </td>
+  <% end %>
+  <% end %>
 </tr>
   
 </tbody>
