@@ -77,6 +77,8 @@ Rails.application.routes.draw do
   #patch 'clients/referral_update' => 'clients#referral_update'
   patch 'clients/referral_update'
   get 'referrals/referral_bill'
+  get 'referrals/client_acquisition'
+  get 'referrals/client_acquisition_report'
     
   resources :authusers  
   resources :users

@@ -59,6 +59,14 @@ class ReferralsController < ApplicationController
  end
   
   
+  def client_acquisition
+  end
+  
+  
+  def client_acquisition_report
+  end
+  
+  
   
   
   private
