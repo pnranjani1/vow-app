@@ -1,0 +1,58 @@
+
+<div class="container">
+  <div class="content">
+    <div class="content-container">
+      
+      <div class="row">
+        <div class="portlet">
+          
+          <div class="portlet-header">
+            <h3><i class="fa fa-group"></i>Client Acquisition Report</h3>
+          </div><!-- portlet header ends here -->
+          
+          <div class="portlet-content">
+            <div class="col-md-8">
+              <div class="row">
+
+                <script type="text/javascript">
+                  $(document).ready(function(){
+                  $("#start_date").datepicker({ dateFormat: "dd/mm/yy" }).val()
+                  $("#end_date").datepicker({ dateFormat: "dd/mm/yy" }).val()
+                 });
+                </script>
+                <% if alert %>
+                <div class="col-md-8">
+                  <div class="alert alert-danger">
+                    <%= alert %>
+                    </div>
+                </div><br/>
+                <% end %>
+
+                <%= form_tag referrals_client_acquisition_report_path(format: "pdf"), method: 'get', target: "blank" do %>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <%= label_tag(:start_date, 'From Date') %>
+                        <%= text_field_tag(:start_date, params[:start_date], class: "form-control", id: "start_date", placeholder: "Select From Date") %>
+                      </div>
+  
+                      <div class="col-md-6">  
+                        <%= label_tag(:end_date, "End Date") %>
+                        <%= text_field_tag(:end_date, params[:end_date], id: "end_date", class: "form-control",  placeholder: "Select End Date") %>
+                      </div>
+                    </div>
+                    <br/><br/>
+                    <div class="row">
+                      <div class="col-md-6" %>
+                        <%= submit_tag("Download", class: "btn btn-success") %>
+                       </div>
+                    </div>
+                <% end %>
+ 
+              </div><!-- row ends here -->
+            </div><!-- col md 8 ends here -->
+          </div><!-- portlet-content ends here -->
+        </div><!-- portlet ends here -->
+      </div><!-- row ends here -->            
+    </div><!-- content-container ends here -->
+  </div><!-- content ends here -->
+</div><!-- container ends here -->

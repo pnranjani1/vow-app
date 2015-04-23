@@ -64,6 +64,24 @@ class ReferralsController < ApplicationController
   
   
   def client_acquisition_report
+    start_date = params[:start_date]
+    end_date = params[:end_date]
+    @start_date = start_date.to_date
+    @end_date = end_date.to_date   
+    @user = current_authuser
+    if  start_date.blank?  && end_date.blank?
+      redirect_to referrals_client_acquisition_path, alert: "Please Select the From Date and To Date"
+    else
+        begin
+         respond_to do |format|
+          format.html
+          format.pdf do
+            pdf = ReferralBillPdf.new(@user, @start_date, @end_date)
+            send_data pdf.render, filename: "Client Acquisition Report.pdf", type: "application/pdf", disposition: "inline"
+          end      
+         end
+       end
+    end
   end
   
   
