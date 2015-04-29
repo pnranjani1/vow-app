@@ -1,0 +1,9 @@
+development:
+  cloud_name: "dnjemohul"
+  api_key: "314272814342825"
+  api_secret: "W0YiSH0GRDwM1hcHD3gCcwoJzms"
+
+production:
+  cloud_name: "dnjemohul"
+  api_key: "314272814342825"
+  api_secret: "W0YiSH0GRDwM1hcHD3gCcwoJzms"

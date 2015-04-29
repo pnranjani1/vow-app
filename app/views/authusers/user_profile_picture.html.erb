@@ -1,0 +1,28 @@
+<div class="container">
+  <div class="content">
+    <div class="content-container">
+      <div>
+      <h4 class="heading-inline"><%= current_authuser.name %></h4>
+      </div>
+      
+      <div class="portlet">
+        <div class="portlet-header">
+          <h3>Upload profile picture </h3>
+        </div><!-- portlet header ends here -->
+        <div class="portlet-content">
+          
+          <%= form_for @user, :html => {:multipart => true} do |f| %>
+          
+          <div class="col-md-4">
+          <%= f.file_field :image, class: "form-control" %><br/>
+          &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= f.submit "Upload", class: "btn btn-success" %>
+          </div>
+          
+          <% end %>
+          
+        </div><!-- portlet content ends here -->
+      </div><!-- portlet ends here --.
+      
+    </div><!-- content container ends here -->
+  </div><!-- content ends here -->
+</div><!-- container ends here --.

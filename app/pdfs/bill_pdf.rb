@@ -58,10 +58,11 @@ end
     end
     
      def logo(user)
-      gravatar_id = Digest::MD5::hexdigest(user.email.downcase)
-      size = 50
-      gravatar_url = "http://gravatar.com/avatar/#{gravatar_id}?s=#{size}"+".jpg"
-      image open(gravatar_url), :at => [10,710]
+       image open(user.image_url), height: 60, width: 70, :at => [10,710]
+     # gravatar_id = Digest::MD5::hexdigest(user.email.downcase)
+      #size = 50
+      #gravatar_url = "http://gravatar.com/avatar/#{gravatar_id}?s=#{size}"+".jpg"
+      #image open(gravatar_url), :at => [10,710]
      end
      
   
@@ -104,7 +105,7 @@ end
       end
               
  
-      bounding_box([20,810], :width => 550, :height => 320) do
+      bounding_box([30,810], :width => 550, :height => 320) do
       
         def bill_table   
         move_down 30
@@ -160,7 +161,10 @@ table(data,  :cell_style => {:font_style => :bold},:column_widths => [125, 110],
 
  data = [["Grand Total", "#{@bill.grand_total}"]]
  table(data, :cell_style => {:font_style => :bold}, :column_widths => [125, 110], :position => 295)
- end
+
+data = [["Grand Total in words", "Rupees #{@bill.grand_total.round.to_words} only"]]
+table(data, :cell_style => {:font_style => :bold, :align => :center}, :column_widths => [140, 390])
+        end
 
       
  def authority

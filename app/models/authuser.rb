@@ -62,7 +62,7 @@ require 'active_support/core_ext/date/conversions'
   accepts_nested_attributes_for :permissions
   accepts_nested_attributes_for :usercategories
     
-   
+  mount_uploader :image, ImageUploader
   #def role_symbols
     #current_role.role_name
   #end

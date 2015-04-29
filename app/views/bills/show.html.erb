@@ -5,7 +5,10 @@
  <div class="content-container">     
 <div>
 <h4 class="heading-inline">Bill Information </h4>   
-<%= gravatar_for current_authuser %>
+  <% unless current_authuser.image_url.nil? %>
+  <%= image_tag current_authuser.image_url, height: 50, width: 50 %>
+  <% end %>
+<!-- <%= gravatar_for current_authuser %> -->
 </div>
 <br>
 

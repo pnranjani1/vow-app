@@ -55,7 +55,11 @@
 <li class="dropdown navbar-profile">
 <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;">
 <!-- <%= image_tag "avatar-1-xs.jpg"  , class: "navbar-profile-avatar"%> -->
+  <% unless current_authuser.image_url.nil? %>
+  <span><%= image_tag current_authuser.image_url, height: 40, width: 40 %></span>
+  <% else %>
   <span class="nametitle">  <%= current_authuser.name %></span>
+  <% end %>
 <!--<img src="img/avatar-1-xs.jpg" class="navbar-profile-avatar" alt="">  -->
 <span class="navbar-profile-label">rod@rod.me &nbsp;</span>
 <i class="fa fa-caret-down"></i>
@@ -68,6 +72,12 @@
 <i class="fa fa-user"></i> 
 <!-- <a href="./page-profile.html"> -->
 &nbsp;&nbsp;My Profile
+<% end %>
+</li>
+  <li>
+<%= link_to authusers_user_profile_picture_path do %>
+<i class="fa fa-user"></i> 
+&nbsp;&nbsp;Update Profile Picture
 <% end %>
 </li>
             

@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,7 +24,7 @@
 <li><a href="https://twitter.com/iPrimitus" class="fa fa-twitter"></a></li>
 <li><a href="https://www.linkedin.com/company/iprimitus-consultancy-services" class="fa fa-linkedin"></a></li>
 <li><a href="https://plus.google.com/108877132961366118945/videos" class="fa fa-google-plus"></a></li>
-                <li><a href="#" class="fa fa-youtube"></a></li>
+                <!-- <li><a href="#" class="fa fa-youtube"></a></li> -->
             </ul>
     </div>   
 </header>
@@ -33,13 +34,20 @@
 <div class="content"> 
 <div class="register-container container">
 <div class="row"> 
+  
+  
 <div class="covrpage">         
+   
 <div class="register">
   <h2> Forgot Password </h2>
   
+ 
 <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
- <%= devise_error_messages! %>
-
+  <% if devise_error_messages!.present? %>  
+<div class="alert alert-danger">
+  <%= devise_error_messages! %>
+  </div>
+  <% end %>
 <div class="field">
 <%= f.label :email %><br />
 <%= f.email_field :email, autofocus: true %>

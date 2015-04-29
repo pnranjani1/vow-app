@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150415072416) do
+ActiveRecord::Schema.define(version: 20150429050720) do
 
   create_table "addresses", force: true do |t|
     t.string   "address_line_1"
@@ -63,6 +63,7 @@ ActiveRecord::Schema.define(version: 20150415072416) do
     t.boolean  "approved",               default: false
     t.string   "current_role"
     t.date     "date_of_birth"
+    t.string   "image"
   end
 
   add_index "authusers", ["approved"], name: "index_authusers_on_approved"

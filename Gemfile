@@ -30,6 +30,7 @@ gem 'jquery-rails', '2.0.2'
 gem 'rails3-jquery-autocomplete'
 gem 'spinjs-rails'
 
+gem 'rails-i18n'
 
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
@@ -63,6 +64,11 @@ end
 gem 'rails_12factor', group: :production
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
 gem 'spring',        group: :development
+
+gem 'carrierwave'
+gem 'cloudinary'
+
+
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

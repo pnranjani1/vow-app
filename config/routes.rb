@@ -33,6 +33,7 @@ Rails.application.routes.draw do
      put 'authusers/:id/activate' => 'authusers#activate_user', :as => 'activate_user'
     put 'authusers/:id/de_activate' => 'authusers#de_activate_user', :as => 'de_activate_user'
     get 'authusers/user_management' => 'authusers#user_management'
+    get 'authusers/user_profile_picture' => 'authusers#user_profile_picture'
  end
   
     put 'authusers/change_role_update' => 'authusers#change_role_update'

@@ -223,9 +223,14 @@ def user_management
   @users_expired_invitation = Authuser.where('invited_by_id =? AND invitation_sent_at <= ? AND invitation_accepted_at IS NULL', current_authuser.id, Date.today-2.days).order('created_at DESC').paginate(:page => params[:page], :per_page => 10) 
 end
   
+
+  def user_profile_picture
+    @user = current_authuser
+  end
+
   private
   def set_params
-    params[:authuser].permit(:name, :email, :password, :password_confirmation, :approved, :invited_by_id, :invited_by_type, :date_of_birth,
+    params[:authuser].permit(:name, :email, :password, :password_confirmation, :approved, :invited_by_id, :invited_by_type, :date_of_birth, :image,
      {:membership_attributes => [:id, :phone_number, :membership_start_date, :membership_end_date, :membership_status, :membership_duration]},
        {:address_attributes => [:id, :address_line_1, :address_line_2, :address_line_3, :city, :state, :country]},
       {:bankdetail_attributes => [:id, :bank_account_number, :ifsc_code]},
