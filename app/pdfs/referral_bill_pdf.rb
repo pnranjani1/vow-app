@@ -33,7 +33,7 @@ class ReferralBillPdf < Prawn::Document
     indent 20 do
       text "<b>No of Chartered Accountants acquired between #{@start_date.strftime("%d-%b-%Y")} and #{@end_date.strftime("%d-%b-%Y")} :</b>   #{clients.count}", size: 12, inline_format: true
       end
-    data = [["Sl.No", "Client Name", "No Of Users", "No Of Bills", "Referred By"]]
+data = [["Sl.No", "Client Name", "No Of Users", "No Of Bills", "Source"]]
       clients.each_with_index do |client, index|
         index = index + 1
         users = User.where(:client_id => client.authuser.id)
