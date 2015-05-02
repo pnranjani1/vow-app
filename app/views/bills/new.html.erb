@@ -71,7 +71,7 @@
 <%= f.collection_select :customer_id, Customer.where(:authuser_id => current_authuser.id), :id, :name, {prompt: "Select Customer"}, {class: "form-control"}  %>
 </div>
 </div> <!-- /.col -->
-  
+  <br/>
     <!-- Button trigger modal -->
 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">
   New Customer
@@ -308,10 +308,11 @@ State
     </div> <!-- /.col -->
     
   <div class="col-sm-2">      
-      <div class="marggap"><br/>
-        <div class="btn btn-xs btn-primary" >
+      <div class="marggap">
+        <!-- <div class="btn btn-xs btn-primary" >-->
+        <div class="remove-button">
           <%= bill_product.link_to_remove do %>
-            <i class="fa fa-times"></i>
+  <span class="fa fa-times" style="color:FireBrick" ></span>
           <% end %>
         </div>
       </div>

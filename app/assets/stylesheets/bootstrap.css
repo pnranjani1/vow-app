@@ -1,6 +1,11 @@
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*! normalize.css v3.0.1 | MIT License | git.io/normalize */
+.remove-button {
+   font-size: 30px;
+   text-shadow: 0 0 3px #FF0000;
+}
+
 html {
   font-family: sans-serif;
   -ms-text-size-adjust: 100%;
