@@ -21,7 +21,7 @@ class Bill < ActiveRecord::Base
  # validates :line_items , uniqueness: {:scope => :product_id, :message => "Selected Product is already added to the bill"}
   #validates :line_items, uniqueness: {:message => "Selected Item is already added in the bill"}, :if => Authuser.current
   
-  accepts_nested_attributes_for :line_items, :allow_destroy => true
+  accepts_nested_attributes_for :line_items, :allow_destroy => true, :reject_if => :all_blank
   
 #  def generate_invoice_number
  #   if Bill.last.invoice_number.nil?

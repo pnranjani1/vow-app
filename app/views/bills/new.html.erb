@@ -187,56 +187,11 @@ State
   <!-- bill detail ends here -->
   
 <div class="portlet">
-
+<br/>
 <div class="portlet-header">
   <h3><i class="fa fa-ruble"></i> Item Details</h3>
-</div> <!-- /.portlet-header -->
-
-<div class="portlet-content" id="line_items_list">
-
-<%= f.fields_for :line_items do |bill_product| %>
   
-  <div class="row"> 
-    <div class="col-sm-2">           
-      <strong>Item&nbsp;<b style="color:red">*</b></strong> 
-      <div id="name" class="input-group">    
-      <%= bill_product.collection_select :product_id, 
-          Product.where(:authuser_id => current_authuser.id), :id, :product_name, 
-          {prompt: "Select Product"}, {class: "form-control"} %>
-      </div> 
-    </div> <!-- /.col -->
- 
-    
-  
-    
-    <div class="col-sm-3">           
-      <strong>Quantity&nbsp;<b style="color:red">*</b></strong> 
-      <div id="quantity_div" class="input-group">               
-        <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
-        <%= bill_product.text_field :quantity , class: "form-control" %>
-        </div>
-    </div> <!-- /.col -->
-           
-    <div class="col-sm-3">           
-      <strong>Unit Price&nbsp;<b style="color:red">*</b></strong> 
-      <div id="unit_price_div" class="input-group">               
-        <span class="input-group-addon"><i class="fa fa-money"></i></span>
-        <%= bill_product.text_field :unit_price, class: "form-control" %>
-              </div>
-    </div> <!-- /.col -->
-    
-  <div class="col-sm-2">      
-      <div class="marggap">
-        <div class="btn btn-xs btn-primary" >
-          <%= bill_product.link_to_remove do %>
-            <i class="fa fa-times"></i>
-          <% end %>
-        </div>
-      </div>
-    </div>
-    
-   
-    <!-- Button trigger modal -->
+  <!-- Button trigger modal for adding products-->
 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal1">
   New Product
 </button>
@@ -316,6 +271,53 @@ State
 </div>
     
     <% end %><!-- content_for ends here -->
+    
+</div> <!-- /.portlet-header -->
+
+<div class="portlet-content" id="line_items_list">
+
+<%= f.fields_for :line_items do |bill_product| %>
+  
+  <div class="row"> 
+    <div class="col-sm-2">           
+      <strong>Item&nbsp;<b style="color:red">*</b></strong> 
+      <div id="name" class="input-group">    
+      <%= bill_product.collection_select :product_id, 
+          Product.where(:authuser_id => current_authuser.id), :id, :product_name, 
+          {prompt: "Select Product"}, {class: "form-control"} %>
+      </div> 
+    </div> <!-- /.col -->
+ 
+    
+  
+    
+    <div class="col-sm-3">           
+      <strong>Quantity&nbsp;<b style="color:red">*</b></strong> 
+      <div id="quantity_div" class="input-group">               
+        <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
+        <%= bill_product.text_field :quantity , class: "form-control" %>
+        </div>
+    </div> <!-- /.col -->
+           
+    <div class="col-sm-3">           
+      <strong>Unit Price&nbsp;<b style="color:red">*</b></strong> 
+      <div id="unit_price_div" class="input-group">               
+        <span class="input-group-addon"><i class="fa fa-money"></i></span>
+        <%= bill_product.text_field :unit_price, class: "form-control" %>
+              </div>
+    </div> <!-- /.col -->
+    
+  <div class="col-sm-2">      
+      <div class="marggap"><br/>
+        <div class="btn btn-xs btn-primary" >
+          <%= bill_product.link_to_remove do %>
+            <i class="fa fa-times"></i>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    
+   
     
         
   </div><!-- row ends here --><br/>

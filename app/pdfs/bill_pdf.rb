@@ -58,7 +58,7 @@ end
     end
     
      def logo(user)
-       image open(user.image_url), height: 60, width: 70, :at => [10,710]
+       image open(user.image_url), height: 50, width: 70, :at => [10,710]
      # gravatar_id = Digest::MD5::hexdigest(user.email.downcase)
       #size = 50
       #gravatar_url = "http://gravatar.com/avatar/#{gravatar_id}?s=#{size}"+".jpg"

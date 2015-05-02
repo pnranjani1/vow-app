@@ -115,7 +115,7 @@ Company
   
   
 <div class="col-sm-3">           
-Referred By
+Source
 <div id="Remarks" class="input-group">     
 <span class="input-group-addon"><i class="fa fa-user"></i></span>
   <%= user_client.collection_select :referral_id, Referral.all, :id, :name,{prompt: "Select Referral"}, {class: "form-control"} %>
