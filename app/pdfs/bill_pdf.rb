@@ -139,6 +139,7 @@ end
       
 
    def table_price_list
+    
  data =  [["Bill Total", "#{@bill.total_bill_price}"]]
 table(data,  :cell_style => {:font_style => :bold},:column_widths => [125, 110], :position => 295)
         
@@ -164,22 +165,37 @@ table(data,  :cell_style => {:font_style => :bold},:column_widths => [125, 110],
  data = [["Grand Total", "#{@bill.grand_total}"]]
  table(data, :cell_style => {:font_style => :bold}, :column_widths => [125, 110], :position => 295)
 
-data = [["Grand Total in words", "Rupees #{@bill.grand_total.round.to_words} only"]]
+data = [["Amount in words", "Rupees #{@bill.grand_total.round.to_words} only"]]
 table(data, :cell_style => {:font_style => :bold, :align => :center}, :column_widths => [140, 390])
         end
 
       
  def authority
   move_down 40
-  indent(380) do
+   company = @bill.authuser.users.first.company
+    if company.length >= 25
+  indent(300) do
    if @user.main_roles.first.role_name == "user"
     text "For "+@bill.authuser.users.first.company,  size: 11, :style => :bold
+     #text "For iPrimitus Consultancy Services", size: 11, style: :bold
    elsif @user.main_roles.first.role_name  == "client"
      text "For "+@bill.authuser.clients.first.company,  size: 11, :style => :bold
    end
   move_down 30
   text "Authorized Signatory",  size: 11, :style => :bold
 end
+ else
+   indent(350) do
+   if @user.main_roles.first.role_name == "user"
+    text "For "+@bill.authuser.users.first.company,  size: 11, :style => :bold
+    # text "For iPrimitus Consultancy Services", size: 11, style: :bold
+   elsif @user.main_roles.first.role_name  == "client"
+     text "For "+@bill.authuser.clients.first.company,  size: 11, :style => :bold
+   end
+  move_down 30
+  text "Authorized Signatory",  size: 11, :style => :bold
+end
+ end
      
 def terms_and_conditions
 #stroke_rectangle [3,160], 400, 80

@@ -192,7 +192,7 @@ State
   <h3><i class="fa fa-ruble"></i> Item Details</h3>
   
   <!-- Button trigger modal for adding products-->
-<button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal1">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal1">
   New Product
 </button>
 
@@ -311,9 +311,12 @@ State
       <div class="marggap">
         <!-- <div class="btn btn-xs btn-primary" >-->
         <div class="remove-button">
+          
           <%= bill_product.link_to_remove do %>
-  <span class="fa fa-times" style="color:FireBrick" ></span>
+          <%= image_tag("remove_icon.png", size: "37") %>
+ <!-- <span class="fa fa-times" style="color:FireBrick" ></span> -->
           <% end %>
+          
         </div>
       </div>
     </div>

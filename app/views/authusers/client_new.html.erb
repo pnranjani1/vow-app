@@ -14,8 +14,14 @@
   
 <div>
 <h4 class="heading-inline">Update Profile</h4>
-</div>
-<br>
+
+   <% if current_authuser.image.present? %>
+  <div class="text-right">
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= image_tag current_authuser.image_url, height: 70, width: 80, crop: "fit" %>
+  </div>
+  <% end %>
+  </div>
+
 <script type="text/javascript">
   $(document).ready(function(){
      $("#dob").datepicker({ dateFormat: "dd/mm/yy" }).val()
@@ -40,7 +46,7 @@
 <div class="portlet-header">
   <h3><i class="fa fa-user"></i>Update Profile</h3>
 </div> <!-- /.portlet-header -->
-
+ 
 <div class="portlet-content">
 
 <div class="row">

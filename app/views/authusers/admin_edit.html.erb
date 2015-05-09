@@ -6,7 +6,13 @@
   
 <div>
 <h4 class="heading-inline">Update Profile</h4>
-</div>
+ <% if current_authuser.image.present? %>
+  <div class="text-right">
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= image_tag current_authuser.image_url, height: 70, width: 80 , crop: "fit"%>
+  </div>
+  <% end %>
+  </div>  
+
 <br>
   <script type="text/javascript">
   $(document).ready(function(){

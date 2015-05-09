@@ -51,7 +51,7 @@
 <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;">
 <!-- <%= image_tag "avatar-1-xs.jpg"  , class: "navbar-profile-avatar"%> -->
   <% unless current_authuser.image_url.nil? %>
-  <span><%= image_tag current_authuser.image_url , height: 40, width: 40 %></span>
+  <span><%= image_tag current_authuser.image_url , height: 40, width: 40, crop: "fit" %></span>
     <% else %>
   <span class="nametitle"><%= current_authuser.name %></span>
   <% end %>

@@ -2,10 +2,16 @@ class AuthusersController < ApplicationController
  # layout_by_action [:change_role, :change_role_update] => "menu1"
   before_filter :authenticate_authuser!, :except => [:force_password_change]
   layout_by_action [:client_new] => "menu"
-  #layout "menu1", :only => [ :change_role ]
-  
-   filter_access_to :all
  
+  
+  
+  filter_access_to :all
+ 
+ 
+  
+  
+  
+  
     def index
    # if params[:approved] == "false"
     #  @users = Authuser.find_all_by_approved(false)
@@ -226,6 +232,11 @@ end
 
   def user_profile_picture
     @user = current_authuser
+    if current_authuser.main_roles.first.role_name == "client"
+      render :layout => "application"
+    elsif current_authuser.main_roles.first.role_name == "user"
+      render :layout => "menu"
+    end
   end
 
   private
@@ -241,5 +252,6 @@ end
      )
   end
   
-      
+  
+
 end

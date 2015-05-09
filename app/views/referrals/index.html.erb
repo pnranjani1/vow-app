@@ -30,7 +30,6 @@
                         <th> Email </th>
                         <th>Mobile number</th>
                         <th>Edit</th>
-                        <th>Billing</th>
                        </tr>
                    <thead>
       
@@ -44,8 +43,7 @@
                           <i class="fa fa-edit"></i>
                           <% end %>
                          </td>
-                        <td><%= link_to "Invoice", referrals_referral_bill_path(:id => referral.id, format: "pdf"),class: "btn btn-success", target: "blank" %></td>
-                      </tr>
+                       </tr>
                       <% end %>
                     </tbody>
                  </table>

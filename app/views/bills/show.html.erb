@@ -104,7 +104,7 @@
 <td><%= line_item.product.product_name  %></td> 
   <td><%= line_item.quantity %></td> 
   <td><%= number_with_delimiter(line_item.unit_price, :delimiter => ',') %></td> 
-  <td><%= number_with_delimiter(line_item.total_price, :delimiter => ',')  %></td>
+  <td width="28%"><%= number_with_delimiter(line_item.total_price, :delimiter => ',')  %></td>
  </tr>   
  <% end %>
 
