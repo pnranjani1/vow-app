@@ -59,7 +59,7 @@ end
     
      def logo(user)
        if @user.image.present?
-       image open(user.image_url), height: 50, width: 70, :at => [10,710]
+       image open(@user.image_url), height: 50, width: 70, crop: "fit", :at => [10,710]
        end
      # gravatar_id = Digest::MD5::hexdigest(user.email.downcase)
       #size = 50
