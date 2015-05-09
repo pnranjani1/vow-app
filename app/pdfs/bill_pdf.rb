@@ -172,7 +172,12 @@ table(data, :cell_style => {:font_style => :bold, :align => :center}, :column_wi
       
  def authority
   move_down 40
+   if @user.main_roles.first.role_name =="user"
    company = @bill.authuser.users.first.company
+   elsif @user.main_roles.first.role_name == "client"
+     company = @bill.authuser.clients.first.company
+   end
+   
     if company.length >= 25
   indent(300) do
    if @user.main_roles.first.role_name == "user"
