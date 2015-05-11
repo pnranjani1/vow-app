@@ -1,6 +1,7 @@
 class BillPdf < Prawn::Document
   require 'prawn/table'
   require "open-uri"
+  include ActionView::Helpers::NumberHelper
   
   
    def initialize(bill)
@@ -133,18 +134,18 @@ end
       def bill_products
         [["Products","Quantity", "Unit Price", "Total Price"]] + 
         @bill.line_items.map do|line_item|
-          [line_item.product.product_name, line_item.quantity, line_item.unit_price, line_item.total_price]
+          [line_item.product.product_name, line_item.quantity, "#{number_with_delimiter(line_item.unit_price,delimiter: ',')}", "#{number_with_delimiter(line_item.total_price, delimiter: ',')}"]
         end
       end
       
 
    def table_price_list
     
- data =  [["Bill Total", "#{@bill.total_bill_price}"]]
+     data =  [["Bill Total", "#{number_with_delimiter(@bill.total_bill_price, delimiter: ',')}"]]
 table(data,  :cell_style => {:font_style => :bold},:column_widths => [125, 110], :position => 295)
         
      if @bill.other_charges_information_id != nil
-       data = [["#{@bill.other_charges_information.other_charges}", "#{@bill.other_charges}"]]
+       data = [["#{@bill.other_charges_information.other_charges}", "#{number_with_delimiter(@bill.other_charges, delimiter: ',')}"]]
  table(data, :cell_style => {:font_style => :bold},:column_widths =>[125, 110], :position => 295)
      elsif @bill.other_charges_information_id == nil
        data = [["Other Charges", "NA"]]
@@ -153,16 +154,16 @@ table(data,  :cell_style => {:font_style => :bold},:column_widths => [125, 110],
           
      if @bill.other_charges != nil     
  total = @bill.total_bill_price + @bill.other_charges
-     data = [["#{@bill.tax.tax} on #{total}", "#{(@bill.tax.tax_rate*0.01* total).round(2)}"]]
+       data = [["#{@bill.tax.tax} on #{number_with_delimiter(total, delimiter: ',')}", "#{number_with_delimiter((@bill.tax.tax_rate*0.01* total).round(2), delimiter: ',')}"]]
  table(data, :cell_style => {:font_style => :bold},:column_widths => [125, 110], :position => 295)
    else 
     total = @bill.total_bill_price 
-     data = [["#{@bill.tax.tax} on #{total}", "#{(@bill.tax.tax_rate*0.01* total).round(2)}"]]
+data = [["#{@bill.tax.tax} on #{number_with_delimiter(total, delimiter: ',')}", "#{(@bill.tax.tax_rate*0.01* total).round(2)}"]]
  table(data, :cell_style => {:font_style => :bold},:column_widths => [125, 110], :position => 295)    
     end
 
 
- data = [["Grand Total", "#{@bill.grand_total}"]]
+data = [["Grand Total", "#{number_with_delimiter(@bill.grand_total, delimiter: ',')}"]]
  table(data, :cell_style => {:font_style => :bold}, :column_widths => [125, 110], :position => 295)
 
 data = [["Amount in words", "Rupees #{@bill.grand_total.round.to_words} only"]]

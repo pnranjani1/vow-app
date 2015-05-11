@@ -1,15 +1,4 @@
 
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width">
-
-</head>
-
-<body>
-
  <div class="container">
  <div class="content">
  <div class="content-container">   
@@ -40,7 +29,9 @@
   </div>
   </div>
 <% end %>
+  
 <div class="row">    
+  
   &nbsp;&nbsp;<b style="color:red">*</b>&nbsp;<b> Indicates the mandatory fields</b><br/><br/>
 <div class="col-sm-6 marggap">   
 Name&nbsp;&nbsp;<b style="color:red">*</b>
@@ -57,9 +48,10 @@ Email&nbsp;&nbsp;<b style="color:red">*</b>
   <%= f.text_field :email, class: "form-control" %>
 </div>
 </div> <!-- /.col -->
- </div>
+</div><!-- row ends here -->
  
 <div class="row">    
+  
 <div class="col-sm-6 marggap">  
 Tin Number&nbsp;&nbsp;<b style="color:red">*</b>
 <div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Should Be 11 Digits">
@@ -68,20 +60,23 @@ Tin Number&nbsp;&nbsp;<b style="color:red">*</b>
   <%= f.text_field :tin_number, class: "form-control" %>
 </div>
 </div> <!-- /.col -->
-  </div>
+</div>
+  
 <div class="col-sm-6 marggap">  
-Phone Number
+Mobile Number
 <div id="phone" class="input-group">               
 <span class="input-group-addon"><i class="fa fa-phone"></i></span>
   <%= f.text_field :phone_number , class: "form-control" %>
 </div>
 </div> <!-- /.col -->
- </div>  
+</div>  <!-- row ends here -->
   
- <div class="row">
+<div class="row">
+  
 <div class="col-sm-6 marggap">  
 Address
-<div id="Password" class="form-group">               
+<div id="city" class="input-group">               
+<span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
 <%= f.text_field :address, class: "form-control" %>
 </div>
 </div> <!-- /.col -->
@@ -121,8 +116,7 @@ State
 </div> <!-- content ends here -->
 </div> <!-- container ends here -->
   
-</body>
-</html>
+
 
 
 

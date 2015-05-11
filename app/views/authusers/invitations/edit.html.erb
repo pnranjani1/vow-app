@@ -134,29 +134,37 @@ Mobile Number&nbsp;<b style="color:red">*</b>
 
 <div class="portlet-content">
 
-<div class="row">
 <%= f.fields_for :address do |user_address| %>
+  
+<div class="row">
+
 <div class="col-sm-4">           
 Address Line 1&nbsp;<b style="color:red">*</b>
-<div id="Password" class="form-group">
-  <%= user_address.text_field :address_line_1, class: "form-control" %>
+<div id="City" class="input-group">            
+<span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+<%= user_address.text_field :address_line_1, class: "form-control" %>
 </div>
 </div> <!-- /.col -->
             
 <div class="col-sm-4">           
 Address Line 2&nbsp;<b style="color:red">*</b>
-<div id="Password" class="form-group">             
-  <%= user_address.text_field :address_line_2 , class: "form-control" %>
+<div id="City" class="input-group">            
+<span class="input-group-addon"><i class="fa fa-map-marker"></i></span>        
+<%= user_address.text_field :address_line_2 , class: "form-control" %>
 </div>
 </div> <!-- /.col -->
             
 <div class="col-sm-4">           
 Address Line 3
-<div id="Password" class="form-group">        
-  <%= user_address.text_field :address_line_3 , class: "form-control" %>
+<div id="City" class="input-group">            
+<span class="input-group-addon"><i class="fa fa-map-marker"></i></span>    
+<%= user_address.text_field :address_line_3 , class: "form-control" %>
 </div>
 </div> <!-- /.col -->
-            
+  </div><!-- row ends here -->
+ 
+<div class="row">
+<br/>
 <div class="col-sm-4">           
 City&nbsp;<b style="color:red">*</b>
 <div id="City" class="input-group">            
@@ -181,9 +189,9 @@ Country&nbsp;<b style="color:red">*</b>
   <%=user_address.text_field :country , class: "form-control" %>
 </div>
 </div> <!-- /.col -->
-
-<% end %>  
 </div> <!-- row ends here -->
+<% end %>  
+
 </div> <!-- /.portlet-content -->
 </div> <!-- /.portlet -->
 </div> <!-- /.row -->
