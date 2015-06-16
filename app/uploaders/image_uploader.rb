@@ -4,6 +4,11 @@ class ImageUploader < CarrierWave::Uploader::Base
 
   include Cloudinary::CarrierWave
   
+  #version :simple do
+   # cloudinary_transformation radius: "max"
+  #end
+  
+  
   # Include RMagick or MiniMagick support:
   # include CarrierWave::RMagick
   # include CarrierWave::MiniMagick

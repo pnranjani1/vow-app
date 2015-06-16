@@ -71,38 +71,38 @@ end
   
     def bill_customer
       draw_text "Billing Name", :at => [320, 620], size: 15
-      bounding_box([320, 610],:width => 300) do
+      bounding_box([320, 610],:width => 225) do
         text "#{@bill.customer.name}", size:12, :style => :bold
-      text "Address            :   #{@bill.customer.address}", size: 12
+        text "Address            :   #{@bill.customer.address.capitalize}", size: 12
       text "City                   :   #{@bill.customer.city}", size: 12
       text "Phone Number :   #{@bill.customer.phone_number}", size: 12
       text "Tin Number       :   #{@bill.customer.tin_number}", size: 12
     end
-      move_down 10
+      move_down 5
       stroke_horizontal_rule
       
        
       def bill_transport   
         
         if @bill.transporter_name == ""
-          draw_text "Goods Through : NA" , :style => :bold, :at => [30, 510], size: 11
+          draw_text "Goods Through : NA" , :style => :bold, :at => [30, 490], size: 11
         else
-        draw_text "Goods Through : #{@bill.transporter_name}" , :style => :bold, :at => [30, 510], size: 11
+        draw_text "Goods Through : #{@bill.transporter_name}" , :style => :bold, :at => [30, 490], size: 11
         end
         if @bill.gc_lr_number == ""
-        draw_text "LR Number : NA" , :style => :bold, :at => [280, 510] , size: 11
+        draw_text "LR Number : NA" , :style => :bold, :at => [280, 490] , size: 11
         else
-          draw_text "LR Number : #{@bill.gc_lr_number} " , :style => :bold, :at => [280, 510], size: 11
+          draw_text "LR Number : #{@bill.gc_lr_number} " , :style => :bold, :at => [280, 490], size: 11
         end
         if @bill.vechicle_number == ""
-          draw_text "Vehicle Number : NA" , :style => :bold, :at => [30, 490], size: 11
+          draw_text "Vehicle Number : NA" , :style => :bold, :at => [30, 470], size: 11
         else
-          draw_text "Vehicle Number : #{@bill.vechicle_number} " , :style => :bold, :at => [30, 490], size: 11
+          draw_text "Vehicle Number : #{@bill.vechicle_number} " , :style => :bold, :at => [30, 470], size: 11
         end
         if @bill.lr_date == nil
-          draw_text "LR Date       : NA" , :style => :bold, :at => [280, 490], size: 11
+          draw_text "LR Date       : NA" , :style => :bold, :at => [280, 470], size: 11
         else
-          draw_text "LR Date       : #{@bill.lr_date.strftime("%d %b %Y")} " , :style => :bold, :at => [280, 490], size: 11
+          draw_text "LR Date       : #{@bill.lr_date.strftime("%d %b %Y")} " , :style => :bold, :at => [280, 470], size: 11
         end
         
       end
