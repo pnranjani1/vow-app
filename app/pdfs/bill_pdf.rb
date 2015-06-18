@@ -52,7 +52,7 @@ end
         elsif @user.main_roles.first.role_name  == "client"
           text "#{@bill.authuser.clients.first.company}",size: 12, :style => :bold
         end
-      text "Address            :   #{@bill.authuser.address.address_line_1}, " + "#{@bill.authuser.address.address_line_2}, " + "#{@bill.authuser.address.address_line_3}" + "Bangalore "+ "Bangalore " + "Bangalore " + "Bangalore " + "Bangalore " + "Bangalore" + "Bangalore " + "Bangalore "
+      text "Address            :   #{@bill.authuser.address.address_line_1}, " + "#{@bill.authuser.address.address_line_2}, " + "#{@bill.authuser.address.address_line_3}" 
       text "City                   :   #{@bill.authuser.address.city}" 
       #text "Country :#{@bill.authuser.address.country}"
       text "Phone Number :   #{@bill.authuser.membership.phone_number}"
