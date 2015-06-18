@@ -62,16 +62,16 @@ Tin Number&nbsp;&nbsp;<b style="color:red">*</b>
 <div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Should Be 11 Digits">
 <div id="number" class="input-group">               
 <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
-<%= f.text_field :tin_number, class: "form-control" %>
+  <%= f.text_field :tin_number, maxlength: 11, class: "form-control" %>
 </div>
 </div> <!-- /.col -->
 </div>
   
 <div class="col-sm-6 marggap">    
-Phone Number
+Mobile Number
 <div id="phone" class="input-group">               
 <span class="input-group-addon"><i class="fa fa-phone"></i></span>
-<%= f.text_field :phone_number , class: "form-control" %>
+  <%= f.text_field :phone_number , maxlength: 10, class: "form-control" %>
 </div>
 </div> <!-- /.col -->
 </div>
@@ -80,7 +80,7 @@ Phone Number
 <div class="col-sm-6 marggap">    
 Address
 <div id="Password" class="form-group">               
-<%= f.text_field :address, class: "form-control" %>
+  <%= f.text_field :address, maxlength: 50, class: "form-control" %>
 </div>
 </div> <!-- /.col -->
             
