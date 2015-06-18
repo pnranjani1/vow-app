@@ -14,37 +14,37 @@ class BillPdf < Prawn::Document
      bill_user
      logo(@user)
      bill_customer
+     bill_line
      bill_transport
-     bill_table
      bill_products
+     bill_table
      table_price_list
      authority
      terms_and_conditions
      #footer
      stroke_bounds 
-    end
+   end
 
 
  # :margin => [10, 20, 30, 40]
       
-    def bill_title    
+   def bill_title    
       font "Times-Roman"
       draw_text "INVOICE", :at => [225,690],size: 22
       #if @bill.bill_date == nil
       # @bill.bill_date = Date.today
      #end
    
-    draw_text "Invoice Number : #{@bill.invoice_number}" ,:at => [320,670],size:12
+      draw_text "Invoice Number : #{@bill.invoice_number}" ,:at => [320,670],size:12
       draw_text "Invoice Date      : #{@bill.bill_date.strftime("%b %d, %Y")}" ,:at => [320,650],size:12
-  if @bill.esugam == nil
-  draw_text "E-sugam Number: NA", :at => [8,640], size: 12
-  else
-  draw_text "E-sugam Number: #{@bill.esugam}", :at => [8,640], size: 12
-    end
-end
+      if @bill.esugam == nil
+        draw_text "E-sugam Number: NA", :at => [8,640], size: 12
+      else
+        draw_text "E-sugam Number: #{@bill.esugam}", :at => [8,640], size: 12
+      end
+   end
   
-    def bill_user   
-        
+   def bill_user   
       draw_text "Company Details", :at => [8,620], size:15
       bounding_box([8,610],:width =>300) do
         if @user.main_roles.first.role_name == "user"
@@ -52,192 +52,202 @@ end
         elsif @user.main_roles.first.role_name  == "client"
           text "#{@bill.authuser.clients.first.company}",size: 12, :style => :bold
         end
-      text "Address            :   #{@bill.authuser.address.address_line_1}, " + "#{@bill.authuser.address.address_line_2}, " + "#{@bill.authuser.address.address_line_3}" 
-      text "City                   :   #{@bill.authuser.address.city}" 
-      #text "Country :#{@bill.authuser.address.country}"
-      text "Phone Number :   #{@bill.authuser.membership.phone_number}"
-      text "Tin Number       :   #{@bill.authuser.users.first.tin_number}"
-    end
-    
-     def logo(user)
+        text "Address            :   #{@bill.authuser.address.address_line_1}, " + "#{@bill.authuser.address.address_line_2}, " + "#{@bill.authuser.address.address_line_3}" 
+        text "City                   :   #{@bill.authuser.address.city}" 
+        #text "Country :#{@bill.authuser.address.country}"
+        text "Phone Number :   #{@bill.authuser.membership.phone_number}"
+        text "Tin Number       :   #{@bill.authuser.users.first.tin_number}"
+      end
+   end
+
+   def logo(user)
        if @user.image.present?
-       image open(@user.image_url), height: 50, width: 70, crop: "fit", :at => [10,710]
+         image open(@user.image_url), height: 50, width: 70, crop: "fit", :at => [10,710]
        end
-     # gravatar_id = Digest::MD5::hexdigest(user.email.downcase)
-      #size = 50
-      #gravatar_url = "http://gravatar.com/avatar/#{gravatar_id}?s=#{size}"+".jpg"
-      #image open(gravatar_url), :at => [10,710]
-     end
+   end
+        # gravatar_id = Digest::MD5::hexdigest(user.email.downcase)
+        # size = 50
+        #gravatar_url = "http://gravatar.com/avatar/#{gravatar_id}?s=#{size}"+".jpg"
+        #image open(gravatar_url), :at => [10,710]
+   
      
   
-    def bill_customer
+   def bill_customer
       draw_text "Billing Name", :at => [320, 620], size: 15
       bounding_box([320, 610],:width => 225) do
         text "#{@bill.customer.name}", size:12, :style => :bold
         text "Address            :   #{@bill.customer.address.capitalize}, " , size: 12
-      text "City                   :   #{@bill.customer.city}", size: 12
-      text "Phone Number :   #{@bill.customer.phone_number}", size: 12
-      text "Tin Number       :   #{@bill.customer.tin_number}", size: 12
-    end
-    end
+        text "City                   :   #{@bill.customer.city}", size: 12
+        text "Phone Number :   #{@bill.customer.phone_number}", size: 12
+        text "Tin Number       :   #{@bill.customer.tin_number}", size: 12
+      end
+   end
      # move_down 25
+   def bill_line 
       stroke_horizontal_rule
+   end
       
        
-      def bill_transport   
-        
-        bounding_box([3,470], :width => 300) do
+   def bill_transport   
+      bounding_box([3,480], :width => 300) do
           if @bill.transporter_name == ""
               text "Goods Through : NA" , :style => :bold,  size: 11
           else
               text "Goods Through : #{@bill.transporter_name}" , :style => :bold,  size: 11
            end
-        end
+      end
         
-        bounding_box([320,470], :width => 200) do
-           if @bill.gc_lr_number == ""
+      bounding_box([320,480], :width => 200) do
+         if @bill.gc_lr_number == ""
              text "LR Number : NA" , :style => :bold,  size: 11
-           else
+         else
              text "LR Number : #{@bill.gc_lr_number}" , :style => :bold, size: 11
-           end
          end
+      end
         
-        bounding_box([3,440], :width => 300) do
-          if @bill.vechicle_number == ""
-            text "Vehicle Number : NA" , :style => :bold, size: 11
-          else
+      bounding_box([3,450], :width => 300) do
+         if @bill.vechicle_number == ""
+           text "Vehicle Number : NA" , :style => :bold, size: 11
+         else
             text "Vehicle Number : #{@bill.vechicle_number} " , :style => :bold, size: 11
-          end
-        end
+         end
+      end
         
-        bounding_box([320,440], :width => 300) do
+      bounding_box([320,450], :width => 300) do
           if @bill.lr_date == nil
             text "LR Date       : NA" , :style => :bold, size: 11
           else
             text "LR Date       : #{@bill.lr_date.strftime("%d %b %Y")} " , :style => :bold, size: 11
           end
-        end
       end
-              
- 
-      bounding_box([30,780], :width => 550, :height => 320) do
-      
-        def bill_table   
-        move_down 30
-        table bill_products do
-        row(0).font_style = :bold
-        row(0).background_color = '778899'   
-        #  row(0).row_color =  :FFFFFF
-         # row(0).row_color = "FF0000"
-          columns(0..3).align = :center          
-      #self.row_colors = ["FFFFFF", "DDDDDD"]
-        #self.row_colors = ["FFFFFF", "D3D3D3"]
-      self.header = true
-          self.width = 530
-          self.column(0).width = 120
-          self.column(1).width = 75
-          self.column(2).width = 115
-          self.column(2).width = 100
-         end
-  end
+   end
+            
 
-
-
-      def bill_products
-        [["Products","Quantity", "Unit Price", "Total Price"]] + 
-         @bill.line_items.map do|line_item|
+    def bill_products
+      [["Products","Quantity", "Unit Price", "Total Price"]] + 
+      @bill.line_items.map do|line_item|
           qty = line_item.quantity
-           if qty % 1 == 0.0
-            qty = qty.to_i
-           else
-            qty = qty
-           end
-          [line_item.product.product_name, qty, "#{number_with_delimiter(line_item.unit_price,delimiter: ',')}", "#{number_with_delimiter(line_item.total_price.round(2), delimiter: ',')}"]
-         
+            if qty % 1 == 0.0
+              qty = qty.to_i
+            else
+              qty = qty
+            end
+         [line_item.product.product_name, qty, "#{number_with_delimiter(line_item.unit_price,delimiter: ',')}", "#{number_with_delimiter(line_item.total_price.round(2), delimiter: ',')}"]
+      end
+   end
+ 
+   def bill_table   
+      bounding_box([5,440], :width => 550) do
+        move_down 30
+         table bill_products do
+           row(0).font_style = :bold
+           row(0).background_color = '778899'   
+           #  row(0).row_color =  :FFFFFF
+           # row(0).row_color = "FF0000"
+           columns(0..3).align = :center          
+           #self.row_colors = ["FFFFFF", "DDDDDD"]
+           #self.row_colors = ["FFFFFF", "D3D3D3"]
+           self.header = true
+           self.width = 530
+           self.column(0).width = 120
+           self.column(1).width = 75
+           self.column(2).width = 115
+           self.column(2).width = 100
          end
       end
+   end
+   
+  
       
 
    def table_price_list
-    
-     data =  [["Bill Total", "#{number_with_delimiter(@bill.total_bill_price.round(2), delimiter: ',')}"]]
-table(data,  :cell_style => {:font_style => :bold},:column_widths => [125, 110], :position => 295)
+         data =  [["Bill Total", "#{number_with_delimiter(@bill.total_bill_price.round(2), delimiter: ',')}"]]
+         table(data,  :cell_style => {:font_style => :bold},:column_widths => [125, 110], :position => 300)
         
-     if @bill.other_charges_information_id != nil
-       data = [["#{@bill.other_charges_information.other_charges}", "#{number_with_delimiter(@bill.other_charges, delimiter: ',')}"]]
- table(data, :cell_style => {:font_style => :bold},:column_widths =>[125, 110], :position => 295)
-     elsif @bill.other_charges_information_id == nil
-       data = [["Other Charges", "NA"]]
- table(data, :cell_style => {:font_style => :bold},:column_widths =>[140, 65], :position => 295)
-     end
+         if @bill.other_charges_information_id != nil
+            data = [["#{@bill.other_charges_information.other_charges}", "#{number_with_delimiter(@bill.other_charges, delimiter: ',')}"]]
+            table(data, :cell_style => {:font_style => :bold},:column_widths =>[125, 110], :position => 300)
+         elsif @bill.other_charges_information_id == nil
+           data = [["Other Charges", "NA"]]
+           table(data, :cell_style => {:font_style => :bold},:column_widths =>[140, 65], :position => 300)
+         end
           
-     if @bill.other_charges != nil     
- total = @bill.total_bill_price + @bill.other_charges
-       data = [["#{@bill.tax.tax} on #{number_with_delimiter(total.round(2), delimiter: ',')}", "#{number_with_delimiter((@bill.tax.tax_rate*0.01* total).round(2), delimiter: ',')}"]]
- table(data, :cell_style => {:font_style => :bold},:column_widths => [125, 110], :position => 295)
-   else 
-    total = @bill.total_bill_price 
-data = [["#{@bill.tax.tax} on #{number_with_delimiter(total, delimiter: ',')}", "#{(@bill.tax.tax_rate*0.01* total).round(2)}"]]
- table(data, :cell_style => {:font_style => :bold},:column_widths => [125, 110], :position => 295)    
-    end
+         if @bill.other_charges != nil     
+           total = @bill.total_bill_price + @bill.other_charges
+           data = [["#{@bill.tax.tax} on #{number_with_delimiter(total.round(2), delimiter: ',')}", "#{number_with_delimiter((@bill.tax.tax_rate*0.01* total).round(2), delimiter: ',')}"]]
+           table(data, :cell_style => {:font_style => :bold},:column_widths => [125, 110], :position => 300)
+         else 
+            total = @bill.total_bill_price 
+            data = [["#{@bill.tax.tax} on #{number_with_delimiter(total, delimiter: ',')}", "#{(@bill.tax.tax_rate*0.01* total).round(2)}"]]
+            table(data, :cell_style => {:font_style => :bold},:column_widths => [125, 110], :position => 300)    
+         end
 
 
-data = [["Grand Total", "#{number_with_delimiter(@bill.grand_total.round(2), delimiter: ',')}"]]
- table(data, :cell_style => {:font_style => :bold}, :column_widths => [125, 110], :position => 295)
+         data = [["Grand Total", "#{number_with_delimiter(@bill.grand_total.round(2), delimiter: ',')}"]]
+         table(data, :cell_style => {:font_style => :bold}, :column_widths => [125, 110], :position => 300)
 
-data = [["Amount in words", "Rupees #{@bill.grand_total.round.to_words} only"]]
-table(data, :cell_style => {:font_style => :bold, :align => :center}, :column_widths => [140, 390])
-        end
+         data = [["Amount in words", "Rupees #{@bill.grand_total.round.to_words} only"]]
+         table(data, :cell_style => {:font_style => :bold, :align => :center}, :column_widths => [140, 392], :position => 3)
+   end
 
       
- def authority
-  move_down 40
-   if @user.main_roles.first.role_name =="user"
-   company = @bill.authuser.users.first.company
-   elsif @user.main_roles.first.role_name == "client"
-     company = @bill.authuser.clients.first.company
-   end
+   def authority
+      move_down 40
+       if @user.main_roles.first.role_name =="user"
+           company = @bill.authuser.users.first.company
+       elsif @user.main_roles.first.role_name == "client"
+            company = @bill.authuser.clients.first.company
+       end
    
-    if company.length >= 25
-  indent(300) do
-   if @user.main_roles.first.role_name == "user"
-    text "For "+@bill.authuser.users.first.company,  size: 11, :style => :bold
-     #text "For iPrimitus Consultancy Services", size: 11, style: :bold
-   elsif @user.main_roles.first.role_name  == "client"
-     text "For "+@bill.authuser.clients.first.company,  size: 11, :style => :bold
+       if company.length >= 25
+         indent(300) do
+             if @user.main_roles.first.role_name == "user"
+               text "For "+@bill.authuser.users.first.company,  size: 11, :style => :bold
+               #text "For iPrimitus Consultancy Services", size: 11, style: :bold
+             elsif @user.main_roles.first.role_name  == "client"
+                text "For "+@bill.authuser.clients.first.company,  size: 11, :style => :bold
+             end
+         move_down 30
+         text "Authorized Signatory",  size: 11, :style => :bold
+         end
+       else
+          indent(350) do
+               if @user.main_roles.first.role_name == "user"
+                  text "For "+@bill.authuser.users.first.company,  size: 11, :style => :bold
+                  # text "For iPrimitus Consultancy Services", size: 11, style: :bold
+               elsif @user.main_roles.first.role_name  == "client"
+                  text "For "+@bill.authuser.clients.first.company,  size: 11, :style => :bold
+               end
+             move_down 30
+             text "Authorized Signatory",  size: 11, :style => :bold
+          end
+       end
    end
-  move_down 30
-  text "Authorized Signatory",  size: 11, :style => :bold
-end
- else
-   indent(350) do
-   if @user.main_roles.first.role_name == "user"
-    text "For "+@bill.authuser.users.first.company,  size: 11, :style => :bold
-    # text "For iPrimitus Consultancy Services", size: 11, style: :bold
-   elsif @user.main_roles.first.role_name  == "client"
-     text "For "+@bill.authuser.clients.first.company,  size: 11, :style => :bold
-   end
-  move_down 30
-  text "Authorized Signatory",  size: 11, :style => :bold
-end
- end
+
+   def terms_and_conditions
+           #stroke_rectangle [3,160], 400, 80
+       move_down 40
+       indent 10 do
+           text "Terms and Conditions", size: 11, :style => :bold
+           text "", size: 10
+           text "1. Interest @ 24% per annum will be charged on the bills remaining unpaid after 15 days.", size: 10
+           text "2. No claim will be entertained after goods are duly accepted.",  size: 10
+           text "3. Goods once sold cannot be taken back or exchanged.", size: 10
+           text "4. Subject to Bangalore Jurisdiction.",  size: 10
+       end
      
-def terms_and_conditions
-#stroke_rectangle [3,160], 400, 80
-   move_down 40
-  indent 10 do
-  text "Terms and Conditions", size: 11, :style => :bold
-  text "", size: 10
-  text "1. Interest @ 24% per annum will be charged on the bills remaining unpaid after 15 days.", size: 10
-  text "2. No claim will be entertained after goods are duly accepted.",  size: 10
-  text "3. Goods once sold cannot be taken back or exchanged.", size: 10
-  text "4. Subject to Bangalore Jurisdiction.",  size: 10
- #:at => [110, 65], :width => 80, :size => 8
-end
+         repeat :all do
+          #Create a bounding box and move it up 18 units from the bottom boundry of the page
+           bounding_box [bounds.left, bounds.bottom + 18], width: bounds.width do
+            text "We Thank You for Your Business", size: 10, align: :center
+           end
+         end
+   end
+
 end
 
-
-#end
+  
+  #end
  
 #def footer
  # move_down 70
@@ -246,10 +256,7 @@ end
 #end
 #end
 
-end
-end
-     
-
+#end
 #repeat :all do
 #bounding_box([bounds.right - 59, bounds.bottom - -20], :width => 60, :height => 20) do
 
@@ -257,24 +264,9 @@ end
  # text "Page #{pagecount}"
 #end
 #end
-
-
-
 #string = "page <page> of <total>"
 #options = { :at =>  [250, 0],
  # :start_count_at => 1}
 #number_pages string, options
-
- repeat :all do
-      #Create a bounding box and move it up 18 units from the bottom boundry of the page
-      bounding_box [bounds.left, bounds.bottom + 18], width: bounds.width do
-        text "We Thank You for Your Business", size: 10, align: :center
-      end
-    end
-
-end
-end
-  
-  
   
  
