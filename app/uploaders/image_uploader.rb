@@ -3,7 +3,7 @@
 class ImageUploader < CarrierWave::Uploader::Base
 
   include Cloudinary::CarrierWave
-  
+  #Cloudinary::Utils.private_download_url self.cloudinary_id, self.format, attachment: true
   #version :simple do
    # cloudinary_transformation radius: "max"
   #end

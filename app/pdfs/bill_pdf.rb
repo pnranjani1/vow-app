@@ -27,7 +27,8 @@ class BillPdf < Prawn::Document
 
  # :margin => [10, 20, 30, 40]
       
-    def bill_title      
+    def bill_title    
+      font "Times-Roman"
       draw_text "INVOICE", :at => [225,690],size: 22
       #if @bill.bill_date == nil
       # @bill.bill_date = Date.today
@@ -51,8 +52,8 @@ end
         elsif @user.main_roles.first.role_name  == "client"
           text "#{@bill.authuser.clients.first.company}",size: 12, :style => :bold
         end
-      text "Address            :   #{@bill.authuser.address.address_line_3}"
-      text "City                   :   #{@bill.authuser.address.city}"
+      text "Address            :   #{@bill.authuser.address.address_line_1}, " + "#{@bill.authuser.address.address_line_2}, " + "#{@bill.authuser.address.address_line_3}" + "Bangalore "+ "Bangalore " + "Bangalore " + "Bangalore " + "Bangalore " + "Bangalore" + "Bangalore " + "Bangalore "
+      text "City                   :   #{@bill.authuser.address.city}" 
       #text "Country :#{@bill.authuser.address.country}"
       text "Phone Number :   #{@bill.authuser.membership.phone_number}"
       text "Tin Number       :   #{@bill.authuser.users.first.tin_number}"
@@ -73,42 +74,53 @@ end
       draw_text "Billing Name", :at => [320, 620], size: 15
       bounding_box([320, 610],:width => 225) do
         text "#{@bill.customer.name}", size:12, :style => :bold
-        text "Address            :   #{@bill.customer.address.capitalize}", size: 12
+        text "Address            :   #{@bill.customer.address.capitalize}, " , size: 12
       text "City                   :   #{@bill.customer.city}", size: 12
       text "Phone Number :   #{@bill.customer.phone_number}", size: 12
       text "Tin Number       :   #{@bill.customer.tin_number}", size: 12
     end
-      move_down 5
+    end
+     # move_down 25
       stroke_horizontal_rule
       
        
       def bill_transport   
         
-        if @bill.transporter_name == ""
-          draw_text "Goods Through : NA" , :style => :bold, :at => [30, 490], size: 11
-        else
-        draw_text "Goods Through : #{@bill.transporter_name}" , :style => :bold, :at => [30, 490], size: 11
-        end
-        if @bill.gc_lr_number == ""
-        draw_text "LR Number : NA" , :style => :bold, :at => [280, 490] , size: 11
-        else
-          draw_text "LR Number : #{@bill.gc_lr_number} " , :style => :bold, :at => [280, 490], size: 11
-        end
-        if @bill.vechicle_number == ""
-          draw_text "Vehicle Number : NA" , :style => :bold, :at => [30, 470], size: 11
-        else
-          draw_text "Vehicle Number : #{@bill.vechicle_number} " , :style => :bold, :at => [30, 470], size: 11
-        end
-        if @bill.lr_date == nil
-          draw_text "LR Date       : NA" , :style => :bold, :at => [280, 470], size: 11
-        else
-          draw_text "LR Date       : #{@bill.lr_date.strftime("%d %b %Y")} " , :style => :bold, :at => [280, 470], size: 11
+        bounding_box([3,470], :width => 300) do
+          if @bill.transporter_name == ""
+              text "Goods Through : NA" , :style => :bold,  size: 11
+          else
+              text "Goods Through : #{@bill.transporter_name}" , :style => :bold,  size: 11
+           end
         end
         
+        bounding_box([320,470], :width => 200) do
+           if @bill.gc_lr_number == ""
+             text "LR Number : NA" , :style => :bold,  size: 11
+           else
+             text "LR Number : #{@bill.gc_lr_number}" , :style => :bold, size: 11
+           end
+         end
+        
+        bounding_box([3,440], :width => 300) do
+          if @bill.vechicle_number == ""
+            text "Vehicle Number : NA" , :style => :bold, size: 11
+          else
+            text "Vehicle Number : #{@bill.vechicle_number} " , :style => :bold, size: 11
+          end
+        end
+        
+        bounding_box([320,440], :width => 300) do
+          if @bill.lr_date == nil
+            text "LR Date       : NA" , :style => :bold, size: 11
+          else
+            text "LR Date       : #{@bill.lr_date.strftime("%d %b %Y")} " , :style => :bold, size: 11
+          end
+        end
       end
               
  
-      bounding_box([30,810], :width => 550, :height => 320) do
+      bounding_box([30,780], :width => 550, :height => 320) do
       
         def bill_table   
         move_down 30
@@ -117,7 +129,7 @@ end
         row(0).background_color = '778899'   
         #  row(0).row_color =  :FFFFFF
          # row(0).row_color = "FF0000"
-          columns(0..3).align = :center
+          columns(0..3).align = :center          
       #self.row_colors = ["FFFFFF", "DDDDDD"]
         #self.row_colors = ["FFFFFF", "D3D3D3"]
       self.header = true
@@ -133,15 +145,22 @@ end
 
       def bill_products
         [["Products","Quantity", "Unit Price", "Total Price"]] + 
-        @bill.line_items.map do|line_item|
-          [line_item.product.product_name, line_item.quantity, "#{number_with_delimiter(line_item.unit_price,delimiter: ',')}", "#{number_with_delimiter(line_item.total_price, delimiter: ',')}"]
-        end
+         @bill.line_items.map do|line_item|
+          qty = line_item.quantity
+           if qty % 1 == 0.0
+            qty = qty.to_i
+           else
+            qty = qty
+           end
+          [line_item.product.product_name, qty, "#{number_with_delimiter(line_item.unit_price,delimiter: ',')}", "#{number_with_delimiter(line_item.total_price.round(2), delimiter: ',')}"]
+         
+         end
       end
       
 
    def table_price_list
     
-     data =  [["Bill Total", "#{number_with_delimiter(@bill.total_bill_price, delimiter: ',')}"]]
+     data =  [["Bill Total", "#{number_with_delimiter(@bill.total_bill_price.round(2), delimiter: ',')}"]]
 table(data,  :cell_style => {:font_style => :bold},:column_widths => [125, 110], :position => 295)
         
      if @bill.other_charges_information_id != nil
@@ -154,7 +173,7 @@ table(data,  :cell_style => {:font_style => :bold},:column_widths => [125, 110],
           
      if @bill.other_charges != nil     
  total = @bill.total_bill_price + @bill.other_charges
-       data = [["#{@bill.tax.tax} on #{number_with_delimiter(total, delimiter: ',')}", "#{number_with_delimiter((@bill.tax.tax_rate*0.01* total).round(2), delimiter: ',')}"]]
+       data = [["#{@bill.tax.tax} on #{number_with_delimiter(total.round(2), delimiter: ',')}", "#{number_with_delimiter((@bill.tax.tax_rate*0.01* total).round(2), delimiter: ',')}"]]
  table(data, :cell_style => {:font_style => :bold},:column_widths => [125, 110], :position => 295)
    else 
     total = @bill.total_bill_price 
@@ -163,7 +182,7 @@ data = [["#{@bill.tax.tax} on #{number_with_delimiter(total, delimiter: ',')}", 
     end
 
 
-data = [["Grand Total", "#{number_with_delimiter(@bill.grand_total, delimiter: ',')}"]]
+data = [["Grand Total", "#{number_with_delimiter(@bill.grand_total.round(2), delimiter: ',')}"]]
  table(data, :cell_style => {:font_style => :bold}, :column_widths => [125, 110], :position => 295)
 
 data = [["Amount in words", "Rupees #{@bill.grand_total.round.to_words} only"]]
@@ -218,7 +237,7 @@ end
 end
 
 
-end
+#end
  
 #def footer
  # move_down 70

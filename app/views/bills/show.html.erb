@@ -100,11 +100,16 @@
 
 <tbody> 
 <% @bill.line_items.each do|line_item| %>
-<tr>                      
-<td><%= line_item.product.product_name  %></td> 
-  <td><%= line_item.quantity %></td> 
-  <td><%= number_with_delimiter(line_item.unit_price, :delimiter => ',') %></td> 
-  <td width="28%"><%= number_with_delimiter(line_item.total_price, :delimiter => ',')  %></td>
+ <tr>                      
+   <td><%= line_item.product.product_name  %></td> 
+   <% qty = line_item.quantity %>
+   <% if qty % 1 == 0.0 %>
+   <td><%= qty.to_i %></td>
+   <% else %>
+   <td><%= qty %></td>
+   <% end %>
+   <td><%= number_with_delimiter(line_item.unit_price, :delimiter => ',') %></td> 
+   <td width="28%"><%= number_with_delimiter(line_item.total_price.round(2), :delimiter => ',')  %></td>
  </tr>   
  <% end %>
 
@@ -116,7 +121,7 @@
     
 <tr>
 <td><strong>Bill Total</strong></td>
-  <td><%= number_with_delimiter(@bill.total_bill_price, :delimiter => ',') %></td>
+  <td><%= number_with_delimiter(@bill.total_bill_price.round(2), :delimiter => ',') %></td>
 </tr>
  
 <% if @bill.other_charges_information_id != nil %>
@@ -128,13 +133,13 @@
   
 <tr>
 <% total = @bill.total_bill_price.to_f + @bill.other_charges.to_f %>    
-  <td><strong><%= @bill.tax.tax_type %>  @ <%= @bill.tax.tax_rate %> % on <%=number_with_delimiter(total, :delimiter => ',') %></strong></td>
+  <td><strong><%= @bill.tax.tax_type %>  @ <%= @bill.tax.tax_rate %> % on <%=number_with_delimiter(total.round(2), :delimiter => ',') %></strong></td>
   <td><%=  number_with_delimiter((@bill.tax.tax_rate * 0.01*total).round(2), :delimiter => ',') %></td>
 </tr>
 
 <tr>
 <td><strong>Grand Total</strong></td>
-  <td><%= number_with_delimiter(@bill.grand_total, :delimiter => ',') %></td>
+  <td><%= number_with_delimiter(@bill.grand_total.round(2), :delimiter => ',') %></td>
 </tr>
    
 </table>

@@ -1,3 +1,8 @@
+label.required:after {
+    content: " *";
+    color: red;
+}
+
 .padboard{
   border:1px solid #ccc;
 }
