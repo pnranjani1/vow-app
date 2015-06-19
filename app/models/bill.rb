@@ -17,6 +17,8 @@ class Bill < ActiveRecord::Base
   validates :invoice_number, :bill_date, :tax_id, presence: true
   validates :invoice_number, :uniqueness => {:scope => :authuser_id}
   validate :past_date
+  validates :vechicle_number, length: {is: 12}
+  validates :gc_lr_number, length: { is: 12}
   validates :customer_id, presence: true
   validates :line_items, presence: true
 #  validates :line_items, presence: true
@@ -109,8 +111,8 @@ class Bill < ActiveRecord::Base
     
     begin
       browser = Watir::Browser.new :phantomjs
-     # browser.goto  "http://vat.kar.nic.in/"
-     browser.goto "http://164.100.80.121/vat2/"
+      browser.goto  "http://vat.kar.nic.in/"
+    # browser.goto "http://164.100.80.121/vat2/"
       #browser.goto "http://sugam.kar.nic.in"
       url = nil
       browser.windows.last.use do
@@ -124,13 +126,14 @@ class Bill < ActiveRecord::Base
       browser.text_field(:id, "Password").set(@bill.authuser.users.first.esugam_password)
       browser.button(:value,"Login").click
       browser.goto "http://164.100.80.121/vat2/web_vat505/Vat505_Etrans.aspx?mode=new"
+      sleep 5
      # browser.goto "http://164.100.80.121/vat2/web_vat505/Vat505_Etrans.aspx?mode=new"
       #browser.button(:value,"Continue").click rescue nil
       #browser.goto "#{url}/CheckInvoiceEnabled.aspx?Form=ESUGAM1"
       if @tax_type == "CST"
         browser.radio(:id, "ctl00_MasterContent_rdoStatCat_1").set
         sleep 5
-        browser.text_field(:id, "ctl00_MasterContent_txtTIN").set(@customer_tin_number)
+        browser.text_field(:id, "ctl00_MasterContent_txtTIN").set(@customer_tin_number.to_i)
          begin
           browser.text_field(:id, "ctl00_MasterContent_txtFromAddrs").set("BANGALORE")
          rescue => e
@@ -146,7 +149,7 @@ class Bill < ActiveRecord::Base
     
         
       if @tax_type == "VAT"
-      browser.text_field(:id, "ctl00_MasterContent_txtTIN").set(@customer_tin_number)
+      browser.text_field(:id, "ctl00_MasterContent_txtTIN").set(@customer_tin_number.to_i)
       browser.send_keys :tab
      end
        
@@ -165,7 +168,7 @@ class Bill < ActiveRecord::Base
       browser.text_field(:id, "ctl00_MasterContent_txtVatTaxValue").set(@total_tax)
       browser.text_field(:id, "ctl00_MasterContent_txtOthVal").set(@other_value)
       sleep 3
-      browser.text_field(:id, "ctl00_MasterContent_txtInvoiceNO").set(@bill.invoice_number.to_s)
+      browser.text_field(:id, "ctl00_MasterContent_txtInvoiceNO").set(@bill.invoice_number)
 
       browser.button(:value,"SAVE AND SUBMIT").click
       page_html = Nokogiri::HTML.parse(browser.html)

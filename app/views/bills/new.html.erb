@@ -351,23 +351,27 @@ State
 <strong>Transporter Name</strong> 
 <div id="name" class="input-group">               
 <span class="input-group-addon"><i class="fa fa-user"></i></span>
-<%= f.text_field :transporter_name, class: "form-control" %>
+  <%= f.text_field :transporter_name, maxlength: 45,  class: "form-control" %>
 </div>
 </div> <!-- /.col -->
             
 <div class="col-sm-3">           
 <strong>Vehicle Number</strong> 
+<div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Maximum limit is 12 digits">
 <div id="name" class="input-group">               
 <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
-<%= f.text_field :vechicle_number, class: "form-control" %>
+  <%= f.text_field :vechicle_number, :maxlength => 12, class: "form-control" %>
+</div>
 </div>
 </div> <!-- /.col -->
         
 <div class="col-sm-3">           
 <strong>GC/LR Number</strong> 
+<div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Maximum limit is 12 digits">
 <div id="name" class="input-group">               
 <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
-<%= f.text_field :gc_lr_number, class: "form-control" %>
+<%= f.text_field :gc_lr_number, :maxlength => 12,  class: "form-control" %>
+</div>
 </div>
 </div> <!-- /.col -->
 
@@ -422,7 +426,7 @@ State
 <br/><br/><br/><br/>
   
 <div class="col-sm-9">           
-  <strong>Other Information(To be printed on the bill)</strong> 
+  <strong>Other Information</strong> 
 <div id="name" class="input-group">               
   <%= f.text_area :other_information, :cols => 100, class: "form-control" %>
 </div>
