@@ -101,7 +101,7 @@ class CustomersController < ApplicationController
   
   private
   def set_params
-    params[:customer].permit(:name, :email, :tin_number, :phone_number, :address, :city, :authuser_id, :state)
+    params[:customer].permit(:name, :email, :tin_number, :phone_number, :address, :city, :authuser_id, :state, :pin_code)
   end
   
   #def get_customer

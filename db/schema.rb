@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150617071935) do
+ActiveRecord::Schema.define(version: 20150622071500) do
 
   create_table "addresses", force: true do |t|
     t.string   "address_line_1"
@@ -140,6 +140,7 @@ ActiveRecord::Schema.define(version: 20150617071935) do
     t.datetime "updated_at"
     t.string   "permalink"
     t.string   "state"
+    t.string   "pin_code"
   end
 
   create_table "dashboards", force: true do |t|

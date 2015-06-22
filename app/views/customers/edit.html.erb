@@ -80,7 +80,7 @@ Mobile Number
 <div class="col-sm-6 marggap">    
 Address
 <div id="Password" class="form-group">               
-  <%= f.text_field :address, maxlength: 50, class: "form-control" %>
+  <%= f.text_field :address, maxlength: 60, class: "form-control" %>
 </div>
 </div> <!-- /.col -->
             
@@ -100,6 +100,14 @@ State
 <div id="City" class="input-group">               
 <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
   <%= f.text_field :state , class: "form-control" %>
+</div>
+</div> <!-- /.col -->
+    
+<div class="col-sm-6 marggap">  
+Pin Code
+<div id="City" class="input-group">               
+<span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+  <%= f.text_field :pin_code , :maxlength => 8, class: "form-control" %>
 </div>
 </div> <!-- /.col -->
 </div>

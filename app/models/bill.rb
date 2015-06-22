@@ -17,8 +17,8 @@ class Bill < ActiveRecord::Base
   validates :invoice_number, :bill_date, :tax_id, presence: true
   validates :invoice_number, :uniqueness => {:scope => :authuser_id}
   validate :past_date
-  validates :vechicle_number, length: {is: 12}
-  validates :gc_lr_number, length: { is: 12}
+ # validates :vechicle_number, length: {is: 12}
+  #validates :gc_lr_number, length: { is: 12}
   validates :customer_id, presence: true
   validates :line_items, presence: true
 #  validates :line_items, presence: true

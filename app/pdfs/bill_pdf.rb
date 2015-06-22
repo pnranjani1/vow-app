@@ -29,34 +29,38 @@ class BillPdf < Prawn::Document
  # :margin => [10, 20, 30, 40]
       
    def bill_title    
-      font "Times-Roman"
-      draw_text "INVOICE", :at => [225,690],size: 22
+     font "Times-Roman"
+      draw_text "INVOICE", :at => [225,690],size: 21
       #if @bill.bill_date == nil
       # @bill.bill_date = Date.today
      #end
-   
-      draw_text "Invoice Number : #{@bill.invoice_number}" ,:at => [320,670],size:12
-      draw_text "Invoice Date      : #{@bill.bill_date.strftime("%b %d, %Y")}" ,:at => [320,650],size:12
+     bounding_box([320, 670], :width => 300) do
+      text "<b>Invoice Number   :</b> #{@bill.invoice_number}" ,size:11, :inline_format => true
+      text "<b>Invoice Date         :</b> #{@bill.bill_date.strftime("%b %d, %Y")}" ,size:11, :inline_format => true
+    end
+  
+    bounding_box([8, 640], :width => 300) do
       if @bill.esugam == nil
-        draw_text "E-sugam Number: NA", :at => [8,640], size: 12
+        text "<b>E-Sugam Number:</b> NA", :inline_format => true, size: 11
       else
-        draw_text "E-sugam Number: #{@bill.esugam}", :at => [8,640], size: 12
+        text "</b>E-Sugam Number:</b> #{@bill.esugam}", :inline_format=> true, size: 11
       end
+    end
    end
   
    def bill_user   
-      draw_text "Company Details", :at => [8,620], size:15
-      bounding_box([8,610],:width =>300) do
+      #draw_text "Company Details", :at => [8,620], size:15
+      bounding_box([8,610],:width =>250) do
         if @user.main_roles.first.role_name == "user"
-        text "#{@bill.authuser.users.first.company}",size: 12, :style => :bold
+          text "#{@bill.authuser.users.first.company.titleize}",size: 14, :style => :bold
         elsif @user.main_roles.first.role_name  == "client"
-          text "#{@bill.authuser.clients.first.company}",size: 12, :style => :bold
-        end
-        text "Address            :   #{@bill.authuser.address.address_line_1}, " + "#{@bill.authuser.address.address_line_2}, " + "#{@bill.authuser.address.address_line_3}" 
-        text "City                   :   #{@bill.authuser.address.city}" 
+          text "#{@bill.authuser.clients.first.company.titleize}",size: 14, :style => :bold
+        end 
+        text "<b>Address               :</b>    #{@bill.authuser.address.address_line_1.capitalize}, " + "#{@bill.authuser.address.address_line_2}, " + "#{@bill.authuser.address.address_line_3}" , :inline_format => true, size: 11
+        text "<b>City                     :</b>    #{@bill.authuser.address.city.capitalize}", :inline_format => true, size: 11
         #text "Country :#{@bill.authuser.address.country}"
-        text "Phone Number :   #{@bill.authuser.membership.phone_number}"
-        text "Tin Number       :   #{@bill.authuser.users.first.tin_number}"
+        text "<b>Phone Number   :</b>   #{@bill.authuser.membership.phone_number}", :inline_format => true, size: 11
+        text "<b>Tin Number        :</b>   #{@bill.authuser.users.first.tin_number}", :inline_format => true, size: 11
       end
    end
 
@@ -74,17 +78,18 @@ class BillPdf < Prawn::Document
   
    def bill_customer
       draw_text "Billing Name", :at => [320, 620], size: 15
-      bounding_box([320, 610],:width => 225) do
-        text "#{@bill.customer.name}", size:12, :style => :bold
-        text "Address            :   #{@bill.customer.address.capitalize}, " , size: 12
-        text "City                   :   #{@bill.customer.city}", size: 12
-        text "Phone Number :   #{@bill.customer.phone_number}", size: 12
-        text "Tin Number       :   #{@bill.customer.tin_number}", size: 12
+      bounding_box([320, 610],:width => 220) do
+        text "#{@bill.customer.name.titleize}", size:14, :style => :bold
+        text "<b>Address               :</b>   #{@bill.customer.address.capitalize}" , :inline_format => true, size: 11 
+        text "<b>City                      :</b>   #{@bill.customer.city.capitalize}", size: 11, :inline_format => true
+        text "<b>PinCode               :</b>   #{@bill.customer.pin_code}", size: 11, :inline_format => true
+        text "<b>Phone  Number   :</b>  #{@bill.customer.phone_number}", size: 11, :inline_format => true
+        text "<b>Tin  Number        :</b>  #{@bill.customer.tin_number}", size: 11, :inline_format => true
       end
    end
      
    def bill_line 
-     move_down 40
+      move_down 25
       stroke_horizontal_rule
    end
       
@@ -92,33 +97,33 @@ class BillPdf < Prawn::Document
    def bill_transport   
       bounding_box([3,480], :width => 300) do
           if @bill.transporter_name == ""
-              text "Goods Through : NA" , :style => :bold,  size: 11
+            text "<b>Goods Through :</b> NA" , size: 11, :inline_format => true
           else
-              text "Goods Through : #{@bill.transporter_name}" , :style => :bold,  size: 11
+            text "<b>Goods Through :</b> #{@bill.transporter_name.capitalize}" , :style => :bold,  size: 11, :inline_format => true
            end
       end
         
       bounding_box([320,480], :width => 200) do
          if @bill.gc_lr_number == ""
-             text "LR Number : NA" , :style => :bold,  size: 11
+           text "<b>LR Number :</b> NA" , :inline_format => true,  size: 11
          else
-             text "LR Number : #{@bill.gc_lr_number}" , :style => :bold, size: 11
+           text "<b>LR Number :</b> #{@bill.gc_lr_number}" , :inline_format => true, size: 11
          end
       end
         
       bounding_box([3,450], :width => 300) do
          if @bill.vechicle_number == ""
-           text "Vehicle Number : NA" , :style => :bold, size: 11
+           text "<b>Vehicle Number : </b> NA" , :inline_format => true, size: 11
          else
-            text "Vehicle Number : #{@bill.vechicle_number} " , :style => :bold, size: 11
+           text "<b>Vehicle Number :</b> #{@bill.vechicle_number} " , :inline_format => true, size: 11
          end
       end
         
       bounding_box([320,450], :width => 300) do
           if @bill.lr_date == nil
-            text "LR Date       : NA" , :style => :bold, size: 11
+            text "<b>LR Date       :</b> NA" , :inline_format => true, size: 11
           else
-            text "LR Date       : #{@bill.lr_date.strftime("%d %b %Y")} " , :style => :bold, size: 11
+            text "<b>LR Date       :</b> #{@bill.lr_date.strftime("%d %b %Y")} " , :inline_format => true, size: 11
           end
       end
    end
@@ -133,7 +138,7 @@ class BillPdf < Prawn::Document
             else
               qty = qty
             end
-         [line_item.product.product_name, qty, "#{number_with_delimiter(line_item.unit_price,delimiter: ',')}", "#{number_with_delimiter(line_item.total_price.round(2), delimiter: ',')}"]
+        [line_item.product.product_name.titleize, qty, "#{number_with_delimiter(line_item.unit_price,delimiter: ',')}", "#{number_with_delimiter(line_item.total_price.round(2), delimiter: ',')}"]
       end
    end
  
@@ -162,30 +167,30 @@ class BillPdf < Prawn::Document
       
 
    def table_price_list
-         data =  [["Bill Total", "#{number_with_delimiter(@bill.total_bill_price.round(2), delimiter: ',')}"]]
-table(data,  :cell_style => {:font_style => :bold, :align => :center},:column_widths => [125, 110], :position => 300)
+         data =  [["<b>Bill Total</b>", "#{number_with_delimiter(@bill.total_bill_price.round(2), delimiter: ',')}"]]
+table(data,  :cell_style => {:inline_format => true, :align => :center},:column_widths => [125, 110], :position => 300)
         
          if @bill.other_charges_information_id != nil
-            data = [["#{@bill.other_charges_information.other_charges}", "#{number_with_delimiter(@bill.other_charges, delimiter: ',')}"]]
-table(data, :cell_style => {:font_style => :bold, :align => :center},:column_widths =>[125, 110], :position => 300)
+            data = [["<b>#{@bill.other_charges_information.other_charges}</b>", "#{number_with_delimiter(@bill.other_charges, delimiter: ',')}"]]
+table(data, :cell_style => {:inline_format => true, :align => :center},:column_widths =>[125, 110], :position => 300)
          elsif @bill.other_charges_information_id == nil
-           data = [["Other Charges", "NA"]]
-table(data, :cell_style => {:font_style => :bold, :align => :center},:column_widths =>[140, 65], :position => 300)
+           data = [["<b>Other Charges</b>", "NA"]]
+table(data, :cell_style => {:inline_format => true, :align => :center},:column_widths =>[140, 65], :position => 300)
          end
           
          if @bill.other_charges != nil     
            total = @bill.total_bill_price + @bill.other_charges
-           data = [["#{@bill.tax.tax} on #{number_with_delimiter(total.round(2), delimiter: ',')}", "#{number_with_delimiter((@bill.tax.tax_rate*0.01* total).round(2), delimiter: ',')}"]]
-table(data, :cell_style => {:font_style => :bold, :align => :center},:column_widths => [125, 110], :position => 300)
+           data = [["<b>#{@bill.tax.tax} on #{number_with_delimiter(total.round(2), delimiter: ',')}</b>", "#{number_with_delimiter((@bill.tax.tax_rate*0.01* total).round(2), delimiter: ',')}"]]
+table(data, :cell_style => {:inline_format => true, :align => :center},:column_widths => [125, 110], :position => 300)
          else 
             total = @bill.total_bill_price 
-            data = [["#{@bill.tax.tax} on #{number_with_delimiter(total, delimiter: ',')}", "#{(@bill.tax.tax_rate*0.01* total).round(2)}"]]
-table(data, :cell_style => {:font_style => :bold, :align => :center},:column_widths => [125, 110], :position => 300)    
+            data = [["<b>#{@bill.tax.tax} on #{number_with_delimiter(total, delimiter: ',')}</b>", "#{(@bill.tax.tax_rate*0.01* total).round(2)}"]]
+table(data, :cell_style => {:inline_format => true, :align => :center},:column_widths => [125, 110], :position => 300)    
          end
 
 
-         data = [["Grand Total", "#{number_with_delimiter(@bill.grand_total.round(2), delimiter: ',')}"]]
-table(data, :cell_style => {:font_style => :bold, :align => :center}, :column_widths => [125, 110], :position => 300)
+         data = [["<b>Grand Total</b>", "#{number_with_delimiter(@bill.grand_total.round(2), delimiter: ',')}"]]
+table(data, :cell_style => {:inline_format => true, :align => :center}, :column_widths => [125, 110], :position => 300)
 
          data = [["Amount in words", "Rupees #{@bill.grand_total.round.to_words} only"]]
          table(data, :cell_style => {:font_style => :bold, :align => :center}, :column_widths => [140, 392], :position => 3)
@@ -203,10 +208,10 @@ table(data, :cell_style => {:font_style => :bold, :align => :center}, :column_wi
        if company.length >= 25
          indent(300) do
              if @user.main_roles.first.role_name == "user"
-               text "For "+@bill.authuser.users.first.company,  size: 11, :style => :bold
+               text "For "+@bill.authuser.users.first.company.titleize,  size: 11, :style => :bold
                #text "For iPrimitus Consultancy Services", size: 11, style: :bold
              elsif @user.main_roles.first.role_name  == "client"
-                text "For "+@bill.authuser.clients.first.company,  size: 11, :style => :bold
+               text "For "+@bill.authuser.clients.first.company.titleize,  size: 11, :style => :bold
              end
          move_down 30
          text "Authorized Signatory",  size: 11, :style => :bold
@@ -214,10 +219,10 @@ table(data, :cell_style => {:font_style => :bold, :align => :center}, :column_wi
        else
           indent(350) do
                if @user.main_roles.first.role_name == "user"
-                  text "For "+@bill.authuser.users.first.company,  size: 11, :style => :bold
+                 text "For "+@bill.authuser.users.first.company.titleize,  size: 11, :style => :bold
                   # text "For iPrimitus Consultancy Services", size: 11, style: :bold
                elsif @user.main_roles.first.role_name  == "client"
-                  text "For "+@bill.authuser.clients.first.company,  size: 11, :style => :bold
+                 text "For "+@bill.authuser.clients.first.company.titleize,  size: 11, :style => :bold
                end
              move_down 30
              text "Authorized Signatory",  size: 11, :style => :bold
