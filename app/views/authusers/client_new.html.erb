@@ -121,10 +121,10 @@ Date Of Birth(Format: dd/mm/yyyy)&nbsp;<b style="color:red">*</b>
 
 <div class="row">
 <div class="col-sm-4">           
-Address Line 1&nbsp;<b style="color:red">*</b>
+Address - Door Number&nbsp;<b style="color:red">*</b>
 <div id="City" class="input-group">            
 <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
-<%= user_address.text_field :address_line_1, :maxlength => 20, class: "form-control" %>
+<%= user_address.text_field :address_line_1, :maxlength => 10, class: "form-control" %>
 </div>
 </div> <!-- /.col -->
             
@@ -132,7 +132,7 @@ Address Line 1&nbsp;<b style="color:red">*</b>
 Address Line 2&nbsp;<b style="color:red">*</b>
 <div id="City" class="input-group">            
 <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>           
-<%= user_address.text_field :address_line_2, :maxlength => 20,  class: "form-control" %>
+<%= user_address.text_field :address_line_2, :maxlength => 30,  class: "form-control" %>
 </div>
 </div> <!-- /.col -->
             
@@ -140,7 +140,7 @@ Address Line 2&nbsp;<b style="color:red">*</b>
 Address Line  3
 <div id="City" class="input-group">            
 <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>     
-<%= user_address.text_field :address_line_3, :maxlength => 20, class: "form-control" %>
+<%= user_address.text_field :address_line_3, :maxlength => 30, class: "form-control" %>
 </div>
 </div> <!-- /.col -->
 </div><!-- row ends here -->

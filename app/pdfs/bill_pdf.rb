@@ -89,7 +89,7 @@ class BillPdf < Prawn::Document
    end
      
    def bill_line 
-      move_down 25
+      move_down 20
       stroke_horizontal_rule
    end
       
@@ -175,7 +175,7 @@ table(data,  :cell_style => {:inline_format => true, :align => :center},:column_
 table(data, :cell_style => {:inline_format => true, :align => :center},:column_widths =>[125, 110], :position => 300)
          elsif @bill.other_charges_information_id == nil
            data = [["<b>Other Charges</b>", "NA"]]
-table(data, :cell_style => {:inline_format => true, :align => :center},:column_widths =>[140, 65], :position => 300)
+table(data, :cell_style => {:inline_format => true, :align => :center},:column_widths =>[125, 110], :position => 300)
          end
           
          if @bill.other_charges != nil     

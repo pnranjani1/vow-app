@@ -5,7 +5,7 @@ xml.Saledetails do |saledetails|
         xml.version 13.11
             xml.TinNo user.tin_number
             xml.RetPerdEnd "#{Date.today.strftime("%Y").to_i}"
-            xml.FilinType "M"
+            xml.FilingType "M"
             xml.Period"#{Date.today.strftime("%m").to_i}"
       
   @user_bills.each do|bill|
