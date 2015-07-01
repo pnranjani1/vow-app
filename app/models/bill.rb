@@ -111,98 +111,87 @@ class Bill < ActiveRecord::Base
     
     begin
       browser = Watir::Browser.new :phantomjs
-      browser.goto  "http://vat.kar.nic.in/"
-    # browser.goto "http://164.100.80.121/vat2/"
-      #browser.goto "http://sugam.kar.nic.in"
-      url = nil
-      browser.windows.last.use do
-        url = browser.url
-      end
-
-      browser.goto url
-      browser.button(:value,"Continue").click rescue nil
-      browser.button(:value,"Conitnue").click rescue nil
+      browser.goto "http://sugam.kar.nic.in/"
+     
       browser.text_field(:id, "UserName").set(@bill.authuser.users.first.esugam_username)
       browser.text_field(:id, "Password").set(@bill.authuser.users.first.esugam_password)
       browser.button(:value,"Login").click
-      browser.goto "http://164.100.80.121/vat2/web_vat505/Vat505_Etrans.aspx?mode=new"
-      sleep 5
-     # browser.goto "http://164.100.80.121/vat2/web_vat505/Vat505_Etrans.aspx?mode=new"
-      #browser.button(:value,"Continue").click rescue nil
-      #browser.goto "#{url}/CheckInvoiceEnabled.aspx?Form=ESUGAM1"
-      if @tax_type == "CST"
-        browser.radio(:id, "ctl00_MasterContent_rdoStatCat_1").set
-        sleep 5
-        browser.text_field(:id, "ctl00_MasterContent_txtTIN").set(@customer_tin_number.to_i)
-         begin
-          browser.text_field(:id, "ctl00_MasterContent_txtFromAddrs").set("BANGALORE")
-         rescue => e
-          sleep 3
-        end
-        sleep 5
-        begin
-          browser.text_field(:id, "ctl00_MasterContent_txtNameAddrs").set(@customer_name)
-        rescue => e
-          sleep 3
-        end
-        end
+     
+      if browser.text.include? "Login Failed"
+        self.update_attributes(error_message: "Login Failed. Check your VAT website credentials")
+        browser.close       
+      else
+        
+      sleep 10
+      browser.link(:id, "LinkButton1").click
     
-        
-      if @tax_type == "VAT"
-      browser.text_field(:id, "ctl00_MasterContent_txtTIN").set(@customer_tin_number.to_i)
-      browser.send_keys :tab
-     end
-       
-        
-
       sleep 10
       browser.text_field(:id, "ctl00_MasterContent_txtFromAddrs").set(@bill.authuser.address.city)
       browser.text_field(:id, "ctl00_MasterContent_txtToAddrs").set(@bill.customer.city)
       browser.text_field(:id, "ctl00_MasterContent_txt_commodityname").set(@product_name)
-      browser.select_list(:id, "ctl00_MasterContent_ddl_commoditycode").select(@commodity_name)
-      browser.text_field(:id, "ctl00_MasterContent_txtQuantity").set(@quantity_units)
-      browser.send_keys :tab
-      browser.text_field(:id, "ctl00_MasterContent_txtNetValue").set(@total_amount)
-      browser.send_keys :enter
-      browser.send_keys :tab
-      browser.text_field(:id, "ctl00_MasterContent_txtVatTaxValue").set(@total_tax)
-      browser.text_field(:id, "ctl00_MasterContent_txtOthVal").set(@other_value)
-      sleep 3
-      browser.text_field(:id, "ctl00_MasterContent_txtInvoiceNO").set(@bill.invoice_number)
-
-      browser.button(:value,"SAVE AND SUBMIT").click
-      page_html = Nokogiri::HTML.parse(browser.html)
-      browser.button(:value,"Exit").click
-      browser.link(:id, "link_signout").click
-      browser.close
-                 
-      textual = page_html.search('//text()').map(&:text).delete_if{|x| x !~ /\w/}
-      esugam = textual.fetch(7)
+      if browser.select_list(:id, "ctl00_MasterContent_ddl_commoditycode").include? @commodity_name
+         browser.select_list(:id, "ctl00_MasterContent_ddl_commoditycode").select(@commodity_name)
+         browser.text_field(:id, "ctl00_MasterContent_txtQuantity").set(@quantity_units)
+         browser.send_keys :tab
+         browser.text_field(:id, "ctl00_MasterContent_txtNetValue").set(@total_amount)
+         browser.send_keys :enter
+         browser.send_keys :tab
+         browser.text_field(:id, "ctl00_MasterContent_txtVatTaxValue").set(@total_tax)
+         browser.text_field(:id, "ctl00_MasterContent_txtOthVal").set(@other_value)
+         sleep 5
       
-      if esugam !="e-SUGAM New Entry Form"
-        #flash.now[:success] = esugam
-        #here assigning the esugam number, as it's asociated with the bill.
-        self.update_attributes(esugam: esugam)
-      else
-        esugam = nil
-        logger.error "esugam not scraped properly ,mostly"
+        if @tax_type == "CST"
+          browser.radio(:id, "ctl00_MasterContent_rdoStatCat_1").set
+          sleep 5
+          browser.text_field(:id, "ctl00_MasterContent_txtTIN").set(@customer_tin_number.to_i)
+          begin
+            browser.text_field(:id, "ctl00_MasterContent_txtFromAddrs").set("BANGALORE")
+          rescue => e
+            sleep 3
+          end
+          sleep 5
+          begin
+            browser.text_field(:id, "ctl00_MasterContent_txtNameAddrs").set(@customer_name)
+          rescue => e
+            sleep 3
+          end
+        end
+    
+        if @tax_type == "VAT"
+          browser.text_field(:id, "ctl00_MasterContent_txtTIN").set(@customer_tin_number.to_i)
+          browser.send_keys :tab
+        end
+        sleep 5 
+        browser.text_field(:id, "ctl00_MasterContent_txtInvoiceNO").set(@bill.invoice_number)
+        browser.button(:value,"SAVE AND SUBMIT").click
+        page_html = Nokogiri::HTML.parse(browser.html)
+        textual = page_html.search('//text()').map(&:text).delete_if{|x| x !~ /\w/}
+        esugam = textual.fetch(7)
+      
+        if esugam.include? "Prop/Comp. Name: "
+          browser.screenshot.save ("app/assets/images/vat-error.png")
+            sleep 50
+          "app/assets/images/vat-error.png".delete
+          self.update_attributes(error_message: "/app/assets/images/vat-error.png")
+          logger.error "esugam not scraped properly ,mostly"
+        else
+          self.update_attributes(esugam: esugam)
+        end
+        
+        browser.button(:value,"Exit").click
+        browser.link(:id, "link_signout").click
+        browser.close
+        return esugam
+      else # if commodity is not in list else
+        self.update_attributes(error_message: "Commodity is not in the list")
+        browser.close
+      end # commodity not in list end
+      end # login end
+     
        
-      end
-      
-      return esugam
-        rescue => e
-        browser.close if browser
-        logger.error " esugam not being generated " + e.to_s
-        logger.info "My Required esugan number is #{e.to_s}"
-        self.update_attributes(esugam: e.to_s) if (e.to_s.size  < 15)
-        # I am dumping all response here.
-        Sugan.create(number: e.to_s)  
-        esugam = nil
-        #flash.now[:error] = "There has been an error in generating the esugam,try again later , 
-        #if the error does not go away check the esugam username and password , 
-        #if everything is ok and a number is still not generated , contact the webmaster" +e.to_s
-      end
-    end
+    end # begin end
+   
+  end # def end
 
 
-end
+end # class end

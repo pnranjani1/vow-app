@@ -82,11 +82,12 @@
 <div class="table-responsive">
 <table id="user-signups" class="table table-striped table-bordered table-checkable"> 
 
-<h4> Esugam Number :
-    <span id= "sugan_text"> <%=  @bill.esugam.present? ? @bill.esugam : "Not Generated." %>  </span>
-  </h4>
-  <h5 id='sugan_error' class='hide-sugan'> </h5>
-
+  <% if @bill.esugam == nil && @bill.error_message != nil %>
+  <h5 style="color:red">Error : <%= @bill.error_message %></h5>
+  <% else %>
+  <h4> Esugam Number : <%= @bill.esugam  %> </h4>
+  <% end %>
+    
 <thead> 
 
 <tr> 

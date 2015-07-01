@@ -5,7 +5,7 @@ class Customer < ActiveRecord::Base
   has_many :bills
   
   
-  validates :name, :email, :tin_number,  presence: true
+  validates :name, :email, :city, :tin_number,  presence: true
   validates :tin_number, length: { is: 11, message: "should be 11 digits"}
 #  validates :phone_number, length: { is: 10}
  # validates :phone_number, numericality: {only_integer: true}

@@ -44,7 +44,7 @@ class BillsController < ApplicationController
     @bill = Bill.where(id: params["bill_id"]).first
      if @bill.present?
       @bill.get_esugan_number
-       @error = " Oops ! Something went wrong !  " if @bill.esugam.blank?
+      # @error = " Oops ! Something went wrong !  " if @bill.esugam.blank?
      end
   end
  
@@ -53,14 +53,14 @@ class BillsController < ApplicationController
     @bill = Bill.find(params[:id])
     respond_to do |format|
       format.html  do
-        if params[:cause] == "esn"
+        #if params[:cause] == "esn"
 
           #esugano = @bill.get_esugan_number
           #esugano=esnget(@bill)
-          if esugano != nil && esugano.length < 15
-            @bill.update_attribute('esugam',esugano)
-          end
-        end
+         # if esugano != nil && esugano.length < 15
+          #  @bill.update_attribute('esugam',esugano)
+         # end
+        #end
       end
       format.pdf do
         pdf = BillPdf.new(@bill)
