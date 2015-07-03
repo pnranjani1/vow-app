@@ -53,14 +53,6 @@ class BillsController < ApplicationController
     @bill = Bill.find(params[:id])
     respond_to do |format|
       format.html  do
-        #if params[:cause] == "esn"
-
-          #esugano = @bill.get_esugan_number
-          #esugano=esnget(@bill)
-         # if esugano != nil && esugano.length < 15
-          #  @bill.update_attribute('esugam',esugano)
-         # end
-        #end
       end
       format.pdf do
         pdf = BillPdf.new(@bill)

@@ -121,7 +121,7 @@ class Bill < ActiveRecord::Base
         self.update_attributes(error_message: "Login Failed. Check your VAT website credentials")
         browser.close       
       else
-        
+            
       sleep 10
       browser.link(:id, "LinkButton1").click
     
@@ -169,12 +169,11 @@ class Bill < ActiveRecord::Base
         esugam = textual.fetch(7)
       
         if esugam.include? "Prop/Comp. Name: "
-          browser.screenshot.save ("app/assets/images/vat-error.png")
-            sleep 50
-          "app/assets/images/vat-error.png".delete
-          self.update_attributes(error_message: "/app/assets/images/vat-error.png")
+          file = File.new("app/assets/images/vat-error.png", "a+")
+          browser.screenshot.save file
+          self.update_attributes(error_message: file.to_s)
           logger.error "esugam not scraped properly ,mostly"
-        else
+         else
           self.update_attributes(esugam: esugam)
         end
         
@@ -187,10 +186,7 @@ class Bill < ActiveRecord::Base
         browser.close
       end # commodity not in list end
       end # login end
-     
-       
     end # begin end
-   
   end # def end
 
 
