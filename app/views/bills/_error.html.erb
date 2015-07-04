@@ -1,0 +1,6 @@
+  <% if @bill.error_message.length == 24 %>
+      <h5 style="color:red">Error : <%= link_to "Download VAT Error",  path_to_image("vat-error.png"),  class: "listconttext", target: "blank", :remote => true %></h5>
+  <% else %>
+      <h5 style="color:red">Error : <%= @bill.error_message %></h5>
+  <% end %>
+

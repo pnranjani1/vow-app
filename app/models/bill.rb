@@ -172,7 +172,7 @@ class Bill < ActiveRecord::Base
           file = File.new("app/assets/images/vat-error.png", "a+")
           browser.screenshot.save file
           self.update_attributes(error_message: file.to_s)
-          logger.error "esugam not scraped properly ,mostly"
+          logger.error "esugam not generated due to incomplete form submission"
          else
           self.update_attributes(esugam: esugam)
         end

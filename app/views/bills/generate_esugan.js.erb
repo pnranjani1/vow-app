@@ -12,3 +12,11 @@ App.unBlockUI($('#bill_body'));
    $('#sugan_text').text("<%= @bill.esugam %>");
   $("#esugam_div").html("<%= escape_javascript( render(:partial => "bills/esugam_button")) %>");
 <% end %>
+
+
+
+<% if @bill.error_message.present? %>
+$('#error').append("<%= escape_javascript (render 'error') %>");
+<% else %>
+$('#esugam-number').text(" Esugam Number : <%= @bill.esugam %>");
+<% end %>
