@@ -18,7 +18,7 @@ xml.ISSale do
         xml.OthCh bill.other_charges
         xml.TotCh bill.grand_total
         xml.TranType 
-        xml.MainComm bill.products.first.usercategory.main_category.commodity_code + ".00" 
+        xml.MainComm bill.products.first.usercategory.main_category.commodity_code + "0" 
         xml.SubComm 0
         xml.qty bill.line_items.sum(:quantity)
         end
