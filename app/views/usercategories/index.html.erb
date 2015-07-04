@@ -50,7 +50,7 @@
         <% @usercategories.each do |category| %>
      <tr>                      
        <td><%= category.commodity_name %> </td>
-       <td><%= category.id %> </td>
+       <td><%= category.main_category.commodity_code %> </td>
        </tr>     
         <% end %>
        
