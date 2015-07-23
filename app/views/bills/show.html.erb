@@ -8,6 +8,16 @@
   <% unless current_authuser.image_url.nil? %>
   <%= image_tag current_authuser.image_url, height: 50, width: 50 %>
   <% end %>
+    <% if alert %> 
+                        <div class="row">
+                          <div class="col-md-2"></div>
+                           <div class="col-md-6">
+                              <div class="alert alert-danger"><%= alert %></div>
+                            </div>
+                        </div><!-- row ends here -->
+                     <% end %>
+  <br/><br/>
+ 
 <!-- <%= gravatar_for current_authuser %> -->
 </div>
 <br>
@@ -159,14 +169,11 @@
 </table>
 
 <div class="col-md-10">
+
+  
 <div class="col-md-2" align="left">
-<%= link_to "Generate PDF", bill_path(@bill.id, format: "pdf"), class: "btn btn-success", target: "blank"  %>
-</div>
- 
- <% 
-=begin %>
   <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+<button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">
   Select PDF format
 </button>
 
@@ -177,29 +184,64 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+        <h4 class="modal-title" id="myModalLabel">Select PDF Format</h4>
       </div>
       <div class="modal-body">
-       <form action="">
-<input type="radio" name="pdf" value="1">Format 1<br>
-<input type="radio" name="pdf" value="2">Format 2
-         <input type="radio" name="pdf" value="3">Format 3
-         <input type="radio" name="pdf" value="4">Format 4
-         
-         <input type="submit" value="Submit">
-</form>
+       
+          
+           <%= form_for(@bill, :url => {:action => "pdf_format_select"}) do |f| %>
+    
+                     <% if alert %> 
+                        <div class="row">
+                          <div class="col-md-2"></div>
+                           <div class="col-md-6">
+                              <div class="alert alert-danger"><%= alert %></div>
+                            </div>
+                        </div><!-- row ends here -->
+                     <% end %>
+        <br/>
+                  <div class="col-md-2"></div>
+                  <label><%= image_tag "format-1.png", width: 150, height: 150 %></label>
+                  <%= f.radio_button :pdf_format, "Format1" %>
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                   
+                  <label><%= image_tag "format-2.png", width: 150, height: 150 %></label>
+                  <%= f.radio_button :pdf_format, "Format2" %>
+                   <br/><br/>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        
+                   <label><%= image_tag "format-3.png", width: 150, height: 150 %></label>
+                   <%= f.radio_button :pdf_format, "Format3" %>
+
+                           
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <!--  <div class="col-md-5"></div> -->
+                     <%= f.submit "Submit", class: "btn btn-success" %>
+                <% end %>
+       
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
+      
     </div>
   </div>
 </div>
 
   <% end %> 
- <%  
+</div>
+
+<%
+=begin %>
+<div class="col-md-2" align="left">
+  <%= link_to "Select PDF Format", pdf_format_path(:id => @bill.id), class: "btn btn-success" %>
+</div>
+<%
 =end %>
+<div class="col-md-2" align="left">
+<%= link_to "Generate PDF", bill_path(@bill.id, format: "pdf"), class: "btn btn-success", target: "blank"  %>
+
+  </div>
+ 
+
+
   
   
   <div id='esugam_div'>

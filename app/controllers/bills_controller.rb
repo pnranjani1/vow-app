@@ -1,7 +1,7 @@
 #require 'builder'
 class BillsController < ApplicationController
   #layout 'menu', :only => [:user_bill, :new, :create, :show, :local_sales, :interstate_sales, :tally_import]
-   layout_by_action [:user_bill, :new, :create, :show, :local_sales, :interstate_sales, :tally_import, :esnget, :bill_reports, :bill_local_sales_reports, :bill_interstate_sales_reports, :bill_tally_import_reports] => "menu"
+   layout_by_action [:user_bill, :new, :create, :show, :local_sales, :interstate_sales, :tally_import, :esnget, :bill_reports, :bill_local_sales_reports, :bill_interstate_sales_reports, :bill_tally_import_reports, :pdf_format, :pdf_format_select] => "menu"
   #, user_bill_summary: "menu1"
   
  #layout 'client', :only => [:user_bill_summary]
@@ -55,14 +55,26 @@ class BillsController < ApplicationController
       format.html  do
       end
       format.pdf do
-        pdf = BillPdf.new(@bill)
-        send_data pdf.render, filename: "#{@bill.customer.name}  #{@bill.invoice_number}  #{@bill.bill_date.strftime("%b %d %Y")}.pdf", type: "application/pdf" , disposition: "inline"
-       # send_data pdf.render, filename: "#{@bill.customer.name} #{@bill.invoice_number}  #{@bill.bill_date.strftime("%b %d %Y")}", type: "application/pdf" ,disposition: "attachment"
-    end
+       if @bill.pdf_format ==  "Format1" 
+           pdf = BillPdf.new(@bill)
+           send_data pdf.render, filename: "#{@bill.customer.name}  #{@bill.invoice_number}  #{@bill.bill_date.strftime("%b %d %Y")}.pdf", type: "application/pdf" , disposition: "inline"
+       elsif @bill.pdf_format == "Format2"
+           pdf = BillPdfTwo.new(@bill)
+           send_data pdf.render, filename: "#{@bill.customer.name}  #{@bill.invoice_number}  #{@bill.bill_date.strftime("%b %d %Y")}.pdf", type: "application/pdf" , disposition: "inline"
+       elsif @bill.pdf_format == "Format3"
+      pdf = BillPdfThree.new(@bill)
+           send_data pdf.render, filename: "#{@bill.customer.name}  #{@bill.invoice_number}  #{@bill.bill_date.strftime("%b %d %Y")}.pdf", type: "application/pdf" , disposition: "inline"
+       elsif @bill.pdf_format == nil
+           pdf = BillPdf.new(@bill)
+           send_data pdf.render, filename: "#{@bill.customer.name}  #{@bill.invoice_number}  #{@bill.bill_date.strftime("%b %d %Y")}.pdf", type: "application/pdf" , disposition: "inline"
+       end
+      end
     end      
-   #pdf.render
- end
+  end
   
+        
+       # send_data pdf.render, filename: "#{@bill.customer.name} #{@bill.invoice_number}  #{@bill.bill_date.strftime("%b %d %Y")}", type: "application/pdf" ,disposition: "attachment"
+      
   
     def edit
     @bill = Bill.find(params[:id])
@@ -316,7 +328,7 @@ end
       browser.send_keys :enter
       browser.send_keys :tab
       browser.text_field(:id, "ctl00_MasterContent_txtVatTaxValue").set(@total_tax)
-    browser.text_field(:id, "ctl00_MasterContent_txtOthVal").set(@other_value)
+      browser.text_field(:id, "ctl00_MasterContent_txtOthVal").set(@other_value)
       sleep 3
       browser.text_field(:id, "ctl00_MasterContent_txtInvoiceNO").set(@bill.invoice_number.to_s)
 
@@ -350,13 +362,31 @@ end
 =end
 
 
+  def pdf_format
+    @bill = Bill.find(params[:id])
+  end
+
+  def pdf_format_select
+    @bill = Bill.find(params[:id])  
+    #@bill.pdf_format = params[:bill][:pdf_format]
+   # if params[:bill][:pdf_format].blank?
+    #  redirect_to bill_path(@bill.id)
+     # flash[:alert] = "No Format Selected"
+    #end
+    if @bill.update_attribute('pdf_format', params[:bill][:pdf_format])
+     redirect_to bill_path(@bill.id)
+    else   
+      redirect_to bill_path(@bill.id)
+      flash[:alert] = "Select a PDF format"
+    end
+  end
 
   private
 
 
   def set_params
     params[:bill].permit(:invoice_number,:esugam, :bill_date, :customer_id, 
-      :authuser_id, :tax, :total_bill_price, :tax_id, :grand_total, :other_charges, :other_charges_information_id,:other_information, :other_charges_info, :client_id, :transporter_name, :vechicle_number, :gc_lr_number,:lr_date, 
+      :authuser_id, :tax, :total_bill_price, :tax_id, :grand_total, :other_charges, :other_charges_information_id,:other_information, :other_charges_info, :client_id, :transporter_name, :vechicle_number, :gc_lr_number,:lr_date, :pdf_format,
       {:line_items_attributes => [:product_id, :quantity, :unit_price, :total_price, :_destroy]},
       {:tax_attributes => [:tax_type, :tax_rate, :tax]}
       )

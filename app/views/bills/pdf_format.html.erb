@@ -1,0 +1,52 @@
+
+<div class="container">
+  <div class="content">
+    <div class="content-container">      
+    <div>
+      <h4 class="heading-inline">PDF Format<br/></h4>        
+    </div>
+      
+       <br>
+    <div class="row"> 
+      <div class="portlet">
+
+       <div class="portlet-header">
+           <h3><i class="fa fa-file-text-o"></i>Select PDF  Format</h3>
+       </div> <!-- /.portlet-header -->
+        <br/><br/>
+
+                <%= form_for(@bill, :url => {:action => "pdf_format_select"}) do |f| %>
+    
+                     <% if alert %> 
+                        <div class="row">
+                          <div class="col-md-2"></div>
+                           <div class="col-md-6">
+                              <div class="alert alert-danger"><%= alert %></div>
+                            </div>
+                        </div><!-- row ends here -->
+                     <% end %>
+        <br/><br/>
+                  <div class="col-md-2"></div>
+                  <label><%= image_tag "format-1.png", width: 300, height: 300 %></label>
+                  <%= f.radio_button :pdf_format, "Format1" %>
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                   
+                  <label><%= image_tag "format-2.png", width: 300, height: 300 %></label>
+                  <%= f.radio_button :pdf_format, "Format2" %>
+                   <br/><br/>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        
+                   <label><%= image_tag "format-3.png", width: 300, height: 300 %></label>
+                   <%= f.radio_button :pdf_format, "Format3" %>
+
+                           
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <!--  <div class="col-md-5"></div> -->
+                     <%= f.submit "Submit", class: "btn btn-success" %>
+                <% end %>
+        <br/><br/><br/>
+            </div><!-- row ends here -->
+         </div><!-- portlet ends heer -->
+       </div><!-- content conatiner ends here -->
+  </div><!-- contet ends here -->
+</div><!-- container ends here -->

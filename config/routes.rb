@@ -80,7 +80,12 @@ Rails.application.routes.draw do
   get 'referrals/referral_bill'
   get 'referrals/client_acquisition'
   get 'referrals/client_acquisition_report'
+  get 'bills/:id/pdf_format' => 'bills#pdf_format', :as => "pdf_format"
+  patch 'bills/:id/pdf_format_select' => 'bills#pdf_format_select', :as => "pdf_format_select"
+ # patch 'bills/pdf_format_select'
     
+ 
+  
   resources :authusers  
   resources :users
   resources :bills do 
