@@ -64,7 +64,7 @@
   <%= f.text_field :bill_date , :value => Date.today, class: "form-control", :id => "bill_date" %>
 </div>
 </div> <!-- /.col -->
-           
+  <%= f.hidden_field :pdf_format, :value => "Format1" %>
 <div class="col-sm-3">           
 <strong>Customer&nbsp;<b style="color:red">*</b></strong> 
 <div id="name" class="input-group">               
