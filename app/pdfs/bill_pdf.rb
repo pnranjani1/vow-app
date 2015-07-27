@@ -67,14 +67,6 @@ class BillPdf < Prawn::Document
    def logo(user)
        if @user.image.present?
          image open(@user.image_url), height: 50, width: 70, crop: "fit", :at => [10,710]
-       else
-         bounding_box([10,710], width: 70) do
-           if @user.main_roles.first.role_name == "user"
-             text "#{@bill.authuser.users.first.company.titleize}",size: 14, :style => :bold, :align => :center
-           elsif @user.main_roles.first.role_name  == "client"
-             text "#{@bill.authuser.clients.first.company.titleize}",size: 14, :style => :bold, :align => :center
-           end 
-         end
        end
    end
         # gravatar_id = Digest::MD5::hexdigest(user.email.downcase)
