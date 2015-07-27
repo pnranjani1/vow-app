@@ -108,7 +108,7 @@ Date Of Birth(Format: dd/mm/yyyy)&nbsp;<b style="color:red">*</b>
 Company
 <div id="Remarks" class="input-group">     
 <span class="input-group-addon"><i class="fa fa-user"></i></span>
-<%= user_client.text_field :company, class: "form-control" %>
+  <%= user_client.text_field :company, maxlength: 40,  class: "form-control" %>
 </div>
 </div> <!-- /.col -->
  <%= user_client.hidden_field :created_by, :value => current_authuser.id %>

@@ -43,7 +43,7 @@ class BillPdfTwo < Prawn::Document
        
         
      
-      bounding_box([350, 530], :width => 190) do
+      bounding_box([320, 520], :width => 210) do
         text "<b>Invoice Number     :</b>    #{@bill.invoice_number}" ,size:11, :inline_format => true, :leading => 5
         text "<b>Invoice Date           :</b>    #{@bill.bill_date.strftime("%b %d, %Y")}" ,size:11, :inline_format => true, :leading => 5
         if @bill.esugam == nil

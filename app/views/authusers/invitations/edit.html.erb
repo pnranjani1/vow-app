@@ -278,7 +278,7 @@ Esugam Password&nbsp;<b style="color:red">*</b>
 Company&nbsp;<b style="color:red">*</b>
 <div id="Password" class="input-group">   
 <span class="input-group-addon"><i class="fa fa-user"></i></span>
-<%= user.text_field :company, class: "form-control" %>
+  <%= user.text_field :company, maxlength: 40, class: "form-control" %>
 </div>
 </div> <!-- /.col -->
   
