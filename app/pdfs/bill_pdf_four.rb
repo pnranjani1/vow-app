@@ -26,7 +26,7 @@ class BillPdfFour < Prawn::Document
          if @user.main_roles.first.role_name == "user"
            draw_text "#{@bill.authuser.users.first.company.titleize}",size: 14, :style => :bold, :at => [150,710]
         elsif @user.main_roles.first.role_name  == "client"
-          text "#{@bill.authuser.clients.first.company.titleize}",size: 14, :style => :bold :at => [150,710]
+           draw_text "#{@bill.authuser.clients.first.company.titleize}",size: 14, :style => :bold , :at => [150,710]
         end 
    end
       bounding_box([130,630],:width =>320) do
