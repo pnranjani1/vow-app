@@ -69,11 +69,13 @@ class BillPdfThree < Prawn::Document
        if @user.image.present?
          image open(@user.image_url), height: 90, width: 200, crop: "fit", :at => [10,690]
        else
+         bounding_box([10,650], width: 200) do
            if @user.main_roles.first.role_name == "user"
-           draw_text "#{@bill.authuser.users.first.company.titleize}",size: 14, :style => :bold, :at => [10,690]
-        elsif @user.main_roles.first.role_name  == "client"
-             draw_text "#{@bill.authuser.clients.first.company.titleize}",size: 14, :style => :bold , :at => [10,690]
-        end 
+            text "#{@bill.authuser.users.first.company.titleize}",size: 14, :style => :bold, align: :center
+           elsif @user.main_roles.first.role_name  == "client"
+            text "#{@bill.authuser.clients.first.company.titleize}",size: 14, :style => :bold, align: :center
+           end 
+         end
        end
    end
         # gravatar_id = Digest::MD5::hexdigest(user.email.downcase)
