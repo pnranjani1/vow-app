@@ -41,7 +41,7 @@ class BillPdfThree < Prawn::Document
       else
         text "<b>E-Sugam Number  :</b>   #{@bill.esugam}", :inline_format => true, size: 11, :leading => 5
       end
-     text "<b>Amount due(INR)   :</b> #{@bill.grand_total}" ,size:11, :inline_format => true
+     text "<b>Amount due(INR)   :</b> #{@bill.grand_total.round(2)}" ,size:11, :inline_format => true
     end
   
     bounding_box([8, 640], :width => 300) do
@@ -68,6 +68,12 @@ class BillPdfThree < Prawn::Document
    def logo(user)
        if @user.image.present?
          image open(@user.image_url), height: 90, width: 200, crop: "fit", :at => [10,690]
+       else
+           if @user.main_roles.first.role_name == "user"
+           draw_text "#{@bill.authuser.users.first.company.titleize}",size: 14, :style => :bold, :at => [10,690]
+        elsif @user.main_roles.first.role_name  == "client"
+          text "#{@bill.authuser.clients.first.company.titleize}",size: 14, :style => :bold :at => [10,690]
+        end 
        end
    end
         # gravatar_id = Digest::MD5::hexdigest(user.email.downcase)

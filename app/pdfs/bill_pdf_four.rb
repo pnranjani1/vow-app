@@ -22,6 +22,13 @@ class BillPdfFour < Prawn::Document
  def logo(user)
    if @user.image.present?
          image open(@user.image_url), height: 70, width: 250, crop: "fit", :at => [150,710]
+   else
+         if @user.main_roles.first.role_name == "user"
+           draw_text "#{@bill.authuser.users.first.company.titleize}",size: 14, :style => :bold, :at => [150,710]
+        elsif @user.main_roles.first.role_name  == "client"
+          text "#{@bill.authuser.clients.first.company.titleize}",size: 14, :style => :bold :at => [150,710]
+        end 
+   end
       bounding_box([130,630],:width =>320) do
         if @user.main_roles.first.role_name == "user"
           text "#{@bill.authuser.users.first.company.titleize}",size: 14, :style => :bold, align: :center
@@ -32,8 +39,7 @@ class BillPdfFour < Prawn::Document
         text "#{@bill.authuser.address.city.capitalize}", size: 11, align: :center
             text "<font size=\"11\">Mobile Number :  #{@bill.authuser.membership.phone_number}</font> <font size=\"11\"> Tin Number :  #{@bill.authuser.users.first.tin_number}</font>", :inline_format => true
       end
-   end
- #  stroke_horizontal_rule
+   #  stroke_horizontal_rule
  end
       
    def bill_title    
