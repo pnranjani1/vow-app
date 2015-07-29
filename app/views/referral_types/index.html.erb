@@ -6,10 +6,7 @@
        
         <div class="portlet portlet-table">
           <div class="portlet-header">
-            <h3>
-              <i class="fa fa-group"></i>
-              You have <%= pluralize(@count, "Referral") %>
-            </h3>
+            <h3>Referral Types</h3>
           </div><!-- portlet-header ends here -->
            
           <div class="portlet-content">
@@ -26,39 +23,33 @@
               
                      <thead>
                       <tr>
-                        <th>Name</th>
-                        <th> Email </th>
-                        <th>Mobile number</th>
-                        <th>Type</th>
-                        <th>Edit</th>                        
-                        <th>Referral Bill</th>
-                       </tr>
+                        <th>Sl.No</th>
+                        <th> Referral type </th>
+                        <th>Price Rates</th>
+                        <th>Edit</th>
+                      </tr>
                    <thead>
       
                    <tbody>
-                      <% @referrals.each do |referral| %>
+                     <% @referral_types.each_with_index do |referral, index| %>
                       <tr>
-                        <td><%= link_to referral.name, referrals_referral_bill_path(:id => referral.id), class: "listconttext" %></td>
-                        <td><%= referral.email %></td>
-                        <td><%= referral.mobile_number %></td>
-                        <td><%= referral.referral_type.referral_type  %></td>
-                        <td><%= link_to edit_referral_path(referral.id), class: "btn btn-xs btn-primary" do %>
+                        <td><%= index + 1 %></td>
+                        <td><%= referral.referral_type %></td>
+                        <td><%= referral.pricing %></td>
+                        <td><%=  link_to edit_referral_type_path(referral.id), class: "btn btn-xs btn-primary" do %>
                           <i class="fa fa-edit"></i>
-                          <% end %>
-                         </td>
-                      
-                        <td> <%= link_to "Bill", referral_pdf_bill_path(:id => referral.id), class: "listconttext" %></td>
-                       </tr>
-                      <% end %>
-                    </tbody>
+                          <% end %></td>
+                      </tr>
+                     <% end %>
+                   </tbody>
                  </table>
               
               <div class="portlet-footer">
                 <div class="text-right">
-                  <%= link_to "Add Referral", new_referral_path, class: "btn btn-success" %>
+                  <%= link_to "Add Referral Type ", new_referral_type_path, class: "btn btn-success" %>
                  </div><!-- text-right ends here -->
                 </div><!-- portlet footer ends here  -->
-              <%= will_paginate @referrals, renderer: BootstrapPagination::Rails, class: "apple-pagination" %>
+          
               
              </div><!-- table responsive ends here -->
             </div><!-- portlet-content ends here -->

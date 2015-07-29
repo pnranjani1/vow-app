@@ -36,6 +36,8 @@
                 <%= f.text_field :name, class: "form-control", autofocus: true %>
                </div>
             </div>
+
+           
             
             <div class="col-md-4">
               Email
@@ -85,6 +87,14 @@
               Country
               <div id="Password" class="form-group">
                <%= f.text_field :country, :class => "form-control" %>
+            </div>
+          </div>
+             
+          <div class="row">
+           <div class="col-md-4">
+           Referral type
+              <div id="Password" class="form-group">
+                <%= f.collection_select :referral_type_id, ReferralType.all, :id, :referral_type, {:prompt => "Select Referral type"}, {:class => "form-control"} %>
             </div>
           </div>
          </div><!-- row ends here -->

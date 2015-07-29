@@ -52,7 +52,7 @@ class ReferralsController < ApplicationController
       respond_to do |format|
       format.html
         format.pdf do
-      pdf = ReferralBillPdf.new(@referral)
+          pdf = BillForReferralPdf.new(@referral)
         send_data pdf.render, filename: "#{@referral.name}-bill.pdf", type: "application/pdf", disposition: "inline"
     end
   end
@@ -84,12 +84,31 @@ class ReferralsController < ApplicationController
     end
   end
   
+  def referral_pdf_bill
+    @referral = Referral.find(params[:id])
+  end
+  
+  def referral_pdf_bill_report
+    @referral = Referral.find(params[:id])
+    start_date = params[:start_date]
+    end_date = params[:end_date]
+    @start_date = start_date.to_date
+    @end_date = end_date.to_date
+    respond_to do |format|
+      format.html
+      format.pdf do
+        pdf = BillForReferralPdf.new(@referral, @start_date, @end_date)
+        send_data pdf.render, filename: "#{@referral.name}-bill.pdf", type: "application/pdf", disposition: "inline"
+      end
+    end
+  end
+  
   
   
   
   private
   def set_params
-    params[:referral].permit(:name, :email, :address_line_1, :address_line_2, :state, :country, :mobile_number)
+    params[:referral].permit(:name, :email, :address_line_1, :address_line_2, :state, :country, :mobile_number, :referral_type_id, :pricing)
   end
   
   

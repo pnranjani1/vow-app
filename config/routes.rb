@@ -82,6 +82,8 @@ Rails.application.routes.draw do
   get 'referrals/client_acquisition_report'
   get 'bills/:id/pdf_format' => 'bills#pdf_format', :as => "pdf_format"
   patch 'bills/:id/pdf_format_select' => 'bills#pdf_format_select', :as => "pdf_format_select"
+  get 'referrals/:id/referral_pdf_bill' => 'referrals#referral_pdf_bill', :as => "referral_pdf_bill"
+  get 'referrals/:id/referral_pdf_bill_report' => 'referrals#referral_pdf_bill_report', :as => "referral_pdf_bill_report"
  # patch 'bills/pdf_format_select'
     
  
@@ -108,6 +110,7 @@ Rails.application.routes.draw do
   resources :admins
   resources :enquiry_forms
   resources :referrals
+  resources :referral_types
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
