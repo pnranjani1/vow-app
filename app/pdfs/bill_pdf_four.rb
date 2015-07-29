@@ -33,12 +33,12 @@ class BillPdfFour < Prawn::Document
    end
       bounding_box([130,630],:width =>320) do
         if @user.main_roles.first.role_name == "user"
-          text "#{@bill.authuser.users.first.company.titleize}",size: 14, :style => :bold, align: :center
+          text "#{@bill.authuser.users.first.company.titleize}",size: 14, :style => :bold, align: :center, :leading => 3
         elsif @user.main_roles.first.role_name  == "client"
-          text "#{@bill.authuser.clients.first.company.titleize}",size: 14, :style => :bold, align: :center
+          text "#{@bill.authuser.clients.first.company.titleize}",size: 14, :style => :bold, align: :center, :leading => 3
         end 
-        text "#{@bill.authuser.address.address_line_1.capitalize}, " + "#{@bill.authuser.address.address_line_2}, " + "#{@bill.authuser.address.address_line_3}", size: 11, align: :center
-        text "#{@bill.authuser.address.city.capitalize}", size: 11, align: :center
+        text "#{@bill.authuser.address.address_line_1.capitalize}, " + "#{@bill.authuser.address.address_line_2}, " + "#{@bill.authuser.address.address_line_3}", size: 11, align: :center, :leading => 3
+        text "#{@bill.authuser.address.city.capitalize}", size: 11, align: :center, :leading => 3
             text "<font size=\"11\">Mobile Number :  #{@bill.authuser.membership.phone_number}</font> <font size=\"11\"> Tin Number :  #{@bill.authuser.users.first.tin_number}</font>", :inline_format => true
       end
    #  stroke_horizontal_rule
@@ -56,10 +56,10 @@ class BillPdfFour < Prawn::Document
    def bill_customer
        draw_text "To,", :at => [10, 460], size: 11, :style => :bold
         bounding_box([10, 450],:width => 220) do
-          text "#{@bill.customer.name.titleize}",size:11, :style => :bold
-          text "#{@bill.customer.address.capitalize}" , size: 11 
-          text "#{@bill.customer.city.capitalize}", size: 11
-          text "#{@bill.customer.pin_code}", size: 11
+          text "#{@bill.customer.name.titleize}",size:11, :style => :bold, :leading => 3
+          text "#{@bill.customer.address.capitalize}" , size: 11 , :leading => 3
+          text "#{@bill.customer.city.capitalize}", size: 11, :leading => 3
+          text "#{@bill.customer.pin_code}", size: 11, :leading => 3
           text "<b>Phone  Number   :</b>  #{@bill.customer.phone_number}", size: 11, :inline_format => true
         end
     

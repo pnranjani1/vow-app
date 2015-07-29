@@ -35,7 +35,7 @@ class BillPdf < Prawn::Document
       # @bill.bill_date = Date.today
      #end
      bounding_box([320, 670], :width => 300) do
-      text "<b>Invoice Number   :</b> #{@bill.invoice_number}" ,size:11, :inline_format => true
+       text "<b>Invoice Number   :</b> #{@bill.invoice_number}" ,size:11, :inline_format => true, :leading => 3
       text "<b>Invoice Date         :</b> #{@bill.bill_date.strftime("%b %d, %Y")}" ,size:11, :inline_format => true
     end
   
@@ -52,14 +52,14 @@ class BillPdf < Prawn::Document
       #draw_text "Company Details", :at => [8,620], size:15
       bounding_box([8,610],:width =>250) do
         if @user.main_roles.first.role_name == "user"
-          text "#{@bill.authuser.users.first.company.titleize}",size: 14, :style => :bold
+          text "#{@bill.authuser.users.first.company.titleize}",size: 14, :style => :bold, :leading => 3
         elsif @user.main_roles.first.role_name  == "client"
-          text "#{@bill.authuser.clients.first.company.titleize}",size: 14, :style => :bold
+          text "#{@bill.authuser.clients.first.company.titleize}",size: 14, :style => :bold, :leading => 3
         end 
-        text "<b>Address               :</b>    #{@bill.authuser.address.address_line_1.capitalize}, " + "#{@bill.authuser.address.address_line_2}, " + "#{@bill.authuser.address.address_line_3}" , :inline_format => true, size: 11
-        text "<b>City                     :</b>    #{@bill.authuser.address.city.capitalize}", :inline_format => true, size: 11
+        text "<b>Address               :</b>    #{@bill.authuser.address.address_line_1.capitalize}, " + "#{@bill.authuser.address.address_line_2}, " + "#{@bill.authuser.address.address_line_3}" , :inline_format => true, size: 11, :leading => 3
+        text "<b>City                     :</b>    #{@bill.authuser.address.city.capitalize}", :inline_format => true, size: 11, :leading => 3
         #text "Country :#{@bill.authuser.address.country}"
-        text "<b>Phone Number   :</b>   #{@bill.authuser.membership.phone_number}", :inline_format => true, size: 11
+        text "<b>Phone Number   :</b>   #{@bill.authuser.membership.phone_number}", :inline_format => true, size: 11, :leading => 3
         text "<b>Tin Number        :</b>   #{@bill.authuser.users.first.tin_number}", :inline_format => true, size: 11
       end
    end
@@ -80,10 +80,10 @@ class BillPdf < Prawn::Document
       draw_text "Billing Name", :at => [320, 620], size: 15
       bounding_box([320, 610],:width => 220) do
         text "#{@bill.customer.name.titleize}", size:14, :style => :bold
-        text "<b>Address               :</b>   #{@bill.customer.address.capitalize}" , :inline_format => true, size: 11 
-        text "<b>City                      :</b>   #{@bill.customer.city.capitalize}", size: 11, :inline_format => true
-        text "<b>PinCode               :</b>   #{@bill.customer.pin_code}", size: 11, :inline_format => true
-        text "<b>Phone  Number   :</b>  #{@bill.customer.phone_number}", size: 11, :inline_format => true
+        text "<b>Address               :</b>   #{@bill.customer.address.capitalize}" , :inline_format => true, size: 11, :leading => 3 
+        text "<b>City                      :</b>   #{@bill.customer.city.capitalize}", size: 11, :inline_format => true, :leading => 3
+        text "<b>PinCode               :</b>   #{@bill.customer.pin_code}", size: 11, :inline_format => true, :leading => 3
+        text "<b>Phone  Number   :</b>  #{@bill.customer.phone_number}", size: 11, :inline_format => true, :leading => 3
         text "<b>Tin  Number        :</b>  #{@bill.customer.tin_number}", size: 11, :inline_format => true
       end
    end

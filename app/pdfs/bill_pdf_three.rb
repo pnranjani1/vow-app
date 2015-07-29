@@ -53,15 +53,15 @@ class BillPdfThree < Prawn::Document
       #draw_text "Company Details", :at => [8,620], size:15
       bounding_box([10,570],:width =>250) do
         if @user.main_roles.first.role_name == "user"
-          text "#{@bill.authuser.users.first.company.titleize}",size: 14, :style => :bold, :leading => 2
+          text "#{@bill.authuser.users.first.company.titleize}",size: 14, :style => :bold, :leading => 3
         elsif @user.main_roles.first.role_name  == "client"
-          text "#{@bill.authuser.clients.first.company.titleize}",size: 14, :style => :bold, :leading => 2
+          text "#{@bill.authuser.clients.first.company.titleize}",size: 14, :style => :bold, :leading => 3
         end 
-        text "#{@bill.authuser.address.address_line_1.capitalize}, " + "#{@bill.authuser.address.address_line_2}, " + "#{@bill.authuser.address.address_line_3}" ,size: 11, :leading => 2
-        text "#{@bill.authuser.address.city.capitalize}", size: 11, :leading => 2
+        text "#{@bill.authuser.address.address_line_1.capitalize}, " + "#{@bill.authuser.address.address_line_2}, " + "#{@bill.authuser.address.address_line_3}" ,size: 11, :leading => 3
+        text "#{@bill.authuser.address.city.capitalize}", size: 11, :leading => 3
         #text "Country :#{@bill.authuser.address.country}"
-        text "Mobile Number  :  #{@bill.authuser.membership.phone_number}", size: 11, :leading => 2
-        text "Tin Number       :   #{@bill.authuser.users.first.tin_number}", size: 11, :leading => 2
+        text "Mobile Number  :  #{@bill.authuser.membership.phone_number}", size: 11, :leading => 3
+        text "Tin Number       :   #{@bill.authuser.users.first.tin_number}", size: 11, :leading => 3
       end
    end
 
@@ -88,12 +88,12 @@ class BillPdfThree < Prawn::Document
    def bill_customer
       draw_text "Bill To,", :at => [320, 560], size: 12
       bounding_box([320, 550],:width => 220) do
-        text "#{@bill.customer.name.titleize}", size:14, :style => :bold, :leading => 2
-        text "#{@bill.customer.address.capitalize}", size: 11 
-        text "#{@bill.customer.city.capitalize}", size: 11, :leading => 2
-        text "#{@bill.customer.pin_code}", size: 11, :leading => 2
-        text "Phone  Number  :  #{@bill.customer.phone_number}", size: 11, :leading => 2
-        text "Tin  Number        :  #{@bill.customer.tin_number}", size: 11, :leading => 2
+        text "#{@bill.customer.name.titleize}", size:14, :style => :bold, :leading => 3
+        text "#{@bill.customer.address.capitalize}", size: 11 , :leading => 3
+        text "#{@bill.customer.city.capitalize}", size: 11, :leading => 3
+        text "#{@bill.customer.pin_code}", size: 11, :leading => 3
+        text "Phone  Number  :  #{@bill.customer.phone_number}", size: 11, :leading => 3
+        text "Tin  Number        :  #{@bill.customer.tin_number}", size: 11, :leading => 3
       end
    end
      
