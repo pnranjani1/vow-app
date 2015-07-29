@@ -41,7 +41,11 @@
                         <td><%= link_to referral.name, referrals_referral_bill_path(:id => referral.id), class: "listconttext" %></td>
                         <td><%= referral.email %></td>
                         <td><%= referral.mobile_number %></td>
-                        <td><%= referral.referral_type.referral_type  %></td>
+                        <% if referral.referral_type.exists? %>
+                          <td><%= referral.referral_type.referral_type  %></td>
+                        <% else %>
+                          <td> NA </td>
+                        <% end %>
                         <td><%= link_to edit_referral_path(referral.id), class: "btn btn-xs btn-primary" do %>
                           <i class="fa fa-edit"></i>
                           <% end %>
