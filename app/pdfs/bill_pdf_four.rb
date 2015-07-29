@@ -56,10 +56,10 @@ class BillPdfFour < Prawn::Document
    def bill_customer
        draw_text "To,", :at => [10, 460], size: 11, :style => :bold
         bounding_box([10, 450],:width => 220) do
-          text "#{@bill.customer.name.titleize}",size:11, :style => :bold, :leading => 3
-          text "#{@bill.customer.address.capitalize}" , size: 11 , :leading => 3
-          text "#{@bill.customer.city.capitalize}", size: 11, :leading => 3
-          text "#{@bill.customer.pin_code}", size: 11, :leading => 3
+          text "#{@bill.customer.name.titleize}",size:11, :style => :bold, :leading => 2
+          text "#{@bill.customer.address.capitalize}" , size: 11 , :leading => 2
+          text "#{@bill.customer.city.capitalize}", size: 11, :leading => 2
+          text "#{@bill.customer.pin_code}", size: 11, :leading => 2
           text "<b>Phone  Number   :</b>  #{@bill.customer.phone_number}", size: 11, :inline_format => true
         end
     
