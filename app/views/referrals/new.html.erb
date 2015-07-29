@@ -17,16 +17,19 @@
             
           <%= form_for(@referral) do |f| %>
           <% if @referral.errors.any? %>
-          <div class="col-md-8">
-            <div class="alert alert-danger">
-              <% @referral.errors.full_messages.each do |error| %>
-              <ul>
-                <li><%= error %></li>
-              </ul>
-              <% end %>
-             </div><!-- alert ends here -->
-          </div><!-- col ends here -->
+            <div class="row">
+              <div class="col-md-6">
+                <div class="alert alert-danger">
+                  <% @referral.errors.full_messages.each do |error| %>
+                    <ul>
+                      <li><%= error %></li>
+                    </ul>
+                  <% end %>
+                </div><!-- alert ends here -->
+              </div><!-- col ends here -->
+            </div>
           <% end %>
+ 
           <div class="row">
                 
             <div class="col-md-4">
