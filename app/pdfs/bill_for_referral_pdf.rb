@@ -123,6 +123,12 @@ class BillForReferralPdf < Prawn::Document
         self.columns(0..1).size = 11
       end
     end
-  end
+    move_down 10
+    indent 0, 20 do
+      text "<u><b>Rupees #{(bills_count * @referral.referral_type.pricing.to_f).round.to_words} only</b></u>", size: 11, align: :right, :inline_format => true       
+     
+    end
     
+  end
+
 end
