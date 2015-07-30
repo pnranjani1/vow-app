@@ -71,7 +71,7 @@ class BillForReferralPdf < Prawn::Document
       clients.each_with_index do |client, index|
          index = index + 1
          bills = Bill.where('client_id = ? AND created_at >= ? AND created_at <= ?', client.authuser.id, @start_date, @end_date)
-        value = [index, client.authuser.name, client.authuser.created_at.strftime("%B"), bills.count, (bills.count * @referral.referral_type.pricing.to_f)]
+        value = [index, client.authuser.name, client.authuser.created_at.strftime("%B"), bills.count, (bills.count * @referral.referral_type.pricing.to_f).round(2)]
          data += [value]
       end
 
@@ -112,7 +112,7 @@ class BillForReferralPdf < Prawn::Document
         end
     end
     
-    data =  [["Total Amount", "#{number_with_delimiter((bills_count * @referral.referral_type.pricing.to_f), delimiter: ',')}"]]
+    data =  [["Total Amount", "#{number_with_delimiter(((bills_count * @referral.referral_type.pricing.to_f).round(2)), delimiter: ',')}"]]
     indent 280 do
       table(data) do
          self.column(0).width = 150
