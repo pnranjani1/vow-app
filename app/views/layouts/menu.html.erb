@@ -272,10 +272,16 @@
 
 <ul class="dropdown-menu">
 <li><%= link_to bills_bill_local_sales_reports_path do %>
-<i class="fa fa-download nav-icon"></i> Local Sales </li>  
+  <i class="fa fa-download nav-icon"></i> Local Sales XML </li>  
+<% end %>
+  <li><%= link_to bills_local_report_path do %>
+<i class="fa fa-download nav-icon"></i> Local Sales XLS </li>  
 <% end %>
 <li><%= link_to bills_bill_interstate_sales_reports_path do %>
-<i class="fa fa-download nav-icon"></i> Interstate Sales </li>  
+<i class="fa fa-download nav-icon"></i> Interstate Sales XML </li>  
+<% end %>
+  <li><%= link_to bills_interstate_report_path do %>
+<i class="fa fa-download nav-icon"></i> Interstate Sales XLS </li>  
 <% end %>
 <li><%= link_to bills_bill_tally_import_reports_path do %>
 <i class="fa fa-download nav-icon"></i> Tally Importable </li>  

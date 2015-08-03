@@ -57,7 +57,7 @@ class Bill < ActiveRecord::Base
     tax_amount = self.tax.tax_rate * 0.01
     total_amount = self.total_bill_price.to_f + self.other_charges.to_f
     total_tax = tax_amount * total_amount
-    self.grand_total = total_amount.to_f + total_tax.to_f
+    self.grand_total = total_amount.to_f + total_tax.to_f + self.service_tax.to_f
   end
 
   def generate_tax_type
@@ -173,7 +173,7 @@ class Bill < ActiveRecord::Base
           browser.screenshot.save file
           self.update_attributes(error_message: file.to_s)
           logger.error "esugam not generated due to incomplete form submission"
-         else
+        else
           self.update_attributes(esugam: esugam)
         end
         
@@ -182,7 +182,7 @@ class Bill < ActiveRecord::Base
         browser.close
         return esugam
       else # if commodity is not in list else
-        self.update_attributes(error_message: "Commodity is not in the list")
+        self.update_attributes(error_message: "Selected Commodity is not added in VAT Site")
         browser.close
       end # commodity not in list end
       end # login end

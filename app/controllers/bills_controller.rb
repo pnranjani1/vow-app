@@ -1,7 +1,7 @@
 #require 'builder'
 class BillsController < ApplicationController
   #layout 'menu', :only => [:user_bill, :new, :create, :show, :local_sales, :interstate_sales, :tally_import]
-   layout_by_action [:user_bill, :new, :create, :show, :local_sales, :interstate_sales, :tally_import, :esnget, :bill_reports, :bill_local_sales_reports, :bill_interstate_sales_reports, :bill_tally_import_reports, :pdf_format, :pdf_format_select] => "menu"
+   layout_by_action [:user_bill, :new, :create, :show, :local_sales, :interstate_sales, :tally_import, :esnget, :bill_reports, :bill_local_sales_reports, :bill_interstate_sales_reports, :bill_tally_import_reports, :pdf_format, :pdf_format_select, :local_report, :interstate_report] => "menu"
   #, user_bill_summary: "menu1"
   
  #layout 'client', :only => [:user_bill_summary]
@@ -211,6 +211,19 @@ end
   end
       
 
+  def local_report
+  end
+
+  def local
+    tax = Bill.where(:tax_id => (Tax.where(:tax_type => "VAT")))
+      chosen_month = params[:choose_month]
+      @user_bills = Bill.where('created_at >= ? AND created_at <= ? AND authuser_id = ? AND tax_type = ?',chosen_month.to_time.beginning_of_month, chosen_month.to_time.end_of_month, current_authuser.id, "VAT") 
+       respond_to do |format|
+        format.html
+         format.xls
+       end
+  end
+
 
   def interstate_sales       
      #tax = Bill.where(:tax_id => (Tax.where(:tax_type => "CST")))
@@ -223,6 +236,18 @@ end
      
        format.xml {  send_data render_to_string(:interstate_sales), :filename => 'interstate_sales.xml', :type=>"application/xml", :disposition => 'attachment' }
 end
+  end
+
+  def interstate_report
+  end
+
+  def interstate
+     chosen_month = params[:choose_month]
+     @user_bills = Bill.where('created_at >= ? AND created_at <= ? AND authuser_id = ? AND tax_type = ?',chosen_month.to_time.beginning_of_month, chosen_month.to_time.end_of_month, current_authuser.id, "CST") 
+     respond_to do |format|
+        format.html
+        format.xls
+     end
   end
  
     
@@ -389,7 +414,7 @@ end
 
   def set_params
     params[:bill].permit(:invoice_number,:esugam, :bill_date, :customer_id, 
-      :authuser_id, :tax, :total_bill_price, :tax_id, :grand_total, :other_charges, :other_charges_information_id,:other_information, :other_charges_info, :client_id, :transporter_name, :vechicle_number, :gc_lr_number,:lr_date, :pdf_format,
+      :authuser_id, :tax, :total_bill_price, :tax_id, :grand_total, :other_charges, :other_charges_information_id,:other_information, :other_charges_info, :client_id, :transporter_name, :vechicle_number, :gc_lr_number,:lr_date, :pdf_format, :service_tax,
       {:line_items_attributes => [:product_id, :quantity, :unit_price, :total_price, :_destroy]},
       {:tax_attributes => [:tax_type, :tax_rate, :tax]}
       )

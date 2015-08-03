@@ -84,6 +84,10 @@ Rails.application.routes.draw do
   patch 'bills/:id/pdf_format_select' => 'bills#pdf_format_select', :as => "pdf_format_select"
   get 'referrals/:id/referral_pdf_bill' => 'referrals#referral_pdf_bill', :as => "referral_pdf_bill"
   get 'referrals/:id/referral_pdf_bill_report' => 'referrals#referral_pdf_bill_report', :as => "referral_pdf_bill_report"
+  get 'bills/local'
+  get 'bills/local_report'
+  get 'bills/interstate'
+  get 'bills/interstate_report'
  # patch 'bills/pdf_format_select'
     
  

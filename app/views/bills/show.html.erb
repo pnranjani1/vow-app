@@ -144,10 +144,22 @@
 </tr>
   <% end %>
   
+  <tr>
+<% total = @bill.total_bill_price.to_f + @bill.other_charges.to_f %>    
+  <td><strong>Sub-Total </strong></td>
+  <td><%= number_with_delimiter((total).round(2), :delimiter => ',') %></td>
+</tr>
+  
 <tr>
 <% total = @bill.total_bill_price.to_f + @bill.other_charges.to_f %>    
   <td><strong><%= @bill.tax.tax_type %>  @ <%= @bill.tax.tax_rate %> % on <%=number_with_delimiter(total.round(2), :delimiter => ',') %></strong></td>
   <td><%=  number_with_delimiter((@bill.tax.tax_rate * 0.01*total).round(2), :delimiter => ',') %></td>
+</tr>
+  
+<tr>
+  
+  <td><strong>Service Tax </strong></td>
+  <td><%= number_with_delimiter((@bill.service_tax), :delimiter => ',') %></td>
 </tr>
 
 <tr>

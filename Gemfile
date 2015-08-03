@@ -56,7 +56,8 @@ group :development, :test do
 
 group :production do
      gem 'pg'
-  end
+end
+
 group :production do
   gem 'thin'
 end

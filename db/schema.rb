@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150728103303) do
+ActiveRecord::Schema.define(version: 20150803113229) do
 
   create_table "addresses", force: true do |t|
     t.string   "address_line_1"
@@ -105,6 +105,7 @@ ActiveRecord::Schema.define(version: 20150728103303) do
     t.integer  "other_charges_information_id"
     t.string   "error_message"
     t.string   "pdf_format"
+    t.string   "service_tax"
   end
 
   create_table "cainvoices", force: true do |t|
@@ -210,11 +211,6 @@ ActiveRecord::Schema.define(version: 20150728103303) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "default",      default: false
-  end
-
-  create_table "product_imports", force: true do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
   create_table "products", force: true do |t|

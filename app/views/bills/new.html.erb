@@ -401,7 +401,7 @@ State
 <div class="portlet-content">
 
 <div class="row"> 
-<div class="col-sm-4">           
+<div class="col-sm-3">           
 <strong>Name Other Charges, if any?</strong> 
 <div id="name" class="input-group">               
 <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
@@ -409,7 +409,7 @@ State
 </div>
 </div> <!-- /.col -->
             
-<div class="col-sm-4">           
+<div class="col-sm-3">           
 <strong>Other charges Rate</strong> 
 <div id="name" class="input-group">               
 <span class="input-group-addon"><i class="fa fa-money"></i></span>
@@ -417,10 +417,18 @@ State
 </div>
 </div> <!-- /.col -->
         
-<div class="col-sm-4">           
+<div class="col-sm-3">           
 <strong>Tax Information&nbsp;<b style="color:red">*</b></strong> 
 <div id="name" class="input-group">               
   <%= f.collection_select :tax_id, Tax.all, :id, :tax ,{prompt: "Select Tax"}, {class: "form-control"} %>
+</div>
+</div> <!-- /.col -->
+  
+ <div class="col-sm-3">           
+<strong>Service Tax(optional)</strong> 
+<div id="name" class="input-group">  
+<span class="input-group-addon"><i class="fa fa-money"></i></span>
+  <%= f.text_field :service_tax , class: "form-control" %>
 </div>
 </div> <!-- /.col -->
 <br/><br/><br/><br/>
