@@ -112,6 +112,10 @@ table(data, :cell_style => {:inline_format => true, :align => :right, :border_co
            data = [["<b>Other Charges</b>", "NA"]]
 table(data, :cell_style => {:inline_format => true, :align => :right, :border_color => "FFFFFF"},:column_widths =>[125, 110], :position => 300)
          end
+
+          sub_total = @bill.total_bill_price.to_f + @bill.other_charges.to_f
+          data = [["<b>Sub Total</b>", "#{number_with_delimiter(sub_total.round(2), delimiter: ',')}"]]
+table(data, :cell_style => {:inline_format => true, :align => :right, :border_color => "FFFFFF"}, :column_widths => [125, 110], :position => 300)
           
          if @bill.other_charges != nil     
            total = @bill.total_bill_price + @bill.other_charges
@@ -123,8 +127,13 @@ table(data, :cell_style => {:inline_format => true, :align => :right, :border_co
 table(data, :cell_style => {:inline_format => true, :align => :right, :border_color => "FFFFFF"},:column_widths => [125, 110], :position => 300)    
          end
 
-         data = [["<b>Total</b>", "#{number_with_delimiter(@bill.grand_total.round(2), delimiter: ',')}"]]
-table(data, :cell_style => {:inline_format => true, :align => :right, :border_color => "FFFFFF"}, :column_widths => [125, 110], :position => 300)
+         if @bill.service_tax.present?
+            data = [["<b>Service Tax</b>", "#{number_with_delimiter(@bill.service_tax, delimiter: ',')}"]]
+           table(data, :cell_style => {:inline_format => true, :align => :right, :border_color => "FFFFFF"}, :column_widths => [125, 110], :position => 300)
+         end
+             
+            data = [["<b>Total</b>", "#{number_with_delimiter(@bill.grand_total.round(2), delimiter: ',')}"]]
+            table(data, :cell_style => {:inline_format => true, :align => :right, :border_color => "FFFFFF"}, :column_widths => [125, 110], :position => 300)
    end
 
   def grand_total

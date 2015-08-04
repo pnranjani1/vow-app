@@ -144,6 +144,10 @@ table(data, :cell_style => {:inline_format => true, :align => :center},:column_w
            data = [["<b>Other Charges</b>", "NA"]]
 table(data, :cell_style => {:inline_format => true, :align => :center},:column_widths =>[125, 110], :position => 300)
          end
+
+         sub_total = @bill.total_bill_price.to_f + @bill.other_charges.to_f
+         data = [["<b>Sub Total</b>", "#{number_with_delimiter(sub_total.round(2), delimiter: ',')}"]]
+         table(data, :cell_style => {:inline_format => true, :align => :center}, :column_widths => [125, 110], :position => 300)
           
          if @bill.other_charges != nil     
            total = @bill.total_bill_price + @bill.other_charges
@@ -155,11 +159,13 @@ table(data, :cell_style => {:inline_format => true, :align => :center},:column_w
 table(data, :cell_style => {:inline_format => true, :align => :center},:column_widths => [125, 110], :position => 300)    
          end
 
+          if @bill.service_tax.present?
+           data = [["<b>Service Tax</b>", "#{number_with_delimiter(@bill.service_tax, delimiter: ',')}"]]
+           table(data, :cell_style => {:inline_format => true, :align => :center}, :column_widths => [125, 110], :position => 300)
+         end
 
          data = [["<b>Grand Total</b>", "#{number_with_delimiter(@bill.grand_total.round(2), delimiter: ',')}"]]
-table(data, :cell_style => {:inline_format => true, :align => :center}, :column_widths => [125, 110], :position => 300)
-
-       
+        table(data, :cell_style => {:inline_format => true, :align => :center}, :column_widths => [125, 110], :position => 300)
    end
 
       
@@ -208,12 +214,7 @@ table(data, :cell_style => {:inline_format => true, :align => :center}, :column_
            text "4. Subject to Bangalore Jurisdiction.",  size: 10
        end
      
-         repeat :all do
-          #Create a bounding box and move it up 18 units from the bottom boundry of the page
-           bounding_box [bounds.left, bounds.bottom + 18], width: bounds.width do
-            text "We Thank You for Your Business", size: 10, align: :center
-           end
-         end
+        
    end
 
 end

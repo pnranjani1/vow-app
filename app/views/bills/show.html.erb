@@ -157,9 +157,10 @@
 </tr>
   
 <tr>
-  
-  <td><strong>Service Tax </strong></td>
-  <td><%= number_with_delimiter((@bill.service_tax), :delimiter => ',') %></td>
+  <% if @bill.service_tax.present? %>
+    <td><strong>Service Tax </strong></td>
+    <td><%= number_with_delimiter((@bill.service_tax), :delimiter => ',') %></td>
+  <% end %>
 </tr>
 
 <tr>
