@@ -67,7 +67,8 @@
 
  
 <ul class="dropdown-menu" role="menu">
-  <% if current_authuser.main_roles.first.role_name == "user" %>
+  <%  current_authuser.main_roles.pluck(:role_name) %>
+  <% if role_name.include? "user" %>
 <li>
 <%= link_to authusers_client_new_path do %>
 <!-- <a href="./page-profile.html">-->
