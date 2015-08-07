@@ -29,7 +29,15 @@
 <div class="row">
 
 <div class="col-md-4">
-<h3><i class="fa fa-group"></i>Bill of <%= @bill.customer.name  %></h3> 
+  
+  <% urd_values = ["others", "other", "Others", "Other"] %>
+  <% if urd_values.include? @bill.customer.name %>
+   <% customer = UnregisteredCustomer.where(:bill_id => @bill.id).first  %>
+    <h3><i class="fa fa-group"></i>Bill of <%= customer.customer_name  %></h3>  
+  <% else %>
+    <h3><i class="fa fa-group"></i>Bill of <%= @bill.customer.name  %></h3> 
+  <% end %>
+  
 </div>
 
 <div class="col-md-4">
@@ -107,7 +115,9 @@
 <th>Quantity</th>  
 <th>Unit Price</th>
 <th>Total Price</th> 
-<!-- <th>Delete</th>                     -->
+<th>Service Tax Rate</th>
+<th>Service Tax Amount</th>
+
 </tr> 
 </thead> 
 
@@ -122,12 +132,20 @@
    <td><%= qty %></td>
    <% end %>
    <td><%= number_with_delimiter(line_item.unit_price, :delimiter => ',') %></td> 
-   <td width="28%"><%= number_with_delimiter(line_item.total_price.round(2), :delimiter => ',')  %></td>
+   <td><%= number_with_delimiter(line_item.total_price.round(2), :delimiter => ',')  %></td>
+  <!--  <td width="20%"><%= number_with_delimiter(line_item.total_price.round(2), :delimiter => ',')  %></td>-->
+   <% if line_item.service_tax.present? %>
+      <td><%= line_item.service_tax.service_tax_rate %></td>
+      <td><%= ((line_item.service_tax.service_tax_rate/100) * line_item.total_price).round(2) %></td>
+   <% else %>
+      <td>NA </td>
+      <td>NA</td>
+   <% end %>
  </tr>   
  <% end %>
 
 <tr>
-<td colspan="4">
+<td colspan="6">
 <div class="comlin">
   
 <table class="table table-bordered table-checkable">
@@ -157,15 +175,31 @@
 </tr>
   
 <tr>
-  <% if @bill.service_tax.present? %>
+  <% if @bill.line_items.include? :service_tax_id %>
     <td><strong>Service Tax </strong></td>
     <td><%= number_with_delimiter((@bill.service_tax), :delimiter => ',') %></td>
   <% end %>
 </tr>
-
+  
+  <!-- grouping by service tax -->
+  <tr>
+   <% groups = @bill.line_items.group_by(&:service_tax_id) %>
+   <% groups.keys.sort.each do |key, value| %>
+      <% service_id =  key %>
+      <% service_tax = ServiceTax.find(service_id) %>
+      <% line_items = @bill.line_items.where(:service_tax_id => key) %>
+      <% total_price_sum = line_items.sum(:total_price) %>
+      <% service_tax_sum =  (total_price_sum * (service_tax.service_tax_rate/100)).round(2) %>
+      <td><strong>Service Tax at  <%= service_tax.service_tax_rate  %> on <%= total_price_sum %></strong></td>
+      <td><%=  service_tax_sum %></td>  
+  <% end %>
+   
+  </tr>
+  
 <tr>
 <td><strong>Grand Total</strong></td>
-  <td><%= number_with_delimiter(@bill.grand_total.round(2), :delimiter => ',') %></td>
+    <td><%= number_with_delimiter(@bill.grand_total.round(2), :delimiter => ',') %></td>
+  
 </tr>
    
 </table>

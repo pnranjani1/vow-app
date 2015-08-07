@@ -65,7 +65,9 @@
 <i class="fa fa-caret-down"></i>
 </a>
 
+ 
 <ul class="dropdown-menu" role="menu">
+  <% if current_authuser.main_roles.first.role_name == "user" %>
 <li>
 <%= link_to authusers_client_new_path do %>
 <!-- <a href="./page-profile.html">-->
@@ -80,9 +82,19 @@
 &nbsp;&nbsp;Update Profile Picture
 <% end %>
 </li>
-            
+
+  
 <li class="divider"></li>
+<% elsif current_authuser.main_roles.first.role_name == "secondary_user" %>
+ <li>
+   <%= link_to edit_authuser_registration_path do %>
+    <i class="fa fa-user"></i> 
+      &nbsp;&nbsp;Change Password
+   <% end %>
+ </li>
+  <% end %>
 <li>
+ 
 <%= link_to destroy_authuser_session_path do %>
 <!--  <a href="./account-login.html"> -->
 <i class="fa fa-sign-out"></i> 
@@ -108,16 +120,23 @@
 <ul class="nav navbar-nav mainbar-nav">
         
 <!-- Dashboards -->
+ 
 <% if controller.controller_name == "dashboards" %>
-<li class="active">
+  <li class="active">
 <% else %>
-<li>
+  <li>
 <% end %>
-<%= link_to dashboards_user_dashboard_path  do %>
-<i class="fa fa-dashboard"></i> Dashboard
-<% end %>
+ <% if permitted_to? :user_dashboard , Dashboard.new %> 
+  <%= link_to dashboards_user_dashboard_path  do %>
+    <i class="fa fa-dashboard"></i> Dashboard
+  <% end %>
+ <% end %>
+  <% if permitted_to? :secondary_user_dashboard , Dashboard.new %> 
+    <%= link_to dashboards_secondary_user_dashboard_path  do %>
+    <i class="fa fa-dashboard"></i> Dashboard
+  <% end %>
+ <% end %>
 </li>
-
 <!-- Change Role -->
 <% if controller.action_name == "change_role" %> 
 <li class= "active dropdown"> 
@@ -168,7 +187,9 @@
 
 
 <!-- User Commodities -->
-<% if controller.controller_name == "usercategories" %>
+<% if permitted_to? :index, Usercategory.new %>
+
+  <% if controller.controller_name == "usercategories" %>
 <li class="active dropdown">
 <% else %>
 <li class="dropdown ">   
@@ -180,55 +201,59 @@
 
 <ul class="dropdown-menu">   
 <li>
-<% if current_authuser.usercategories.blank? %> 
-<%= link_to new_usercategory_path do %>
-<i class="fa fa-yen nav-icon"></i> Add Commodity
-<% end %>
-<% else %> 
-<%= link_to usercategories_path do %>
-<i class="fa fa-yen nav-icon"></i> Manage Commodities</li>  
-<% end %>
-<% end %>
+ 
+  <% if current_authuser.usercategories.blank? %> 
+    <%= link_to new_usercategory_path do %>
+      <i class="fa fa-yen nav-icon"></i> Add Commodity
+    <% end %>
+  <% else %> 
+    <%= link_to usercategories_path do %>
+      <i class="fa fa-yen nav-icon"></i> Manage Commodities</li>  
+    <% end %>
+  <% end %>
 </ul>
 </li>
-
+<% end %>
   
 <!-- Products -->
-<% if controller.controller_name == "products" %>
-<li class="active dropdown">
-<% else %>
-<li class="dropdown ">   
-<% end %>
-<%= link_to products_product_user_path, :class => "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>
-<i class="fa fa-gift"></i>Products<span class="caret"></span>    
-<% end %>
+  <% if permitted_to? :new, Product.new %>
+  <% if controller.controller_name == "products" %>
+    <li class="active dropdown">
+  <% else %>
+    <li class="dropdown ">   
+  <% end %>
+  <%= link_to products_product_user_path, :class => "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>
+    <i class="fa fa-gift"></i>Products<span class="caret"></span>    
+  <% end %>
   
-<ul class="dropdown-menu">   
-<li>
-<% if current_authuser.usercategories.blank? %> 
-<%= link_to new_usercategory_path do %>
-<i class="fa fa-yen nav-icon"></i> Add Commodity First
-<% end %>
-<% elsif current_authuser.products.blank? %>
-<%= link_to new_product_path do %>
-  <i class="fa fa-ruble nav-icon"></i> Add Product </li>
-<% end %>
-<li><%= link_to products_product_import_report_path do %>
-<i class="fa fa-arrow-up nav-icon"></i> Import Products</li>  
-<% end %>
-<% else %>
-<%= link_to products_product_user_path do %>
-<li><i class="fa fa-ruble nav-icon"></i> Manage Products</li>  
-<% end %>
-  <li><%= link_to products_product_import_report_path do %>
-<i class="fa fa-arrow-up nav-icon"></i> Import Products</li>  
-<% end %>
-<% end %>
+  <ul class="dropdown-menu">   
+    <li>
+    <% if current_authuser.usercategories.blank? %> 
+      <%= link_to new_usercategory_path do %>
+        <i class="fa fa-yen nav-icon"></i> Add Commodity First
+      <% end %>
+    <% elsif current_authuser.products.blank? %>
+        <%= link_to new_product_path do %>
+          <i class="fa fa-ruble nav-icon"></i> Add Product </li>
+        <% end %>
+      <li><%= link_to products_product_import_report_path do %>
+            <i class="fa fa-arrow-up nav-icon"></i> Import Products</li>  
+      <% end %>
+    <% else %>
+        <%= link_to products_product_user_path do %>
+          <li><i class="fa fa-ruble nav-icon"></i> Manage Products</li>  
+        <% end %>
+        <li><%= link_to products_product_import_report_path do %>
+          <i class="fa fa-arrow-up nav-icon"></i> Import Products</li>  
+        <% end %>
+    <% end %>
 </ul>
 </li>
+<% end %>
 
 
 <!-- Customers -->
+<% if permitted_to? :new, Customer.new %>
 <% if controller.controller_name == "customers" %>
 <li class="active dropdown">
 <% else %>
@@ -258,36 +283,38 @@
 <% end %>
 </ul>
 </li>
-
+  <% end %>
   
   <!-- utilities -->
-<% if controller_name == "bills" && action_name == "bill_local_sales_reports" || action_name == "bill_interstate_sales_reports" || action_name == "bill_tally_import_reports" %>
-<li class="active dropdown">
-<% else %>
-<li class="dropdown ">   
-<% end %>
-  <%= link_to  bills_bill_local_sales_reports_path, class: "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>
-<i class="fa fa-download"></i>Utilities<span class="caret"></span>
-<% end %>
+  <% if permitted_to? :bill_local_sales_reports, Bill.new %>
+    <% if controller_name == "bills" && action_name == "bill_local_sales_reports" || action_name == "bill_interstate_sales_reports" || action_name == "bill_tally_import_reports" %>
+      <li class="active dropdown">
+    <% else %>
+      <li class="dropdown ">   
+    <% end %>
+    <%= link_to  bills_bill_local_sales_reports_path, class: "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>
+      <i class="fa fa-download"></i>Utilities<span class="caret"></span>
+    <% end %>
 
-<ul class="dropdown-menu">
-<li><%= link_to bills_bill_local_sales_reports_path do %>
-  <i class="fa fa-download nav-icon"></i> Local Sales XML </li>  
-<% end %>
-  <li><%= link_to bills_local_report_path do %>
-<i class="fa fa-download nav-icon"></i> Local Sales XLS </li>  
-<% end %>
-<li><%= link_to bills_bill_interstate_sales_reports_path do %>
-<i class="fa fa-download nav-icon"></i> Interstate Sales XML </li>  
-<% end %>
-  <li><%= link_to bills_interstate_report_path do %>
-<i class="fa fa-download nav-icon"></i> Interstate Sales XLS </li>  
-<% end %>
-<li><%= link_to bills_bill_tally_import_reports_path do %>
-<i class="fa fa-download nav-icon"></i> Tally Importable </li>  
-<% end %>  
-</ul>
-</li>
+    <ul class="dropdown-menu">
+      <li><%= link_to bills_bill_local_sales_reports_path do %>
+        <i class="fa fa-download nav-icon"></i> Local Sales XML </li>  
+      <% end %>
+      <li><%= link_to bills_local_report_path do %>
+        <i class="fa fa-download nav-icon"></i> Local Sales XLS </li>  
+      <% end %>
+      <li><%= link_to bills_bill_interstate_sales_reports_path do %>
+        <i class="fa fa-download nav-icon"></i> Interstate Sales XML </li>  
+      <% end %>
+      <li><%= link_to bills_interstate_report_path do %>
+        <i class="fa fa-download nav-icon"></i> Interstate Sales XLS </li>  
+      <% end %>
+      <li><%= link_to bills_bill_tally_import_reports_path do %>
+        <i class="fa fa-download nav-icon"></i> Tally Importable </li>  
+      <% end %>  
+    </ul>
+    </li>
+  <% end %>
   
 
 

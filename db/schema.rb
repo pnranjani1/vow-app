@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150803113229) do
+ActiveRecord::Schema.define(version: 20150807070839) do
 
   create_table "addresses", force: true do |t|
     t.string   "address_line_1"
@@ -106,6 +106,7 @@ ActiveRecord::Schema.define(version: 20150803113229) do
     t.string   "error_message"
     t.string   "pdf_format"
     t.string   "service_tax"
+    t.integer  "primary_user_id"
   end
 
   create_table "cainvoices", force: true do |t|
@@ -169,6 +170,7 @@ ActiveRecord::Schema.define(version: 20150803113229) do
     t.float    "unit_price"
     t.float    "total_price"
     t.float    "total_item_price"
+    t.integer  "service_tax_id"
   end
 
   create_table "main_categories", force: true do |t|
@@ -244,6 +246,13 @@ ActiveRecord::Schema.define(version: 20150803113229) do
     t.integer  "referral_type_id"
   end
 
+  create_table "service_taxes", force: true do |t|
+    t.string   "service_tax_name"
+    t.float    "service_tax_rate"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "sugans", force: true do |t|
     t.text     "number"
     t.datetime "created_at"
@@ -257,6 +266,25 @@ ActiveRecord::Schema.define(version: 20150803113229) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "tax"
+  end
+
+  create_table "tin_numbers", force: true do |t|
+    t.string   "state"
+    t.string   "tin_number"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "unregistered_customers", force: true do |t|
+    t.string   "customer_name"
+    t.string   "phone_number"
+    t.string   "address"
+    t.string   "city"
+    t.integer  "authuser_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "state"
+    t.integer  "bill_id"
   end
 
   create_table "usercategories", force: true do |t|

@@ -1,13 +1,19 @@
 #require 'builder'
 class BillsController < ApplicationController
+  filter_access_to :all
+  before_filter :authenticate_authuser!
+  require 'will_paginate/array'
+  
   #layout 'menu', :only => [:user_bill, :new, :create, :show, :local_sales, :interstate_sales, :tally_import]
    layout_by_action [:user_bill, :new, :create, :show, :local_sales, :interstate_sales, :tally_import, :esnget, :bill_reports, :bill_local_sales_reports, :bill_interstate_sales_reports, :bill_tally_import_reports, :pdf_format, :pdf_format_select, :local_report, :interstate_report] => "menu"
-  #, user_bill_summary: "menu1"
+  #layout_by_action [:new,:create, :pdf_format, :pdf_format_select] => "menu1"
+  
+  
+ 
   
  #layout 'client', :only => [:user_bill_summary]
   
-  filter_access_to :all
-  before_filter :authenticate_authuser!
+
     
   def index
     @bills = Bill.order('created_at DESC')
@@ -20,6 +26,7 @@ class BillsController < ApplicationController
     @bill = Bill.new
     @customer = Customer.new
     @product = Product.new
+    @bill.unregistered_customers.build
   end
   
   
@@ -27,8 +34,16 @@ class BillsController < ApplicationController
     @bill = Bill.new(set_params)
     @customer = Customer.new
     @product = Product.new
-    @bill.client_id = current_authuser.users.first.client_id
-    @bill.authuser_id = current_authuser.id
+    if current_authuser.main_roles.first.role_name == "secondary_user"
+      invited_by_user_id = current_authuser.invited_by_id
+      invited_user = Authuser.find(invited_by_user_id)
+      @bill.client_id = invited_user.users.first.client_id
+      @bill.authuser_id = current_authuser.id
+      @bill.primary_user_id = invited_by_user_id
+    else
+      @bill.client_id = current_authuser.users.first.client_id
+      @bill.authuser_id = current_authuser.id
+    end
     if @bill.save
       @bill.total_bill_price = @bill.line_items.sum(:total_price)
       @bill.save
@@ -102,15 +117,16 @@ class BillsController < ApplicationController
   
   
   def user_bill
-    @user_bills = Bill.where(:authuser_id => current_authuser.id).paginate(:page => params[:page], :per_page => 5).order('created_at DESC')
-     #@users = User.paginate(:page => params[:page], :per_page => 5)
-     respond_to do |format|
-      format.html
-       format.xml 
-      format.csv { send_data @user_bills.to_csv, :filename => '<bills>.csv' }
-      format.xls 
+      @user_bills = Bill.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id).paginate(:page => params[:page], :per_page => 5).order('created_at DESC')
+   # end
+        respond_to do |format|
+         format.html
+         format.xml 
+         format.csv { send_data @user_bills.to_csv, :filename => '<bills>.csv' }
+         format.xls 
+      end
      end
-     end
+     
  
   
   def bill_local_sales_reports
@@ -411,12 +427,12 @@ end
 
   private
 
-
-  def set_params
+   def set_params
     params[:bill].permit(:invoice_number,:esugam, :bill_date, :customer_id, 
-      :authuser_id, :tax, :total_bill_price, :tax_id, :grand_total, :other_charges, :other_charges_information_id,:other_information, :other_charges_info, :client_id, :transporter_name, :vechicle_number, :gc_lr_number,:lr_date, :pdf_format, :service_tax,
-      {:line_items_attributes => [:product_id, :quantity, :unit_price, :total_price, :_destroy]},
-      {:tax_attributes => [:tax_type, :tax_rate, :tax]}
+      :authuser_id, :tax, :total_bill_price, :tax_id, :grand_total, :other_charges, :other_charges_information_id,:other_information, :other_charges_info, :client_id, :transporter_name, :vechicle_number, :gc_lr_number,:lr_date, :pdf_format, :service_tax, :primary_user_id,
+      {:line_items_attributes => [:product_id, :quantity, :unit_price, :total_price, :service_tax_id, :_destroy]},
+      {:tax_attributes => [:tax_type, :tax_rate, :tax]},
+      {:unregistered_customers_attributes => [:customer_name, :phone_number, :address, :city, :state, :authuser_id, :bill_id]}
       )
   end
   end

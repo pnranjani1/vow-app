@@ -2,7 +2,7 @@ class DashboardsController < ApplicationController
  # layout 'menu' , :only => [:user_dashboard]
 #  layout 'client', :only => [:client_dashboard]
   
-  layout_by_action  user_dashboard: "menu"
+  layout_by_action  [:user_dashboard, :secondary_user_dashboard] =>  "menu"
   
    filter_access_to :all
  before_filter :authenticate_authuser!
@@ -47,11 +47,19 @@ class DashboardsController < ApplicationController
     date = Date.today.strftime("%Y%m%d")
     @bills_esugam = Bill.where('authuser_id = ? AND ESUGAM IS NOT NULL AND created_at >= ? AND created_at <= ?', current_authuser.id, date.to_date.beginning_of_month, date.to_date.end_of_month)
     @cash_based_applications = Bill.where('authuser_id = ? AND ESUGAM IS NULL AND created_at >= ? AND created_at <= ?', current_authuser.id, date.to_date.beginning_of_month, date.to_date.end_of_month) 
+    
+    #list of secondary_users
+    @secondary_users = Authuser.where(:invited_by_id => current_authuser.id)
   end
   
   def user_request
   end
   
-  
+  def secondary_user_dashboard
+   # render :layout => 'menu1'
+     date = Date.today.strftime("%Y%m%d")
+    @bills_esugam = Bill.where('authuser_id = ? AND ESUGAM IS NOT NULL AND created_at >= ? AND created_at <= ?', current_authuser.id, date.to_date.beginning_of_month, date.to_date.end_of_month)
+    @cash_based_applications = Bill.where('authuser_id = ? AND ESUGAM IS NULL AND created_at >= ? AND created_at <= ?', current_authuser.id, date.to_date.beginning_of_month, date.to_date.end_of_month) 
+  end
     
 end

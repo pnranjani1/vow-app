@@ -68,6 +68,7 @@ gem 'spring',        group: :development
 
 gem 'carrierwave'
 gem 'cloudinary'
+gem 'jquery-turbolinks' # jquery not laoded if page is not refreshed by user
 
 
 

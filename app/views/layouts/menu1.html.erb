@@ -1,30 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>VatonWheels</title>
+  <title>VatOnWheels</title>
   
-<%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-<%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
  
-    
-<link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
-<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+   
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
   
-<%= csrf_meta_tags %>
-
-<meta charset="utf-8">
-<meta name="description" content="">
-<meta name="viewport" content="width=device-width">
+ 
+   <%= csrf_meta_tags %>
+  
+  <meta charset="utf-8">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
 
  
 </head>
-<body> 
+ <body> 
   
-<% if authuser_signed_in? %>   
-  
+<% if authuser_signed_in? %>
+   
 <div class="navbar">
 <div class="container">
-    
+  
 <div class="navbar-header">
 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 <i class="fa fa-cogs"></i>
@@ -32,40 +33,19 @@
 <%= link_to "Vatonwheels.com", root_path , class: "navbar-brand " %> 
 </div> <!-- /.navbar-header -->
    
-  <!--  <div class="col-md-8"> -->
-     <!-- <%= current_authuser.name %> -->
-     <!-- <% if current_authuser.main_roles.count >1 %> -->
-    <!-- <li>   -->  
-    <!-- <%= link_to authusers_change_role_path do %> -->
-    <!-- <i class="fa fa-dashboard"></i> Change Role -->
-    <!-- <% end %> -->
-    <!-- <% end %> -->
-    <!-- </li> -->
-   <!-- </div> -->
-    
+   
+   
 <!-- right Navigation for profile -->
 <div class="navbar-collapse collapse">
 <ul class="nav navbar-nav navbar-right">   
-
 <li class="dropdown navbar-profile">
 <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;">
-<%= image_tag "avatar-1-xs.jpg"  , class: "navbar-profile-avatar"%>
-<!--<img src="img/avatar-1-xs.jpg" class="navbar-profile-avatar" alt="">  -->
+  <span class="nametitle">  <%= current_authuser.name %></span>
 <span class="navbar-profile-label">rod@rod.me &nbsp;</span>
 <i class="fa fa-caret-down"></i>
 </a>
 
 <ul class="dropdown-menu" role="menu">
-<li>
-             
-<!-- <a href="./page-profile.html">-->
-<%= link_to authusers_admin_edit_path do %>
-<i class="fa fa-user"></i> 
-&nbsp;&nbsp;My Profile
-<% end %>
-</li>
-           
-<li class="divider"></li>
 <li>
 <%= link_to destroy_authuser_session_path do %>
 <!--  <a href="./account-login.html"> -->
@@ -93,137 +73,74 @@
         
 <!-- Dashboards -->
 <% if controller.controller_name == "dashboards" %>
-<li class= "active">
+<li class="active">
 <% else %>
 <li>
 <% end %>
-<% if permitted_to? :admin_dashboard , Dashboard.new %> 
-<%= link_to dashboards_admin_dashboard_path  do %>
+  <%= link_to dashboards_secondary_user_dashboard_path  do %>
 <i class="fa fa-dashboard"></i> Dashboard
 <% end %>
-<% end %>
-<% if permitted_to? :client_dashboard , Dashboard.new %> 
-<%= link_to dashboards_client_dashboard_path  do %>
-<i class="fa fa-dashboard"></i> Dashboard
-<% end %>
-<% end %>
 </li>
-  
-   <!-- Change Role --> 
-<% if controller.action_name == "change_role" %> 
-<li class= "active dropdown"> 
-<% else %>
-<li> 
-<% end %>
-<% if current_authuser.main_roles.count > 1 %>
-<%= link_to authusers_change_role_path do %> 
-<i class="fa fa-dashboard"></i> Change Role 
-<% end %>
-<% end %>
-</li>
-  
 
-<!-- Customers --> 
-<!-- <% if permitted_to? :index, Customer.new %> -->
-<!-- <li class="dropdown">   -->
-<!-- <%= link_to customers_path, class: "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>-->
-<!-- <i class="fa fa-desktop"></i>View Customers<span class="caret"></span>-->
-<!-- <% end %> -->
 
-<!-- <ul class="dropdown-menu">    -->
-<!-- <li>-->
-<!-- <%= link_to customers_path do %> -->
-<!-- <i class="fa fa-user nav-icon"></i> Manage Customers</li>  -->
-<!-- <% end %> -->
-<!-- </ul>
-</li> -->
-<!-- <% end %> -->
-        
-<!-- Bills Information -->
-<% if controller.action_name == "client_bill_summary" %>
-<li class="active">  
+<!--Bills -->
+  <% if controller_name == "bills" && action_name == "new" || action_name == "user_bill" %>
+<li class="active dropdown">
 <% else %>
-<li>
+<li class="dropdown ">   
 <% end %>
-<% if permitted_to? :client_bill_summary, Bill.new %>
-<%= link_to bills_client_bill_summary_path  do %>
-<i class="fa fa-align-left"></i> Bills Information 
-<% end %>
-<% end %> 
-</li>
-  
-  <!-- bills information for client -->
-<% if controller.action_name == "bill_information_client" %>
-<li class="active">  
-<% else %>
-<li>
-<% end %>
-<% if permitted_to? :bill_information_client, Bill.new %>
-<%= link_to bills_user_bill_summary_path  do %>
-<i class="fa fa-align-left"></i> Bills Information 
-<% end %>
-<% end %> 
-</li>
-  
-          
-<!-- Main Commodities -->  
-<% if permitted_to? :index, MainCategory.new %>
-<% if controller.controller_name == "main_categories" %>
-<li class= "active dropdown">
-<% else %>
-<li>
-<% end %>
- 
-<%= link_to main_categories_path, class: "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>
-<i class="fa fa-files-o"></i>Commodities<span class="caret"></span>
+<%= link_to bills_user_bill_path, class: "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>
+<i class="fa fa-align-left"></i>Bills Management<span class="caret"></span>
 <% end %>
 
-<ul class="dropdown-menu">   
-<li>
-<%= link_to main_categories_path do %>
-<i class="fa fa-user nav-icon"></i> Manage Commodities</li>  
+<ul class="dropdown-menu">
+<li><%= link_to new_bill_path do %>
+<i class="fa fa-align-center nav-icon"></i> Create New Bill</li>  
 <% end %>
+<li><%= link_to bills_user_bill_path do %>
+<i class="fa fa-align-center nav-icon"></i> View Bills </li>  
+<% end %>  
 </ul>
 </li>
-<% end %>
+  <!-- bills ends here -->
 
-<!-- Taxes -->
-<% if permitted_to? :index, Tax.new %>
-<% if controller.controller_name == "taxes" %>
-<li class= "active dropdown">
-<% else %>
-<li>
-<% end %>
   
 
-<%= link_to taxes_path, class: "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>
-<i class="fa fa-external-link"></i>Tax Details<span class="caret"></span>
-<% end %>
 
-<ul class="dropdown-menu">   
-<li>
-<%= link_to taxes_path do %>
-<i class="fa fa-bell"></i> Manage Tax</li>  
-<% end %>
-</ul>
-</li>
-<% end %>
 
-    
 </ul><!-- nav navbar-nav mainbar-nav --ends here -->
   
 </div> <!-- /.mainbar-collapse -->   
 </div> <!-- /.container --> 
 </div> <!-- /.mainbar -->
+   
+  <!--    <%= link_to "Sign out", destroy_authuser_session_path %> -->
+<!-- <%= link_to "Sign Out", destroy_authuser_session_path, method: :delete %> -->
 <% end %>
 <%= yield %>
    
+<!-- <p class= "notice"><%= notice %></p>
+<p class= "alert"><%= alert %></p> -->
+   
+  
+   
+  
+<footer class="footer">
+<div class="container">
+<div class="row">
 
-  <!-- <%= link_to "Sign Out", destroy_authuser_session_path, method: :delete %> -->
-   <!-- <%= link_to "Sign out", destroy_authuser_session_path %> -->
- 
+<div class="col-sm-9">&copy; 2015 vatonwheels.com </div> <!-- /.col -->
+<div class="col-sm-3">Design and Developed by <a href="http://iprimitus.com" target="_blank" class="iprim">iprimitus.com</a></div> <!-- /.col -->
+
+</div> <!-- /.row -->
+</div> <!-- /.container -->
+</footer>
 
 
+   <%= yield :customer %>  
+   <%= yield :pdf %>
+   <%= yield :product %>
+   
 </body>
 </html>
 
@@ -231,5 +148,7 @@
   
   
  
+
+
 
 

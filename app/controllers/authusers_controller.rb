@@ -223,6 +223,23 @@ end
       end
      
 
+  def secondary_user
+    @secondary_user = Authuser.new
+    @secondary_user.membership = Membership.new
+    @secondary_user.permissions.build
+  end
+
+  def secondary_user_create
+    @secondary_user = Authuser.new
+    @secondary_user.invited_by_id = current_authuser.id
+    if @secondary_user.update_attributes(set_params)
+      redirect_to dashboards_user_dashboard_path(current_authuser.id)
+    else
+      render action: 'secondary_user'
+    end
+  end
+
+
 def user_management
   @users = Authuser.where(:invited_by_id => current_authuser.id).order('created_at DESC').paginate(:page => params[:page], :per_page => 10)
   @users_accepted = Authuser.where('invited_by_id = ? AND invitation_accepted_at IS NOT NULL', current_authuser.id).order('created_at DESC').paginate(:page => params[:page], :per_page => 10)

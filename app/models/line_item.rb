@@ -3,6 +3,7 @@ class LineItem < ActiveRecord::Base
   
   belongs_to :product
   belongs_to :bill
+  belongs_to :service_tax
 
   validates :quantity, :unit_price,  presence: true
   validates :quantity, numericality: true#{only_integer: true, message: "should be a number"}

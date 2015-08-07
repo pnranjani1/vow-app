@@ -1,35 +1,124 @@
+<div class="container">
+  <div class="content">
+    <div class="content-container">      
+       <div>
+        <h4 class="heading-inline"> Change Password</h4>
+       </div>
+       <br>
+       <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+        <%= devise_error_messages! %>
+       <div class="row"> 
+        <div class="portlet">
+  
+         <div class="portlet-header">
+           <h3><i class="fa fa-user"></i><%= current_authuser.name %></h3>
+         </div> <!-- /.portlet-header -->
+
+       <div class="portlet-content">
+          
+         <div class="row">
+
+            <div class="col-sm-4">           
+              Name&nbsp;<b style="color:red">*</b>
+              <div id="name" class="input-group">      
+                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                <%= f.text_field :name , class: "form-control", readonly: true %>
+              </div>
+            </div> <!-- /.col -->
+            
+            <div class="col-sm-4">           
+             Email&nbsp;<b style="color:red">*</b>
+              <div id="email" class="input-group">               
+                <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+                <%= f.text_field :email ,  class: "form-control", readonly: true %>
+              </div>
+            </div> <!-- /.col -->
+ 
+            <div class="col-sm-4">    
+              Current Password&nbsp;<b style="color:red">*</b>
+                <div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Enter Current Password">
+                  <div id="Password"  class="input-group">         
+                     <span class="input-group-addon"><i class="fa fa-star"></i></span>
+                    <%= f.password_field :current_password ,  class: "form-control" %>
+                  </div>
+                </div>
+            </div> <!-- /.col -->
+        </div> <!-- row ends here -->
+        <br/>  
+          <div class="row">
+
+            <div class="col-sm-4">           
+              New Password&nbsp;<b style="color:red">*</b>
+             <div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Minimum 8 Characters">
+               <div id="Password"  class="input-group">         
+                <span class="input-group-addon"><i class="fa fa-star"></i></span>
+                <%= f.password_field :password , class: "form-control" %>
+               </div>
+              </div><!-- tooltip ends here -->
+              </div> <!-- /.col -->
+            
+            <div class="col-sm-4">    
+              Confirm Password &nbsp;<b style="color:red">*</b>
+                <div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Minimum 8 Characters">
+                  <div id="Password"  class="input-group">         
+                     <span class="input-group-addon"><i class="fa fa-star"></i></span>
+                    <%= f.password_field :password_confirmation ,  class: "form-control" %>
+                  </div>
+                </div>
+            </div> <!-- /.col -->
+          
+           </div><!-- row ends here -->
+           <br/><br/>
+           <div class="row">
+             <div class="col-md-1"></div>
+             <%= f.submit "Change Password", class: "btn btn-success" %>
+           </div>
+       <% end %>
+
+       </div><!-- portlet content ends here -->
+      </div><!-- portlet ends here -->
+     </div><!-- row ends here -->
+    </div><!-- content container ends here  -->
+  </div><!-- content ends here -->
+</div><!--container ends here -->
+      
+<%
+=begin %>
+
 <h2>Edit <%= resource_name.to_s.humanize %></h2>
-
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <%= devise_error_messages! %>
-
-
+              
+                
 <div class = "field">
   <label> Name </label> <br/>
   <%= f.text_field :name, autofocus: true %>
   </div>
 
-
+              
   <div class="field">
     <label>Email</label><br />
     <%= f.text_field :email %>
   </div>
-
-
-
- <div class = "field">
+                     
+                      <div class = "field">
    <label>Current Password</label><i>(we need your current password to confirm your changes)</i><br />
     <%= f.password_field :current_password, autocomplete: "off" %>
   </div>
+                  
+                  <div class="field">
+    <%= f.label :password %> <i>(leave blank if you don't want to #change it)</i><br />
+   <%= f.password_field :password, autocomplete: "off" %>
+  </div>
 
-  <div class="actions">
+  <div class="field">
+    <%= f.label :password_confirmation %><br />
+    <%= f.password_field :password_confirmation, autocomplete: "off" %>
+  </div> 
+
+<div class="actions">
     <%= f.submit  %>
   </div>
-<% end %>
-
-<%
-=begin %>
-
+  
+                     
 <h3>Cancel my account</h3>
 
 <p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %></p>
@@ -40,17 +129,8 @@
 <%= if devise_mapping.confirmable? && #resource.pending_reconfirmation? %>
 #    <div>Currently waiting confirmation for: <%= #resource.unconfirmed_email %></div>
  # <% end %>
-
-  #<div class="field">
-   # <%= f.label :password %> <i>(leave blank if you don't want to #change it)</i><br />
- #   <%= f.password_field :password, autocomplete: "off" %>
-  #</div>
-
-  #<div class="field">
-   # <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "off" %>
-  </div> 
-
 <% 
 =end %>
+
+
  

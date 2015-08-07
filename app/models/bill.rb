@@ -10,13 +10,16 @@ class Bill < ActiveRecord::Base
   has_many :products, through: :line_items
   
   belongs_to :customer
+  has_many :unregistered_customers
   belongs_to :authuser
   
   belongs_to :tax
   
+  
   validates :invoice_number, :bill_date, :tax_id, presence: true
   validates :invoice_number, :uniqueness => {:scope => :authuser_id}
   validate :past_date
+ 
  # validates :vechicle_number, length: {is: 12}
   #validates :gc_lr_number, length: { is: 12}
   validates :customer_id, presence: true
@@ -26,7 +29,13 @@ class Bill < ActiveRecord::Base
   #validates :line_items, uniqueness: {:message => "Selected Item is already added in the bill"}, :if => Authuser.current
   
   accepts_nested_attributes_for :line_items, :allow_destroy => true, :reject_if => :all_blank
+  accepts_nested_attributes_for :unregistered_customers
   
+  
+  
+ # def customer
+  #  self.customer.name == "Others" or "Other" or "others" or "other"      
+  #end
 #  def generate_invoice_number
  #   if Bill.last.invoice_number.nil?
   #    self.invoice_number = 1000
@@ -57,7 +66,7 @@ class Bill < ActiveRecord::Base
     tax_amount = self.tax.tax_rate * 0.01
     total_amount = self.total_bill_price.to_f + self.other_charges.to_f
     total_tax = tax_amount * total_amount
-    self.grand_total = total_amount.to_f + total_tax.to_f + self.service_tax.to_f
+    self.grand_total = total_amount.to_f + total_tax.to_f 
   end
 
   def generate_tax_type
@@ -83,16 +92,27 @@ class Bill < ActiveRecord::Base
     end
   end
   
-  
   def get_esugan_number
     @bill = self 
     @tax_type = @bill.tax.tax_type
     @invoice_number = @bill.invoice_number
     @invoice_date = @bill.bill_date
-    @customer_tin_number = @bill.customer.tin_number
+    
+    
+    # customer name and tin number for URD 
+    urd_values = ["Others" ,"Other" ,"others", "other"]
+    if urd_values.include? @bill.customer.name
+      urd = UnregisteredCustomer.where(:bill_id => @bill.id).first
+      @customer_city = urd.city
+      @customer_tin_number = TinNumber.where(:state => urd.state).pluck(:tin_number).first
+    else
+      @customer_city = @bill.customer.city
+      @customer_tin_number = @bill.customer.tin_number
+    end
     @customer_name_address = @bill.customer.name + @bill.customer.city
     @customer_name = @bill.customer.name
-   #@bill_product =  @bill.line_items.first.product.product_name
+    @user_city = @bill.authuser.address.city
+    #@bill_product =  @bill.line_items.first.product.product_name
     @product_name =  @bill.line_items.first.product.product_name
     @commodity_name =  @bill.products.first.usercategory.main_category.commodity_name
     @quantity_units = " "+ @bill.line_items.first.quantity.to_s + " " +@bill.line_items.first.product.units
@@ -125,9 +145,9 @@ class Bill < ActiveRecord::Base
       sleep 10
       browser.link(:id, "LinkButton1").click
     
-      sleep 10
-      browser.text_field(:id, "ctl00_MasterContent_txtFromAddrs").set(@bill.authuser.address.city)
-      browser.text_field(:id, "ctl00_MasterContent_txtToAddrs").set(@bill.customer.city)
+      
+      browser.text_field(:id, "ctl00_MasterContent_txtFromAddrs").set(@user_city)
+      browser.text_field(:id, "ctl00_MasterContent_txtToAddrs").set(@customer_city)
       browser.text_field(:id, "ctl00_MasterContent_txt_commodityname").set(@product_name)
       if browser.select_list(:id, "ctl00_MasterContent_ddl_commoditycode").include? @commodity_name
          browser.select_list(:id, "ctl00_MasterContent_ddl_commoditycode").select(@commodity_name)
@@ -140,47 +160,61 @@ class Bill < ActiveRecord::Base
          browser.text_field(:id, "ctl00_MasterContent_txtOthVal").set(@other_value)
          sleep 5
       
-        if @tax_type == "CST"
-          browser.radio(:id, "ctl00_MasterContent_rdoStatCat_1").set
-          sleep 5
-          browser.text_field(:id, "ctl00_MasterContent_txtTIN").set(@customer_tin_number.to_i)
-          begin
-            browser.text_field(:id, "ctl00_MasterContent_txtFromAddrs").set("BANGALORE")
-          rescue => e
-            sleep 3
+          if @tax_type == "CST"
+            browser.radio(:id, "ctl00_MasterContent_rdoStatCat_1").set
+            sleep 5
+            browser.text_field(:id, "ctl00_MasterContent_txtTIN").set(@customer_tin_number.to_i)
+            browser.send_keys :tab   
+            if browser.text_field(:id, "ctl00_MasterContent_txtNameAddrs").enabled?
+               browser.text_field(:id, "ctl00_MasterContent_txtNameAddrs").set(@customer_name)
+            else
+              sleep 5
+              browser.text_field(:id, "ctl00_MasterContent_txtNameAddrs").set(@customer_name)
+            end
+            browser.send_keys :tab
           end
-          sleep 5
-          begin
-            browser.text_field(:id, "ctl00_MasterContent_txtNameAddrs").set(@customer_name)
-          rescue => e
-            sleep 3
-          end
-        end
     
+        # check if vat and urd
+         
+           if (@tax_type == "VAT") && (@customer_tin_number[2..-1] == "000000000")
+              browser.text_field(:id, "ctl00_MasterContent_txtTIN").set(@customer_tin_number.to_i)
+               browser.send_keys :tab
+               sleep 5
+               browser.text_field(:id, "ctl00_MasterContent_txtNameAddrs").set(@customer_name)
+               browser.send_keys :tab
+           end
+        
+        
         if @tax_type == "VAT"
           browser.text_field(:id, "ctl00_MasterContent_txtTIN").set(@customer_tin_number.to_i)
           browser.send_keys :tab
         end
+        
         sleep 5 
         browser.text_field(:id, "ctl00_MasterContent_txtInvoiceNO").set(@bill.invoice_number)
-        browser.button(:value,"SAVE AND SUBMIT").click
-        page_html = Nokogiri::HTML.parse(browser.html)
-        textual = page_html.search('//text()').map(&:text).delete_if{|x| x !~ /\w/}
-        esugam = textual.fetch(7)
+        if browser.button(:id, "ctl00_MasterContent_btn_savecumsubmit").enabled?
+            browser.button(:value,"SAVE AND SUBMIT").click
+            page_html = Nokogiri::HTML.parse(browser.html)
+            textual = page_html.search('//text()').map(&:text).delete_if{|x| x !~ /\w/}
+            esugam = textual.fetch(7)
       
-        if esugam.include? "Prop/Comp. Name: "
+            if esugam.include? "Prop/Comp. Name: "
+              file = File.new("app/assets/images/vat-error.png", "a+")
+              browser.screenshot.save file
+              self.update_attributes(error_message: file.to_s)
+              logger.error "esugam not generated due to incomplete form submission"
+            else
+              self.update_attributes(esugam: esugam)
+            end
+            browser.button(:value,"Exit").click
+            browser.link(:id, "link_signout").click
+            browser.close
+            return esugam
+        else
           file = File.new("app/assets/images/vat-error.png", "a+")
           browser.screenshot.save file
           self.update_attributes(error_message: file.to_s)
-          logger.error "esugam not generated due to incomplete form submission"
-        else
-          self.update_attributes(esugam: esugam)
         end
-        
-        browser.button(:value,"Exit").click
-        browser.link(:id, "link_signout").click
-        browser.close
-        return esugam
       else # if commodity is not in list else
         self.update_attributes(error_message: "Selected Commodity is not added in VAT Site")
         browser.close
@@ -188,6 +222,6 @@ class Bill < ActiveRecord::Base
       end # login end
     end # begin end
   end # def end
-
+ 
 
 end # class end

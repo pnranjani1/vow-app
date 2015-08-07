@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   get 'bills/esnget'
 
  devise_for :authusers, path_names:{sign_in: "login", sign_up: "cmon_let_me_in"},
-  :controllers => { :invitations => 'invitations' }
+  :controllers => { :invitations => 'invitations' , :registrations => 'registrations'}
   #controllers: {invitations: 'authusers/invitations'}
   
   root 'home_page#index'
@@ -34,6 +34,8 @@ Rails.application.routes.draw do
     put 'authusers/:id/de_activate' => 'authusers#de_activate_user', :as => 'de_activate_user'
     get 'authusers/user_management' => 'authusers#user_management'
     get 'authusers/user_profile_picture' => 'authusers#user_profile_picture'
+    get 'authusers/secondary_user' => 'authusers#secondary_user'
+    post 'authusers/secondary_user_create' => 'authusers#secondary_user_create'
  end
   
     put 'authusers/change_role_update' => 'authusers#change_role_update'
@@ -88,6 +90,7 @@ Rails.application.routes.draw do
   get 'bills/local_report'
   get 'bills/interstate'
   get 'bills/interstate_report'
+  get 'dashboards/secondary_user_dashboard'
  # patch 'bills/pdf_format_select'
     
  
@@ -115,6 +118,9 @@ Rails.application.routes.draw do
   resources :enquiry_forms
   resources :referrals
   resources :referral_types
+  resources :tin_numbers 
+  resources :service_taxes
+  
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

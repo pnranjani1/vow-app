@@ -1,6 +1,6 @@
 authorization do
   role :admin do
-    has_permission_on [:authusers, :addresses, :bank_details, :bills, :clients, :customers, :invitations, :main_categories, :memberships, :products, :taxes, :referrals], :to => [:index, :new, :create, :edit, :show, :update, :destroy, :admin_new, :admin_create, :admin_update, :change_role, :client_new, :client_create, :local_sales, :interstate_sales, :tally_import, :user_category, :user_customer, :product_category, :activate_user, :de_activate_user, :client_bill_summary, :bill_details_client, :force_password_change, :client_monthly_bill, :user_billing_report, :client_billing_report, :referred, :referral_update, :referral_bill ]
+    has_permission_on [:authusers, :addresses, :bank_details, :bills, :clients, :customers, :invitations, :main_categories, :memberships, :products, :taxes, :referrals, :tin_numbers, :service_taxes], :to => [:index, :new, :create, :edit, :show, :update, :destroy, :admin_new, :admin_create, :admin_update, :change_role, :client_new, :client_create, :local_sales, :interstate_sales, :tally_import, :user_category, :user_customer, :product_category, :activate_user, :de_activate_user, :client_bill_summary, :bill_details_client, :force_password_change, :client_monthly_bill, :user_billing_report, :client_billing_report, :referred, :referral_update, :referral_bill ]
     has_permission_on [:dashboards], :to => [:admin_dashboard]
     has_permission_on [:main_categories], :to => [:category_import, :category_import_report]
    # has_permission_on [:new, :create, :show, :edit, :index, :update, :destroy]
@@ -31,9 +31,14 @@ authorization do
     has_permission_on [:products], :to => [:new, :create, :show, :edit, :update, :product_user, :product_import, :product_import_report, :product_import_result]
     has_permission_on [:customers], :to => [:new, :create, :show, :edit, :update, :destroy, :user_customer, :customer_import, :customer_import_report]
     has_permission_on [:bills], :to => [:new, :create, :show, :local_sales, :interstate_sales, :tally_import, :user_bill, :bill_reports, :generate_esugan, :local_sales_reports, :interstate_sales_reports, :tally_import_reports, :bill_local_sales_reports, :bill_interstate_sales_reports, :bill_tally_import_reports, :pdf_format, :pdf_format_select]
-    has_permission_on [:authusers], :to => [:client_edit, :client_update, :change_role, :client_create, :client_new, :user_profile_picture]
+    has_permission_on [:authusers], :to => [:client_edit, :client_update, :change_role, :client_create, :client_new, :user_profile_picture, :secondary_user, :secondary_user_create]
  #   has_permission_on [:main_categories], :to => [:index]
        
+  end
+  
+  role :secondary_user do
+    has_permission_on [:dashboards] , :to => [:secondary_user_dashboard]
+    has_permission_on [:bills], :to => [:new, :create, :show, :user_bill, :generate_esugan,:pdf_format, :pdf_format_select]
   end
   
   role :Guest do

@@ -69,7 +69,9 @@ class ApplicationController < ActionController::Base
     elsif current_authuser.main_roles.first.role_name == "user"
     #  elsif  current_authuser.permissions.first.main_role_id == 6
        return dashboards_user_dashboard_path
-          else 
+    elsif current_authuser.main_roles.first.role_name == "secondary_user"
+      return dashboards_secondary_user_dashboard_path
+    else
          return root_url
      end
     end

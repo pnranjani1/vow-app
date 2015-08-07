@@ -68,10 +68,14 @@
 <div class="col-sm-3">           
 <strong>Customer&nbsp;<b style="color:red">*</b></strong> 
 <div id="name" class="input-group">               
-<%= f.collection_select :customer_id, Customer.where(:authuser_id => current_authuser.id), :id, :name, {prompt: "Select Customer"}, {class: "form-control"}  %>
+  <%= f.collection_select :customer_id, Customer.where(:authuser_id => [current_authuser.id,current_authuser.invited_by_id]), :id, :name, {prompt: "Select Customer"}, {class: "form-control", :id => "drop-down"}  %>
 </div>
 </div> <!-- /.col -->
-  <br/>
+  <!-- not allow secondary users to create new customer -->
+  <% role_name = current_authuser.main_roles.pluck(:role_name) %>
+  <% if !role_name.include? "secondary_user" %>
+  <!-- modal to create new customer -->
+ <br/>
     <!-- Button trigger modal -->
 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">
   New Customer
@@ -148,7 +152,7 @@ Address
             
   
 <div class="col-sm-6 marggap">  
-City
+City<b style="color:red">*</b>
 <div id="City" class="input-group">               
 <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
 <%= f.text_field :city ,maxlength: 15,  class: "form-control" %>
@@ -176,21 +180,75 @@ State
 </div>
   
   <% end %>
-  
-  
-
-  
+  <% end %><!-- if condition for new customer by secondary user ends here -->
 </div> <!-- row ends here -->
-</div> <!-- portlet content ends here -->
+<br/><br/>
+  
+ <!-- to add unregistered customers when creating bills -->
+ <div  style="display: none;" id="text-box"> 
+ <%= f.fields_for :unregistered_customers do |customer| %>  
+  <div class="row"> 
+    <%= customer.hidden_field :authuser_id, :value => current_authuser.id %>
+     
+   <div class="col-sm-3 marggap">   
+    Customer Name&nbsp;&nbsp;<b style="color:red">*</b>
+      <div id="name" class="input-group">               
+       <span class="input-group-addon"><i class="fa fa-user"></i></span>
+        <%= customer.text_field :customer_name, maxlength: 40,  class: "form-control" %>
+      </div>
+   </div> <!-- /.col -->
+
+   <div class="col-sm-3 marggap">  
+    Mobile Number &nbsp;&nbsp;
+      <div id="email" class="input-group">          
+        <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+        <%= customer.text_field :phone_number, :maxlength => 10, class: "form-control" %>
+      </div>
+   </div> <!-- /.col -->
+  
+   <div class="col-sm-3 marggap">  
+    Address &nbsp;&nbsp;<b style="color:red">*</b>
+    <div id="name" class="input-group">               
+      <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
+      <%= customer.text_field :address,  maxlength: 60, class: "form-control" %>
+    </div> 
+   </div><!-- /.col -->
+       
+   <div class="col-sm-3 marggap">  
+    City<b style="color:red">*</b>
+    <div id="name" class="input-group">               
+      <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+      <%= customer.text_field :city , maxlength: 15, class: "form-control" %>
+    </div>
+   </div> <!-- /.col -->
+ 
+ </div><!-- row ends here -->
+ 
+ <div class="row"> 
+   
+   <div class="col-sm-3 marggap">  
+    State<b style="color:red">*</b>
+    <div id="name" class="input-group">               
+      <%= customer.collection_select :state, TinNumber.all, :state, :state, {:prompt => "Select State"}, {class: "form-control"} %>
+    </div>
+   </div> <!-- /.col -->
+ 
+  </div><!-- row ends here -->
+    
+ <% end %><!-- fields_for unregistered customers ends here -->
+ </div><!-- id=text box ends here-->
+ </div> <!-- portlet content ends here -->
 </div><!-- portlet ends here -->
 
+  
   <!-- bill detail ends here -->
   
 <div class="portlet">
 <br/>
 <div class="portlet-header">
   <h3><i class="fa fa-ruble"></i> Item Details</h3>
-  
+  <!-- dont allow secondary user to create new product -->
+  <% if !role_name.include? "secondary_user" %>
   <!-- Button trigger modal for adding products-->
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal1">
   New Product
@@ -271,7 +329,7 @@ State
 </div>
     
     <% end %><!-- content_for ends here -->
-    
+  <% end %><!-- secondary user if condition for new product ends -->  
 </div> <!-- /.portlet-header -->
 
 <div class="portlet-content" id="line_items_list">
@@ -283,7 +341,7 @@ State
       <strong>Item&nbsp;<b style="color:red">*</b></strong> 
       <div id="name" class="input-group">    
       <%= bill_product.collection_select :product_id, 
-          Product.where(:authuser_id => current_authuser.id), :id, :product_name, 
+Product.where(:authuser_id => [current_authuser.id, current_authuser.invited_by_id]), :id, :product_name, 
           {prompt: "Select Product"}, {class: "form-control"} %>
       </div> 
     </div> <!-- /.col -->
@@ -306,8 +364,15 @@ State
         <%= bill_product.text_field :unit_price, class: "form-control" %>
               </div>
     </div> <!-- /.col -->
-    
-  <div class="col-sm-2">      
+               
+    <div class="col-sm-3">           
+      <strong>Service Tax(Optional)&nbsp;</strong> 
+      <div id="unit_price_div" class="input-group">               
+       <%= bill_product.collection_select :service_tax_id, ServiceTax.all, :id, :service_tax_name, {:prompt => "Select Service Tax"}, {class: "form-control"} %>
+              </div>
+    </div> <!-- /.col -->
+
+  <div class="col-sm-1">      
       <div class="marggap">
         <!-- <div class="btn btn-xs btn-primary" >-->
         <div class="remove-button">
@@ -321,9 +386,6 @@ State
       </div>
     </div>
     
-   
-    
-        
   </div><!-- row ends here --><br/>
 <% end %><!-- nested_form ends here -->
   
@@ -410,7 +472,7 @@ State
 </div> <!-- /.col -->
             
 <div class="col-sm-3">           
-<strong>Other charges Rate</strong> 
+<strong>Other charges Amount</strong> 
 <div id="name" class="input-group">               
 <span class="input-group-addon"><i class="fa fa-money"></i></span>
 <%= f.text_field :other_charges, class: "form-control" %>
@@ -423,14 +485,7 @@ State
   <%= f.collection_select :tax_id, Tax.all, :id, :tax ,{prompt: "Select Tax"}, {class: "form-control"} %>
 </div>
 </div> <!-- /.col -->
-  
- <div class="col-sm-3">           
-<strong>Service Tax(optional)</strong> 
-<div id="name" class="input-group">  
-<span class="input-group-addon"><i class="fa fa-money"></i></span>
-  <%= f.text_field :service_tax , class: "form-control" %>
-</div>
-</div> <!-- /.col -->
+ 
 <br/><br/><br/><br/>
   
 <div class="col-sm-9">           

@@ -12,8 +12,9 @@
 //
 
 //= require jquery
+//= require jquery.turbolinks
 //= require jquery_ujs
-//= require turbolinks
+
 //= require nested_form
 //= require bootstrap-datepicker
 //= require bootstrap.min
@@ -33,6 +34,7 @@
 //= require jquery.min
 //= require sliderscript
 //= require jquery.blockUI
+
 //= require_tree .
 
 var App = function(){
@@ -74,4 +76,21 @@ $(document).ready(function() {
 $(document).ready(function() {
  $('[data-toggle="tooltip"]').tooltip()
  })
+
+/* show text based on value from drop down */
+
+
+$(document).ready(function(){
+  $('#drop-down').change(function() {
+    var a = $(this).find(":selected").text();
+   if (a == "Other" || a == "Others" || a== "other" || a == "others"){
+    $("div #text-box").show();
+   }
+    else
+    {
+      $("div #text-box").hide();
+    }  
+    
+  });
+});
 
