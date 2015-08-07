@@ -67,7 +67,7 @@
 
  
 <ul class="dropdown-menu" role="menu">
-  <%  current_authuser.main_roles.pluck(:role_name) %>
+  <% role_name = current_authuser.main_roles.pluck(:role_name) %>
   <% if role_name.include? "user" %>
 <li>
 <%= link_to authusers_client_new_path do %>
