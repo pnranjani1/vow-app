@@ -134,6 +134,17 @@
    <td><%= number_with_delimiter(line_item.unit_price, :delimiter => ',') %></td> 
    <td><%= number_with_delimiter(line_item.total_price.round(2), :delimiter => ',')  %></td>
   <!--  <td width="20%"><%= number_with_delimiter(line_item.total_price.round(2), :delimiter => ',')  %></td>-->
+   <% if line_item.service_tax_rate != nil %>
+   <td><%= line_item.service_tax_rate %></td>
+   <td><%= line_item.service_tax_amount.round(2) %></td>
+   <% else %>
+   <td>NA </td>
+   <td>NA</td>
+   <% end %>
+<% end %>
+   
+<%
+=begin %>
    <% if line_item.service_tax.present? %>
       <td><%= line_item.service_tax.service_tax_rate %></td>
       <td><%= ((line_item.service_tax.service_tax_rate/100) * line_item.total_price).round(2) %></td>
@@ -142,8 +153,12 @@
       <td>NA</td>
    <% end %>
  </tr>   
- <% end %>
+ 
+<%
+=end %>
+  
 
+  
 <tr>
 <td colspan="6">
 <div class="comlin">
@@ -175,12 +190,12 @@
 </tr>
   
 <tr>
-  <% if @bill.line_items.include? :service_tax_id %>
-    <td><strong>Service Tax </strong></td>
-    <td><%= number_with_delimiter((@bill.service_tax), :delimiter => ',') %></td>
-  <% end %>
+  <td><strong>Service Tax Total</strong></td>
+  <td><%= (@bill.line_items.sum(:service_tax_amount)).round(2) %></td>
 </tr>
   
+<%
+=begin %>
   <!-- grouping by service tax -->
   <tr>
    <% groups = @bill.line_items.group_by(&:service_tax_id) %>
@@ -193,12 +208,13 @@
       <td><strong>Service Tax at  <%= service_tax.service_tax_rate  %> on <%= total_price_sum %></strong></td>
       <td><%=  service_tax_sum %></td>  
   <% end %>
-   
-  </tr>
+<%
+=end %>
+ 
   
 <tr>
 <td><strong>Grand Total</strong></td>
-    <td><%= number_with_delimiter(@bill.grand_total.round(2), :delimiter => ',') %></td>
+  <td><%= number_with_delimiter(@bill.grand_total + @bill.line_items.sum(:service_tax_amount).round(2), :delimiter => ',') %></td>
   
 </tr>
    
@@ -215,69 +231,63 @@
 </tbody>
 </table>
 
-<div class="col-md-10">
+ 
+    <div class="col-md-10">
+      <div class="col-md-2" align="left">
+        <!-- Button trigger modal -->
+          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">
+            Select PDF format
+          </button>
 
-  
-<div class="col-md-2" align="left">
-  <!-- Button trigger modal -->
-<button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">
-  Select PDF format
-</button>
-
-  <%= content_for :pdf do %> 
-<!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Select PDF Format</h4>
-      </div>
-      <div class="modal-body">
-       
-          
-           <%= form_for(@bill, :url => {:action => "pdf_format_select"}) do |f| %>
-    
-                     <% if alert %> 
-                        <div class="row">
+          <%= content_for :pdf do %> 
+            <!-- Modal -->
+              <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                       <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                       <h4 class="modal-title" id="myModalLabel">Select PDF Format</h4>
+                    </div>
+                    <div class="modal-body">
+                      <%= form_for(@bill, :url => {:action => "pdf_format_select"}) do |f| %>
+                       <% if alert %> 
+                         <div class="row">
                           <div class="col-md-2"></div>
                            <div class="col-md-6">
                               <div class="alert alert-danger"><%= alert %></div>
                             </div>
-                        </div><!-- row ends here -->
-                     <% end %>
-        <br/>
-                  <div class="col-md-2"></div>
-                  <label><%= image_tag "format-1.png", width: 150, height: 150 %></label>
-                  <%= f.radio_button :pdf_format, "Format1" %>
-                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                         </div><!-- row ends here -->
+                       <% end %>
+                       <br/>
+                       <div class="col-md-2"></div>
+                        <label><%= image_tag "format-1.png", width: 150, height: 150 %></label>
+                          <%= f.radio_button :pdf_format, "Format1" %>
+                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                    
-                  <label><%= image_tag "format-2.png", width: 150, height: 150 %></label>
-                  <%= f.radio_button :pdf_format, "Format2" %>
-                   <br/><br/>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <label><%= image_tag "format-2.png", width: 150, height: 150 %></label>
+                         <%= f.radio_button :pdf_format, "Format2" %>
+                         <br/><br/>
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         
-                   <label><%= image_tag "format-3.png", width: 150, height: 150 %></label>
-                   <%= f.radio_button :pdf_format, "Format3" %>
-        
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                           <label><%= image_tag "format-3.png", width: 150, height: 150 %></label>
+                           <%= f.radio_button :pdf_format, "Format3" %>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                        
-          <label><%= image_tag "format-4.png", width: 150, height: 150 %></label>
-                   <%= f.radio_button :pdf_format, "Format4" %>
-        <br/>    <br/>
+                           <label><%= image_tag "format-4.png", width: 150, height: 150 %></label>
+                           <%= f.radio_button :pdf_format, "Format4" %>
+                           <br/><br/>
         <!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
-                      <div class="col-md-5"></div> 
-                     <%= f.submit "Submit", class: "btn btn-success" %>
-                <% end %>
-       <br/><br/>
-      </div>
+                            <div class="col-md-5"></div> 
+                            <%= f.submit "Submit", class: "btn btn-success" %>
+                      <% end %>
+                      <br/><br/>
+                     </div>
       
-    </div>
-  </div>
-</div>
-
-  <% end %> 
-</div>
+                </div><!-- modal content ends -->
+               </div><!-- modal dialog ends here -->
+             </div><!-- modal fade ends -->
+          <% end %> <!-- content for ends her -->
+      </div><!-- div col md 2 ends here -->
 
 <%
 =begin %>
@@ -286,30 +296,21 @@
 </div>
 <%
 =end %>
-<div class="col-md-2" align="left">
-<%= link_to "Generate PDF", bill_path(@bill.id, format: "pdf"), class: "btn btn-success", target: "blank"  %>
-
-  </div>
+      <div class="col-md-2" align="left">
+        <%= link_to "Generate PDF", bill_path(@bill.id, format: "pdf"), class: "btn btn-success", target: "blank"  %>
+      </div>
  
-
-
+      <div id='esugam_div'>
+        <%= render 'esugam_button' %> 
+      </div>
   
+      <div class="col-md-2">
+        <%= link_to 'Continue Billing', new_bill_path,  class: 'btn btn-success' %>
+        <br/><br/>
+      </div> 
   
-  <div id='esugam_div'>
-    <%= render 'esugam_button' %> 
-  </div>
-  
-  
-  <div class="col-md-2">
-    <%= link_to 'Continue Billing', new_bill_path,  class: 'btn btn-success' %>
+    </div><!-- col-md-10 ends here -->
  
-  
-<br/><br/>
-  
-</div> 
-  
-</div><!-- col-md-10 ends here -->
-   
 </div> <!-- /.table-responsive -->
 </div> <!-- /.portlet-content -->
         

@@ -54,12 +54,14 @@
 <ul class="nav navbar-nav navbar-right">   
 <li class="dropdown navbar-profile">
 <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;">
-<!-- <%= image_tag "avatar-1-xs.jpg"  , class: "navbar-profile-avatar"%> -->
+   <% if current_authuser.role.present? %>
+    <span class="nametitle">Logged in as <%= current_authuser.role.capitalize %></span>
+  <% end %>&nbsp;&nbsp;
   <% unless current_authuser.image_url.nil? %>
-  <span><%= image_tag current_authuser.image_url, height: 40, width: 40, crop: "fit" %></span>
-  <% else %>
-  <span class="nametitle">  <%= current_authuser.name %></span>
-  <% end %>
+      <span><%= image_tag current_authuser.image_url , height: 40, width: 40, crop: "fit" %></span>
+    <% else %>
+      <span class="nametitle"><%= current_authuser.name %></span>
+    <% end %>
 <!--<img src="img/avatar-1-xs.jpg" class="navbar-profile-avatar" alt="">  -->
 <span class="navbar-profile-label">rod@rod.me &nbsp;</span>
 <i class="fa fa-caret-down"></i>

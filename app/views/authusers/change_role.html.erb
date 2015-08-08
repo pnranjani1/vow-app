@@ -39,7 +39,7 @@
  
 <%= form_tag(authusers_change_role_update_path, method: :put) do -%>
   <% @user.main_roles.each do |role| %>&nbsp;&nbsp;&nbsp;&nbsp;
-<%= radio_button_tag :roles, role.role_name, false %>&nbsp;  <strong><%= role.role_name.capitalize %></strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <%= radio_button_tag :roles, role.role_name %> &nbsp;  <strong><%= role.role_name.capitalize %></strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <% end %><br/><br/>
  <%= submit_tag 'Change Role', class: "btn btn-success"  %>
 <% end %>

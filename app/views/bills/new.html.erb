@@ -368,7 +368,7 @@ Product.where(:authuser_id => [current_authuser.id, current_authuser.invited_by_
     <div class="col-sm-3">           
       <strong>Service Tax(Optional)&nbsp;</strong> 
       <div id="unit_price_div" class="input-group">               
-       <%= bill_product.collection_select :service_tax_id, ServiceTax.all, :id, :service_tax_name, {:prompt => "Select Service Tax"}, {class: "form-control"} %>
+        <%= bill_product.text_field :service_tax_rate, class: "form-control" %>
               </div>
     </div> <!-- /.col -->
 

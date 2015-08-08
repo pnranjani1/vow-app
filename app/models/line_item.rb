@@ -1,9 +1,10 @@
 class LineItem < ActiveRecord::Base
   before_save :generate_total_price
+  before_save :generate_service_tax_amount, :if => :service_tax_rate
   
   belongs_to :product
   belongs_to :bill
-  belongs_to :service_tax
+  
 
   validates :quantity, :unit_price,  presence: true
   validates :quantity, numericality: true#{only_integer: true, message: "should be a number"}
@@ -14,5 +15,8 @@ class LineItem < ActiveRecord::Base
     self.total_price = self.quantity * self.unit_price
   end
   
-    
+  def generate_service_tax_amount
+    self.service_tax_amount = (self.service_tax_rate/100) * self.total_price
+  end
+  
 end

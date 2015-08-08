@@ -171,10 +171,11 @@ redirect_to dashboards_client_dashboard_path
       redirect_to authusers_change_role_path
      flash[:notice] =  "Please select a role"
     else
-      redirect_to public_send("dashboards_#{params[:roles]}_dashboard_url")      
-       
-    end
-    end
+      user = current_authuser
+      user.update_attribute('role', params[:roles])
+      redirect_to public_send("dashboards_#{params[:roles]}_dashboard_url")  
+  end
+end
   
 
 def force_password_change
@@ -258,7 +259,7 @@ end
 
   private
   def set_params
-    params[:authuser].permit(:name, :email, :password, :password_confirmation, :approved, :invited_by_id, :invited_by_type, :date_of_birth, :image,
+    params[:authuser].permit(:name, :email, :password, :password_confirmation, :approved, :invited_by_id, :invited_by_type, :date_of_birth, :image, :role,
      {:membership_attributes => [:id, :phone_number, :membership_start_date, :membership_end_date, :membership_status, :membership_duration]},
        {:address_attributes => [:id, :address_line_1, :address_line_2, :address_line_3, :city, :state, :country]},
       {:bankdetail_attributes => [:id, :bank_account_number, :ifsc_code]},

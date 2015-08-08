@@ -53,21 +53,42 @@ class BillPdf < Prawn::Document
       bounding_box([8,610],:width =>250) do
         if @user.main_roles.first.role_name == "user"
           text "#{@bill.authuser.users.first.company.titleize}",size: 14, :style => :bold, :leading => 3
+        elsif @user.main_roles.first.role_name  == "secondary_user"
+          primary_user_id = @user.invited_by_id
+          text "#{Authuser.find(primary_user_id).users.first.company.titleize}",size: 14, :style => :bold, :leading => 3
         elsif @user.main_roles.first.role_name  == "client"
           text "#{@bill.authuser.clients.first.company.titleize}",size: 14, :style => :bold, :leading => 3
         end 
-        text "<b>Address               :</b>    #{@bill.authuser.address.address_line_1.capitalize}, " + "#{@bill.authuser.address.address_line_2}, " + "#{@bill.authuser.address.address_line_3}" , :inline_format => true, size: 11, :leading => 3
-        text "<b>City                     :</b>    #{@bill.authuser.address.city.capitalize}", :inline_format => true, size: 11, :leading => 3
+        # Get the address details of user for secondary user bill
+        role_name = @user.main_roles.pluck(:role_name)
+        unless role_name.include? "secondary_user"
+        
+          text "<b>Address               :</b>    #{@bill.authuser.address.address_line_1.capitalize}, " + "#{@bill.authuser.address.address_line_2}, " + "#{@bill.authuser.address.address_line_3}" , :inline_format => true, size: 11, :leading => 3
+          text "<b>City                     :</b>    #{@bill.authuser.address.city.capitalize}", :inline_format => true, size: 11, :leading => 3
         #text "Country :#{@bill.authuser.address.country}"
-        text "<b>Phone Number   :</b>   #{@bill.authuser.membership.phone_number}", :inline_format => true, size: 11, :leading => 3
-        text "<b>Tin Number        :</b>   #{@bill.authuser.users.first.tin_number}", :inline_format => true, size: 11
+          text "<b>Phone Number   :</b>   #{@bill.authuser.membership.phone_number}", :inline_format => true, size: 11, :leading => 3
+          text "<b>Tin Number        :</b>   #{@bill.authuser.users.first.tin_number}", :inline_format => true, size: 11
+        else
+          primary_user_id = @bill.authuser.invited_by_id
+          text "<b>Address               :</b>    #{Authuser.find(primary_user_id).address.address_line_1.capitalize}, " + "#{Authuser.find(primary_user_id).address.address_line_2}, " + "#{Authuser.find(primary_user_id).address.address_line_3}" , :inline_format => true, size: 11, :leading => 3
+          text "<b>City                     :</b>    #{Authuser.find(primary_user_id).address.city.capitalize}", :inline_format => true, size: 11, :leading => 3
+        #text "Country :#{@bill.authuser.address.country}"
+          text "<b>Phone Number   :</b>   #{Authuser.find(primary_user_id).membership.phone_number}", :inline_format => true, size: 11, :leading => 3
+          text "<b>Tin Number        :</b>   #{Authuser.find(primary_user_id).users.first.tin_number}", :inline_format => true, size: 11
+        end
       end
    end
 
    def logo(user)
+      role_name = @user.main_roles.pluck(:role_name)
+      if role_name.include? "user"
        if @user.image.present?
          image open(@user.image_url), height: 50, width: 70, crop: "fit", :at => [10,710]
        end
+      elsif @user.main_roles.first.role_name == "secondary_user"
+        primary_user_id = @user.invited_by_id
+        image open(Authuser.find(primary_user_id).image_url), height: 50, width: 70, crop: "fit", :at => [10,710]
+      end
    end
         # gravatar_id = Digest::MD5::hexdigest(user.email.downcase)
         # size = 50
@@ -78,11 +99,26 @@ class BillPdf < Prawn::Document
   
    def bill_customer
       draw_text "Billing Name", :at => [320, 620], size: 15
+      urd_values = ["others", "other", "Others", "Other"]
+      if urd_values.include? @bill.customer.name 
+        customer = UnregisteredCustomer.where(:bill_id => @bill.id).first
+        @bill.customer.name = customer.customer_name
+        @bill.customer.address = customer.address
+        @bill.customer.city = customer.city
+        @bill.customer.phone_number = customer.phone_number
+        state = customer.state
+        tin = TinNumber.where(:state => state).first
+        @bill.customer.tin_number = tin.tin_number
+        
+      else
+        @bill.customer = @bill.customer
+      end
+         
       bounding_box([320, 610],:width => 220) do
         text "#{@bill.customer.name.titleize}", size:14, :style => :bold
         text "<b>Address               :</b>   #{@bill.customer.address.capitalize}" , :inline_format => true, size: 11, :leading => 3 
         text "<b>City                      :</b>   #{@bill.customer.city.capitalize}", size: 11, :inline_format => true, :leading => 3
-        text "<b>PinCode               :</b>   #{@bill.customer.pin_code}", size: 11, :inline_format => true, :leading => 3
+       # text "<b>PinCode               :</b>   #{@bill.customer.pin_code}", size: 11, :inline_format => true, :leading => 3
         text "<b>Phone  Number   :</b>  #{@bill.customer.phone_number}", size: 11, :inline_format => true, :leading => 3
         text "<b>Tin  Number        :</b>  #{@bill.customer.tin_number}", size: 11, :inline_format => true
       end
@@ -130,7 +166,7 @@ class BillPdf < Prawn::Document
             
 
     def bill_products
-      [["Products","Quantity", "Unit Price", "Total Price"]] + 
+      [["Products","Quantity", "Unit Price", "Total Price", "Service Tax Rate"]] + 
       @bill.line_items.map do|line_item|
           qty = line_item.quantity
             if qty % 1 == 0.0
@@ -138,27 +174,33 @@ class BillPdf < Prawn::Document
             else
               qty = qty
             end
-        [line_item.product.product_name.titleize, qty, "#{number_with_delimiter(line_item.unit_price,delimiter: ',')}", "#{number_with_delimiter(line_item.total_price.round(2), delimiter: ',')}"]
+        if line_item.service_tax_rate.present?
+          service_tax = line_item.service_tax_rate
+        else
+          service_tax = "NA"
+        end
+        [line_item.product.product_name.titleize, qty, "#{number_with_delimiter(line_item.unit_price,delimiter: ',')}", "#{number_with_delimiter(line_item.total_price.round(2), delimiter: ',')}", service_tax]
       end
    end
  
    def bill_table   
-      bounding_box([5,440], :width => 550) do
+      bounding_box([5,440], :width => 530) do
         move_down 30
          table bill_products do
            row(0).font_style = :bold
            row(0).background_color = '778899'   
            #  row(0).row_color =  :FFFFFF
            # row(0).row_color = "FF0000"
-           columns(0..3).align = :center          
+           columns(0..4).align = :center          
            #self.row_colors = ["FFFFFF", "DDDDDD"]
            #self.row_colors = ["FFFFFF", "D3D3D3"]
            self.header = true
            self.width = 530
-           self.column(0).width = 120
-           self.column(1).width = 75
-           self.column(2).width = 115
+           self.column(0).width = 135
+           self.column(1).width = 100
            self.column(2).width = 100
+           self.column(3).width = 115
+           self.column(4).width = 80
          end
       end
    end
@@ -167,6 +209,7 @@ class BillPdf < Prawn::Document
       
 
    def table_price_list
+     move_down 10
          data =  [["<b>Bill Total</b>", "#{number_with_delimiter(@bill.total_bill_price.round(2), delimiter: ',')}"]]
 table(data,  :cell_style => {:inline_format => true, :align => :center},:column_widths => [125, 110], :position => 300)
         
@@ -192,46 +235,65 @@ table(data, :cell_style => {:inline_format => true, :align => :center},:column_w
 table(data, :cell_style => {:inline_format => true, :align => :center},:column_widths => [125, 110], :position => 300)    
          end
 
-         if @bill.service_tax.present?
-           data = [["<b>Service Tax</b>", "#{number_with_delimiter(@bill.service_tax, delimiter: ',')}"]]
+         service_tax = @bill.line_items.pluck(:service_tax_rate)
+         if service_tax.present?
+           data = [["<b>Service Tax Amount </b>", "#{number_with_delimiter(@bill.line_items.sum(:service_tax_amount).round(2), delimiter: ',')}"]]
            table(data, :cell_style => {:inline_format => true, :align => :center}, :column_widths => [125, 110], :position => 300)
          end
 
-         data = [["<b>Grand Total</b>", "#{number_with_delimiter(@bill.grand_total.round(2), delimiter: ',')}"]]
+data = [["<b>Grand Total</b>", "#{number_with_delimiter((@bill.grand_total + @bill.line_items.sum(:service_tax_amount)).round(2), delimiter: ',')}"]]
 table(data, :cell_style => {:inline_format => true, :align => :center}, :column_widths => [125, 110], :position => 300)
 
-         data = [["Amount in words", "Rupees #{@bill.grand_total.round.to_words} only"]]
+data = [["Amount in words", "Rupees #{(@bill.grand_total + @bill.line_items.sum(:service_tax_amount)).round.to_words} only"]]
          table(data, :cell_style => {:font_style => :bold, :align => :center}, :column_widths => [140, 392], :position => 3)
    end
 
       
    def authority
-      move_down 40
+     move_down 80
+     #check user is primary or secondary user
+     role_name = @user.main_roles.pluck(:role_name)
+     if role_name.include? "user"
        if @user.main_roles.first.role_name =="user"
            company = @bill.authuser.users.first.company
        elsif @user.main_roles.first.role_name == "client"
             company = @bill.authuser.clients.first.company
        end
+     elsif role_name.include? "secondary_user"
+       primary_user_id = @bill.authuser.invited_by_id
+       company = Authuser.find(primary_user_id).users.first.company
+     end
+       
    
        if company.length >= 25
          indent(300) do
+           if role_name.include? "user"
              if @user.main_roles.first.role_name == "user"
                text "For "+@bill.authuser.users.first.company.titleize,  size: 11, :style => :bold
                #text "For iPrimitus Consultancy Services", size: 11, style: :bold
              elsif @user.main_roles.first.role_name  == "client"
                text "For "+@bill.authuser.clients.first.company.titleize,  size: 11, :style => :bold
              end
+           elsif role_name.include? "secondary_user"
+             primary_user_id = @bill.authuser.invited_by_id
+             text "For "+Authuser.find(primary_user_id).users.first.company.titleize,  size: 11, :style => :bold
+           end
          move_down 30
          text "Authorized Signatory",  size: 11, :style => :bold
          end
        else
           indent(350) do
+             if role_name.include? "user"
                if @user.main_roles.first.role_name == "user"
                  text "For "+@bill.authuser.users.first.company.titleize,  size: 11, :style => :bold
                   # text "For iPrimitus Consultancy Services", size: 11, style: :bold
                elsif @user.main_roles.first.role_name  == "client"
                  text "For "+@bill.authuser.clients.first.company.titleize,  size: 11, :style => :bold
                end
+             elsif role_name.include? "secondary_user"
+               primary_user_id = @bill.authuser.invited_by_id
+               text "For "+Authuser.find(primary_user_id).users.first.company.titleize,  size: 11, :style => :bold
+             end
              move_down 30
              text "Authorized Signatory",  size: 11, :style => :bold
           end

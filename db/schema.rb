@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150807070839) do
+ActiveRecord::Schema.define(version: 20150808111945) do
 
   create_table "addresses", force: true do |t|
     t.string   "address_line_1"
@@ -64,6 +64,7 @@ ActiveRecord::Schema.define(version: 20150807070839) do
     t.string   "current_role"
     t.date     "date_of_birth"
     t.string   "image"
+    t.string   "role"
   end
 
   add_index "authusers", ["approved"], name: "index_authusers_on_approved"
@@ -170,7 +171,8 @@ ActiveRecord::Schema.define(version: 20150807070839) do
     t.float    "unit_price"
     t.float    "total_price"
     t.float    "total_item_price"
-    t.integer  "service_tax_id"
+    t.float    "service_tax_rate"
+    t.float    "service_tax_amount"
   end
 
   create_table "main_categories", force: true do |t|
@@ -244,13 +246,6 @@ ActiveRecord::Schema.define(version: 20150807070839) do
     t.string   "email"
     t.string   "pricing"
     t.integer  "referral_type_id"
-  end
-
-  create_table "service_taxes", force: true do |t|
-    t.string   "service_tax_name"
-    t.float    "service_tax_rate"
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
   create_table "sugans", force: true do |t|

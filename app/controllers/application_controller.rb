@@ -59,6 +59,10 @@ class ApplicationController < ActionController::Base
       return authusers_force_password_change_path
     end
     
+    if authuser_signed_in?
+      user = Authuser.where(:id => current_authuser.id).first
+      user.update_attribute('role', current_authuser.main_roles.first.role_name)
+    end
     
     if current_authuser.main_roles.first.role_name == "admin"
     #if current_authuser.permissions.first.main_role_id == 1
