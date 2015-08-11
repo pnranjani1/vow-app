@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150808111945) do
+ActiveRecord::Schema.define(version: 20150811061534) do
 
   create_table "addresses", force: true do |t|
     t.string   "address_line_1"
@@ -65,6 +65,7 @@ ActiveRecord::Schema.define(version: 20150808111945) do
     t.date     "date_of_birth"
     t.string   "image"
     t.string   "role"
+    t.string   "invoice_format"
   end
 
   add_index "authusers", ["approved"], name: "index_authusers_on_approved"
@@ -108,6 +109,7 @@ ActiveRecord::Schema.define(version: 20150808111945) do
     t.string   "pdf_format"
     t.string   "service_tax"
     t.integer  "primary_user_id"
+    t.boolean  "invoice_number_format",        default: true
   end
 
   create_table "cainvoices", force: true do |t|
@@ -158,6 +160,15 @@ ActiveRecord::Schema.define(version: 20150808111945) do
     t.string   "email"
     t.string   "phone_number"
     t.string   "comments"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "invoice_numbers", force: true do |t|
+    t.integer  "invoice_number"
+    t.string   "invoice_format"
+    t.integer  "bill_id"
+    t.string   "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -9,10 +9,22 @@ xml.Saledetails do |saledetails|
             xml.Period"#{Date.today.strftime("%m").to_i}"
       
   @user_bills.each do|bill|
-     
+    
+         
         xml.SaleInvoiceDetails do
-        xml.PurTin bill.customer.tin_number
-        xml.PurName bill.customer.name 
+            urd_values = ["Other", "Others", "other", "others"] 
+           if urd_values.include? bill.customer.name 
+            customer = UnregisteredCustomer.where(:bill_id => bill.id).first  
+             customer_name = customer.customer_name 
+             customer_state = customer.state
+             tin = TinNumber.where(:state => customer_state).first 
+             tin_number = tin.tin_number 
+             xml.PurTin tin_number     
+             xml.PurName customer_name      
+           else
+             xml.PurTin bill.customer.tin_number
+             xml.PurName bill.customer.name 
+           end
         xml.InvNo bill.invoice_number
           xml.InvDate bill.bill_date.strftime("%Y%m%d")
         xml.NetVal bill.total_bill_price

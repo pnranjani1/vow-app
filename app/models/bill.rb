@@ -1,6 +1,6 @@
 class Bill < ActiveRecord::Base
   
- # before_create :generate_invoice_number
+  
   before_save :generate_grand_total
   before_save :generate_tax_type
   
@@ -14,10 +14,11 @@ class Bill < ActiveRecord::Base
   belongs_to :authuser
   
   belongs_to :tax
-  
+ 
   
   validates :invoice_number, :bill_date, :tax_id, presence: true
-  validates :invoice_number, :uniqueness => {:scope => :authuser_id}
+
+ # validates :invoice_number, :uniqueness => {:scope => :authuser_id}
   validate :past_date
  
  # validates :vechicle_number, length: {is: 12}
@@ -31,31 +32,9 @@ class Bill < ActiveRecord::Base
   accepts_nested_attributes_for :line_items, :allow_destroy => true, :reject_if => :all_blank
   accepts_nested_attributes_for :unregistered_customers
   
-  
-  
- # def customer
-  #  self.customer.name == "Others" or "Other" or "others" or "other"      
-  #end
-#  def generate_invoice_number
- #   if Bill.last.invoice_number.nil?
-  #    self.invoice_number = 1000
-   # else 
-    #  self.invoice_number = Bill.last.invoice_number + 1
-   # end
-  #end
- 
-  #def self.last_invoice_number_used
-   # return last.invoice_number unless last.nil?
-    # return 1000
-#end
-
- # def self.next_invoice_number_to_use
-  #  last_invoice_number_used+1
-#end
-  
-  
  
   
+   
   def past_date
     if self.bill_date < Date.today
       errors.add(:bill_date, 'Entered Bill Date is in the past')
@@ -72,6 +51,8 @@ class Bill < ActiveRecord::Base
   def generate_tax_type
     self.tax_type  = self.tax.tax_type
   end
+  
+  
 
   def self.to_csv
     CSV.generate do |csv|
@@ -225,3 +206,33 @@ class Bill < ActiveRecord::Base
  
 
 end # class end
+
+
+
+ 
+  
+  
+  
+ # def customer
+  #  self.customer.name == "Others" or "Other" or "others" or "other"      
+  #end
+#  def generate_invoice_number
+ #   if Bill.last.invoice_number.nil?
+  #    self.invoice_number = 1000
+   # else 
+    #  self.invoice_number = Bill.last.invoice_number + 1
+   # end
+  #end
+ 
+  #def self.last_invoice_number_used
+   # return last.invoice_number unless last.nil?
+    # return 1000
+#end
+
+ # def self.next_invoice_number_to_use
+  #  last_invoice_number_used+1
+#end
+  
+  
+ 
+  

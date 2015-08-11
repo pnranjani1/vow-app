@@ -94,3 +94,13 @@ $(document).ready(function(){
   });
 });
 
+
+
+/* to update authusers table invoice_format column based on check box status */
+$(document).ready(function(){
+  $('.submittable').click(function() {
+     App.blockUI( $('#bill_body'));
+     $(this).parents('form:first').submit();
+  });
+}); 
+

@@ -1,0 +1,3 @@
+ <%= form_for(@user, :url => {:controller => "authusers", :action => "invoice_format_update"},  remote: true, :authenticity_token => true) do |f| %>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= f.check_box :invoice_format, {:class => "submittable"}, "automatic", "manual" %>&nbsp;&nbsp;&nbsp;<label>Automated</label>
+        <% end %>

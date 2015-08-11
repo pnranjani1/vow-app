@@ -91,6 +91,10 @@ Rails.application.routes.draw do
   get 'bills/interstate'
   get 'bills/interstate_report'
   get 'dashboards/secondary_user_dashboard'
+  get 'bills/tally_import_report'
+  get 'bills/tally_import_excel'
+  patch 'authusers/invoice_format_update'
+  
  # patch 'bills/pdf_format_select'
     
  

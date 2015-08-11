@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   
   before_filter {|c| Authorization.current_user = c.current_authuser}
  # before_filter :check_due_date
-  # before_filter :set_current_authuser
+   before_filter :set_current_user
 
   
  # helper_method :set_current_user

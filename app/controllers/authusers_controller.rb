@@ -7,12 +7,7 @@ class AuthusersController < ApplicationController
   
   filter_access_to :all
  
- 
-  
-  
-  
-  
-    def index
+  def index
    # if params[:approved] == "false"
     #  @users = Authuser.find_all_by_approved(false)
     #else
@@ -257,9 +252,18 @@ end
     end
   end
 
+  def invoice_format_update
+    @user = current_authuser
+    if @user.update_attributes(set_params)
+      redirect_to new_bill_path
+    else
+      redirect_to dashboards_user_dashboard_path
+    end
+  end
+
   private
   def set_params
-    params[:authuser].permit(:name, :email, :password, :password_confirmation, :approved, :invited_by_id, :invited_by_type, :date_of_birth, :image, :role,
+    params[:authuser].permit(:name, :email, :password, :password_confirmation, :approved, :invited_by_id, :invited_by_type, :date_of_birth, :image, :role, :invoice_format,
      {:membership_attributes => [:id, :phone_number, :membership_start_date, :membership_end_date, :membership_status, :membership_duration]},
        {:address_attributes => [:id, :address_line_1, :address_line_2, :address_line_3, :city, :state, :country]},
       {:bankdetail_attributes => [:id, :bank_account_number, :ifsc_code]},

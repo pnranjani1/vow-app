@@ -8,11 +8,24 @@ xml.ISSale do
             xml.Period "#{Date.today.strftime("%m").to_i}"
          @user_bills.each do |bill|
         xml.ISSaleInv do
-        xml.PurTin bill.customer.tin_number
-        xml.PurName bill.customer.name 
-        xml.PurAddr bill.customer.address        
+             urd_values = ["Other", "Others", "other", "others"] 
+             if urd_values.include? bill.customer.name 
+              customer = UnregisteredCustomer.where(:bill_id => bill.id).first  
+              customer_name = customer.customer_name 
+              customer_state = customer.state
+              tin = TinNumber.where(:state => customer_state).first 
+              number = tin.tin_number 
+              xml.PurTin number     
+              xml.PurName customer_name  
+              xml.PurAddr customer.address        
+           else
+              xml.PurTin bill.customer.tin_number
+              xml.PurName bill.customer.name 
+              xml.PurAddr bill.customer.address        
+           end
+        
         xml.InvNo bill.invoice_number
-           xml.InvDate bill.bill_date.strftime("%Y%m%d")
+        xml.InvDate bill.bill_date.strftime("%Y%m%d")
         xml.NetVal bill.total_bill_price
         xml.TaxCh bill.tax.tax_rate
         xml.OthCh bill.other_charges

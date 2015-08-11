@@ -1,5 +1,4 @@
 
-  
 <div class="container">
 <div class="content">
 <div class="content-container">      
@@ -17,7 +16,10 @@
     });
 </script>
   
+  
+  
 <div class="row"> 
+  <div class="row"> 
   <%= nested_form_for(@bill) do |f| %>
 
 <% if @bill.errors.any? %>
@@ -45,17 +47,19 @@
   <div class="alert alert-success"><%= notice %></div> 
   <% end %>
  
-
+ 
 <div class="row"> 
-  <b style="color:red">*</b> <b>Indicates the mandatory fields</b><br/><br/>
+    &nbsp;&nbsp;<b style="color:red">*</b> <b>Indicates the mandatory fields</b><br/><br/>
   
-<div class="col-sm-3">           
-<strong>Invoice Number &nbsp;<b style="color:red">*</b></strong> 
-<div id="name" class="input-group">    
-<span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
-  <%= f.text_field :invoice_number, maxlength: 15, class: "form-control" %> 
-</div>
-</div> <!-- /.col -->
+    <div class="col-sm-3">           
+     <strong>Invoice Number &nbsp;<b style="color:red">*</b></strong> 
+     <div id="name" class="input-group">    
+      <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
+      <%= f.text_field :invoice_number, maxlength: 15, class: "form-control" %> 
+     </div>
+    </div> <!-- /.col -->
+  
+
             
 <div class="col-sm-3">           
 <strong>Bill Date&nbsp;<b style="color:red">*</b></strong> 
@@ -335,7 +339,7 @@ State
 
 <div class="portlet-content" id="line_items_list">
 
-<%= f.fields_for :line_items do |bill_product| %>
+  <%= f.fields_for :line_items do |bill_product| %>
   
   <div class="row"> 
     <div class="col-sm-2">           
@@ -519,5 +523,3 @@ Product.where(:authuser_id => [current_authuser.id, current_authuser.invited_by_
 </div> <!-- /.content-container -->      
 </div> <!-- /.content -->
 </div> <!-- /.container -->
-  
-

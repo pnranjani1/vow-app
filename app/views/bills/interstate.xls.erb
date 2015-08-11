@@ -1,5 +1,6 @@
 <table border="1">
   <tr>
+    <th>Sl.No</th>
     <th>Invoice Number</th>
     <th>Bill Date</th>
     <th>Customer</th>
@@ -7,12 +8,25 @@
     <th>Grand Total</th>
    </tr>
 
-  <% @user_bills.each do|bill| %>
+  <% @user_bills.each_with_index do|bill, index| %>
     <tr>
+      <td><%= index + 1 %></td>
       <td><%= bill.invoice_number %> </td>
       <td><%= bill.bill_date.strftime("%d %b %y") %></td>
-      <td><%= bill.customer.name %></td>
-      <td><%= bill.customer.tin_number %></td>
+       <% urd_values = ["Other", "Others", "other", "others"] %>
+      <% if urd_values.include? bill.customer.name %>
+         <% customer = UnregisteredCustomer.where(:bill_id => bill.id).first  %>
+          <td><%= customer.customer_name %></td>
+        <% customer_state = customer.state %>
+        <% tin = TinNumber.where(:state => customer_state).first %>
+        <% tin_number = tin.tin_number %>
+         <td><%= tin_number %></td>
+      <% else %>
+        <td><%= bill.customer.name %></td>
+        <td><%= bill.customer.tin_number %></td>
+      <% end %>
+      
+     
       <td><%= bill.grand_total %></td>
     </tr>
   <% end %>

@@ -42,7 +42,14 @@ xml.ENVELOPE do
              xml.ALLLEDGERENTRIESLIST do
                xml.REMOVEZEROENTRIES "No"
                xml.ISDEEMEDPOSITIVE "Yes"
+                urd_values = ["Other", "Others", "other", "others"] 
+           if urd_values.include? bill.customer.name 
+               customer = UnregisteredCustomer.where(:bill_id => bill.id).first  
+               customer_name = customer.customer_name 
+               xml.LEDGERNAME customer_name             
+           else
                xml.LEDGERNAME bill.customer.name
+           end
                xml.AMOUNT -(bill.grand_total)
              end
        xml.ALLLEDGERENTRIESLIST do
