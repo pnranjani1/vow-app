@@ -448,7 +448,7 @@ end
 
    def set_params
      params[:bill].permit(:invoice_number, :esugam, :bill_date, :customer_id, 
-      :authuser_id, :tax, :total_bill_price, :tax_id, :grand_total, :other_charges, :other_charges_information_id,:other_information, :other_charges_info, :client_id, :transporter_name, :vechicle_number, :gc_lr_number,:lr_date, :pdf_format, :service_tax, :primary_user_id, :invoice_number_format,
+      :authuser_id, :tax, :total_bill_price, :tax_id, :grand_total, :other_charges, :other_charges_information_id,:other_information, :other_charges_info, :client_id, :transporter_name, :vechicle_number, :gc_lr_number,:lr_date, :pdf_format, :service_tax, :primary_user_id, :invoice_number_format, :invoice_format, :record_number,
       {:line_items_attributes => [:product_id, :quantity, :unit_price, :total_price, :service_tax_rate, :_destroy]},
       {:tax_attributes => [:tax_type, :tax_rate, :tax]},
       {:unregistered_customers_attributes => [:customer_name, :phone_number, :address, :city, :state, :authuser_id, :bill_id]}

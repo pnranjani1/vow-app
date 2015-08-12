@@ -294,8 +294,17 @@ Company&nbsp;<b style="color:red">*</b>
   
   <%= user_detail.hidden_field :client_id, :value => current_authuser.invited_by.id %>
 <% end %>
+  </div><!-- row ends here -->
+  <br/>
+  <div class="row">
+    <div class="col-sm-3">           
+      Invoice Number Format 
+       <div id="name" class="input-group" >        
+         <span class="input-group-addon"><i class="fa fa-user"></i></span>
+         <%= f.text_field :invoice_string,  class: "form-control" %>
+       </div>
+    </div> <!-- /.col -->
   
-
 </div> <!-- row ends here -->
 </div> <!-- /.portlet-content -->
 </div> <!-- /.portlet -->
@@ -304,7 +313,7 @@ Company&nbsp;<b style="color:red">*</b>
 
 
 <div class="row">      
-  <%= f.submit  "Update Profile", class: "btn btn-success" %>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= f.submit  "Update Profile", class: "btn btn-success" %>
 </div> 
  <% end %>
   

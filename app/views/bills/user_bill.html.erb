@@ -32,7 +32,12 @@
   <% else %>
     <%= link_to bill.customer.name, bill_path(bill.id), class: "listconttext" %> /
   <% end %>
-    <%= bill.invoice_number %> /
+  
+   <% if bill.invoice_number.length < 6 %>
+    <%= bill.invoice_number = bill.invoice_number.rjust(6, '0') %>/
+  <% else %>
+    <%= bill.invoice_number %>/
+  <% end %>
     <%=  bill.tax.tax_type %> /
     <% if bill.esugam.present? %>
       Esugam Generated

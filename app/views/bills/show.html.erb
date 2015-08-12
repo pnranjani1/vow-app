@@ -41,7 +41,14 @@
 </div>
 
 <div class="col-md-4">
-<h3><i class="fa fa-numeric"></i>Invoice Number&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= @bill.invoice_number %></h3> 
+<h3><i class="fa fa-numeric"></i>Invoice Number&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <% if @bill.invoice_number.length < 6 %>
+    <%= @bill.invoice_number = @bill.invoice_number.rjust(6, '0') %>
+  <% else %>
+    <%= @bill.invoice_number %>
+  <% end %>
+</h3>
+  
 </div>
 
 <div class="col-md-4">

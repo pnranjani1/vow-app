@@ -1,5 +1,11 @@
 class Bill < ActiveRecord::Base
   
+  before_save :generate_invoice_format  
+  after_create :invoke_invoice_record
+  after_create  :update_invoice_number
+  
+  
+ #before_save :generate_invoice_record
   
   before_save :generate_grand_total
   before_save :generate_tax_type
@@ -14,9 +20,14 @@ class Bill < ActiveRecord::Base
   belongs_to :authuser
   
   belongs_to :tax
+  has_one :invoice_record
+ 
  
   
-  validates :invoice_number, :bill_date, :tax_id, presence: true
+  validates  :bill_date, :tax_id, presence: true
+  # CValidation for invoice number for manual and automated invoice numbers
+  #validates :invoice_number, presence: true, :if => :manual_invoice
+ 
 
  # validates :invoice_number, :uniqueness => {:scope => :authuser_id}
   validate :past_date
@@ -32,10 +43,99 @@ class Bill < ActiveRecord::Base
   accepts_nested_attributes_for :line_items, :allow_destroy => true, :reject_if => :all_blank
   accepts_nested_attributes_for :unregistered_customers
   
- 
+  
+  def generate_invoice_format
+    if Authuser.current.main_roles.first.role_name != "secondary_user"
+      self.invoice_format = Authuser.current.invoice_format    
+    else
+      primary_user_id = Authuser.current.invited_by_id
+      user = Authuser.where(:id => primary_user_id).first
+      self.invoice_format = user.invoice_format
+    end
+  end
   
    
-  def past_date
+  def invoke_invoice_record
+     user = Authuser.current
+    #for primary user
+    if user.main_roles.first.role_name != "secondary_user"
+      bill_ids = InvoiceRecord.all.pluck(:bill_id)
+      last_bill = Bill.where(:authuser_id => user.id).last
+      if user.invoice_format == "automatic" 
+         if user.invoice_records.blank?
+            self.build_invoice_record
+            self.invoice_record.number = "001"
+            self.invoice_record.authuser_id = self.authuser.id
+            self.invoice_record.bill_id = self.id
+            self.update_attribute(:record_number, "001")
+         elsif (user.invoice_format == "automatic") && (user.invoice_records.present?)
+            bill_id = Bill.where(:authuser_id => user.id).last.id
+            invoice = InvoiceRecord.where(:authuser_id => user.id).last
+            number_updated = invoice.number.to_i + 1
+            invoice.update_attribute(:number, number_updated)
+            invoice.update_attribute(:authuser_id , user.id)
+            invoice.update_attribute(:bill_id, self.id)
+            self.update_attribute(:record_number, number_updated)
+         end
+      end
+      #for secondary user
+    else
+      secondary_user = Authuser.current
+      primary_user_id = Authuser.current.invited_by_id
+      user = Authuser.where(:id => primary_user_id).first
+       bill_ids = InvoiceRecord.all.pluck(:bill_id)
+      last_bill = Bill.where(:authuser_id => user.id).last
+      if (user.invoice_format == "automatic")
+         if user.invoice_records.blank?
+           self.build_invoice_record
+           self.invoice_record.number = "001"
+           self.invoice_record.authuser_id = self.authuser.id
+           self.invoice_record.bill_id = self.id
+           self.record_number = "001"
+         elsif (user.invoice_format == "automatic") &&  user.invoice_records.present?
+            bill_id = Bill.where(:authuser_id => user.id).last.id
+            invoice = InvoiceRecord.where(:authuser_id => user.id).last
+            number_updated = invoice.number.to_i + 1
+            invoice.update_attribute(:number, number_updated)
+            invoice.update_attribute(:authuser_id , user.id)
+            invoice.update_attribute(:bill_id, self.id)
+            self.update_attribute(:record_number, number_updated)
+         end
+      end
+    end
+  end
+  
+  def update_invoice_number
+    if Authuser.current.main_roles.first.role_name != "secondary_user" 
+      user = Authuser.current
+         if user.invoice_format == "automatic" 
+           bill_id = Bill.where('authuser_id =? AND invoice_format =? ', user.id, "automatic").last.id
+           number_invoice_record = InvoiceRecord.where(:bill_id => bill_id).first.number
+           number = (number_invoice_record + " " +user.invoice_string)
+           self.update_attribute(:invoice_number, number )
+         end 
+    elsif Authuser.current.main_roles.first.role_name == "secondary_user" 
+      primary_user_id = Authuser.current.invited_by_id
+      user = Authuser.where(:id => primary_user_id).first
+        if user.invoice_format == "automatic" 
+          bill_id = Bill.where('primary_user_id =? AND invoice_format =? ', user.id, "automatic").last.id
+          number_invoice_record = InvoiceRecord.where(:bill_id => bill_id).first.number
+          number = (number_invoice_record + " " +user.invoice_string)
+           self.update_attribute(:invoice_number, number )
+         end 
+    end
+  end
+       
+       
+       
+        
+  
+  def manual_invoice
+    user = Authuser.current
+    user.invoice_format == "manual"      
+  end
+     
+   def past_date
     if self.bill_date < Date.today
       errors.add(:bill_date, 'Entered Bill Date is in the past')
      end
