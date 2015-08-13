@@ -2,7 +2,7 @@ class Bill < ActiveRecord::Base
   
   before_save :generate_invoice_format  
   after_create :invoke_invoice_record
-  #after_create  :update_invoice_number
+  after_create  :update_invoice_number
   
   
  #before_save :generate_invoice_record
