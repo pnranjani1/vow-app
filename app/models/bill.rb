@@ -111,17 +111,28 @@ class Bill < ActiveRecord::Base
          if user.invoice_format == "automatic" 
            bill_id = Bill.where('authuser_id =? AND invoice_format =? ', user.id, "automatic").last.id
            number_invoice_record = InvoiceRecord.where(:bill_id => bill_id).first.number
-           number = (number_invoice_record)
+           if user.invoice_string.present?
+             number = (number_invoice_record + " " + user.invoice_string)
+             self.update_attribute(:invoice_number, number )
+           else
+             number = number_invoice_record
            self.update_attribute(:invoice_number, number )
-         end 
+           end 
+         end
     elsif Authuser.current.main_roles.first.role_name == "secondary_user" 
       primary_user_id = Authuser.current.invited_by_id
       user = Authuser.where(:id => primary_user_id).first
         if user.invoice_format == "automatic" 
           bill_id = Bill.where('primary_user_id =? AND invoice_format =? ', user.id, "automatic").last.id
           number_invoice_record = InvoiceRecord.where(:bill_id => bill_id).first.number
-          number = (number_invoice_record + " " +user.invoice_string)
+          if user.invoice_string.present?
+             number = (number_invoice_record + " " + user.invoice_string)
+            self.update_attribute(:invoice_number, number )
+           else
+             number = number_invoice_record
            self.update_attribute(:invoice_number, number )
+           end 
+          
          end 
     end
   end
