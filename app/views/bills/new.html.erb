@@ -20,18 +20,7 @@
   <% if current_authuser.main_roles.first.role_name != "secondary_user" %>
     <div class="row"> 
      <%= form_for(@user, :url => {:controller => "authusers", :action => "invoice_format_update"},  remote: true, :authenticity_token => true) do |f| %>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= f.check_box :invoice_format, {:class => "submittable"}, "automatic", "manual" %>&nbsp;&nbsp;&nbsp;<label>Automated Invoice Number</label>
-      <% if @bill.errors.any? %>
-        <div class="col-md-6">
-         <div class="alert alert-danger">
-           <% @bill.errors.full_messages.each do |error| %>
-             <ul>
-               <li><%= error %></li>
-             </ul>
-           <% end %>
-         </div>
-        </div>
-       <% end %>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= f.check_box :invoice_format, {:class => "submittable"}, "automatic", "manual" %>&nbsp;&nbsp;&nbsp;<label>Automated Invoice Number</label>      
      <% end %>
     </div>
   <% end %>

@@ -26,7 +26,7 @@ class Bill < ActiveRecord::Base
   
   validates  :bill_date, :tax_id, presence: true
   # CValidation for invoice number for manual and automated invoice numbers
-  #validates :invoice_number, presence: true, :if => :manual_invoice
+  validates_presence_of :invoice_number
  
 
  # validates :invoice_number, :uniqueness => {:scope => :authuser_id}
@@ -137,13 +137,8 @@ class Bill < ActiveRecord::Base
     end
   end
        
-       
-       
-        
-  
-  def manual_invoice
-    user = Authuser.current
-    user.invoice_format == "manual"      
+  def manual_invoice?
+    Authuser.current.invoice_format == "manual"      
   end
      
    def past_date
