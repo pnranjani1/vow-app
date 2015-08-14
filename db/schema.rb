@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150814094622) do
+ActiveRecord::Schema.define(version: 20150814111247) do
 
   create_table "addresses", force: true do |t|
     t.string   "address_line_1"
@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(version: 20150814094622) do
   end
 
   create_table "authusers", force: true do |t|
-    t.string   "email",                  default: "",    null: false
+    t.string   "email",                  default: "",          null: false
     t.string   "encrypted_password",     default: ""
     t.string   "name"
     t.datetime "created_at"
@@ -46,7 +46,7 @@ ActiveRecord::Schema.define(version: 20150814094622) do
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,     null: false
+    t.integer  "sign_in_count",          default: 0,           null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
@@ -65,7 +65,7 @@ ActiveRecord::Schema.define(version: 20150814094622) do
     t.date     "date_of_birth"
     t.string   "image"
     t.string   "role"
-    t.string   "invoice_format"
+    t.string   "invoice_format",         default: "automatic"
     t.string   "invoice_string"
   end
 
