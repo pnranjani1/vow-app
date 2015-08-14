@@ -24,7 +24,7 @@ class DashboardsController < ApplicationController
   
   def client_dashboard   
     date = Date.today.strftime("%Y%m%d")
-  @users = User.where(:client_id => current_authuser.id).paginate(:page => params[:page], :per_page => 5).order('created_at DESC')
+    @users = User.where(:client_id => current_authuser.id).paginate(:page => params[:page], :per_page => 5).order('created_at DESC')
     @bills = Bill.all
     #@users_count = current_authuser.users.count
     @users_count = @users.count

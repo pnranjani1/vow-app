@@ -34,5 +34,10 @@ class Notification < ActionMailer::Base
    mail(:to =>  @user.invited_by.email ,:subject => "VatOnWheels – New User #{@user.name} Registration!")
    end
 
+  def secondary_user_mail(user)
+    @user = user
+    mail(:to => @user.email, :subject => "Your account in VatOnWheels has been created successfully!")
+    
+  end
   
 end

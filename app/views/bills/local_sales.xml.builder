@@ -1,13 +1,23 @@
 xml.instruct!
 xml.Saledetails do |saledetails|
-    
-  user = current_authuser.users.first
-        xml.version 13.11
+  if current_authuser.main_roles.first.role_name = "secondary_user"  
+    primary_user_id = current_authuser.invited_by_id
+    authuser = Authuser.where(:id => primary_user_id).first
+    user = authuser.users.first
+    xml.version 13.11
             xml.TinNo user.tin_number
             xml.RetPerdEnd "#{Date.today.strftime("%Y").to_i}"
             xml.FilingType "M"
             xml.Period"#{Date.today.strftime("%m").to_i}"
-      
+  else
+     user = current_authuser.users.first
+     xml.version 13.11
+            xml.TinNo user.tin_number
+            xml.RetPerdEnd "#{Date.today.strftime("%Y").to_i}"
+            xml.FilingType "M"
+            xml.Period"#{Date.today.strftime("%m").to_i}"
+  end
+  
   @user_bills.each do|bill|
     
          

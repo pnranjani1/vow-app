@@ -1,0 +1,14 @@
+Dear <%= @user.name %>,<br/>
+<br/>
+Welcome to VatOnWheels!<br/><br/>
+
+
+Click <%= link_to "here" , :controller => "devise/sessions", :action => "new", :host =>  "http://www.vatonwheels.com"  %> to login to VatOnWheels.com<br/> 
+
+<br/>
+Please note, you are required to change the password on initial login.<br/>
+<br/>
+
+
+Sincerely,<br/>
+<%= link_to "Vaton Wheels Team" , :controller => "home_page", :action => "index", :host =>  "http://www.vatonwheels.com"  %>

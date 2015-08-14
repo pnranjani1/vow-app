@@ -94,6 +94,8 @@ Rails.application.routes.draw do
   get 'bills/tally_import_report'
   get 'bills/tally_import_excel'
   patch 'authusers/invoice_format_update'
+  get 'bills/secondary_user_bill'
+  get 'bills/secondary_user_activity_report'
   
  # patch 'bills/pdf_format_select'
     

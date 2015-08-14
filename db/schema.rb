@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150812084053) do
+ActiveRecord::Schema.define(version: 20150814094622) do
 
   create_table "addresses", force: true do |t|
     t.string   "address_line_1"
@@ -151,6 +151,7 @@ ActiveRecord::Schema.define(version: 20150812084053) do
     t.string   "permalink"
     t.string   "state"
     t.string   "pin_code"
+    t.integer  "primary_user_id"
   end
 
   create_table "dashboards", force: true do |t|
@@ -238,6 +239,7 @@ ActiveRecord::Schema.define(version: 20150812084053) do
     t.datetime "updated_at"
     t.integer  "authuser_id"
     t.string   "permalink"
+    t.integer  "primary_user_id"
   end
 
   create_table "referral_types", force: true do |t|
@@ -300,6 +302,7 @@ ActiveRecord::Schema.define(version: 20150812084053) do
     t.integer "main_category_id"
     t.integer "auth_user_category_id"
     t.string  "commodity_name"
+    t.integer "primary_user_id"
   end
 
   create_table "users", force: true do |t|

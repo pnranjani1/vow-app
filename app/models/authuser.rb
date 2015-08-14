@@ -15,8 +15,9 @@ require 'active_support/core_ext/date/conversions'
   #after_update :membership_status
 #  after_update :send_admin_mail
   after_update :send_mail
-   after_update :send_user_mail
+  after_update :send_user_mail
   after_save  :membership_end_date_reminder_mail
+  after_save  :send_secondary_user_activated_mail
   
  
   
@@ -208,7 +209,11 @@ end
   end
   end
   
-  
+  def send_secondary_user_activated_mail
+    if self.main_roles.first.role_name == "secondary_user" && self.sign_in_count == 0 && self.name.present? && self.approved?
+      Notification.secondary_user_mail(self).deliver
+    end
+  end
   
   
 end

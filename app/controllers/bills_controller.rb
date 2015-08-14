@@ -113,20 +113,29 @@ class BillsController < ApplicationController
   
   
   def user_bill
-      @user_bills = Bill.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id).paginate(:page => params[:page], :per_page => 5).order('created_at DESC')
-   # end
-        respond_to do |format|
+    #shows all the bills of primary user and secondary users of that primary user
+     if current_authuser.main_roles.first.role_name == "secondary_user"
+        primary_user_id = current_authuser.invited_by_id
+        @user_bills = Bill.where('authuser_id =? OR primary_user_id =? ', primary_user_id, primary_user_id).paginate(:page => params[:page], :per_page => 5).order('created_at DESC')
+       respond_to do |format|
          format.html
          format.xml 
          format.csv { send_data @user_bills.to_csv, :filename => '<bills>.csv' }
          format.xls 
-      end
+       end
+     else
+        @user_bills = Bill.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id).paginate(:page => params[:page], :per_page => 5).order('created_at DESC')
+         respond_to do |format|
+           format.html
+           format.xml 
+           format.csv { send_data @user_bills.to_csv, :filename => '<bills>.csv' }
+           format.xls 
+         end
      end
-     
- 
-  
-  def bill_local_sales_reports
   end
+     
+   def bill_local_sales_reports
+   end
   
   def bill_interstate_sales_reports
   end
@@ -213,14 +222,25 @@ end
 
   
   def local_sales
-    tax = Bill.where(:tax_id => (Tax.where(:tax_type => "VAT")))
+    #tax = Bill.where(:tax_id => (Tax.where(:tax_type => "VAT")))
       chosen_month = params[:choose_month]
-    user_bills = Bill.where('created_at >= ? AND created_at <= ? AND tax_type = ? AND authuser_id = ? ',chosen_month.to_time.beginning_of_month, chosen_month.to_time.end_of_month, "VAT", current_authuser.id)
-    secondary_user_bills = Bill.where('created_at >= ? AND created_at <= ? AND tax_type = ? AND primary_user_id = ? ',chosen_month.to_time.beginning_of_month, chosen_month.to_time.end_of_month, "VAT", current_authuser.id)
-    @user_bills = user_bills + secondary_user_bills
+    #user_bills = Bill.where('created_at >= ? AND created_at <= ? AND tax_type = ? AND authuser_id = ? ',chosen_month.to_time.beginning_of_month, chosen_month.to_time.end_of_month, "VAT", current_authuser.id)
+    #secondary_user_bills = Bill.where('created_at >= ? AND created_at <= ? AND tax_type = ? AND primary_user_id = ? ',chosen_month.to_time.beginning_of_month, chosen_month.to_time.end_of_month, "VAT", current_authuser.id)
+    #@user_bills = user_bills + secondary_user_bills
+    
+      if current_authuser.main_roles.first.role_name == "secondary_user"
+        primary_user_id = current_authuser.invited_by_id
+        bills1 = Bill.where('authuser_id =? OR primary_user_id =?', primary_user_id, primary_user_id)
+        bills2 = Bill.where('created_at >= ? AND created_at <= ? AND tax_type = ?', chosen_month.to_time.beginning_of_month, chosen_month.to_time.end_of_month, "VAT")
+        @user_bills = bills1 & bills2
+     else
+        bills1 = Bill.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id)
+        bills2 = Bill.where('created_at >= ? AND created_at <= ? AND tax_type = ?', chosen_month.to_time.beginning_of_month, chosen_month.to_time.end_of_month, "VAT")
+        @user_bills = bills1 & bills2
+       end
        respond_to do |format|
-    format.html
-     format.xml {  send_data render_to_string(:local_sales), :filename => 'local_sales.xml', :type=>"application/xml", :disposition => 'attachment' }
+         format.html
+         format.xml {  send_data render_to_string(:local_sales), :filename => 'local_sales.xml', :type=>"application/xml", :disposition => 'attachment' }
 end
   end
       
@@ -229,11 +249,17 @@ end
   end
 
   def local
-    tax = Bill.where(:tax_id => (Tax.where(:tax_type => "VAT")))
       chosen_month = params[:choose_month]
-      user_bills = Bill.where('created_at >= ? AND created_at <= ? AND tax_type = ? AND authuser_id = ? ',chosen_month.to_time.beginning_of_month, chosen_month.to_time.end_of_month, "VAT", current_authuser.id)
-    secondary_user_bills = Bill.where('created_at >= ? AND created_at <= ? AND tax_type = ? AND primary_user_id = ? ',chosen_month.to_time.beginning_of_month, chosen_month.to_time.end_of_month, "VAT", current_authuser.id)
-    @user_bills = user_bills + secondary_user_bills
+     if current_authuser.main_roles.first.role_name == "secondary_user"
+        primary_user_id = current_authuser.invited_by_id
+        bills1 = Bill.where('authuser_id =? OR primary_user_id =?', primary_user_id, primary_user_id)
+        bills2 = Bill.where('created_at >= ? AND created_at <= ? AND tax_type = ?', chosen_month.to_time.beginning_of_month, chosen_month.to_time.end_of_month, "VAT")
+        @user_bills = bills1 & bills2
+     else
+        bills1 = Bill.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id)
+        bills2 = Bill.where('created_at >= ? AND created_at <= ? AND tax_type = ?', chosen_month.to_time.beginning_of_month, chosen_month.to_time.end_of_month, "VAT")
+        @user_bills = bills1 & bills2
+       end
        respond_to do |format|
         format.html
          format.xls
@@ -242,18 +268,21 @@ end
 
 
   def interstate_sales       
-     #tax = Bill.where(:tax_id => (Tax.where(:tax_type => "CST")))
-      chosen_month = params[:choose_month]
-     user_bills = Bill.where('created_at >= ? AND created_at <= ? AND tax_type = ? AND authuser_id = ? ',chosen_month.to_time.beginning_of_month, chosen_month.to_time.end_of_month, "CST", current_authuser.id)
-    secondary_user_bills = Bill.where('created_at >= ? AND created_at <= ? AND tax_type = ? AND primary_user_id = ? ',chosen_month.to_time.beginning_of_month, chosen_month.to_time.end_of_month, "CST", current_authuser.id)
-    @user_bills = user_bills + secondary_user_bills
-   
-   # @user_bills = Bill.all
+     chosen_month = params[:choose_month]
+     if current_authuser.main_roles.first.role_name == "secondary_user"
+        primary_user_id = current_authuser.invited_by_id
+        bills1 = Bill.where('authuser_id =? OR primary_user_id =?', primary_user_id, primary_user_id)
+        bills2 = Bill.where('created_at >= ? AND created_at <= ? AND tax_type = ?', chosen_month.to_time.beginning_of_month, chosen_month.to_time.end_of_month, "CST")
+        @user_bills = bills1 & bills2
+     else
+        bills1 = Bill.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id)
+        bills2 = Bill.where('created_at >= ? AND created_at <= ? AND tax_type = ?', chosen_month.to_time.beginning_of_month, chosen_month.to_time.end_of_month, "CST")
+        @user_bills = bills1 & bills2
+     end
      respond_to do |format|
-    format.html
-     
-       format.xml {  send_data render_to_string(:interstate_sales), :filename => 'interstate_sales.xml', :type=>"application/xml", :disposition => 'attachment' }
-end
+        format.html
+        format.xml {  send_data render_to_string(:interstate_sales), :filename => 'interstate_sales.xml', :type=>"application/xml", :disposition => 'attachment' }
+     end
   end
 
   def interstate_report
@@ -261,9 +290,16 @@ end
 
   def interstate
      chosen_month = params[:choose_month]
-     user_bills = Bill.where('created_at >= ? AND created_at <= ? AND tax_type = ? AND authuser_id = ? ',chosen_month.to_time.beginning_of_month, chosen_month.to_time.end_of_month, "CST", current_authuser.id)
-    secondary_user_bills = Bill.where('created_at >= ? AND created_at <= ? AND tax_type = ? AND primary_user_id = ? ',chosen_month.to_time.beginning_of_month, chosen_month.to_time.end_of_month, "CST", current_authuser.id)
-    @user_bills = user_bills + secondary_user_bills
+     if current_authuser.main_roles.first.role_name == "secondary_user"
+        primary_user_id = current_authuser.invited_by_id
+        bills1 = Bill.where('authuser_id =? OR primary_user_id =?', primary_user_id, primary_user_id)
+        bills2 = Bill.where('created_at >= ? AND created_at <= ? AND tax_type = ?', chosen_month.to_time.beginning_of_month, chosen_month.to_time.end_of_month, "CST")
+        @user_bills = bills1 & bills2
+     else
+        bills1 = Bill.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id)
+        bills2 = Bill.where('created_at >= ? AND created_at <= ? AND tax_type = ?', chosen_month.to_time.beginning_of_month, chosen_month.to_time.end_of_month, "CST")
+        @user_bills = bills1 & bills2
+     end
      respond_to do |format|
         format.html
         format.xls
@@ -274,7 +310,17 @@ end
   def tally_import
     start_date = params[:start_date]
     end_date = params[:end_date]
-     @user_bills = Bill.where('created_at >= ? AND created_at <= ? AND authuser_id = ? OR primary_user_id = ?',start_date.to_time, end_date.to_time, current_authuser.id, current_authuser.id )
+    if current_authuser.main_roles.first.role_name == "secondary_user"
+        primary_user_id = current_authuser.invited_by_id
+        bills1 = Bill.where('authuser_id =? OR primary_user_id =?', primary_user_id, primary_user_id)
+        bills2 = Bill.where('created_at >= ? AND created_at <= ?', start_date.to_time, end_date.to_time)
+        @user_bills = bills1 & bills2
+    else
+        bills1 = Bill.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id)
+        bills2 = Bill.where('created_at >= ? AND created_at <= ?', start_date.to_time, end_date.to_time)
+        @user_bills = bills1 & bills2
+    end
+    #@user_bills = Bill.where('created_at >= ? AND created_at <= ? AND authuser_id = ? OR primary_user_id = ?',start_date.to_time, end_date.to_time, current_authuser.id, current_authuser.id )
     respond_to do|format|
      format.html
      format.xml {  send_data render_to_string(:tally_import), :filename => 'tally_import.xml', :type=>"application/xml", :disposition => 'attachment' }
@@ -287,7 +333,16 @@ end
   def tally_import_excel
      start_date = params[:start_date]
      end_date = params[:end_date]
-     @user_bills = Bill.where('created_at >= ? AND created_at <= ? AND authuser_id = ? OR primary_user_id = ?',start_date.to_time, end_date.to_time, current_authuser.id, current_authuser.id )
+    if current_authuser.main_roles.first.role_name == "secondary_user"
+        primary_user_id = current_authuser.invited_by_id
+        bills1 = Bill.where('authuser_id =? OR primary_user_id =?', primary_user_id, primary_user_id)
+        bills2 = Bill.where('created_at >= ? AND created_at <= ?', start_date.to_time, end_date.to_time)
+        @user_bills = bills1 & bills2
+    else
+        bills1 = Bill.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id)
+        bills2 = Bill.where('created_at >= ? AND created_at <= ?', start_date.to_time, end_date.to_time)
+        @user_bills = bills1 & bills2
+    end
       respond_to do |format|
         format.html
         format.xls
@@ -442,7 +497,21 @@ end
   end
 
 
-  
+ def secondary_user_bill
+ end
+
+
+  def secondary_user_activity_report
+    chosen_month = params[:choose_month]
+    user = current_authuser
+    secondary_users = Authuser.where(:invited_by_id => user.id)
+    
+    @bills = Bill.where()
+    respond_to do |format|
+      format.html
+      respond.xls
+    end
+  end
 
   private
 

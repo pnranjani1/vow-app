@@ -17,14 +17,14 @@
 </script>
   
   
-  <% if current_authuser.main_roles.first.role_name != "secondary_user" %>
+ 
     <div class="row"> 
      <%= form_for(@user, :url => {:controller => "authusers", :action => "invoice_format_update"},  remote: true, :authenticity_token => true) do |f| %>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= f.check_box :invoice_format, {:class => "submittable"}, "automatic", "manual" %>&nbsp;&nbsp;&nbsp;<label>Automated Invoice Number</label>      
      <% end %>
     </div>
-  <% end %>
   
+ 
   <br/>
   <div class="row">
     <%= nested_form_for(@bill) do |f| %>
@@ -57,24 +57,73 @@
                 
                    <div class="col-sm-3">           
                      <strong>Invoice Number &nbsp;<b style="color:red">*</b></strong> 
-                      <div id="name" class="input-group">    
+                     <div id="name" class="input-group">    
                         <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
-                        <% if current_authuser.main_roles.first.role_name != "secondary_user" %>
-                          <% if current_authuser.invoice_format == "automatic" %>
-                            <%= f.text_field :invoice_number, maxlength: 15, readonly: true, class: "form-control" %> 
-                          <% else %>
-                              <%= f.text_field :invoice_number, maxlength: 15, class: "form-control" %> 
-                          <% end %>
-                        <% else %>
-                            <%  primary_user_id  = current_authuser.invited_by_id %>
-                            <% user = Authuser.where(:id => primary_user_id).first %>
-                              <% if user.invoice_format == "automatic" %>
-                                  <%= f.text_field :invoice_number, maxlength: 15, readonly: true, class: "form-control" %> 
-                              <% else %>
-                                   <%= f.text_field :invoice_number, maxlength: 15, class: "form-control" %> 
-                              <% end %>
-                        <% end %>
-                      </div>
+                       
+                      <% if current_authuser.main_roles.first.role_name != "secondary_user" %>
+                        <% user = current_authuser %> 
+                         <% if user.invoice_format == "automatic" %>
+                            
+                             <% if user.invoice_records.empty? %>
+                               <% if user.invoice_string.nil? || user.invoice_string.blank? %>
+                                  <% number = "000001" %>
+                                  <%= f.text_field :invoice_number, :value => number, readonly: true, class: "form-control" %> 
+                               <% else %>
+                                  <% number = "01" + " " + user.invoice_string %>
+                                  <%= f.text_field :invoice_number, :value => number, readonly: true, class: "form-control" %> 
+                               <% end %>
+                             <% else %>
+                                <%  bill_id = Bill.where(:authuser_id => user.id).last.id %>
+                                <% invoice = InvoiceRecord.where(:authuser_id => user.id).last %>
+                                <% number_updated = invoice.number.to_i + 1 %>
+                                <%  if user.invoice_string.nil? || user.invoice_string.blank? %>
+                                   <% if number_updated.to_s.length < 6 %>
+                                         <% updated_number = number_updated.to_s.rjust(6, '0') %>
+                                         <% number = updated_number.to_s + " " + user.invoice_string %>
+                                         <%= f.text_field :invoice_number, :value => number, :readonly => true, class: "form-control" %> 
+                                    <% end %>
+                                <% else %>
+                                   <% number = number_updated.to_s + " " + user.invoice_string %>
+                                   <%= f.text_field :invoice_number, :value => number, :readonly => true, class: "form-control" %> 
+                                <% end %>
+                             <% end %><!-- user invoice record ends here -->
+                         <% else %><!-- if primary user invoice format is not automatic -->
+                            <%= f.text_field :invoice_number, :value => number, class: "form-control" %> 
+                         <% end %><!-- primary user automatic mode ends here -->
+                      <% else %><!-- secondary user automatic mode starts here -->
+                         <% primary_user_id = current_authuser.invited_by_id %>
+                         <% secondary_user = current_authuser %>
+                         <% primary_user = Authuser.where(:id => primary_user_id).first %>
+                       <% if secondary_user.invoice_format == "automatic" %>
+                            <% if primary_user.invoice_records.empty? %>
+                               <% if primary_user.invoice_string.nil? || primary_user.invoice_string.blank? %>
+                                  <% number = "000001" %>
+                                  <%= f.text_field :invoice_number, :value => number, readonly: true, class: "form-control" %> 
+                               <% else %>
+                                  <% number = "01" + " " + primary_user.invoice_string %>
+                                  <%= f.text_field :invoice_number, :value => number, readonly: true, class: "form-control" %> 
+                               <% end %>
+                            <% else %><!-- primary user has invoice records -->
+                                
+                                <% invoice = InvoiceRecord.where(:authuser_id => primary_user.id).last %>
+                                <% number_updated = invoice.number.to_i + 1 %>
+                                <%  if primary_user.invoice_string.nil? || primary_user.invoice_string.blank? %>
+                                   <% if number_updated.to_s.length < 6 %>
+                                         <% updated_number = number_updated.to_s.rjust(6, '0') %>
+                                         <% number = updated_number.to_s + " " + primary_user.invoice_string %>
+                                         <%= f.text_field :invoice_number, :value => number, :readonly => true, class: "form-control" %> 
+                                   <% end %>
+                                <% else %>
+                                   <% number = number_updated.to_s + " " + primary_user.invoice_string %>
+                                   <%= f.text_field :invoice_number, :value => number, :readonly => true, class: "form-control" %> 
+                                <% end %>
+                            <% end %>
+                         <% else %><!-- if primary user invoice format is not automatic -->
+                            <%= f.text_field :invoice_number, :value => number, class: "form-control" %> 
+                         <% end %>
+                      <% end %>
+                      
+                     </div>
                    </div> <!-- /.col -->
   
                    <div class="col-sm-3">           

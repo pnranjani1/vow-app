@@ -49,8 +49,13 @@
   <div class="row">
 <label class="col-md-3">Belongs to Commodity&nbsp;&nbsp;<b style="color:red">*</b></label>
 <div class="col-md-6">
-<div id="name" class="input-group">               
-<%= f.collection_select :usercategory_id, Usercategory.where(:authuser_id => current_authuser.id), :id, :commodity_name, {prompt: "Select Commodity"}, {class: "form-control"} %>
+<div id="name" class="input-group">   
+  <% if current_authuser.main_roles.first.role_name =="secondary_user" %>
+    <% primary_user_id = current_authuser.invited_by_id %>
+    <%= f.collection_select :usercategory_id, Usercategory.where('authuser_id =? OR primary_user_id =? ', primary_user_id, primary_user_id), :id, :commodity_name, {prompt: "Select Commodity"}, {class: "form-control"} %>
+  <% else %>
+    <%= f.collection_select :usercategory_id, Usercategory.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id), :id, :commodity_name, {prompt: "Select Commodity"}, {class: "form-control"} %>
+  <% end %>
 </div>
 </div>
 </div>

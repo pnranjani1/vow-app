@@ -34,8 +34,14 @@ class Product < ActiveRecord::Base
       row = Hash[[header, spreadsheet.row(i)].transpose]
       product = Product.find_by_product_name(row["Product Name"]) || Product.new
      # product.attributes = row.to_hash.slice('product_name', 'units', 'usercategory_id')
-      product.authuser_id = current_authuser
-     product.product_name = row["Product Name"]
+      if Authuser.current.main_roles.first.role_name == "secondary_user"
+        primary_user_id = Authuser.current.invited_by_id
+        product.primary_user_id = primary_user_id
+        product.authuser_id = current_authuser
+      else
+        product.authuser_id = current_authuser
+      end
+        product.product_name = row["Product Name"]
         product.units = row["Units"]
       #Usercategory.where(product.usercategory_id
       product.usercategory_id = row["UserCategory ID"]

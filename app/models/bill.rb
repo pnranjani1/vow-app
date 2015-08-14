@@ -2,7 +2,8 @@ class Bill < ActiveRecord::Base
   
   before_save :generate_invoice_format  
   after_create :invoke_invoice_record
-  after_create  :update_invoice_number
+  after_create :update_authuser_automated
+ # after_create  :update_invoice_number
   
   
  #before_save :generate_invoice_record
@@ -24,7 +25,7 @@ class Bill < ActiveRecord::Base
  
  
   
-  validates  :bill_date, :tax_id, presence: true
+  validates  :invoice_number, :bill_date, :tax_id, presence: true
   # CValidation for invoice number for manual and automated invoice numbers
   validates_presence_of :invoice_number
  
@@ -45,13 +46,13 @@ class Bill < ActiveRecord::Base
   
   
   def generate_invoice_format
-    if Authuser.current.main_roles.first.role_name != "secondary_user"
+   # if Authuser.current.main_roles.first.role_name != "secondary_user"
       self.invoice_format = Authuser.current.invoice_format    
-    else
-      primary_user_id = Authuser.current.invited_by_id
-      user = Authuser.where(:id => primary_user_id).first
-      self.invoice_format = user.invoice_format
-    end
+   # else
+   #   primary_user_id = Authuser.current.invited_by_id
+   #   user = Authuser.where(:id => primary_user_id).first
+    #  self.invoice_format = user.invoice_format
+   # end
   end
   
    
@@ -136,9 +137,11 @@ class Bill < ActiveRecord::Base
          end 
     end
   end
-       
-  def manual_invoice?
-    Authuser.current.invoice_format == "manual"      
+  
+  def update_authuser_automated
+    if Authuser.current.invoice_format == "manual"
+      Authuser.current.update_attribute(:invoice_format, "automatic")
+    end
   end
      
    def past_date

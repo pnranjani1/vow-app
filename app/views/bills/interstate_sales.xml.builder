@@ -1,12 +1,21 @@
 xml.instruct!
 xml.ISSale do
- 
-  user = current_authuser.users.first
+  if current_authuser.main_roles.first.role_name = "secondary_user"  
+    primary_user_id = current_authuser.invited_by_id
+    authuser = Authuser.where(:id => primary_user_id).first
+    user = authuser.users.first
+     xml.TinNo user.tin_number
+            xml.RetPerdEnd "#{Date.today.strftime("%Y").to_i}"
+            xml.FilinType "M"
+            xml.Period "#{Date.today.strftime("%m").to_i}"
+  else
+     user = current_authuser.users.first
             xml.TinNo user.tin_number
             xml.RetPerdEnd "#{Date.today.strftime("%Y").to_i}"
             xml.FilinType "M"
             xml.Period "#{Date.today.strftime("%m").to_i}"
-         @user_bills.each do |bill|
+  end
+       @user_bills.each do |bill|
         xml.ISSaleInv do
              urd_values = ["Other", "Others", "other", "others"] 
              if urd_values.include? bill.customer.name 

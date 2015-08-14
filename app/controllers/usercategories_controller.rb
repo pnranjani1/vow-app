@@ -5,9 +5,12 @@ class UsercategoriesController < ApplicationController
   layout_by_action [:new, :create, :show, :edit, :update, :index] => "menu"
   
   def index
-  #  @usercategories = current_authuser.usercategories.paginate(:page => params[:page], :per_page => 3)
-   
-    @usercategories = Usercategory.where(:authuser_id => current_authuser.id).paginate(:page => params[:page], :per_page => 5)
+    if current_authuser.main_roles.first.role_name == "secondary_user"
+       primary_user_id = current_authuser.invited_by_id
+       @usercategories = Usercategory.where('authuser_id =? OR primary_user_id =? ', primary_user_id, primary_user_id).paginate(:page => params[:page], :per_page => 5)
+    else
+       @usercategories = Usercategory.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id).paginate(:page => params[:page], :per_page => 5)
+    end
   end
   
   def new
@@ -17,8 +20,14 @@ class UsercategoriesController < ApplicationController
   
   def create
     @usercategory = Usercategory.new(set_params)
-    @usercategory.authuser_id = current_authuser.id
-    
+     if current_authuser.main_roles.first.role_name == "secondary_user"
+      invited_by_user_id = current_authuser.invited_by_id
+      invited_user = Authuser.find(invited_by_user_id)
+      @usercategory.authuser_id = current_authuser.id
+      @usercategory.primary_user_id = invited_by_user_id
+    else
+      @usercategory.authuser_id = current_authuser.id
+    end
     if @usercategory.save 
       redirect_to usercategories_path(current_authuser.id)
       flash[:notice] = "Commodity Added Successfully"
@@ -37,8 +46,14 @@ class UsercategoriesController < ApplicationController
  
   def update
     @usercategory = Usercategory.find(params[:id])
-    @usercategory.authuser_id = current_authuser.id
- 
+     if current_authuser.main_roles.first.role_name == "secondary_user"
+      invited_by_user_id = current_authuser.invited_by_id
+      invited_user = Authuser.find(invited_by_user_id)
+      @usercategory.authuser_id = current_authuser.id
+      @usercategory.primary_user_id = invited_by_user_id
+    else
+      @usercategory.authuser_id = current_authuser.id
+    end
     if @usercategory.update_attributes(set_params)
       redirect_to usercategory_path(@usercategory.id)
     else 

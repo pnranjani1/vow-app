@@ -39,21 +39,26 @@ class Customer < ActiveRecord::Base
         customer.address = row["Address"]
         customer.city = row["City"]
         customer.state = row["State"]
+      if Authuser.current.main_roles.first.role_name == "secondary_user"
+        primary_user_id = Authuser.current.invited_by_id
+        customer.primary_user_id = primary_user_id
         customer.authuser_id = current_authuser
-         customer.save!
-         
+      else
+        customer.authuser_id = current_authuser
+      end
+      customer.save!
     end
    end
       
 
-def self.open_spreadsheet(file)
-  case File.extname(file.original_filename)
-  when ".csv" then Csv.new(file.path, nil, :ignore)
-  when ".xls" then Roo::Excel.new(file.path, nil, :ignore)
-  when ".xlsx" then Roo::Excelx.new(file.path, nil, :ignore)
-  else raise "Unknown file type: #{file.original_filename}"
-  end
+  def self.open_spreadsheet(file)
+    case File.extname(file.original_filename)
+      when ".csv" then Csv.new(file.path, nil, :ignore)
+      when ".xls" then Roo::Excel.new(file.path, nil, :ignore)
+      when ".xlsx" then Roo::Excelx.new(file.path, nil, :ignore)
+    else raise "Unknown file type: #{file.original_filename}"
+    end
   end
   
-   end
+end
   

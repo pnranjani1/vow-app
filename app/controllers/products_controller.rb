@@ -13,23 +13,31 @@ class ProductsController < ApplicationController
    def new
     @product = Product.new
   #  @product.build_price
-    @categories = MainCategory.joins(:usercategories).where('usercategories.authuser_id' => current_authuser.id).map(&:commodity_name) 
+     @categories = MainCategory.joins(:usercategories).where('usercategories.authuser_id' => current_authuser.id).map(&:commodity_name) 
      @usercategories = Usercategory.where(:authuser_id => current_authuser.id)
      
   end
   
  
-   def create
-   @product = Product.new(set_params)
-   @product.authuser_id = current_authuser.id 
-   params[:usercategory_id] = @product.usercategory_id
-   if @product.save 
-     redirect_to products_product_user_path(current_authuser.id)
-     flash[:notice] = "Product Created Successfully"
-   else 
-   render action: 'new'
-    end
-    end   
+  def create
+     @product = Product.new(set_params)
+      if current_authuser.main_roles.first.role_name == "secondary_user"
+        invited_by_user_id = current_authuser.invited_by_id
+        invited_user = Authuser.find(invited_by_user_id)
+        @product.authuser_id = current_authuser.id
+        @product.primary_user_id = invited_by_user_id
+      else
+        @product.client_id = current_authuser.users.first.client_id
+        @product.authuser_id = current_authuser.id
+      end
+      params[:usercategory_id] = @product.usercategory_id
+      if @product.save 
+        redirect_to products_product_user_path(current_authuser.id)
+        flash[:notice] = "Product Created Successfully"
+      else 
+        render action: 'new'
+      end
+  end   
    
 
    def show
@@ -45,8 +53,15 @@ class ProductsController < ApplicationController
    
   def update
     @product = Product.find(params[:id])
-   @product.authuser_id = current_authuser.id    
-    if @product.update_attributes(set_params)
+     if current_authuser.main_roles.first.role_name == "secondary_user"
+        invited_by_user_id = current_authuser.invited_by_id
+        invited_user = Authuser.find(invited_by_user_id)
+        @product.authuser_id = current_authuser.id
+        @product.primary_user_id = invited_by_user_id
+      else
+        @product.authuser_id = current_authuser.id
+      end
+      if @product.update_attributes(set_params)
       redirect_to products_product_user_path
     else
       render action: 'edit'
@@ -67,15 +82,29 @@ class ProductsController < ApplicationController
    end
   
     def product_user
-      @user_products = Product.where(:authuser_id => current_authuser.id).paginate(:page => params[:page], :per_page => 5)
+      if current_authuser.main_roles.first.role_name == "secondary_user"
+        primary_user_id = current_authuser.invited_by_id
+         @user_products = Product.where('authuser_id =? OR primary_user_id =? ', primary_user_id, primary_user_id).paginate(:page => params[:page], :per_page => 5).order('created_at DESC')
+      else
+        @user_products = Product.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id).paginate(:page => params[:page], :per_page => 5).order('created_at DESC')
+      end
     end
   
   def usercategory_product
-      @category_product = Usercategory.where(:authuser_id => current_authuser.id)
+    if current_authuser.main_roles.first.role_name == "secondary_user"
+      primary_user_id = current_authuser.invited_by_id
+      @category_product = Usercategory.where('authuser_id =? OR primary_user_id =? ', primary_user_id, primary_user_id)
        respond_to do |format|
-      format.html      
-      format.xls 
-     end
+        format.html      
+        format.xls 
+       end
+    else
+      @category_product = Usercategory.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id)
+       respond_to do |format|
+        format.html      
+        format.xls 
+       end
+    end
   end
   
   def product_download

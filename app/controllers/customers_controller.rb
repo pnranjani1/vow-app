@@ -20,7 +20,14 @@ class CustomersController < ApplicationController
   
   def create
     @customer = Customer.new(set_params)
-  @customer.authuser_id = current_authuser.id
+    if current_authuser.main_roles.first.role_name == "secondary_user"
+      invited_by_user_id = current_authuser.invited_by_id
+      invited_user = Authuser.find(invited_by_user_id)
+      @customer.authuser_id = current_authuser.id
+      @customer.primary_user_id = invited_by_user_id
+    else
+      @customer.authuser_id = current_authuser.id
+    end
     if @customer.save
       redirect_to customers_user_customer_path
       flash[:notice] = "Customer Created Successfully"
@@ -35,7 +42,14 @@ class CustomersController < ApplicationController
   
   def update
     @customer = Customer.find(params[:id])
-    @customer.authuser_id = current_authuser.id
+    if current_authuser.main_roles.first.role_name == "secondary_user"
+      invited_by_user_id = current_authuser.invited_by_id
+      invited_user = Authuser.find(invited_by_user_id)
+      @customer.authuser_id = current_authuser.id
+      @customer.primary_user_id = invited_by_user_id
+    else
+      @customer.authuser_id = current_authuser.id
+    end
     if @customer.update_attributes(set_params)
       redirect_to customers_user_customer_path
     else
@@ -50,8 +64,12 @@ class CustomersController < ApplicationController
   end
   
   def user_customer
-    @user_customers =  Customer.where(:authuser_id => current_authuser.id).paginate(:page => params[:page], :per_page => 5)
-    
+    if current_authuser.main_roles.first.role_name == "secondary_user"
+        primary_user_id = current_authuser.invited_by_id
+        @user_customers =  Customer.where('authuser_id =? OR primary_user_id =? ', primary_user_id, primary_user_id).paginate(:page => params[:page], :per_page => 5).order('created_at DESC')
+    else
+       @user_customers =  Customer.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id).paginate(:page => params[:page], :per_page => 5).order('created_at DESC')
+    end  
   end
   
   
