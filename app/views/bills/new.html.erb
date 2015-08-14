@@ -303,6 +303,8 @@
                                      <%= customer.collection_select :state, TinNumber.all, :state, :state, {:prompt => "Select State"}, {class: "form-control"} %>
                                  </div>
                             </div> <!-- /.col -->
+                          
+                          
                         </div><!-- row ends here -->
                      <% end %><!-- fields_for unregistered customers ends here -->
                   </div><!-- id=text box ends here-->
@@ -411,7 +413,7 @@
                     <strong>Quantity&nbsp;<b style="color:red">*</b></strong> 
                     <div id="quantity_div" class="input-group">               
                        <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
-                       <%= bill_product.text_field :quantity , class: "form-control" %>
+                      <%= bill_product.number_field :quantity , class: "form-control", :step => 'any' %>
                     </div>
                   </div> <!-- /.col -->
            
