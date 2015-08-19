@@ -49,6 +49,7 @@ var App = function(){
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'center',
           opacity: 0.67
+          
         }
       });
     },

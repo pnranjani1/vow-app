@@ -200,8 +200,14 @@ class Bill < ActiveRecord::Base
       @customer_tin_number = @bill.customer.tin_number
     end
     @customer_name_address = @bill.customer.name + @bill.customer.city
-    @customer_name = @bill.customer.name
-    @user_city = @bill.authuser.address.city
+    @customer_name = @bill.customer.name   
+    
+    user_id = @bill.primary_user_id
+    user = Authuser.where(:id => user_id).first
+    @user_city = user.address.city
+   
+   
+    
     #@bill_product =  @bill.line_items.first.product.product_name
     @product_name =  @bill.line_items.first.product.product_name
     @commodity_name =  @bill.products.first.usercategory.main_category.commodity_name
@@ -222,9 +228,13 @@ class Bill < ActiveRecord::Base
     begin
       browser = Watir::Browser.new :phantomjs
       browser.goto "http://sugam.kar.nic.in/"
-     
-      browser.text_field(:id, "UserName").set(@bill.authuser.users.first.esugam_username)
-      browser.text_field(:id, "Password").set(@bill.authuser.users.first.esugam_password)
+      #login credentials for primary and secondary user
+      user_id = @bill.primary_user_id
+      user = Authuser.where(:id => user_id).first
+      user_name = user.users.first.esugam_username
+      password = user.users.first.esugam_password
+      browser.text_field(:id, "UserName").set(user_name)
+      browser.text_field(:id, "Password").set(password)
       browser.button(:value,"Login").click
      
       if browser.text.include? "Login Failed"

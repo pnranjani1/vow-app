@@ -23,6 +23,15 @@ class BillsController < ApplicationController
     @product = Product.new
     @bill.unregistered_customers.build
     @user = current_authuser   
+     if current_authuser.main_roles.first.role_name == "secondary_user"
+        primary_user_id = current_authuser.invited_by_id
+       @user_customers = Customer.where('authuser_id =? OR primary_user_id =? ', primary_user_id, primary_user_id).paginate(:page => params[:page], :per_page => 5).order('created_at DESC')
+       @user_products = Product.where('authuser_id =? OR primary_user_id =? ', primary_user_id, primary_user_id).paginate(:page => params[:page], :per_page => 5).order('created_at DESC')
+      else
+       @user_customers = Customer.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id).paginate(:page => params[:page], :per_page => 5).order('created_at DESC')
+       @user_products = Product.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id).paginate(:page => params[:page], :per_page => 5).order('created_at DESC')
+      end
+    
   end
   
   
@@ -31,6 +40,14 @@ class BillsController < ApplicationController
     @customer = Customer.new
     @product = Product.new
     @user = current_authuser  
+     if current_authuser.main_roles.first.role_name == "secondary_user"
+        primary_user_id = current_authuser.invited_by_id
+       @user_customers = Customer.where('authuser_id =? OR primary_user_id =? ', primary_user_id, primary_user_id).paginate(:page => params[:page], :per_page => 5).order('created_at DESC')
+       @user_products = Product.where('authuser_id =? OR primary_user_id =? ', primary_user_id, primary_user_id).paginate(:page => params[:page], :per_page => 5).order('created_at DESC')
+      else
+       @user_customers = Customer.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id).paginate(:page => params[:page], :per_page => 5).order('created_at DESC')
+       @user_products = Product.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id).paginate(:page => params[:page], :per_page => 5).order('created_at DESC')
+      end
     
     if current_authuser.main_roles.first.role_name == "secondary_user"
       invited_by_user_id = current_authuser.invited_by_id
@@ -40,6 +57,7 @@ class BillsController < ApplicationController
       @bill.primary_user_id = invited_by_user_id
     else
       @bill.client_id = current_authuser.users.first.client_id
+      @bill.primary_user_id = current_authuser.id
       @bill.authuser_id = current_authuser.id
     end
   
@@ -585,7 +603,7 @@ end
                  @number = updated_number.to_s + " " + primary_user.invoice_string 
                end
              else
-               invoice = InvoiceRecord.where(:authuser_id => user.id).last
+               invoice = InvoiceRecord.where(:authuser_id => primary_user.id).last
                number_updated = invoice.number.to_i + 1
                @number = number_updated.to_s + " " + primary_user.invoice_string
              end

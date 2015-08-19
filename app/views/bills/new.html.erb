@@ -117,7 +117,7 @@
                        <strong>Customer&nbsp;<b style="color:red">*</b></strong> 
                         <div id="name" class="input-group">        
                           <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                           <%= f.collection_select :customer_id, Customer.where(:authuser_id => [current_authuser.id,current_authuser.invited_by_id]), :id, :name, {prompt: "Select Customer"}, {class: "form-control", :id => "drop-down"}  %>
+                          <%= f.collection_select :customer_id, @user_customers, :id, :name, {prompt: "Select Customer"}, {class: "form-control", :id => "drop-down"}  %>
                         </div>
                     </div> <!-- /.col -->
                     
@@ -179,7 +179,7 @@
                                                  <div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Should Be 11 numbers">
                                                     <div id="number" class="input-group">               
                                                        <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
-                                                       <%= f.text_field :tin_number, maxlength: 11, class: "form-control" %>
+                                                      <%= f.number_field :tin_number, maxlength: 11, class: "form-control" %>
                                                     </div>
                                                  </div> 
                                              </div><!-- /.col -->
@@ -188,7 +188,7 @@
                                                  Phone Number
                                                    <div id="phone" class="input-group">               
                                                       <span class="input-group-addon"><i class="fa fa-phone"></i></span>
-                                                       <%= f.text_field :phone_number , maxlength: 10, class: "form-control" %>
+                                                     <%= f.number_field :phone_number , maxlength: 10, class: "form-control" %>
                                                    </div>
                                               </div> <!-- /.col -->
                                          </div>  <!-- row ends here -->
@@ -251,7 +251,7 @@
                               Mobile Number &nbsp;&nbsp;
                                <div id="email" class="input-group">          
                                   <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-                                  <%= customer.text_field :phone_number, :maxlength => 10, class: "form-control" %>
+                                 <%= customer.number_field :phone_number, :maxlength => 10, class: "form-control" %>
                                </div>
                             </div> <!-- /.col -->
   
@@ -330,8 +330,16 @@
                                        <div class="row">
                                           <label class="col-md-3">Belongs to Commodity&nbsp;&nbsp;<b style="color:red">*</b></label>
                                            <div class="col-md-6">
-                                              <div id="name" class="input-group">               
-                                                  <%= f.collection_select :usercategory_id, Usercategory.where(:authuser_id => current_authuser.id), :id, :commodity_name, {prompt: "Select Commodity"}, {class: "form-control"} %>
+                                              <div id="name" class="input-group">  
+                                                <!-- show all categories of primary user and secondary user -->
+                                                 <% if current_authuser.main_roles.first.role_name == "secondary_user" %>
+                                                   <% primary_user_id = current_authuser.invited_by_id %>
+                                                   <% @user_category = Usercategory.where('authuser_id =? OR primary_user_id =? ', primary_user_id, primary_user_id) %>
+                                                <%= f.collection_select :usercategory_id, @user_category, :id, :commodity_name, {prompt: "Select Commodity"}, {class: "form-control"} %>
+                                                 <% else %>
+                                                   <% @user_category = Usercategory.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id) %>
+                                                   <%= f.collection_select :usercategory_id, @user_category, :id, :commodity_name, {prompt: "Select Commodity"}, {class: "form-control"} %>
+                                                 <% end %>
                                               </div>
                                            </div>
                                        </div>
@@ -382,8 +390,7 @@
                      <strong>Item&nbsp;<b style="color:red">*</b></strong> 
                      <div id="name" class="input-group">   
                        <span class="input-group-addon"><i class="fa fa-ruble"></i></span>
-                        <%= bill_product.collection_select :product_id, 
-                         Product.where(:authuser_id => [current_authuser.id, current_authuser.invited_by_id]), :id, :product_name, 
+                       <%= bill_product.collection_select :product_id, @user_products, :id, :product_name, 
           {prompt: "Select Product"}, {class: "form-control"} %>
                      </div> 
                   </div> <!-- /.col -->
@@ -405,7 +412,7 @@
                   </div> <!-- /.col -->
                
                   <div class="col-sm-2">           
-                    <strong>Service Tax Rate % (Optional)&nbsp;</strong> 
+                    <strong>Service Tax %(Optional)&nbsp;</strong> 
                      <div id="unit_price_div" class="input-group"> 
                        <span class="input-group-addon"><i class="fa fa-money"></i></span>
                        <%= bill_product.text_field :service_tax_rate, class: "form-control" %>
@@ -496,7 +503,7 @@
                <strong>Name Other Charges, if any?</strong> 
                <div id="name" class="input-group">               
                   <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
-                  <%= f.collection_select :other_charges_information_id, OtherChargesInformation.all, :id, :other_charges,  {:prompt => "Select"} , {:class => "form-control"} %>
+                  <%= f.collection_select :other_charges_information_id, OtherChargesInformation.all, :id, :other_charges,  {:prompt => "Select Type"} , {:class => "form-control"} %>
                </div>
             </div> <!-- /.col -->
             
@@ -504,7 +511,7 @@
                <strong>Other charges Amount</strong> 
                <div id="name" class="input-group">               
                   <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                   <%= f.text_field :other_charges, class: "form-control" %>
+                 <%= f.number_field :other_charges, class: "form-control" %>
                </div>
             </div> <!-- /.col -->
         

@@ -110,6 +110,7 @@ class CustomersController < ApplicationController
   def newcustomer_in_bill
     @customer = Customer.new
     @customer.authuser_id = current_authuser.id
+    @customer.primary_user_id = current_authuser.invited_by_id
     if @customer.update_attributes(set_params)
       redirect_to new_bill_path
      else

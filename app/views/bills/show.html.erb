@@ -196,24 +196,29 @@
   <td><%=  number_with_delimiter((@bill.tax.tax_rate * 0.01*total).round(2), :delimiter => ',') %></td>
 </tr>
   
-
-  <% service_tax_rates = @bill.line_items.map(&:service_tax_rate) %>
-  <% service_tax_rates = service_tax_rates.uniq %>
+  <% service_tax = @bill.line_items.pluck(:service_tax_rate) %>
+  <% if service_tax.any? %>
+   <% service_tax_rates = @bill.line_items.map(&:service_tax_rate) %>
+     <% service_tax_rates = service_tax_rates.uniq %>
  
-  <% service_tax_rates.each do |service_tax| %>
- <tr>
-    <% line_items = @bill.line_items.where(:service_tax_rate => service_tax) %>
-    <% line_items_total_price = line_items.sum(:total_price) %>
-    <td><strong>Service Tax Total @ <%= service_tax %> % </strong></td>
-    <td><%= ((service_tax/100) * line_items_total_price).round(2) %></td>
- </tr>
-<% end %>
-  
-  <tr>
-    <td><strong>Service Tax Total </strong></td>
-    <td><%= @bill.line_items.sum(:service_tax_amount).round(2) %></td>
- </tr>
-  
+     <% service_tax_rates.each do |service_tax| %>
+       <tr>
+         <% line_items = @bill.line_items.where(:service_tax_rate => service_tax) %>
+         <% line_items_total_price = line_items.sum(:total_price) %>
+         <td><strong>Service Tax Total @ <%= service_tax %> % </strong></td>
+         <td><%= ((service_tax/100) * line_items_total_price).round(2) %></td>
+       </tr>
+       <tr>
+         <td><strong>Service Tax Total </strong></td>
+         <td><%= @bill.line_items.sum(:service_tax_amount).round(2) %></td>
+       </tr>
+      <% end %>
+  <% else %>
+      <tr>
+        <td><strong>Service Tax </strong></td>
+        <td>NA </td>
+      </tr>
+  <% end %>
 <%
 =begin %>
   <!-- grouping by service tax -->

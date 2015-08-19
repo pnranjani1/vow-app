@@ -141,7 +141,9 @@ class ProductsController < ApplicationController
   
   def newproduct_in_bill
     @product = Product.new
+     
     @product.authuser_id = current_authuser.id
+    @product.primary_user_id = current_authuser.invited_by_id
     if @product.update_attributes(set_params)
       redirect_to new_bill_path
     else
