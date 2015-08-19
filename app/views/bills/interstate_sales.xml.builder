@@ -4,13 +4,13 @@ xml.ISSale do
     primary_user_id = current_authuser.invited_by_id
     authuser = Authuser.where(:id => primary_user_id).first
     user = authuser.users.first
-     xml.TinNo user.tin_number
+            xml.TinNo "#{user.tin_number}"
             xml.RetPerdEnd "#{Date.today.strftime("%Y").to_i}"
             xml.FilinType "M"
             xml.Period "#{Date.today.strftime("%m").to_i}"
   else
      user = current_authuser.users.first
-            xml.TinNo user.tin_number
+            xml.TinNo "#{user.tin_number}"
             xml.RetPerdEnd "#{Date.today.strftime("%Y").to_i}"
             xml.FilinType "M"
             xml.Period "#{Date.today.strftime("%m").to_i}"
