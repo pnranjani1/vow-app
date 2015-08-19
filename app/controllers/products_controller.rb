@@ -27,7 +27,7 @@ class ProductsController < ApplicationController
         @product.authuser_id = current_authuser.id
         @product.primary_user_id = invited_by_user_id
       else
-        @product.client_id = current_authuser.users.first.client_id
+        
         @product.authuser_id = current_authuser.id
       end
       params[:usercategory_id] = @product.usercategory_id

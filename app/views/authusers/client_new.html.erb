@@ -101,6 +101,12 @@ Date Of Birth(Format: dd/mm/yyyy)&nbsp;<b style="color:red">*</b>
 </div>
 </div>
 </div> <!-- /.col -->
+  
+<div class="col-sm-3">           
+  <div id="Password" class="input-group">               
+    <%= f.check_box :invoice_format, {:class => "submittable"}, "automatic", "manual" %>&nbsp;&nbsp;&nbsp;<label>Automated Invoice Number</label>  
+  </div>
+</div> <!-- /.col -->
 
 </div> <!-- row ends here -->
 </div> <!-- /.portlet-content -->

@@ -48,7 +48,7 @@ class InvitationsController < Devise::InvitationsController
 
   def update_sanitized_params
     devise_parameter_sanitizer.for(:accept_invitation) do |u|
-      u.permit(:name, :password, :password_confirmation, :invitation_token, :date_of_birth,
+      u.permit(:name, :password, :password_confirmation, :invitation_token, :date_of_birth, :approved, 
          {:membership_attributes => [:id, :phone_number, :membership_start_date, :membership_end_date, :membership_status, :membership_duration]},
         {:address_attributes => [:id, :address_line_1, :address_line_2, :address_line_3, :city, :country, :state]},
       {:bankdetail_attributes => [:id, :bank_account_number, :ifsc_code]},

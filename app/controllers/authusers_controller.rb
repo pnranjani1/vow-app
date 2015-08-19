@@ -207,16 +207,16 @@ end
 # client_edit and client_update are not used now
 
 def client_edit
-  @user = Authuser.find(params[:id])
+  @user = current_authuser
 end
 
 
   def client_update
-    @user = Authuser.find(params[:id])
+    @user = current_authuser
       if @user.update_attributes(set_params)
-        redirect_to dashboards_user_dashboard_path
+        redirect_to dashboards_secondary_user_dashboard_path
         else
-        render action: 'edit'
+        render action: 'client_edit'
         end
       end
      
@@ -254,13 +254,14 @@ end
     end
   end
 
+# used from bills new page, not from update profile page -->
   def invoice_format_update
-    @user = current_authuser
-    if @user.update_attributes(set_params)
-      redirect_to new_bill_path
-    else
-      redirect_to dashboards_user_dashboard_path
-    end
+    
+   if @user.update_attributes(set_params)
+     redirect_to new_bill_path
+   else
+    redirect_to dashboards_user_dashboard_path
+   end
   end
 
   private

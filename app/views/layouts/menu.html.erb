@@ -90,9 +90,9 @@
 <li class="divider"></li>
 <% elsif current_authuser.main_roles.first.role_name == "secondary_user" %>
  <li>
-   <%= link_to edit_authuser_registration_path do %>
+   <%= link_to authusers_client_edit_path do %>
     <i class="fa fa-user"></i> 
-      &nbsp;&nbsp;Change Password
+      &nbsp;&nbsp;Update Profile
    <% end %>
  </li>
   <% end %>

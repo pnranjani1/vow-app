@@ -48,6 +48,7 @@
                 <tr> 
                   <th>Name</th> 
                   <th>Email</th> 
+                  <th>Membership End Date</th>
                   <th>No of Cash based Applications</th> 
                   <th>No of Esugam Generated</th> 
                  
@@ -59,13 +60,14 @@
                   <% userid = user.id %>
                   <% @bills = user.bills %>
                   <% date = Date.today.strftime("%Y%m%d") %>
-                  <% @cash_based_applications = @bills.where('ESUGAM IS NULL AND created_at >= ? AND created_at <= ?', date.to_date.beginning_of_month, date.to_date.end_of_month) %>
+                  <% @cash_applications = @bills.where('ESUGAM IS NULL AND created_at >= ? AND created_at <= ?', date.to_date.beginning_of_month, date.to_date.end_of_month) %>
                   <% @esugam = @bills.where('ESUGAM IS NOT NULL AND created_at >= ? AND created_at <= ?', date.to_date.beginning_of_month, date.to_date.end_of_month ) %>
 
                   <tr>
                     <td class="hidden-xs"><%= user.name %></td>
                     <td><%= user.email %></td>
-                    <td><%= @cash_based_applications.count %></td>
+                    <td><%= link_to user.membership.membership_end_date, edit_membership_path(user.membership.id) ,  class: "listconttext"%></td>
+                    <td><%= @cash_applications.count %></td>
                     <td><%= @esugam.count %></td>
                   </tr>
                 <% end %>
@@ -73,10 +75,12 @@
           </table>
 
           <div class="portlet-footer">
-            <div class="text-right">    
-              <%= link_to "Add Secondary User", authusers_secondary_user_path, class: "btn btn-success" %>
-            </div> <!-- text-right ends here -->
-          </div> <!-- /.portlet-footer -->
+           <div class="text-right"> 
+             <%= link_to new_authuser_invitation_path do %>
+               <button class="btn btn-success">Add Secondary User</button>
+             <% end %>
+            </div><!-- text right ends here -->
+           </div> <!-- /.portlet-footer -->
          
         </div><!--  table-responsive ends here -->
       </div><!--portlet-content ends here -->

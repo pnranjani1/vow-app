@@ -2,6 +2,7 @@
 class BillsController < ApplicationController
   filter_access_to :all
   before_filter :authenticate_authuser!
+  before_filter :generate_invoice_number, only: :new
   require 'will_paginate/array'
   
   #layout 'menu', :only => [:user_bill, :new, :create, :show, :local_sales, :interstate_sales, :tally_import]
@@ -21,8 +22,7 @@ class BillsController < ApplicationController
     @customer = Customer.new
     @product = Product.new
     @bill.unregistered_customers.build
-    @user = current_authuser
-   
+    @user = current_authuser   
   end
   
   
@@ -30,6 +30,8 @@ class BillsController < ApplicationController
     @bill = Bill.new(set_params)
     @customer = Customer.new
     @product = Product.new
+    @user = current_authuser  
+    
     if current_authuser.main_roles.first.role_name == "secondary_user"
       invited_by_user_id = current_authuser.invited_by_id
       invited_user = Authuser.find(invited_by_user_id)
@@ -40,6 +42,8 @@ class BillsController < ApplicationController
       @bill.client_id = current_authuser.users.first.client_id
       @bill.authuser_id = current_authuser.id
     end
+  
+    
     if @bill.save
       @bill.total_bill_price = @bill.line_items.sum(:total_price)
       @bill.save
@@ -47,9 +51,16 @@ class BillsController < ApplicationController
       redirect_to bill_path(@bill.id)
     else
       render action: 'new'
-    end
-     
+    end     
   end
+  
+  
+  def get_tin
+    #state = params[:unregistered_customer][:state]
+    @tin_number = TinNumber.where(:state => params[:state]).first.tin_number
+    
+  end
+  
   
   def generate_esugan
     @bill = Bill.where(id: params["bill_id"]).first
@@ -513,11 +524,75 @@ end
     end
   end
 
+   def get_tin
+     state = params[:bill][:unregistered_customer][:state]
+     tin = TinNumber.where(:state => state)
+   end
+
+
   private
+
+ def generate_invoice_number
+  # logic to generate automated invoice number 
+   if current_authuser.invoice_format == 'automatic'
+     
+    if current_authuser.main_roles.first.role_name != "secondary_user" 
+       user = current_authuser 
+         if user.invoice_format == "automatic"
+           #instant automated/ manual process
+          if user.invoice_records.empty? 
+            if user.invoice_string.nil? || user.invoice_string.blank? 
+              @number = "000001" 
+            else 
+              @number = "01" + " " + user.invoice_string 
+            end
+          else #when invoice record is not empty
+            #bill_id = Bill.where(:authuser_id => user.id).last.id 
+            invoice = InvoiceRecord.where(:authuser_id => user.id).last
+            number_updated = invoice.number.to_i + 1
+            if user.invoice_string.nil? || user.invoice_string.blank?
+              if number_updated.to_s.length < 6 
+                updated_number = number_updated.to_s.rjust(6, '0')
+                @number = updated_number.to_s + " " + user.invoice_string 
+              end
+            else 
+              @number = number_updated.to_s + " " + user.invoice_string
+            end
+          end #user invoice record ends
+         end # primary user automatic mode ends here -
+    else # secondary user automatic mode starts here
+        primary_user_id = current_authuser.invited_by_id
+        secondary_user = current_authuser
+        primary_user = Authuser.where(:id => primary_user_id).first 
+        if secondary_user.invoice_format == "automatic"
+           if primary_user.invoice_records.empty?
+             if primary_user.invoice_string.nil? || primary_user.invoice_string.blank?
+                 @number = "000001" 
+             else
+                 @number = "01" + " " + primary_user.invoice_string 
+             end 
+           else# primary user has invoice records 
+             invoice = InvoiceRecord.where(:authuser_id => primary_user.id).last
+             number_updated = invoice.number.to_i + 1
+             if primary_user.invoice_string.nil? || primary_user.invoice_string.blank?
+               if number_updated.to_s.length < 6 
+                 updated_number = number_updated.to_s.rjust(6, '0')
+                 @number = updated_number.to_s + " " + primary_user.invoice_string 
+               end
+             else
+               @number = number_updated.to_s + " " + primary_user.invoice_string
+             end
+           end # primary user invoice record ends
+        end
+    end
+   @number
+   end
+ end
+
 
    def set_params
      params[:bill].permit(:invoice_number, :esugam, :bill_date, :customer_id, 
-      :authuser_id, :tax, :total_bill_price, :tax_id, :grand_total, :other_charges, :other_charges_information_id,:other_information, :other_charges_info, :client_id, :transporter_name, :vechicle_number, :gc_lr_number,:lr_date, :pdf_format, :service_tax, :primary_user_id, :invoice_number_format, :invoice_format, :record_number,
+      :authuser_id, :tax, :total_bill_price, :tax_id, :grand_total, :other_charges, :other_charges_information_id,:other_information, :other_charges_info, :client_id, :transporter_name, :vechicle_number, :gc_lr_number,:lr_date, :pdf_format, :service_tax, :primary_user_id, :invoice_number_format, :invoice_format, :record_number, :instant_invoice_format,
       {:line_items_attributes => [:product_id, :quantity, :unit_price, :total_price, :service_tax_rate, :_destroy]},
       {:tax_attributes => [:tax_type, :tax_rate, :tax]},
       {:unregistered_customers_attributes => [:customer_name, :phone_number, :address, :city, :state, :authuser_id, :bill_id]}

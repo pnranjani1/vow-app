@@ -96,11 +96,63 @@ $(document).ready(function(){
 
 
 
-/* to update authusers table invoice_format column based on check box status */
+ /*
+function populateCapital(state){
+
+ 	$.ajax({
+      url : 'bills_get_tin',
+      type : 'GET',
+      data : { 'state' : state }, 
+      dataType:'json',
+      
+      success : function(result) {              
+        console.log(result);
+        // Printing the result on the label field 
+        $('#capital_label').html(result['tin_number']);
+      },
+      
+      error : function(error){
+        console.log(error);
+      }
+	});
+ }
+
 $(document).ready(function(){
-  $('.submittable').click(function() {
-     App.blockUI( $('#bill_body'));
-     $(this).parents('form:first').submit();
+	// on change of the dropdown value populating the capital list. 
+  $('#state_list').on('change', function(){
+  var selected_state = $(this).val();
+	console.log("Selected state value is "+ selected_state);
+     populateCapital(selected_state);
+
+  });
+});
+
+/* to update authusers table invoice_format column based on check box status */
+/*
+$(document).ready(function(){
+  $('#bill_type').click(function() {
+     var bill_type_checked = $('#bill_type').prop('checked');
+     if(bill_type_checked){
+     alert("you selected for the automatic Invoice number")
+       
+     }
+    else{
+     alert("you need to input value manually")
+    }
+    //App.blockUI( $('#bill_body'));
+    // $(this).parents('form:first').submit();
   });
 }); 
 
+
+$(document).ready(function(){
+    $("#state_of_urd").change(function(){
+       $.ajax({url: '/bills/get_tin',
+       data:   this.value })
+        /*dataType: 'script'
+       
+    });
+});
+
+
+*/

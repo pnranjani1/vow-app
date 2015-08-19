@@ -31,20 +31,25 @@ class MembershipsController < ApplicationController
   
   def update
       @membership = Membership.find(params[:id])
+      invited_by_id = @membership.authuser.invited_by_id
+      invited_user = Authuser.where(:id => invited_by_id).first
       if @membership.update_attributes(set_params)
-      invited_by_id =  @membership.authuser.invited_by_id
-      role_invited_by = Permission.where(:authuser_id => invited_by_id)
-      role_id = role_invited_by.first.main_role_id
-      if @membership.save
-      if role_id == 2
-      redirect_to dashboards_client_dashboard_path
-      elsif role_id == 1
-      redirect_to dashboards_admin_dashboard_path
-    else render action: 'edit'
-    end
+      #invited_by_id =  @membership.authuser.invited_by_id
+      #role_invited_by = Permission.where(:authuser_id => invited_by_id)
+      #role_id = role_invited_by.first.main_role_id
+      #if @membership.save
+        if invited_user.main_roles.first.role_name == "client" 
+          redirect_to dashboards_client_dashboard_path
+        elsif invited_user.main_roles.first.role_name == "admin" 
+          redirect_to dashboards_admin_dashboard_path
+        elsif invited_user.main_roles.first.role_name == "user" 
+          redirect_to dashboards_user_dashboard_path
+        else 
+          render action: 'edit'
+        end
+      end
   end
-  end
-  end
+  
   
   
   def destroy

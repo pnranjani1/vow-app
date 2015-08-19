@@ -2,7 +2,7 @@ Dear <%= @user.name %>,<br/>
 <br/>
 Welcome to VatOnWheels!<br/><br/>
 
-<% if @user.main_roles.first.role_name == "client" %>
+<% if @user.main_roles.first.role_name == "client" && @user.sign_in_count == 0 %>
 You Account on VatOnWheels has been created.<br/><br/>
 Following are your credentials to login to the application:<br/><br/>
 Username : <%= @user.email %> <br/>
@@ -10,22 +10,17 @@ Password : abcdefgh <br/>
 <br/>
 <% end %>
 
-<% if @user.main_roles.first.role_name == "user" %>
+<% if @user.main_roles.first.role_name == "user" && @user.sign_in_count == 0 %>
 Your Account on VatOnWheels has been approved.<br/><br/>
 <% end %>
 
 Click <%= link_to "here" , :controller => "devise/sessions", :action => "new", :host =>  "http://www.vatonwheels.com"  %> to login to VatOnWheels.com<br/> 
 
-
-
-
-<!-- <%=  link_to "Click" , edit_authuser_password_url(@user, :reset_password_token => @user.reset_password_token) %> -->
-
-
-  
 <br/>
+<% if @user.sign_in_count == 0 %>
 Please note, you are required to change the password on initial login.<br/>
 <br/>
+<% end %>
 By Accepting this invitation, you agree to the VatOnWheels  <%= link_to "Terms Of Services",  :controller => "home_page", :action => "read_pdf", host: 'http://www.vatonwheels.com' %><br/><br/>
 We thank you for an opportunity provided to serve you.<br/><p>
 

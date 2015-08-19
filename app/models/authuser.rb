@@ -14,10 +14,11 @@ require 'active_support/core_ext/date/conversions'
    after_create :invoke_membership_table
   #after_update :membership_status
 #  after_update :send_admin_mail
+  after_update :send_secondary_user_activated_mail
   after_update :send_mail
   after_update :send_user_mail
   after_save  :membership_end_date_reminder_mail
-  after_save  :send_secondary_user_activated_mail
+ # after_save  :send_secondary_user_activated_mail
   
  
   
@@ -112,22 +113,31 @@ end
   
     
    def invoke_user_table
-   if self.name.nil?
-      self.users << User.new 
+     primary_user_id = self.invited_by_id
+     primary_user = Authuser.where(:id => primary_user_id).first
+     role_names = primary_user.main_roles.pluck(:role_name)
+     if self.name.nil? && (role_names.include? "client")
+       self.users << User.new 
      end
     end
   
    
   
   def invoke_address_table
-     if self.name.nil?
+     primary_user_id = self.invited_by_id
+     primary_user = Authuser.where(:id => primary_user_id).first
+     role_names = primary_user.main_roles.pluck(:role_name)
+     if self.name.nil? && (role_names.include? "client")
        self.build_address
       #create_bankdetail{attributes => {:bank_account_number, :ifsc_code}}
       end
     end
   
   def invoke_bankdetail_table
-     if self.name.nil?
+     primary_user_id = self.invited_by_id
+     primary_user = Authuser.where(:id => primary_user_id).first
+     role_names = primary_user.main_roles.pluck(:role_name)
+     if self.name.nil? && (role_names.include? "client")
        self.build_bankdetail
       end
     end
@@ -191,17 +201,28 @@ end
   #end
   #end
   
+  def send_secondary_user_activated_mail
+    #if self.main_roles.first.role_name == "secondary_user" && self.sign_in_count == 0 && self.name.present? && self.approved?
+     if self.sign_in_count == 0 && self.name.present? && self.approved?
+      Notification.secondary_user_mail(self).deliver
+    end
+  end
+  
   def send_mail
-    if self.invitation_accepted_at_changed?
+    primary_user_id = self.invited_by_id
+    primary_user = Authuser.where(:id => primary_user_id).first
+    if self.invitation_accepted_at_changed? && primary_user.main_roles.first.role_name != "user"
       Notification.new_user(self).deliver
     end
   end
   
- def send_user_mail
-   if self.approved? && self.approved_changed?
- Notification.user_activated_mail(self).deliver
+  def send_user_mail
+    primary_user_id = self.invited_by_id
+    primary_user = Authuser.where(:id => primary_user_id).first
+    if self.approved? && self.approved_changed? && primary_user.main_roles.first.role_name != "user"
+       Notification.user_activated_mail(self).deliver
+    end
   end
- end
   
   def membership_end_date_reminder_mail
    if self.membership.membership_end_date == Date.today + 2.days
@@ -209,11 +230,7 @@ end
   end
   end
   
-  def send_secondary_user_activated_mail
-    if self.main_roles.first.role_name == "secondary_user" && self.sign_in_count == 0 && self.name.present? && self.approved?
-      Notification.secondary_user_mail(self).deliver
-    end
-  end
+ 
   
   
 end

@@ -1,8 +1,8 @@
 class Bill < ActiveRecord::Base
   
-  before_save :generate_invoice_format  
+ # after_create :generate_invoice_format  
   after_create :invoke_invoice_record
-  after_create :update_authuser_automated
+ # after_create :update_authuser_automated
  # after_create  :update_invoice_number
   
   
@@ -62,7 +62,7 @@ class Bill < ActiveRecord::Base
     if user.main_roles.first.role_name != "secondary_user"
       bill_ids = InvoiceRecord.all.pluck(:bill_id)
       last_bill = Bill.where(:authuser_id => user.id).last
-      if user.invoice_format == "automatic" 
+      if (user.invoice_format == "automatic") && (self.invoice_format == "automatic")
          if user.invoice_records.blank?
             self.build_invoice_record
             self.invoice_record.number = "001"
@@ -86,14 +86,14 @@ class Bill < ActiveRecord::Base
       user = Authuser.where(:id => primary_user_id).first
        bill_ids = InvoiceRecord.all.pluck(:bill_id)
       last_bill = Bill.where(:authuser_id => user.id).last
-      if (user.invoice_format == "automatic")
+      if (secondary_user.invoice_format == "automatic") && (self.invoice_format == "automatic")
          if user.invoice_records.blank?
            self.build_invoice_record
            self.invoice_record.number = "001"
            self.invoice_record.authuser_id = self.authuser.id
            self.invoice_record.bill_id = self.id
            self.record_number = "001"
-         elsif (user.invoice_format == "automatic") &&  user.invoice_records.present?
+         elsif (secondary_user.invoice_format == "automatic") &&  user.invoice_records.present?
             bill_id = Bill.where(:authuser_id => user.id).last.id
             invoice = InvoiceRecord.where(:authuser_id => user.id).last
             number_updated = invoice.number.to_i + 1

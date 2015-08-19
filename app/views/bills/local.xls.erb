@@ -7,6 +7,7 @@
     <th>Customer</th>
     <th>Customer Tin Number</th>
     <th>Grand Total</th>
+    <th>Esugam No</th>
    </tr>
 
   <% @user_bills.each_with_index do|bill, index| %>
@@ -29,6 +30,11 @@
       <% end %>
       
       <td><%= bill.grand_total %></td>
+      <% if bill.esugam.present? %>
+        <td><%= bill.esugam %></td>
+      <% else %>
+      <td>NA</td>
+      <% end %>
     </tr>
   <% end %>
    

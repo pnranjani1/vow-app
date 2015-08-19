@@ -43,7 +43,7 @@ authorization do
     has_permission_on [:products], :to => [:new, :create, :show, :edit, :update, :product_user, :product_import, :product_import_report, :product_import_result]
     has_permission_on [:customers], :to => [:new, :create, :show, :edit, :update, :destroy, :user_customer, :customer_import, :customer_import_report]
     has_permission_on [:bills], :to => [:new, :create, :show, :local_sales, :interstate_sales, :tally_import, :user_bill, :bill_reports, :generate_esugan, :local_sales_reports, :interstate_sales_reports, :tally_import_reports, :bill_local_sales_reports, :bill_interstate_sales_reports, :bill_tally_import_reports, :pdf_format, :pdf_format_select, :tally_import_report, :tally_import_excel, :invoice_format, :invoice_format_update]
-    has_permission_on [:authusers], :to => [:force_change_password, :invoice_format_update]
+    has_permission_on [:authusers], :to => [:force_change_password, :invoice_format_update, :client_edit, :client_update]
    
   end
   

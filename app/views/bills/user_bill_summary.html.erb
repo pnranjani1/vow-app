@@ -36,9 +36,10 @@
  
 <tr>                      
   <td><%= user.authuser.name %> </td>
-  <td><%= user.authuser.bills.count %></td>
-  <td><%= user.authuser.bills.where("ESUGAM IS NOT NULL").count %></td>
-  <td><%= user.authuser.bills.where("ESUGAM IS NULL").count %></td>
+  <% bills = user.authuser.bills.where('created_at >= ? AND created_at <= ?', Date.today.to_date.beginning_of_month, Date.today.to_date.end_of_month) %>
+  <td><%= bills.count %></td>
+  <td><%= user.authuser.bills.where("created_at >= ? AND created_at <= ? AND ESUGAM IS NOT NULL", Date.today.to_date.beginning_of_month, Date.today.to_date.end_of_month).count %></td>
+  <td><%= user.authuser.bills.where("created_at >= ? AND created_at <= ? AND ESUGAM IS NULL", Date.today.to_date.beginning_of_month, Date.today.to_date.end_of_month).count %></td>
 </tr>     
     
 <%  end %>

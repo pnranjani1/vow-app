@@ -26,8 +26,8 @@ Rails.application.routes.draw do
    # get 'authusers/:id/admin_edit' => 'authusers#admin_edit', :as => "admin_edit"
     #patch 'authusers/:id/admin_update' => 'authusers#admin_update', :as => "admin_update"
     
-    get 'authusers/:id/client_edit' => 'authusers#client_edit', :as => "client_edit"
-    patch 'authusers/:id/client_update' => 'authusers#client_update', :as => "client_update"
+    get 'authusers/client_edit' => 'authusers#client_edit'
+    patch 'authusers/client_update' => 'authusers#client_update'
     
   #  put 'authusers/activate_user' => 'authusers#activate_user'
      put 'authusers/:id/activate' => 'authusers#activate_user', :as => 'activate_user'
@@ -96,6 +96,7 @@ Rails.application.routes.draw do
   patch 'authusers/invoice_format_update'
   get 'bills/secondary_user_bill'
   get 'bills/secondary_user_activity_report'
+  get 'bills/get_tin'
   
  # patch 'bills/pdf_format_select'
     

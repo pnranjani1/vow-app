@@ -1,126 +1,158 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width">
 
-</head>
 
-<body>
+<div class="container">
+<div class="content">
+<div class="content-container">      
+  
+<div>
+<h4 class="heading-inline">Update Profile</h4>
 
- <div class="container">
- <div class="content">
- <div class="content-container">     
-   <div>
-    <h4 class="heading-inline"><%= current_authuser.name %></h4>        
-   </div>
- <br>
+   <% if current_authuser.image.present? %>
+  <div class="text-right">
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= image_tag current_authuser.image_url, height: 70, width: 80, crop: "fit" %>
+  </div>
+  <% end %>
+  </div>
+
 <script type="text/javascript">
   $(document).ready(function(){
      $("#dob").datepicker({ dateFormat: "dd/mm/yy" }).val()
    });
 </script>
-   
-   <h2> Update Profile </h2>
-<%= form_for(@user, :url => 'client_update') do |f| %>
-
+  
+  <%= form_for(@user, :url => '/authusers/client_update') do |f| %>
 <% if @user.errors.any? %>
+  <div class="alert alert-danger">
 <% @user.errors.full_messages.each do |error| %>
 <ul>
-  <li><%= error %></li>
+<li><%= error %></li>
 </ul>
 <% end %>
-  <% end %>
+ </div>
+<% end %>
+  
+<div class="row"> 
+  <b style="color:red">*</b>&nbsp;<b> Indicates the mandatory fields</b><br/><br/>
+<div class="portlet">
+  
+<div class="portlet-header">
+  <h3><i class="fa fa-user"></i>Update Profile</h3>
+</div> <!-- /.portlet-header -->
+ 
+<div class="portlet-content">
+
+<div class="row">
+
+<div class="col-sm-3">           
+  Name&nbsp;<b style="color:red">*</b>
+<div id="name" class="input-group">      
+<span class="input-group-addon"><i class="fa fa-user"></i></span>
+<%= f.text_field :name, class: "form-control", autofocus: true %>
+</div>
+</div> <!-- /.col -->
+
+<div class="col-sm-3">           
+ Email&nbsp;<b style="color:red">*</b>
+<div id="name" class="input-group">      
+<span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+<%= f.email_field :email, class: "form-control" , :readonly => true %>
+</div>
+</div> <!-- /.col -->
+
+
+            
+<div class="col-sm-3">           
+  Password&nbsp;<b style="color:red">*</b>
+<div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Minimum 8 Characters">
+<div id="Password" class="input-group">               
+<span class="input-group-addon"><i class="fa fa-star"></i></span>
+  <%= f.password_field :password, class: "form-control" %>
+</div>
+</div>
+</div> <!-- /.col -->
+            
+<div class="col-sm-3">           
+Confirm Password&nbsp;<b style="color:red">*</b>
+<div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Minimum 8 Characters">
+<div id="Password" class="input-group">               
+<span class="input-group-addon"><i class="fa fa-star"></i></span>
+<%= f.password_field :password_confirmation, class: "form-control" %>
+</div>
+</div>
+</div> <!-- /.col -->
+</div><!-- row ends here -->
 <br/>
 
-<div class="field">
-  <%= f.label :Name %><br />
-  <%= f.text_field :name, autofocus: true %>
-  </div>
-
-<%= f.hidden_field :email, :value => current_authuser.email %>
-
-  <div class="field">
-    <label>Password </label><br/>
-    <%= f.password_field :password %><br/><p>
-  </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "off" %>
-  </div><br/>
-
-<div>
-  <%= f.fields_for :address do |user_address| %>
-  <label> Address 1</label><br/>
-  <%= user_address.text_field :address_line_1 %><br><p>
+<div class="row">
+<div class="col-sm-3">           
+Date Of Birth(Format: dd/mm/yyyy)&nbsp;<b style="color:red">*</b>
+<div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Select Your Date of Birth">
+<div id="Password" class="input-group">               
+<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+<%= f.text_field :date_of_birth ,  class: "form-control", :id => "dob" %>
 </div>
-    
-<div>
-  <label> Address 2</label><br/>
-  <%= user_address.text_field :address_line_2 %><br/><p>
 </div>
-    
-<div>
-  <label> Address 3 </label><br/>
-  <%= user_address.text_field :address_line_3 %><br/>
-</div>
-    
-<div>
-  <label> City </label><br/>
-  <%= user_address.text_field :city %><br/><p>
-</div>
-    
-<div>
-   <label> Country </label><br/>
-  <%= user_address.text_field :country %><br/><p>
-</div>
-<% end %>
-    
-<div>
-  <%= f.fields_for :bankdetail do |user_bank| %>
-  <label> Bank Account Number </label><br/>
-  <%= user_bank.text_field :bank_account_number %><br/><p>
-</div>
-    
-<div>
-  <label> IFSC Code </label><br/>
-  <%= user_bank.text_field :ifsc_code  %><br/><p>
- </div>
- <% end %>
-    
-<div>
-  <%= f.fields_for :membership do |user_membership| %>
-  <label> Phone Number </label><br/>
-  <%= user_membership.text_field :phone_number %><br><p>
-</div>
-    <% end %>
-    
-<div>
-  <%= f.fields_for :users do |user_detail| %>
-  <label> Tin Number </label><br/>
-  <%= user_detail.text_field :tin_number %><br/><p>
-</div>
-    
-<div>
-  <label> Esugam Username </label><br/>
-  <%= user_detail.text_field :esugam_username %><br/><p>
-</div>
-    
-<div>
-  <label> Esugam Password </label><br/>
-  <%= user_detail.password_field :esugam_password %><br/><p>
-</div>
-<% end %>
-
-<%= f.submit "Update Profile" %>
-<% end %>
-   
-   </div> <!-- content-container ends here -->
-   </div> <!-- content ends here -->
-  </div> <!-- container ends here -->
+</div> <!-- /.col -->
   
-  </body>
-</html>
+<div class="col-sm-3">           
+  <div id="Password" class="input-group">               
+    <%= f.check_box :invoice_format, {:class => "submittable"}, "automatic", "manual" %>&nbsp;&nbsp;&nbsp;<label>Automated Invoice Number</label>  
+  </div>
+</div> <!-- /.col -->
 
+</div> <!-- row ends here -->
+</div> <!-- /.portlet-content -->
+</div> <!-- /.portlet -->
+</div> <!-- /.row -->
+  <!-- client details ends here -->
+    
+<div class="row"> 
+<div class="portlet">
+  
+<div class="portlet-header">
+<h3><i class="fa fa-user"></i>Membership Details</h3>
+</div> <!-- /.portlet-header -->
+
+<div class="portlet-content">
+  <div class="row">
+<div class="col-sm-4">           
+<%= f.fields_for :membership do |user_membership| %>
+Mobile Number&nbsp;<b style="color:red">*</b>
+<div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Should Be 10 Digits">
+<div id="phone" class="input-group">      
+<span class="input-group-addon"><i class="fa fa-phone"></i></span>
+  <%= user_membership.text_field :phone_number , :maxlength => 10,  class: "form-control" %>
+</div>
+</div>
+</div> <!-- /.col -->
+  
+<% end %>  
+  
+</div> <!-- row ends here -->
+</div> <!-- /.portlet-content -->
+</div> <!-- /.portlet -->
+</div> <!-- /.row -->
+  
+  <!-- membership ends here -->
+
+
+<div class="row">      
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= f.submit  "Update Profile", class: "btn btn-success" %>
+</div> 
+ <% end %>
+  
+  
+  </div><!--  content container ends here -->
+  </div><!--content  ends here -->
+  </div><!-- container ends here -->
+  
+
+
+    
+    
+      
+    
+  
+    
+    
+    

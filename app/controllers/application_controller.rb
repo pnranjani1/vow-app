@@ -110,7 +110,7 @@ class ApplicationController < ActionController::Base
         
       #  devise_parameter_sanitizer.for(:accept_invitation)
           devise_parameter_sanitizer.for(:accept_invitation) do |u|
-            u.permit(:name, :password, :password_confirmation, :invitation_token)
+            u.permit(:name, :password, :password_confirmation, :invitation_token, :approved)
            end       
       end
         

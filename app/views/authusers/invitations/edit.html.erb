@@ -50,10 +50,15 @@
   <h3><i class="fa fa-user"></i>User Details</h3>
 </div> <!-- /.portlet-header -->
 
+  <!-- defining primary_user -->
+  <% primary_user_id = resource.invited_by_id %>
+  <% primary_user = Authuser.where(:id => primary_user_id).first %>
+  
 <div class="portlet-content">
 
 <div class="row">
-
+  
+  
 <div class="col-sm-4">           
   Name&nbsp;<b style="color:red">*</b>
 <div id="name" class="input-group">      
@@ -96,203 +101,211 @@ Date Of Birth(Format: dd/mm/yyyy)&nbsp;<b style="color:red">*</b>
 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 <%= f.text_field :date_of_birth ,  class: "form-control", :id => "dob" %>
 </div>
-</div>
 </div> <!-- /.col -->
+  <% if primary_user.main_roles.first.role_name == "user" %>
+      <%= f.hidden_field :approved, :value => true %>
+  <% else %>
+      <%= f.hidden_field :approved, :value => false %>
+  <% end %>
+ 
+</div><!-- row ends here -->
    
  <%= f.fields_for :membership do |user_membership| %>
   <%= user_membership.hidden_field :membership_start_date, :value => Date.today %>
   <%= user_membership.hidden_field :membership_end_date, :value => Date.today + 1.year %>
   
-<div class="col-sm-4">           
-Mobile Number&nbsp;<b style="color:red">*</b>
-<div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Should Be 10 Digits">
-<div id="phone" class="input-group">      
-<span class="input-group-addon"><i class="fa fa-phone"></i></span>
-  <%= user_membership.text_field :phone_number , :maxlength => 10, class: "form-control" %>
-</div>
-</div>
-</div> <!-- /.col -->
+   <% if primary_user.main_roles.first.role_name != "user" %>
+     <div class="col-sm-4">           
+        Mobile Number&nbsp;<b style="color:red">*</b>
+       <div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Should Be 10 Digits">
+         <div id="phone" class="input-group">      
+          <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+          <%= user_membership.text_field :phone_number , :maxlength => 10, class: "form-control" %>
+         </div>
+       </div>
+     </div> <!-- /.col -->
+  <% else %>
+  <%= user_membership.hidden_field :phone_number , :value => "1234567890" %>
  <% end %>  
-  
-<%= f.fields_for :permissions do |permission| %>
-<%= permission.hidden_field :main_role_id, :value => 3.to_i %>
 <% end %>
-
+  
+ <%= f.fields_for :permissions do |permission| %>
+  <% if primary_user.main_roles.first.role_name != "user" %>
+      <%= permission.hidden_field :main_role_id, :value => 3.to_i %>
+  <% else %>
+      <%= permission.hidden_field :main_role_id, :value => 4.to_i %>
+  <% end %>
+ <% end %>
     
 </div> <!-- row ends here -->
 </div> <!-- /.portlet-content -->
 </div> <!-- /.portlet -->
 </div> <!-- /.row -->
   <!-- client details ends here -->
+  <!-- address records are not needed for secondary user -->
+  <% if primary_user.main_roles.first.role_name != "user" %>
+    <div class="row"> 
+      <div class="portlet">
   
-<div class="row"> 
-<div class="portlet">
+      <div class="portlet-header">
+        <h3><i class="fa fa-user"></i>Address Details</h3>
+      </div> <!-- /.portlet-header -->
+
+      <div class="portlet-content">
+
+      <%= f.fields_for :address do |user_address| %>
   
-<div class="portlet-header">
-<h3><i class="fa fa-user"></i>Address Details</h3>
-</div> <!-- /.portlet-header -->
+          <div class="row">
 
-<div class="portlet-content">
-
-<%= f.fields_for :address do |user_address| %>
-  
-<div class="row">
-
-<div class="col-sm-4">           
-Address -Door Number&nbsp;<b style="color:red">*</b>
-<div id="City" class="input-group">            
-<span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
-<%= user_address.text_field :address_line_1, :maxlength => 10,  class: "form-control" %>
-</div>
-</div> <!-- /.col -->
+            <div class="col-sm-4">           
+              Address -Door Number&nbsp;<b style="color:red">*</b>
+              <div id="City" class="input-group">            
+               <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+               <%= user_address.text_field :address_line_1, :maxlength => 10,  class: "form-control" %>
+              </div>
+            </div> <!-- /.col -->
             
-<div class="col-sm-4">           
-Address Line 2&nbsp;<b style="color:red">*</b>
-<div id="City" class="input-group">            
-<span class="input-group-addon"><i class="fa fa-map-marker"></i></span>        
-<%= user_address.text_field :address_line_2 , :maxlength => 30,  class: "form-control" %>
-</div>
-</div> <!-- /.col -->
+            <div class="col-sm-4">           
+              Address Line 2&nbsp;<b style="color:red">*</b>
+              <div id="City" class="input-group">            
+                <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>        
+                <%= user_address.text_field :address_line_2 , :maxlength => 30,  class: "form-control" %>
+              </div>
+            </div> <!-- /.col -->
             
-<div class="col-sm-4">           
-Address Line 3
-<div id="City" class="input-group">            
-<span class="input-group-addon"><i class="fa fa-map-marker"></i></span>    
-<%= user_address.text_field :address_line_3 , :maxlength => 30, class: "form-control" %>
-</div>
-</div> <!-- /.col -->
-  </div><!-- row ends here -->
+            <div class="col-sm-4">           
+              Address Line 3
+              <div id="City" class="input-group">            
+                <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>    
+                <%= user_address.text_field :address_line_3 , :maxlength => 30, class: "form-control" %>
+              </div>
+            </div> <!-- /.col -->
+          </div><!-- row ends here -->
  
-<div class="row">
-<br/>
-<div class="col-sm-4">           
-City&nbsp;<b style="color:red">*</b>
-<div id="City" class="input-group">            
-<span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
-<%=user_address.text_field :city , :maxlength => 15, class: "form-control" %>
-</div>
-</div> <!-- /.col -->
+          <div class="row">
+           <br/>
+            <div class="col-sm-4">           
+              City&nbsp;<b style="color:red">*</b>
+              <div id="City" class="input-group">            
+               <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+               <%=user_address.text_field :city , :maxlength => 15, class: "form-control" %>
+              </div>
+            </div> <!-- /.col -->
 
-<div class="col-sm-4">           
-State&nbsp;<b style="color:red">*</b>
-<div id="Country" class="input-group">       
-<span class="input-group-addon"><i class="fa fa-globe"></i></span>
-<%=user_address.text_field :state , :maxlength => 15, class: "form-control" %>
-</div>
-</div> <!-- /.col -->
-  
-  
-<div class="col-sm-4">           
-Country&nbsp;<b style="color:red">*</b>
-<div id="Country" class="input-group">       
-<span class="input-group-addon"><i class="fa fa-globe"></i></span>
-  <%=user_address.text_field :country , class: "form-control" %>
-</div>
-</div> <!-- /.col -->
-</div> <!-- row ends here -->
-<% end %>  
+            <div class="col-sm-4">           
+              State&nbsp;<b style="color:red">*</b>
+              <div id="Country" class="input-group">       
+                <span class="input-group-addon"><i class="fa fa-globe"></i></span>
+                <%=user_address.text_field :state , :maxlength => 15, class: "form-control" %>
+              </div>
+            </div> <!-- /.col -->
+   
+            <div class="col-sm-4">           
+              Country&nbsp;<b style="color:red">*</b>
+              <div id="Country" class="input-group">       
+                <span class="input-group-addon"><i class="fa fa-globe"></i></span>
+                <%=user_address.text_field :country , class: "form-control" %>
+              </div>
+            </div> <!-- /.col -->
+          </div> <!-- row ends here -->
+      <% end %>  
 
-</div> <!-- /.portlet-content -->
-</div> <!-- /.portlet -->
-</div> <!-- /.row -->
+    </div> <!-- /.portlet-content -->
+  </div> <!-- /.portlet -->
+ </div> <!-- /.row -->
+<% end %><!-- condition for primary user ends here -->
   <!-- address ends here -->
   
-<div class="row"> 
-<div class="portlet">
+  <!-- bank details starts here -->
+ <% if primary_user.main_roles.first.role_name != "user" %>
+    <div class="row"> 
+      <div class="portlet">
   
-<div class="portlet-header">
-<h3><i class="fa fa-user"></i>Bank Details</h3>
-</div> <!-- /.portlet-header -->
+      <div class="portlet-header">
+        <h3><i class="fa fa-user"></i>Bank Details</h3>
+      </div> <!-- /.portlet-header -->
 
-<div class="portlet-content">
+      <div class="portlet-content">
 
-<div class="row">
-<%= f.fields_for :bankdetail do |user_bank_detail| %>
-<div class="col-sm-4">           
-Bank Account Number&nbsp;<b style="color:red">*</b>
-<div id="Number" class="input-group">    
-<span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
-<%= user_bank_detail.text_field :bank_account_number, class: "form-control"  %>
-</div>
-</div> <!-- /.col -->
+         <div class="row">
+          <%= f.fields_for :bankdetail do |user_bank_detail| %>
+            <div class="col-sm-4">           
+              Bank Account Number&nbsp;<b style="color:red">*</b>
+               <div id="Number" class="input-group">    
+                  <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
+                  <%= user_bank_detail.text_field :bank_account_number, class: "form-control"  %>
+               </div>
+            </div> <!-- /.col -->
             
-<div class="col-sm-4">           
-IFSC Code &nbsp;<b style="color:red">*</b>
-<div id="ifsccode" class="input-group">              
-<span class="input-group-addon"><i class="fa fa-star"></i></span>
-<%= user_bank_detail.text_field :ifsc_code, class: "form-control"  %>
-
-</div>
-</div> <!-- /.col -->
-           
-<% end %>  
-</div> <!-- row ends here -->
-</div> <!-- /.portlet-content -->
-</div> <!-- /.portlet -->
-</div> <!-- /.row -->
+            <div class="col-sm-4">           
+              IFSC Code &nbsp;<b style="color:red">*</b>
+              <div id="ifsccode" class="input-group">              
+                <span class="input-group-addon"><i class="fa fa-star"></i></span>
+                 <%= user_bank_detail.text_field :ifsc_code, class: "form-control"  %>
+              </div>
+            </div> <!-- /.col -->
+          <% end %>  
+         </div> <!-- row ends here -->
+      </div> <!-- /.portlet-content -->
+     </div> <!-- /.portlet -->
+    </div> <!-- /.row -->
   
   <!-- bank detail ends here -->
-  
+    <div class="row"> 
+      <div class="portlet">
+         <div class="portlet-header">
+             <h3><i class="fa fa-user"></i>Company Details</h3>
+         </div> <!-- /.portlet-header -->
 
-  
-  
-<div class="row"> 
-<div class="portlet">
-  
-<div class="portlet-header">
-<h3><i class="fa fa-user"></i>Company Details</h3>
-</div> <!-- /.portlet-header -->
+         <div class="portlet-content">
 
-<div class="portlet-content">
-
-<%= f.fields_for :users do |user| %>
-<div class="row">
-<div class="col-sm-3">           
-Tin Number&nbsp;<b style="color:red">*</b>
-<div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Should Be 11 Digits">
-<div id="number" class="input-group"> 
-<span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
-  <%= user.text_field :tin_number, :maxlength => 11, class: "form-control" %>
-</div>
-</div>
-</div> <!-- /.col -->
+            <%= f.fields_for :users do |user| %>
+               <div class="row">
+                 <div class="col-sm-3">           
+                   Tin Number&nbsp;<b style="color:red">*</b>
+                   <div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Should Be 11 Digits">
+                     <div id="number" class="input-group"> 
+                       <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
+                       <%= user.text_field :tin_number, :maxlength => 11, class: "form-control" %>
+                     </div>
+                   </div>
+                 </div> <!-- /.col -->
             
-<div class="col-sm-3">           
-Esugam Username &nbsp;<b style="color:red">*</b>
-<div id="name" class="input-group" >        
-<span class="input-group-addon"><i class="fa fa-user"></i></span>
-<%= user.text_field :esugam_username, class: "form-control" %>
-</div>
-</div> <!-- /.col -->
+                 <div class="col-sm-3">           
+                    Esugam Username &nbsp;<b style="color:red">*</b>
+                      <div id="name" class="input-group" >        
+                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                        <%= user.text_field :esugam_username, class: "form-control" %>
+                      </div>
+                 </div> <!-- /.col -->
             
-<div class="col-sm-3">           
-Esugam Password&nbsp;<b style="color:red">*</b>
-<div id="Password" class="input-group">   
-<span class="input-group-addon"><i class="fa fa-star"></i></span>
-  <%= user.password_field :esugam_password, class: "form-control" %>
-</div>
-</div> <!-- /.col -->
+                 <div class="col-sm-3">           
+                   Esugam Password&nbsp;<b style="color:red">*</b>
+                   <div id="Password" class="input-group">   
+                      <span class="input-group-addon"><i class="fa fa-star"></i></span>
+                      <%= user.password_field :esugam_password, class: "form-control" %>
+                   </div>
+                 </div> <!-- /.col -->
 
+                 <div class="col-sm-3">           
+                   Company&nbsp;<b style="color:red">*</b>
+                   <div id="Password" class="input-group">   
+                     <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                     <%= user.text_field :company, maxlength: 40, class: "form-control" %>
+                   </div>
+                 </div> <!-- /.col -->
   
-  <div class="col-sm-3">           
-Company&nbsp;<b style="color:red">*</b>
-<div id="Password" class="input-group">   
-<span class="input-group-addon"><i class="fa fa-user"></i></span>
-  <%= user.text_field :company, maxlength: 40, class: "form-control" %>
-</div>
-</div> <!-- /.col -->
-  
-  <%= user.hidden_field :client_id, :value => resource.invited_by_id %>
-<% end %>
+                 <%= user.hidden_field :client_id, :value => resource.invited_by_id %>
+            <% end %><!-- fields_for users ends here -->
 
- 
-
-</div> <!-- row ends here -->
-</div> <!-- /.portlet-content -->
-</div> <!-- /.portlet -->
-</div> <!-- /.row -->
+         </div> <!-- row ends here -->
+       </div> <!-- /.portlet-content -->
+      </div> <!-- /.portlet -->
+    </div> <!-- /.row -->
   <!-- company detail ends here -->
-
+  
+ <% end %><!-- primary user condition ends here -->
+  
 By Clicking on the "Sign Up" button, you agree to the VatOnWheels <%= link_to "Terms Of Services", asset_path("Terms of Service VatOnWheels.pdf"), class: "listconttext", target: "blank" %>
   <br/><br/>
 <div class="row">   
@@ -300,7 +313,7 @@ By Clicking on the "Sign Up" button, you agree to the VatOnWheels <%= link_to "T
   <%= f.submit "Sign Up", class: "btn btn-success" %>
   </div> 
  
-<% end %>
+<% end %><!-- form for ends here -->
   </div><!--  content container ends here -->
   </div><!--content  ends here -->
   </div><!-- container ends here -->
