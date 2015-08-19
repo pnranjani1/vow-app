@@ -305,9 +305,10 @@ Company&nbsp;<b style="color:red">*</b>
   <div class="row">
     <div class="col-sm-3">           
       Invoice Number Format 
+      <div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Maximum is 10 Characters">
        <div id="name" class="input-group" >        
          <span class="input-group-addon"><i class="fa fa-user"></i></span>
-         <%= f.text_field :invoice_string,  class: "form-control" %>
+         <%= f.text_field :invoice_string, :maxlength => 10,  class: "form-control" %>
        </div>
     </div> <!-- /.col -->
   

@@ -97,7 +97,7 @@
                      <strong>Invoice Number &nbsp;<b style="color:red">*</b></strong> 
                      <div id="name" class="input-group">    
                         <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
-                       <%= f.text_field :invoice_number, class: "form-control", id: 'invoice_field' %> 
+                       <%= f.text_field :invoice_number, class: "form-control", :maxlength => 15, id: 'invoice_field' %> 
                        <%= f.hidden_field :invoice_format, :id => "check" %>
                       
                      </div>
