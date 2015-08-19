@@ -1,6 +1,6 @@
 xml.instruct!
 xml.Saledetails do |saledetails|
-  if current_authuser.main_roles.first.role_name = "secondary_user"  
+  if current_authuser.main_roles.first.role_name == "secondary_user"  
     primary_user_id = current_authuser.invited_by_id
     authuser = Authuser.where(:id => primary_user_id).first
     user = authuser.users.first
