@@ -84,5 +84,5 @@ gem 'jquery-turbolinks' # jquery not laoded if page is not refreshed by user
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
-#ruby "2.0.0"
+ruby "2.0.0"
 

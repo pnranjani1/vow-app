@@ -31,15 +31,18 @@ class ClientsController < ApplicationController
   
   def update
     @user = current_authuser.clients.first 
-     if  params[:role_user] = true
+    if  params[:client][:role_user] == "user"
      Permission.create(:authuser_id => current_authuser.id, :main_role_id => 3)
       users = User.where(:authuser_id => current_authuser.id)
       @users = users.first
       @users.update_attribute(:client_id, current_authuser.id)
      #@users.client_id = current_authuser.id
        #user.first.client_id = current_authuser.id
-    redirect_to dashboards_client_dashboard_path
-  end
+     redirect_to dashboards_client_dashboard_path
+    elsif params[:client][:role_user] == "client"
+      redirect_to dashboards_client_dashboard_path
+      flash[:notice] = "User Role not added"
+    end
   end
   
    # @client = current_authuser.clients.first 

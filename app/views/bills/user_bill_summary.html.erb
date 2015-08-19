@@ -26,6 +26,7 @@
 <th>Total No Of Bills</th>
 <th>Esugam Generated </th>
 <th>Cash Based Applications </th>
+<th>Monthly Bill</th>
 </tr> 
 
 </thead> 
@@ -40,6 +41,7 @@
   <td><%= bills.count %></td>
   <td><%= user.authuser.bills.where("created_at >= ? AND created_at <= ? AND ESUGAM IS NOT NULL", Date.today.to_date.beginning_of_month, Date.today.to_date.end_of_month).count %></td>
   <td><%= user.authuser.bills.where("created_at >= ? AND created_at <= ? AND ESUGAM IS NULL", Date.today.to_date.beginning_of_month, Date.today.to_date.end_of_month).count %></td>
+  <td><%= link_to "Monthly Bill", bills_user_billing_report_path(:id => user.id), class: "listconttext" %></td>
 </tr>     
     
 <%  end %>

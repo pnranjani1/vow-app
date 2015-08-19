@@ -371,6 +371,7 @@ end
 end
 
 def user_billing_report
+  @user = Authuser.find(params[:id])
 end
 
 =begin  
@@ -548,9 +549,10 @@ end
             end
           else #when invoice record is not empty
             #bill_id = Bill.where(:authuser_id => user.id).last.id 
-            invoice = InvoiceRecord.where(:authuser_id => user.id).last
-            number_updated = invoice.number.to_i + 1
+            
             if user.invoice_string.nil? || user.invoice_string.blank?
+              invoice = InvoiceRecord.where(:authuser_id => user.id).last
+              number_updated = invoice.number.to_i + 1
               if number_updated.to_s.length < 6 
                 updated_number = number_updated.to_s.rjust(6, '0')
                 @number = updated_number.to_s + " " + user.invoice_string 
@@ -572,9 +574,10 @@ end
                  @number = "01" + " " + primary_user.invoice_string 
              end 
            else# primary user has invoice records 
-             invoice = InvoiceRecord.where(:authuser_id => primary_user.id).last
-             number_updated = invoice.number.to_i + 1
+             
              if primary_user.invoice_string.nil? || primary_user.invoice_string.blank?
+               invoice = InvoiceRecord.where(:authuser_id => primary_user.id).last
+               number_updated = invoice.number.to_i + 1
                if number_updated.to_s.length < 6 
                  updated_number = number_updated.to_s.rjust(6, '0')
                  @number = updated_number.to_s + " " + primary_user.invoice_string 

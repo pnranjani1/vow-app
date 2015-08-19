@@ -115,14 +115,13 @@
                    
                     <div class="col-sm-3">           
                        <strong>Customer&nbsp;<b style="color:red">*</b></strong> 
-                        <div id="name" class="input-group">               
+                        <div id="name" class="input-group">        
+                          <span class="input-group-addon"><i class="fa fa-user"></i></span>
                            <%= f.collection_select :customer_id, Customer.where(:authuser_id => [current_authuser.id,current_authuser.invited_by_id]), :id, :name, {prompt: "Select Customer"}, {class: "form-control", :id => "drop-down"}  %>
                         </div>
                     </div> <!-- /.col -->
                     
-                    <!-- not allow secondary users to create new customer -->
-                    <% role_name = current_authuser.main_roles.pluck(:role_name) %>
-                    <% if !role_name.include? "secondary_user" %>
+                    
                         <!-- modal to create new customer -->
                          <br/>
                          <!-- Button trigger modal -->
@@ -197,8 +196,8 @@
                                          <div class="row">
                                             <div class="col-sm-6 marggap">  
                                                Address
-                                                <div id="Password" class="form-group">               
-                                                   <%= f.text_field :address, maxlength: 60, class: "form-control" %>
+                                               <div id="City" class="input-group">               
+                                                  <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>                                                                          <%= f.text_field :address, maxlength: 60, class: "form-control" %>
                                                 </div>
                                             </div> <!-- /.col -->
             
@@ -230,7 +229,7 @@
                                 </div><!-- modal-dialog ends here -->
                             </div><!-- modal fade ends here -->
                          <% end %><!-- content for ends here -->
-                    <% end %><!-- if condition for new customer by secondary user ends here -->
+                    
                   </div> <!-- row for 1st column ends here -->
                   <br/><br/>
   
@@ -259,7 +258,7 @@
                             <div class="col-sm-3 marggap">  
                                Address &nbsp;&nbsp;<b style="color:red">*</b>
                                <div id="name" class="input-group">               
-                                 <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
+                                 <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
                                  <%= customer.text_field :address,  maxlength: 60, class: "form-control" %>
                                </div> 
                             </div><!-- /.col -->
@@ -267,7 +266,7 @@
                             <div class="col-sm-3 marggap">  
                                City<b style="color:red">*</b>
                                <div id="name" class="input-group">               
-                                  <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+                                  <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
                                   <%= customer.text_field :city , maxlength: 15, class: "form-control" %>
                                </div>
                             </div> <!-- /.col -->
@@ -276,7 +275,8 @@
                         <div class="row"> 
                             <div class="col-sm-3 marggap">  
                                State<b style="color:red">*</b>
-                                 <div id="name" class="input-group">               
+                                 <div id="name" class="input-group">  
+                                   <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
                                      <%= customer.collection_select :state, TinNumber.all, :state, :state, {:prompt => "Select State"}, {class: "form-control", :id => "state_list" , remote: true}  %>
                                  </div>
                             </div> <!-- /.col -->
@@ -291,16 +291,17 @@
    <!-- bill detail ends here -->
    <!-- Item details starts -->
        <div class="portlet">
-          <br/>
+         
            <div class="portlet-header">
-             <h3><i class="fa fa-ruble"></i> Item Details</h3>
-           
+             <h3><i class="fa fa-ruble"></i>Item Details</h3>
+          
               <!-- dont allow secondary user to create new product -->
-              <% if !role_name.include? "secondary_user" %>
+              
                    <!-- Button trigger modal for adding products-->
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal1">
                      New Product
-                   </button>
+               </button>
+             
 
                    <%= content_for :product do %>
                      <!-- Modal -->
@@ -370,16 +371,17 @@
                         </div><!-- modal dialog ends here -->
                        </div><!-- modal fade ends here -->
                    <% end %><!-- content_for ends here -->
-              <% end %><!-- secondary user if condition for new product ends -->  
+              
            </div> <!-- /.portlet-header -->
 
          <div class="portlet-content" id="line_items_list">
             <%= f.fields_for :line_items do |bill_product| %>
                <div class="row"> 
     
-                  <div class="col-sm-2">           
+                  <div class="col-sm-3">           
                      <strong>Item&nbsp;<b style="color:red">*</b></strong> 
-                     <div id="name" class="input-group">    
+                     <div id="name" class="input-group">   
+                       <span class="input-group-addon"><i class="fa fa-ruble"></i></span>
                         <%= bill_product.collection_select :product_id, 
                          Product.where(:authuser_id => [current_authuser.id, current_authuser.invited_by_id]), :id, :product_name, 
           {prompt: "Select Product"}, {class: "form-control"} %>
@@ -402,9 +404,10 @@
                      </div>
                   </div> <!-- /.col -->
                
-                  <div class="col-sm-3">           
-                    <strong>Service Tax(Optional)&nbsp;</strong> 
-                     <div id="unit_price_div" class="input-group">               
+                  <div class="col-sm-2">           
+                    <strong>Service Tax Rate % (Optional)&nbsp;</strong> 
+                     <div id="unit_price_div" class="input-group"> 
+                       <span class="input-group-addon"><i class="fa fa-money"></i></span>
                        <%= bill_product.text_field :service_tax_rate, class: "form-control" %>
                      </div>
                   </div> <!-- /.col -->
@@ -507,7 +510,8 @@
         
             <div class="col-sm-3">           
                <strong>Tax Information&nbsp;<b style="color:red">*</b></strong> 
-               <div id="name" class="input-group">               
+               <div id="name" class="input-group">  
+                <span class="input-group-addon"><i class="fa fa-money"></i></span>
                   <%= f.collection_select :tax_id, Tax.all, :id, :tax ,{prompt: "Select Tax"}, {class: "form-control"} %>
                </div>
             </div> <!-- /.col -->
