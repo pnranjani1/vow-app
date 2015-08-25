@@ -44,6 +44,8 @@ Rails.application.routes.draw do
   post 'admins/create'
   get 'clients/user_role'
   put 'clients/update_user_role'
+  get 'bills/:id/user_pdf' => 'bills#user_pdf', :as => "user_bill_pdf"
+  get 'bills/:id/user_billing_report' => 'bills#user_billing_report', :as => "user_pdf_bill_report"
   get 'bills/user_bill_summary'
   get 'bills/client_bill_summary'
   get 'bills/tally_import'
@@ -67,7 +69,7 @@ Rails.application.routes.draw do
   get 'bills/bill_details_client'
   get 'home_page/read_pdf'
   get 'bills/user_billing'
-  get 'bills/user_billing_report'
+ # get 'bills/user_billing_report'
   get 'bills/client_monthly_bill'
   get 'bills/client_billing_report'
   post 'customers/newcustomer_in_bill'
@@ -97,6 +99,7 @@ Rails.application.routes.draw do
   get 'bills/secondary_user_bill'
   get 'bills/secondary_user_activity_report'
   get 'bills/get_tin'
+  patch 'authusers/invite_user_again'
   
  # patch 'bills/pdf_format_select'
     

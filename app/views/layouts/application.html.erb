@@ -202,12 +202,6 @@
 <i class="fa fa-align-left"></i> Total Bills </li>
 <% end %>
 <% end %>
-  
-<% if permitted_to? :user_billing_report, Bill.new %>
-<li><%= link_to bills_user_billing_report_path do %>
-<i class="fa fa-align-left"></i> Monthly Bills  </li>
-<% end %> 
-<% end %>
 </ul>
 </li>
   

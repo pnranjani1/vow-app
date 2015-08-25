@@ -85,7 +85,7 @@ You have Invited <%= pluralize(@users.count, 'User') %> till now.&nbsp;&nbsp;
       <tbody>
         <% @users_expired_invitation.each do |user| %>
           <tr>
-            <td><%= user.email %></td>
+            <td><%= user.email %></td><td><%= link_to "Invite Again", authusers_invite_user_again_path(:id => user.id) %></td>
            </tr>
          <% end %>
       </tbody>

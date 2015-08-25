@@ -60,17 +60,31 @@ class BillsController < ApplicationController
       @bill.primary_user_id = current_authuser.id
       @bill.authuser_id = current_authuser.id
     end
-  
-    
     if @bill.save
-      @bill.total_bill_price = @bill.line_items.sum(:total_price)
-      @bill.save
-      flash[:notice] = "Bill Created Successfully"
-      redirect_to bill_path(@bill.id)
+       @bill.update_attribute(:total_bill_price, @bill.line_items.sum(:total_price))
+       redirect_to bill_path(@bill.id)
     else
-      render action: 'new'
-    end     
-  end
+       render action: 'new'
+    end
+ end
+       #   render js: "window.location='#{bill_path(@bill)}'"
+       # @bill.total_bill_price = @bill.line_items.sum(:total_price)
+        #@bill.save      
+     
+        #format.json {render json: @bill, status: :created, location: @bill }
+       # flash[:notice] = "Bill Created Successfully"
+        #redirect_to bill_path(@bill.id)
+   # else
+    #render :json => {:error => @bill.errors.full_messages.to_sentence},
+    #:status => :unprocessable_entity
+       #respond_to do |format|
+        # format.html {render action: "new"}
+         #format.json {render json: @bill.errors, status: :unprocessable_entity}
+         #format.js
+        # render js: "window.location='#{new_bill_path}'"
+     # render action: 'new'
+   # end
+  #end
   
   
   def get_tin
@@ -385,11 +399,26 @@ def user_billing
     respond_to do |format|
      format.html
      format.xls 
+    end
 end
+
+def user_pdf
+  @user = Authuser.find(params[:id])
 end
 
 def user_billing_report
   @user = Authuser.find(params[:id])
+   start_date = params[:start_date]
+    end_date = params[:end_date]
+    @start_date = start_date.to_date
+    @end_date = end_date.to_date
+    respond_to do |format|
+      format.html
+      format.pdf do
+        pdf = BillForUserPdf.new(@user, @start_date, @end_date)
+        send_data pdf.render, filename: "#{@user.name}-bill.pdf", type: "application/pdf", disposition: "inline"
+      end
+    end
 end
 
 =begin  

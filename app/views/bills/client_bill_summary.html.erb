@@ -40,8 +40,9 @@
         <% users_count = @users.count %>
         
         <% bills = Bill.where(:client_id => client_id) %>
-        <% cash_based_applications = bills.where('ESUGAM IS NULL').count %>
-        <% bills_esugam = bills.where('ESUGAM IS NOT NULL').count %>
+        <% cash_based_applications = Bill.where('client_id =? AND ESUGAM IS NULL AND created_at >= ? AND created_at <= ?', client_id, Date.today.to_date.beginning_of_month, Date.today.to_date.end_of_month).count %>
+        <% bills_esugam = Bill.where('client_id =? AND ESUGAM IS NOT NULL AND created_at >= ? AND created_at <= ?', client_id, Date.today.to_date.beginning_of_month, Date.today.to_date.end_of_month).count %>
+       
   
         
         

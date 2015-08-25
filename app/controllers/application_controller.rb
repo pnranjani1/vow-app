@@ -49,6 +49,8 @@ class ApplicationController < ActionController::Base
   def membership_status
   end
   
+ 
+  
   protected
   def after_sign_in_path_for(authuser)
   #  session[:role_id] = current_authuser.main_roles.first.id
