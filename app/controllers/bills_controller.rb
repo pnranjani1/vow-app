@@ -55,8 +55,12 @@ class BillsController < ApplicationController
       @bill.client_id = invited_user.users.first.client_id
       @bill.authuser_id = current_authuser.id
       @bill.primary_user_id = invited_by_user_id
-    else
+    elsif current_authuser.main_roles.first.role_name == "user"
       @bill.client_id = current_authuser.users.first.client_id
+      @bill.primary_user_id = current_authuser.id
+      @bill.authuser_id = current_authuser.id
+    elsif current_authuser.main_roles.first.role_name == "client"
+      @bill.client_id = current_authuser.id
       @bill.primary_user_id = current_authuser.id
       @bill.authuser_id = current_authuser.id
     end
