@@ -54,7 +54,7 @@ class DashboardsController < ApplicationController
     @cash_based_applications = primary_user_cash + secondary_user_cash
     
     #list of secondary_users
-    @secondary_users = Authuser.where(:invited_by_id => current_authuser.id)
+    @secondary_users = Authuser.where(:invited_by_id => current_authuser.id) 
   end
   
   def user_request

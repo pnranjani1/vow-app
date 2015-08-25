@@ -73,6 +73,7 @@ gem 'jquery-turbolinks' # jquery not laoded if page is not refreshed by user
 
 
 
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

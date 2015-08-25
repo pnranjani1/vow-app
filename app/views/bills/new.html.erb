@@ -43,8 +43,8 @@
        }
       });
   
-    });
-  </script>
+    });  
+   </script>
 
    <div class="row"> 
       
@@ -92,7 +92,7 @@
                      <strong>Invoice Number &nbsp;<b style="color:red">*</b></strong> 
                      <div id="name" class="input-group">    
                         <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
-                       <%= f.text_field :invoice_number, class: "form-control", :maxlength => 15, id: 'invoice_field' %> 
+                       <%= f.text_field :invoice_number, class: "form-control", :maxlength => 15, id: 'invoice_field', :required => true %> 
                        <%= f.hidden_field :invoice_format, :id => "check" %>
                       
                      </div>
@@ -102,7 +102,7 @@
                      <strong>Bill Date&nbsp;<b style="color:red">*</b></strong> 
                        <div id="name" class="input-group">               
                           <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                          <%= f.text_field :bill_date , :value => Date.today, class: "form-control", :id => "bill_date" %>
+                          <%= f.text_field :bill_date , :value => Date.today, class: "form-control", :id => "bill_date", :required => true %>
                        </div>
                    </div> <!-- /.col -->
                    
@@ -112,7 +112,7 @@
                        <strong>Customer&nbsp;<b style="color:red">*</b></strong> 
                         <div id="name" class="input-group">        
                           <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                          <%= f.collection_select :customer_id, @user_customers, :id, :name, {prompt: "Select Customer"}, {class: "form-control", :id => "drop-down"}  %>
+                          <%= f.collection_select :customer_id, @user_customers, :id, :name, {prompt: "Select Customer"}, {class: "form-control", :id => "drop-down", :required => true} %>
                         </div>
                     </div> <!-- /.col -->
                     
@@ -378,7 +378,7 @@
            </div> <!-- /.portlet-header -->
 
          <div class="portlet-content" id="line_items_list">
-            <%= f.fields_for :line_items do |bill_product| %>
+           <%= f.fields_for :line_items do |bill_product| %>
                <div class="row"> 
     
                   <div class="col-sm-3">           
@@ -386,7 +386,7 @@
                      <div id="name" class="input-group">   
                        <span class="input-group-addon"><i class="fa fa-ruble"></i></span>
                        <%= bill_product.collection_select :product_id, @user_products, :id, :product_name, 
-          {prompt: "Select Product"}, {class: "form-control"} %>
+{prompt: "Select Product"}, {class: "form-control", :required => true} %>
                      </div> 
                   </div> <!-- /.col -->
  
@@ -394,7 +394,7 @@
                     <strong>Quantity&nbsp;<b style="color:red">*</b></strong> 
                     <div id="quantity_div" class="input-group">               
                        <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
-                      <%= bill_product.number_field :quantity , class: "form-control", :step => 'any' %>
+                      <%= bill_product.number_field :quantity , class: "form-control", :step => 'any', :required => true %>
                     </div>
                   </div> <!-- /.col -->
            
@@ -402,7 +402,7 @@
                      <strong>Unit Price&nbsp;<b style="color:red">*</b></strong> 
                      <div id="unit_price_div" class="input-group">               
                        <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                        <%= bill_product.text_field :unit_price, class: "form-control" %>
+                       <%= bill_product.text_field :unit_price, class: "form-control", :required => true %>
                      </div>
                   </div> <!-- /.col -->
                
@@ -514,7 +514,7 @@
                <strong>Tax Information&nbsp;<b style="color:red">*</b></strong> 
                <div id="name" class="input-group">  
                 <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                  <%= f.collection_select :tax_id, Tax.all, :id, :tax ,{prompt: "Select Tax"}, {class: "form-control"} %>
+                  <%= f.collection_select :tax_id, Tax.all, :id, :tax ,{prompt: "Select Tax"}, {class: "form-control", :required => true} %>
                </div>
             </div> <!-- /.col -->
  

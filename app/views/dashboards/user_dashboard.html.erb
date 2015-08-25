@@ -64,11 +64,15 @@
                   <% @esugam = @bills.where('ESUGAM IS NOT NULL AND created_at >= ? AND created_at <= ?', date.to_date.beginning_of_month, date.to_date.end_of_month ) %>
 
                   <tr>
-                    <td class="hidden-xs"><%= user.name %></td>
-                    <td><%= user.email %></td>
-                    <td><%= link_to user.membership.membership_end_date, edit_membership_path(user.membership.id) ,  class: "listconttext"%></td>
-                    <td><%= @cash_applications.count %></td>
-                    <td><%= @esugam.count %></td>
+                    <td style="text-align:center" class="hidden-xs"><%= user.name %></td>
+                    <td style="text-align:center"><%= user.email %></td>
+                    <% if user.membership.membership_end_date.present? %>
+                    <td style="text-align:center"><%= link_to user.membership.membership_end_date.strftime("%d %b %Y"), edit_membership_path(user.membership.id) ,  class: "listconttext"%></td>
+                    <% else %>
+                       <td style="text-align:center">NA </td>
+                    <% end %>
+                    <td style="text-align:center"><%= @cash_applications.count %></td>
+                    <td style="text-align:center"><%= @esugam.count %></td>
                   </tr>
                 <% end %>
               </tbody>    

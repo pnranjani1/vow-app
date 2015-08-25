@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   :controllers => { :invitations => 'invitations' , :registrations => 'registrations'}
   #controllers: {invitations: 'authusers/invitations'}
   
+ 
   root 'home_page#index'
    
   devise_scope :authuser do
