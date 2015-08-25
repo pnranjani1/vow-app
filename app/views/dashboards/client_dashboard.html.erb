@@ -79,7 +79,7 @@ class="table table-striped table-bordered table-checkable">
   <% date = Date.today.strftime("%Y%m%d") %>
   <% @cash_based_applications = @bills.where('ESUGAM IS NULL AND created_at >= ? AND created_at <= ?', date.to_date.beginning_of_month, date.to_date.end_of_month) %>
   <% @esugam = @bills.where('ESUGAM IS NOT NULL AND created_at >= ? AND created_at <= ?', date.to_date.beginning_of_month, date.to_date.end_of_month ) %>
-  <% secondary_users_count = Authuser.where(:invited_by_id => user.id).count %>
+  <% secondary_users_count = Authuser.where(:invited_by_id => userid).count %>
 
    
  
