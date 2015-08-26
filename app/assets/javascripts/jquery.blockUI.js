@@ -51,7 +51,8 @@ var nonmousedOpacity = $m.css('opacity');
 $m.mouseover(function() {
 callBlock({
 fadeIn: 0,
-timeout: 30000
+/* timeout: 30000 */
+timeout: 30
 });
 var displayBlock = $('.blockMsg');
 displayBlock.stop(); // cancel fadeout if it has started
