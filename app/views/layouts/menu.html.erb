@@ -206,13 +206,14 @@
 <ul class="dropdown-menu">   
 <li>
  
-  <% if current_authuser.usercategories.blank? %> 
-    <%= link_to new_usercategory_path do %>
-      <i class="fa fa-yen nav-icon"></i> Add Commodity
-    <% end %>
-  <% else %> 
+  <% primary_user_ids =  Usercategory.all.pluck(:primary_user_id) %>
+  <% if (primary_user_ids.include? current_authuser.id) || (primary_user_ids.include? current_authuser.invited_by_id) %>
     <%= link_to usercategories_path do %>
       <i class="fa fa-yen nav-icon"></i> Manage Commodities</li>  
+    <% end %>
+  <% else %>
+      <%= link_to new_usercategory_path do %>
+      <i class="fa fa-yen nav-icon"></i> Add Commodity
     <% end %>
   <% end %>
 </ul>
@@ -232,28 +233,25 @@
   
   <ul class="dropdown-menu">   
     <li>
-    <% if current_authuser.usercategories.blank? %> 
-      <%= link_to new_usercategory_path do %>
-        <i class="fa fa-yen nav-icon"></i> Add Commodity First
-      <% end %>
-    <% elsif current_authuser.products.blank? %>
-        <%= link_to new_product_path do %>
-          <i class="fa fa-ruble nav-icon"></i> Add Product </li>
-        <% end %>
-      <li><%= link_to products_product_import_report_path do %>
-            <i class="fa fa-arrow-up nav-icon"></i> Import Products</li>  
-      <% end %>
-    <% else %>
-        <%= link_to products_product_user_path do %>
-          <li><i class="fa fa-ruble nav-icon"></i> Manage Products</li>  
-        <% end %>
-        <li><%= link_to products_product_import_report_path do %>
-          <i class="fa fa-arrow-up nav-icon"></i> Import Products</li>  
-        <% end %>
-    <% end %>
-</ul>
-</li>
-<% end %>
+       <% primary_user_ids =  Product.all.pluck(:primary_user_id) %>
+          <% if (primary_user_ids.include? current_authuser.id) || (primary_user_ids.include? current_authuser.invited_by_id) %>
+             <%= link_to products_product_user_path do %>
+               <li><i class="fa fa-ruble nav-icon"></i> Manage Products</li>  
+             <% end %>
+             <li><%= link_to products_product_import_report_path do %>
+               <i class="fa fa-arrow-up nav-icon"></i> Import Products</li>  
+             <% end %>
+          <% else %>
+             <li><%= link_to new_product_path do %>
+               <i class="fa fa-ruble nav-icon"></i> Add Product </li>
+             <% end %>
+             <li><%= link_to products_product_import_report_path do %>
+                <i class="fa fa-arrow-up nav-icon"></i> Import Products</li>  
+             <% end %>
+          <% end %>
+       </ul>
+  </li>
+  <% end %>
 
 
 <!-- Customers -->
@@ -270,21 +268,22 @@
 
 <ul class="dropdown-menu">   
 <li>
-<% if current_authuser.customers.blank? %> 
-<%= link_to new_customer_path do %>
-<i class="fa fa-user nav-icon"></i> Add Customer
-  <% end %></li>
-<li><%= link_to customers_customer_import_report_path do %>
-<i class="fa fa-arrow-up nav-icon"></i> Import Customer</li>  
-<% end %>
-<% else %> 
-<%= link_to customers_user_customer_path do %>
-<li><i class="fa fa-tasks nav-icon"></i> Manage Customers</li>  
-<% end %>
-<li><%= link_to customers_customer_import_report_path do %>
-<i class="fa fa-arrow-up nav-icon"></i> Import Customer</li>  
-<% end %>
-<% end %>
+  <% primary_user_ids =  Customer.all.pluck(:primary_user_id) %>
+   <% if (primary_user_ids.include? current_authuser.id) || (primary_user_ids.include? current_authuser.invited_by_id) %>
+      <%= link_to customers_user_customer_path do %>
+        <li><i class="fa fa-tasks nav-icon"></i> Manage Customers</li>  
+      <% end %>
+      <li><%= link_to customers_customer_import_report_path do %>
+        <i class="fa fa-arrow-up nav-icon"></i> Import Customer</li>  
+      <% end %>
+   <% else %>
+     <li><%= link_to new_customer_path do %>
+        <i class="fa fa-user nav-icon"></i> Add Customer
+     <% end %></li>
+     <li><%= link_to customers_customer_import_report_path do %>
+       <i class="fa fa-arrow-up nav-icon"></i> Import Customer</li>  
+     <% end %>
+   <% end %>
 </ul>
 </li>
   <% end %>

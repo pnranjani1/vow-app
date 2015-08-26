@@ -1,13 +1,5 @@
 
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width">
-</head>
 
-<body>
 
 <div class="container">
 <div class="content">
@@ -49,7 +41,8 @@
   <div class="row">
 <label class="col-md-3">Belongs to Commodity&nbsp;&nbsp;<b style="color:red">*</b></label>
 <div class="col-md-6">
-<div id="name" class="input-group">   
+<div id="name" class="input-group"> 
+  <span class="input-group-addon"><i class="fa fa-yen nav-icon"></i></span>    
   <% if current_authuser.main_roles.first.role_name =="secondary_user" %>
     <% primary_user_id = current_authuser.invited_by_id %>
     <%= f.collection_select :usercategory_id, Usercategory.where('authuser_id =? OR primary_user_id =? ', primary_user_id, primary_user_id), :id, :commodity_name, {prompt: "Select Commodity"}, {class: "form-control"} %>
@@ -101,8 +94,5 @@
 </div><!-- content container ends here -->
 </div><!-- content ends here -->
 </div><!-- container ends here -->
-  
-</body>
-</html>
 
 

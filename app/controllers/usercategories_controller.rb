@@ -27,6 +27,7 @@ class UsercategoriesController < ApplicationController
       @usercategory.primary_user_id = invited_by_user_id
     else
       @usercategory.authuser_id = current_authuser.id
+      @usercategory.primary_user_id = current_authuser.id
     end
     if @usercategory.save 
       redirect_to usercategories_path(current_authuser.id)

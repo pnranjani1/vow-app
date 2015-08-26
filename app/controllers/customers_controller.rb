@@ -27,6 +27,7 @@ class CustomersController < ApplicationController
       @customer.primary_user_id = invited_by_user_id
     else
       @customer.authuser_id = current_authuser.id
+      @customer.primary_user_id = current_authuser.id
     end
     if @customer.save
       redirect_to customers_user_customer_path
@@ -49,6 +50,7 @@ class CustomersController < ApplicationController
       @customer.primary_user_id = invited_by_user_id
     else
       @customer.authuser_id = current_authuser.id
+      @customer.primary_user_id = current_authuser.id
     end
     if @customer.update_attributes(set_params)
       redirect_to customers_user_customer_path

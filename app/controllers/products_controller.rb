@@ -27,7 +27,7 @@ class ProductsController < ApplicationController
         @product.authuser_id = current_authuser.id
         @product.primary_user_id = invited_by_user_id
       else
-        
+        @product.primary_user_id = current_authuser.id
         @product.authuser_id = current_authuser.id
       end
       params[:usercategory_id] = @product.usercategory_id
@@ -59,6 +59,7 @@ class ProductsController < ApplicationController
         @product.authuser_id = current_authuser.id
         @product.primary_user_id = invited_by_user_id
       else
+       @product.primary_user_id = current_authuser.id
         @product.authuser_id = current_authuser.id
       end
       if @product.update_attributes(set_params)
