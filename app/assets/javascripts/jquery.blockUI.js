@@ -31,7 +31,7 @@ $.growlUI = function(title, message, timeout, onClose) {
 var $m = $('<div class="growlUI"></div>');
 if (title) $m.append('<h1>'+title+'</h1>');
 if (message) $m.append('<h2>'+message+'</h2>');
-if (timeout === undefined) timeout = 1000;
+if (timeout === undefined) timeout = 30;
 // Added by konapun: Set timeout to 30 seconds if this growl is moused over, like normal toast notifications
 var callBlock = function(opts) {
 opts = opts || {};
