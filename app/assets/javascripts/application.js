@@ -41,15 +41,15 @@ var App = function(){
   return {
     blockUI: function(el){
       el.block({
-        message: '',
+        message: 'Please wait...Esugam Number generation is in progress',
         css: {backgroundColor: 'none'},
         overlayCSS: {
           backgroundColor:'#FFFFFF',
-          backgroundImage: "url('/assets/loader.gif')",
+         /* backgroundImage: "url('/assets/loader.gif')", */
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'center',
           opacity: 0.67
-          
+          /* timeout: 3000 */
         }
       });
     },
@@ -59,16 +59,49 @@ var App = function(){
   }
 }();
 
-$(document).ready(function(){
 
-/* once the user submits the form just block it until it's processed 
-+  fully by the server side 
-+*/
-  $('#user-notice').on('click', function(){
-    App.blockUI( $('#bill_body'));
+$(document).ready(function(){
+  $("#captcha").click(function(){
+    $.ajax({
+      url: '/bills/:id/captcha_image',
+      type: "POST"
+    });
   });
 });
+/*
+$(document).ready(function(){
  
+ /* once the user submits the form just block it until it's processed 
++  fully by the server side 
++
+  $('#user-notice').on('click', function(){
+    setTimeout(function(){
+     App.blockUI( $('#bill_body'));
+     location.reload();
+     }, 200);  
+    
+   });
+   $("#textbox").show();
+ });
+ */
+
+$(document).ready(function(){
+  $("#popupdiv").hide();
+  $('#user-notice').on('click', function(){  
+   $("#popupdiv").dialog({
+        title: "Enter Captcha in Text Field",
+        width: 430,
+        height: 300,
+        modal: true     
+     });
+   });
+ });
+
+/* buttons: {
+       Close: function() {
+         $(this).dialog('close');
+       }
+      } */
 
 $(document).ready(function() {
   $('.has-tooltip').tooltip();
@@ -94,6 +127,8 @@ $(document).ready(function(){
     
   });
 });
+
+
 
 
 

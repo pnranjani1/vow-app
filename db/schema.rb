@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150818115731) do
+ActiveRecord::Schema.define(version: 20150826105939) do
 
   create_table "addresses", force: true do |t|
     t.string   "address_line_1"
@@ -112,6 +112,7 @@ ActiveRecord::Schema.define(version: 20150818115731) do
     t.integer  "primary_user_id"
     t.string   "record_number"
     t.string   "invoice_format"
+    t.string   "image"
   end
 
   create_table "cainvoices", force: true do |t|

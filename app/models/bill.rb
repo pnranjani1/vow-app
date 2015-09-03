@@ -1,4 +1,5 @@
 class Bill < ActiveRecord::Base
+  #require 'gocr'
   
  # after_create :generate_invoice_format  
   after_create :invoke_invoice_record
@@ -182,7 +183,7 @@ class Bill < ActiveRecord::Base
     end
   end
   
-  def get_esugan_number
+  def get_esugam_number
     @bill = self 
     @tax_type = @bill.tax.tax_type
     @invoice_number = @bill.invoice_number
@@ -226,100 +227,134 @@ class Bill < ActiveRecord::Base
     @grand_total = @grand_total.round(2)
     
     begin
-      browser = Watir::Browser.new :phantomjs
-      browser.goto "http://sugam.kar.nic.in/"
-      #login credentials for primary and secondary user
-      user_id = @bill.primary_user_id
-      user = Authuser.where(:id => user_id).first
-      user_name = user.users.first.esugam_username
-      password = user.users.first.esugam_password
-      browser.text_field(:id, "UserName").set(user_name)
-      browser.text_field(:id, "Password").set(password)
-      browser.button(:value,"Login").click
+      #browser = Watir::Browser.new :phantomjs
+      
+        browser = Watir::Browser.new :firefox
+        # browsers = {}
+        #(0..2).each {|i| browsers[i]} = Watir::Browser.new :phantomjs}
+        browser.goto "http://164.100.80.121/vat1/"
+        #browser.button(:value,  "Continue").click
+        file1 = File.new("app/assets/images/cap" + self.authuser.id.to_s + ".png", "a+")
+        browser.div(:id, "log").images[0].screenshot(file1) # not supported in watir webdriver
+        # browser.goto "http://sugam.kar.nic.in/"
+        # browser.button(:id, "Button2").click
+        sleep 10
+        #  login credentials for primary and secondary user
+        user_id = @bill.primary_user_id
+        user = Authuser.where(:id => user_id).first
+        user_name = user.users.first.esugam_username
+        password = user.users.first.esugam_password
      
-      if browser.text.include? "Login Failed"
-        self.update_attributes(error_message: "Login Failed. Check your VAT website credentials")
-        browser.close       
-      else
+        # captcha = self.image
+      
+        browser.text_field(:id, "UserName").set(user_name)
+        browser.text_field(:id, "Password").set(password)   
+        # browser.text_field(:id, "txtCaptcha").set(captcha)
+        #rtesseract conversion error occurs
+        # image = File.open(file1, 'w')
+        # text = RTesseract.new(file1, :processor => "rmagick")
+        # self.update_attribute(:image, text.to_s)
+        # image = RTesseract.new("app/assets/images/cap.png", :processor => "none")
+        # cap_txt = image.to_s
+        # self.update_attribute(:image, image)
+        #captcha_text = image.to_s
+        #self.update_attribute(:image, captcha_text)
+      
+        # gets
+        sleep 5
+        #browser.div(:id, "log").frame
+        browser.button(:value,"Login").click
+      
+        if browser.text.include? "Login Failed"
+           self.update_attribute(:error_message,  "Login Failed. Check your VAT website credentials")
+           browser.close
+        elsif browser.text.include? "Please enter the captcha"
+           self.update_attribute(:error_message, "Login Failed. Enter Captcha ")
+           browser.close  
+        elsif browser.text.include? "Invalid Captcha Characters"
+           self.update_attribute(:error_message, "Login Failed, Invalid Captcha")
+           browser.close
+        else
             
-      sleep 10
-      browser.link(:id, "LinkButton1").click
+        sleep 5
+        #browser.link(:id, "LinkButton1").click
+        browser.goto "http://164.100.80.100/vat1/web_general/MainPage.aspx"
+        browser.goto "http://164.100.80.100/vat1/web_vat505/Vat505_Etrans.aspx?mode=new"
     
       
-      browser.text_field(:id, "ctl00_MasterContent_txtFromAddrs").set(@user_city)
-      browser.text_field(:id, "ctl00_MasterContent_txtToAddrs").set(@customer_city)
-      browser.text_field(:id, "ctl00_MasterContent_txt_commodityname").set(@product_name)
-      if browser.select_list(:id, "ctl00_MasterContent_ddl_commoditycode").include? @commodity_name
-         browser.select_list(:id, "ctl00_MasterContent_ddl_commoditycode").select(@commodity_name)
-         browser.text_field(:id, "ctl00_MasterContent_txtQuantity").set(@quantity_units)
-         browser.send_keys :tab
-         browser.text_field(:id, "ctl00_MasterContent_txtNetValue").set(@total_amount)
-         browser.send_keys :enter
-         browser.send_keys :tab
-         browser.text_field(:id, "ctl00_MasterContent_txtVatTaxValue").set(@total_tax)
-         browser.text_field(:id, "ctl00_MasterContent_txtOthVal").set(@other_value)
-         sleep 5
-      
-          if @tax_type == "CST"
-            browser.radio(:id, "ctl00_MasterContent_rdoStatCat_1").set
-            sleep 5
-            browser.text_field(:id, "ctl00_MasterContent_txtTIN").set(@customer_tin_number.to_i)
-            browser.send_keys :tab   
-            if browser.text_field(:id, "ctl00_MasterContent_txtNameAddrs").enabled?
-               browser.text_field(:id, "ctl00_MasterContent_txtNameAddrs").set(@customer_name)
-            else
-              sleep 5
-              browser.text_field(:id, "ctl00_MasterContent_txtNameAddrs").set(@customer_name)
-            end
+        browser.text_field(:id, "ctl00_MasterContent_txtFromAddrs").set(@user_city)
+        browser.text_field(:id, "ctl00_MasterContent_txtToAddrs").set(@customer_city)
+        browser.text_field(:id, "ctl00_MasterContent_txt_commodityname").set(@product_name)
+        if browser.select_list(:id, "ctl00_MasterContent_ddl_commoditycode").include? @commodity_name
+            browser.select_list(:id, "ctl00_MasterContent_ddl_commoditycode").select(@commodity_name)
+            browser.text_field(:id, "ctl00_MasterContent_txtQuantity").set(@quantity_units)
             browser.send_keys :tab
-          end
+            browser.text_field(:id, "ctl00_MasterContent_txtNetValue").set(@total_amount)
+            browser.send_keys :enter
+            browser.send_keys :tab
+            browser.text_field(:id, "ctl00_MasterContent_txtVatTaxValue").set(@total_tax)
+            browser.text_field(:id, "ctl00_MasterContent_txtOthVal").set(@other_value)
+            sleep 5
+      
+            if @tax_type == "CST"
+                browser.radio(:id, "ctl00_MasterContent_rdoStatCat_1").set
+                sleep 5
+                browser.text_field(:id, "ctl00_MasterContent_txtTIN").set(@customer_tin_number.to_i)
+                browser.send_keys :tab   
+               if browser.text_field(:id, "ctl00_MasterContent_txtNameAddrs").enabled?
+                   browser.text_field(:id, "ctl00_MasterContent_txtNameAddrs").set(@customer_name)
+               else
+                   sleep 5
+                   browser.text_field(:id, "ctl00_MasterContent_txtNameAddrs").set(@customer_name)
+               end
+               browser.send_keys :tab
+            end
     
-        # check if vat and urd
-         
-           if (@tax_type == "VAT") && (@customer_tin_number[2..-1] == "000000000")
-              browser.text_field(:id, "ctl00_MasterContent_txtTIN").set(@customer_tin_number.to_i)
+            # check if vat and urd
+            if (@tax_type == "VAT") && (@customer_tin_number[2..-1] == "000000000")
+               browser.text_field(:id, "ctl00_MasterContent_txtTIN").set(@customer_tin_number.to_i)
                browser.send_keys :tab
                sleep 5
                browser.text_field(:id, "ctl00_MasterContent_txtNameAddrs").set(@customer_name)
                browser.send_keys :tab
-           end
-        
-        
-        if @tax_type == "VAT"
-          browser.text_field(:id, "ctl00_MasterContent_txtTIN").set(@customer_tin_number.to_i)
-          browser.send_keys :tab
-        end
-        
-        sleep 5 
-        browser.text_field(:id, "ctl00_MasterContent_txtInvoiceNO").set(@bill.invoice_number)
-        if browser.button(:id, "ctl00_MasterContent_btn_savecumsubmit").enabled?
-            browser.button(:value,"SAVE AND SUBMIT").click
-            page_html = Nokogiri::HTML.parse(browser.html)
-            textual = page_html.search('//text()').map(&:text).delete_if{|x| x !~ /\w/}
-            esugam = textual.fetch(7)
-      
-            if esugam.include? "Prop/Comp. Name: "
-              file = File.new("app/assets/images/vat-error.png", "a+")
-              browser.screenshot.save file
-              self.update_attributes(error_message: file.to_s)
-              logger.error "esugam not generated due to incomplete form submission"
-            else
-              self.update_attributes(esugam: esugam)
             end
-            browser.button(:value,"Exit").click
-            browser.link(:id, "link_signout").click
-            browser.close
-            return esugam
-        else
-          file = File.new("app/assets/images/vat-error.png", "a+")
-          browser.screenshot.save file
-          self.update_attributes(error_message: file.to_s)
-        end
-      else # if commodity is not in list else
-        self.update_attributes(error_message: "Selected Commodity is not added in VAT Site")
-        browser.close
-      end # commodity not in list end
-      end # login end
+          
+            if @tax_type == "VAT"
+               browser.text_field(:id, "ctl00_MasterContent_txtTIN").set(@customer_tin_number.to_i)
+               browser.send_keys :tab
+            end
+        
+            sleep 5 
+               browser.text_field(:id, "ctl00_MasterContent_txtInvoiceNO").set(@bill.invoice_number)
+               if browser.button(:id, "ctl00_MasterContent_btn_savecumsubmit").enabled?
+                  browser.button(:value,"SAVE AND SUBMIT").click
+                  page_html = Nokogiri::HTML.parse(browser.html)
+                  textual = page_html.search('//text()').map(&:text).delete_if{|x| x !~ /\w/}
+                  esugam = textual.fetch(7)
+       
+                  if esugam.include? "Prop/Comp. Name: "
+                        file = File.new("app/assets/images/vat-error.png", "a+")
+                        browser.screenshot.save file
+                        self.update_attributes(error_message: file.to_s)
+                        logger.error "esugam not generated due to incomplete form submission"
+                  else
+                        self.update_attributes(esugam: esugam)
+                  end
+                  browser.button(:value,"Exit").click
+                  browser.link(:id, "link_signout").click
+                  browser.close
+                  return esugam
+               else
+                  file = File.new("app/assets/images/vat-error.png", "a+")
+                  browser.screenshot.save file
+                  self.update_attributes(error_message: file.to_s)
+               end
+        else # if commodity is not in list else
+           self.update_attributes(error_message: "Selected Commodity is not added in VAT Site")
+           browser.close
+        end # commodity not in list end
+        end # login end
+     
     end # begin end
   end # def end
  

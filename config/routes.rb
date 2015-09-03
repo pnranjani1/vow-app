@@ -101,6 +101,8 @@ Rails.application.routes.draw do
   get 'bills/secondary_user_activity_report'
   get 'bills/get_tin'
   patch 'authusers/invite_user_again'
+  get 'bills/captcha'
+  patch 'bills/:id/captcha_image' => "bills#captcha_image", :as => "captcha_image"
   
  # patch 'bills/pdf_format_select'
     

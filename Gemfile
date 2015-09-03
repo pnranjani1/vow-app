@@ -9,7 +9,12 @@ gem 'bootstrap-sass', '~>3.3.1.0'
 gem 'mechanize'
 #gem "selenium-webdriver", "~> 2.38.0"
 #gem "selenium-webdriver", "~> 2.35.0"
+gem 'selenium-webdriver'
+#gem 'watir'
+#gem 'selenium-webdriver',  '~> 2.20.0'
 gem 'watir-webdriver', '~>0.6.4'
+gem 'watir-extensions-element-screenshot'
+#gem 'headless'
 gem 'phantomjs', "~> 1.9.2"
 gem 'devise'
 gem 'devise_invitable', '~>1.3.4'
@@ -69,6 +74,11 @@ gem 'spring',        group: :development
 gem 'carrierwave'
 gem 'cloudinary'
 gem 'jquery-turbolinks' # jquery not laoded if page is not refreshed by user
+#gem 'rtesseract'
+#gem 'rmagick'
+
+#gem 'gocr-ruby'
+# gem 'tesseract-ocr', '~> 0.1.5' # ffi-inline is causing errors image to text conversion gem
 
 
 

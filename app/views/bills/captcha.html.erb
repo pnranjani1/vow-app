@@ -1,0 +1,12 @@
+<div class="container">
+  <div class="content">
+    <div class="content-container">
+      <%= form_for(@bill, :url => {:action => "captcha_image"}) do |f| %>
+         <label>Enter Captcha</label>
+         <%= f.text_field :image, class: "form-control" %>
+         <br/>
+         <%= f.submit "Submit", :class => "btn btn-success" %>
+      <% end %>
+    </div>
+  </div>
+</div>

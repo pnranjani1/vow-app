@@ -1,5 +1,6 @@
 #require 'builder'
 class BillsController < ApplicationController
+  
   filter_access_to :all
   before_filter :authenticate_authuser!
   before_filter :generate_invoice_number, only: :new
@@ -101,14 +102,16 @@ class BillsController < ApplicationController
   def generate_esugan
     @bill = Bill.where(id: params["bill_id"]).first
      if @bill.present?
-      @bill.get_esugan_number
-      # @error = " Oops ! Something went wrong !  " if @bill.esugam.blank?
+      @bill.update_attribute(:image, params[:image])
+       @bill.get_esugam_number
+           # @error = " Oops ! Something went wrong !  " if @bill.esugam.blank?
      end
   end
  
   
   def show
     @bill = Bill.find(params[:id])
+    
     respond_to do |format|
       format.html  do
       end
@@ -581,6 +584,18 @@ end
      tin = TinNumber.where(:state => state)
    end
 
+   def captcha
+     @bill = Bill.find(params[:id])
+   end
+
+  def captcha_image
+    @bill = Bill.find(params[:id])
+    if @bill.update_attribute(:image, params[:bill][:image])
+      redirect_to bill_path(@bill.id)
+    else
+      render action: 'new'
+    end
+  end
 
   private
 
@@ -650,7 +665,7 @@ end
 
    def set_params
      params[:bill].permit(:invoice_number, :esugam, :bill_date, :customer_id, 
-      :authuser_id, :tax, :total_bill_price, :tax_id, :grand_total, :other_charges, :other_charges_information_id,:other_information, :other_charges_info, :client_id, :transporter_name, :vechicle_number, :gc_lr_number,:lr_date, :pdf_format, :service_tax, :primary_user_id, :invoice_number_format, :invoice_format, :record_number, :instant_invoice_format,
+      :authuser_id, :tax, :total_bill_price, :tax_id, :grand_total, :other_charges, :other_charges_information_id,:other_information, :other_charges_info, :client_id, :transporter_name, :vechicle_number, :gc_lr_number,:lr_date, :pdf_format, :service_tax, :primary_user_id, :invoice_number_format, :invoice_format, :record_number, :instant_invoice_format, :image,
       {:line_items_attributes => [:product_id, :quantity, :unit_price, :total_price, :service_tax_rate, :_destroy]},
       {:tax_attributes => [:tax_type, :tax_rate, :tax]},
       {:unregistered_customers_attributes => [:customer_name, :phone_number, :address, :city, :state, :authuser_id, :bill_id]}
