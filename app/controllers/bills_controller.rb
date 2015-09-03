@@ -102,7 +102,7 @@ class BillsController < ApplicationController
   def generate_esugan
     @bill = Bill.where(id: params["bill_id"]).first
      if @bill.present?
-      @bill.update_attribute(:image, params[:image])
+     # @bill.update_attribute(:image, params[:image])
        @bill.get_esugam_number
            # @error = " Oops ! Something went wrong !  " if @bill.esugam.blank?
      end
