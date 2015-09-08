@@ -39,7 +39,13 @@
 <label class="col-md-3">Select Commodity</label>
 <div class="col-md-6">
 <div id="name" class="input-group"> 
-  <%= f.collection_select :main_category_id, @available_categories, :id, :commodity_name, {prompt: "Select Commodity"}, {class: "form-control"} %>
+<%
+=begin %>
+  <%= f.collection_select :main_category_id, @available_categories, :id, :commodity_name, {prompt: "Select Commodity"}, {class: "form-control"} %> 
+<%
+=end %>
+  
+  <%= f.collection_select :main_category_id, MainCategory.all, :id, :commodity_name, {prompt: "Select Commodity"}, {class: "form-control"} %>
  <br/><br/><br/>
 
 <%= f.submit "Add Commodity", class: "btn btn-success" %>

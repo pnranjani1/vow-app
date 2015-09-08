@@ -648,7 +648,7 @@ end
                number_updated = invoice.number.to_i + 1
                if number_updated.to_s.length < 6 
                  updated_number = number_updated.to_s.rjust(6, '0')
-                 @number = updated_number.to_s + " " + primary_user.invoice_string 
+                 @number = updated_number.to_s 
                end
              else
                invoice = InvoiceRecord.where(:authuser_id => primary_user.id).last

@@ -227,9 +227,9 @@ class Bill < ActiveRecord::Base
     @grand_total = @grand_total.round(2)
     
     begin
-      #browser = Watir::Browser.new :phantomjs
+      browser = Watir::Browser.new :phantomjs
       
-        browser = Watir::Browser.new :firefox
+      #  browser = Watir::Browser.new :firefox
         # browsers = {}
         #(0..2).each {|i| browsers[i]} = Watir::Browser.new :phantomjs}
         browser.goto "http://164.100.80.121/vat1/"

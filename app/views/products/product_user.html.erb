@@ -35,20 +35,7 @@
   </div>
   <% end %>
         
-        <% if current_authuser.usercategories.blank? %> 
-        <h5>Add Commodities first and then add products</h5>
-         <% elsif current_authuser.products.blank? %>
-         <div class="portlet-footer">
-       <div class="text-right">     
-        <%= link_to  new_product_path do %>      
-       <!-- <button class="btn btn-sm btn-default">New</button> -->
-         <button class="btn btn-success">Add Product</button>
-         
-         <% end %>
-         
-       </div>
-            </div> <!-- /.portlet-footer -->
-        <% else %>    
+      
       <thead> 
       <tr> 
       <th>Product Name</th> 
@@ -72,7 +59,7 @@
    
         
         </tr>     
-        <% end %>
+     
         </tbody> 
         </table>
         

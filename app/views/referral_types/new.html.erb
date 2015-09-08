@@ -16,8 +16,9 @@
 <div class="portlet-content">
             
   <%= form_for(@referral_type) do |f| %>
-  <% if @referral_type.errors.any? %>
-          <div class="col-md-8">
+      <% if @referral_type.errors.any? %>
+        <div class="row">
+          <div class="col-md-4">
             <div class="alert alert-danger">
               <% @referral_type.errors.full_messages.each do |error| %>
               <ul>
@@ -26,7 +27,9 @@
               <% end %>
              </div><!-- alert ends here -->
           </div><!-- col ends here -->
-          <% end %>
+         </div><!-- row ends here -->
+      <% end %>
+  <br/>
           <div class="row">
                 
             <div class="col-md-4">

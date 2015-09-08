@@ -168,6 +168,14 @@ ActiveRecord::Schema.define(version: 20150826105939) do
     t.datetime "updated_at"
   end
 
+  create_table "invoice_number_records", force: true do |t|
+    t.string   "number"
+    t.integer  "bill_id"
+    t.integer  "authuser_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "invoice_records", force: true do |t|
     t.string   "number"
     t.integer  "bill_id"

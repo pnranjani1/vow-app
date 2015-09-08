@@ -54,7 +54,7 @@
               Mobile number
               <div id="name" class="input-group">
                 <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
-                <%= f.text_field :mobile_number, :class => "form-control" %>
+                <%= f.text_field :mobile_number, maxlength: 10,  :class => "form-control" %>
               </div>
              </div>
           </div><!-- row ends here -->

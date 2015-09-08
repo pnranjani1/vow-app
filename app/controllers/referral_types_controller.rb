@@ -13,7 +13,7 @@ class ReferralTypesController < ApplicationController
     if @referral_type.save
       redirect_to referral_types_path
     else
-      redirect_to new_referral_type_path
+      render action: 'new'
     end
   end
   

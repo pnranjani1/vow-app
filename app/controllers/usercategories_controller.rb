@@ -1,7 +1,7 @@
 class UsercategoriesController < ApplicationController
   filter_access_to :all
   before_filter :authenticate_authuser!
-  before_filter :get_available_categories, only: [:new, :create, :edit, :update]
+  #before_filter :get_available_categories, only: [:new, :create, :edit, :update]
   layout_by_action [:new, :create, :show, :edit, :update, :index] => "menu"
   
   def index
