@@ -1,7 +1,4 @@
-<!DOCTYPE html>
-<html>
 
-  <body>
   
 <div class="container">
   <div class="content">
@@ -12,78 +9,68 @@
 
       <br>
       <div class="row"> 
-      <div class="portlet portlet-table">
-      <div class="portlet-header">
-      <h3><i class="fa fa-group"></i>Products List</h3> 
-      </div> <!-- /.portlet-header -->
+       <div class="portlet portlet-table">
+         <div class="portlet-header">
+           <h3><i class="fa fa-group"></i>Products List</h3> 
+         </div> <!-- /.portlet-header -->
 
-      <div class="portlet-content">
-      <div class="table-responsive">
-      <table id="user-signups" class="table table-striped table-bordered table-checkable"> 
+         <div class="portlet-content">
+            <div class="table-responsive">
+               <table id="user-signups" class="table table-striped table-bordered table-checkable"> 
         
-  <% if notice %>
-  <br/>
-  <div class="col-md-8">
-  <div class="alert alert-success"><%= notice %></div>
-  </div>
-  <% end %>
-                
-   <% if alert %>
-  <br/>
-  <div class="col-md-6">
-    <div class="alert alert-danger"><%= alert %></div>
-  </div>
-  <% end %>
+                <% if notice %>
+                    <br/>
+                     <div class="col-md-8">
+                       <div class="alert alert-success"><%= notice %></div>
+                     </div>
+                <% end %>
+                <% if alert %>
+                    <br/>
+                    <div class="col-md-6">
+                      <div class="alert alert-danger"><%= alert %></div>
+                    </div>
+                <% end %>
         
-      
-      <thead> 
-      <tr> 
-      <th>Product Name</th> 
-      <th> Units</th>
-      <th> Belongs to Commodity</th> 
-      <th> Edit </th>
-     
-      </tr> 
-      </thead> 
-      <tbody> 
-        <% @user_products.each do|product| %>
-   <tr>                      
-     <td><%= product.product_name %> </td>
-     <td><%= product.units%> </td>
-     <td><%= product.usercategory.commodity_name%> </td>
-     <td><%= link_to edit_product_path(product.id), class: "btn btn-xs btn-primary" do %>
-<i class="fa fa-edit"></i>
-  <% end %>
-  </td> 
- 
-   
-        
-        </tr>     
-     
-        </tbody> 
-        </table>
+                <thead> 
+                    <tr> 
+                       <th>Product Name</th> 
+                       <th> Units</th>
+                       <th> Belongs to Commodity</th> 
+                       <th> Edit </th>
+                    </tr> 
+                </thead> 
+                <tbody> 
+                <% @user_products.each do|product| %>
+                    <tr>                      
+                        <td><%= product.product_name %> </td>
+                        <td><%= product.units%> </td>
+                        <td><%= product.usercategory.commodity_name%> </td>
+                        <td><%= link_to edit_product_path(product.id), class: "btn btn-xs btn-primary" do %>
+                               <i class="fa fa-edit"></i>
+                             <% end %>
+                      </td>
+                    </tr>  
+                   <% end %>
+                </tbody> 
+               </table>
         
             
-<div class="portlet-footer">
-<div class="text-right">     
-<%= link_to  new_product_path do %>      
-<button class="btn btn-success">Add Product</button>
-<% end %>
-</div>
-</div> <!-- /.portlet-footer -->
+               <div class="portlet-footer">
+                  <div class="text-right">     
+                      <%= link_to  new_product_path do %>      
+                          <button class="btn btn-success">Add Product</button>
+                      <% end %>
+                  </div>
+               </div> <!-- /.portlet-footer -->
                   
    <%=  will_paginate  @user_products, renderer: BootstrapPagination::Rails , class: "apple_pagination" %>                
- </div> <!-- /.table-responsive -->
- <% end %>
- </div> <!-- /.portlet-content -->
- </div> <!-- /.portlet -->
-</div> <!-- /.row -->
-</div> <!-- /.content-container -->
-</div> <!-- /.content -->
-</div> <!-- /.container -->
-
-</body>
-</html>
+           </div> <!-- /.table-responsive -->
+        </div> <!-- /.portlet-content -->
+      </div> <!-- /.portlet -->
+     </div> <!-- /.row -->
+   </div> <!-- /.content-container -->
+  </div> <!-- /.content -->
+ </div> <!-- /.container -->
 
 
 
