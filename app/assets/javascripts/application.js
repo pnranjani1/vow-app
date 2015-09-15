@@ -34,7 +34,6 @@
 //= require jquery.min
 //= require sliderscript
 //= require jquery.blockUI
-
 //= require_tree .
 
 var App = function(){
@@ -60,42 +59,47 @@ var App = function(){
 }();
 
 
-$(document).ready(function(){
-  $("#captcha").click(function(){
-    $.ajax({
-      url: '/bills/:id/captcha_image',
-      type: "POST"
-    });
-  });
-});
 /*
+
 $(document).ready(function(){
  
  /* once the user submits the form just block it until it's processed 
-+  fully by the server side 
++  fully by the server side  */
 +
+/*
   $('#user-notice').on('click', function(){
-    setTimeout(function(){
-     App.blockUI( $('#bill_body'));
-     location.reload();
-     }, 200);  
-    
+       App.blockUI( $('#bill_body'));
+    });
+    });
+
+  
+ $(document).ready(function(){
+  $("#user-notice").on("click",function(event) {
+
+      // Show Progress Indicator
+      $(".ajax-progress").show();
+});
+}); 
+  
+  
+
+/*
+$(document).ready(function(){
+  $("#loading-image").hide();
+   $("#user-notice").click(function(){
+      $("#loading-image").show();
    });
-   $("#textbox").show();
- });
- */
+});
+
+
+
 
 $(document).ready(function(){
-  $("#popupdiv").hide();
-  $('#user-notice').on('click', function(){  
-   $("#popupdiv").dialog({
-        title: "Enter Captcha in Text Field",
-        width: 430,
-        height: 300,
-        modal: true     
-     });
-   });
- });
+   $('#user-notice').click(function() {
+     $('.loading-image').show();
+    });
+});
+ */
 
 /* buttons: {
        Close: function() {

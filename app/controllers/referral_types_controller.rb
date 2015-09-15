@@ -1,7 +1,7 @@
 class ReferralTypesController < ApplicationController
   
   def index
-    @referral_types = ReferralType.all
+    @referral_types = ReferralType.all.order('pricing')
   end
   
   def new

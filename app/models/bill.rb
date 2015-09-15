@@ -186,11 +186,8 @@ class Bill < ActiveRecord::Base
   def get_esugam_number
     @bill = self 
     @tax_type = @bill.tax.tax_type
-    @invoice_number = @bill.invoice_number
-    @invoice_date = @bill.bill_date
     
-    
-    # customer name and tin number for URD 
+   # customer name and tin number for URD 
     urd_values = ["Others" ,"Other" ,"others", "other"]
     if urd_values.include? @bill.customer.name
       urd = UnregisteredCustomer.where(:bill_id => @bill.id).first
@@ -201,68 +198,41 @@ class Bill < ActiveRecord::Base
       @customer_tin_number = @bill.customer.tin_number
     end
     @customer_name_address = @bill.customer.name + @bill.customer.city
-    @customer_name = @bill.customer.name   
-    
+       
     user_id = @bill.primary_user_id
     user = Authuser.where(:id => user_id).first
     @user_city = user.address.city
-   
-   
-    
+      
     #@bill_product =  @bill.line_items.first.product.product_name
-    @product_name =  @bill.line_items.first.product.product_name
     @commodity_name =  @bill.products.first.usercategory.main_category.commodity_name
-    @quantity_units = " "+ @bill.line_items.first.quantity.to_s + " " +@bill.line_items.first.product.units
-    @other_value = 0
    
+     
     @total_amount = @bill.total_bill_price
     if @bill.other_charges_information_id != nil && @bill.other_charges != nil
       @total_amount += @bill.other_charges
     end
     
-    tax_amount = @bill.tax.tax_rate * 0.01
-    @total_tax = tax_amount * @total_amount
-    @total_tax = @total_tax.round(2)
-    @grand_total = @total_amount + @total_tax
-    @grand_total = @grand_total.round(2)
-    
-    begin
+     begin
       browser = Watir::Browser.new :phantomjs
+      browser.goto "http://164.100.80.121/vat1/"
+      file1 = File.new("app/assets/images/cap" + self.authuser.id.to_s + ".png", "a+")
+      #browser.div(:id, "log").images[0].screenshot(file1) # not supported in watir webdriver
+      browser.div(:class, "log").images[0].screenshot(file1) # not supported in watir webdriver
+      sleep 1
+      client = DeathByCaptcha.new('ranjanin', 'Abcd1234$', :http)
+      captcha = client.decode!(path: "app/assets/images/cap" + self.authuser.id.to_s + ".png")
+      text = captcha.text
       
-      #  browser = Watir::Browser.new :firefox
-        # browsers = {}
-        #(0..2).each {|i| browsers[i]} = Watir::Browser.new :phantomjs}
-        browser.goto "http://164.100.80.121/vat1/"
-        #browser.button(:value,  "Continue").click
-        file1 = File.new("app/assets/images/cap" + self.authuser.id.to_s + ".png", "a+")
-        browser.div(:id, "log").images[0].screenshot(file1) # not supported in watir webdriver
-        # browser.goto "http://sugam.kar.nic.in/"
-        # browser.button(:id, "Button2").click
-        sleep 10
         #  login credentials for primary and secondary user
         user_id = @bill.primary_user_id
         user = Authuser.where(:id => user_id).first
         user_name = user.users.first.esugam_username
         password = user.users.first.esugam_password
-     
-        # captcha = self.image
-      
+        captcha_text = text
+    
         browser.text_field(:id, "UserName").set(user_name)
         browser.text_field(:id, "Password").set(password)   
-        # browser.text_field(:id, "txtCaptcha").set(captcha)
-        #rtesseract conversion error occurs
-        # image = File.open(file1, 'w')
-        # text = RTesseract.new(file1, :processor => "rmagick")
-        # self.update_attribute(:image, text.to_s)
-        # image = RTesseract.new("app/assets/images/cap.png", :processor => "none")
-        # cap_txt = image.to_s
-        # self.update_attribute(:image, image)
-        #captcha_text = image.to_s
-        #self.update_attribute(:image, captcha_text)
-      
-        # gets
-        sleep 5
-        #browser.div(:id, "log").frame
+        browser.text_field(:id, "txtCaptcha").set(captcha_text)
         browser.button(:value,"Login").click
       
         if browser.text.include? "Login Failed"
@@ -272,94 +242,101 @@ class Bill < ActiveRecord::Base
            self.update_attribute(:error_message, "Login Failed. Enter Captcha ")
            browser.close  
         elsif browser.text.include? "Invalid Captcha Characters"
-           self.update_attribute(:error_message, "Login Failed, Invalid Captcha")
+           self.update_attribute(:error_message, "Login Failed, Try Again")
            browser.close
         else
             
-        sleep 5
-        #browser.link(:id, "LinkButton1").click
-        browser.goto "http://164.100.80.100/vat1/web_general/MainPage.aspx"
-        browser.goto "http://164.100.80.100/vat1/web_vat505/Vat505_Etrans.aspx?mode=new"
-    
+          browser.button(:id, "ctl00_MasterContent_btnContinue").click
+          sleep 1
+         
+          browser.img(:alt, "Expand e-SUGAM Forms").hover
+          sleep 1
+          browser.link(:href, "/vat1/CheckInvoiceEnabled.aspx?Form=ESUGAM1").click
+          sleep 1
+           browser.button(:value, "Ok").click
+          sleep 1
+           browser.img(:alt, "Expand e-SUGAM Forms").hover
+          sleep 1
+          browser.link(:href, "/vat1/CheckInvoiceEnabled.aspx?Form=ESUGAM1").click
+          sleep 1
+          browser.text_field(:id, "ctl00_MasterContent_txtFromAddrs").set(@user_city)
+          browser.text_field(:id, "ctl00_MasterContent_txtToAddrs").set(@customer_city)
+         
+         if browser.select_list(:id, "ctl00_MasterContent_ddl_commoditycode").option(:text => "#{@commodity_name}").present?
       
-        browser.text_field(:id, "ctl00_MasterContent_txtFromAddrs").set(@user_city)
-        browser.text_field(:id, "ctl00_MasterContent_txtToAddrs").set(@customer_city)
-        browser.text_field(:id, "ctl00_MasterContent_txt_commodityname").set(@product_name)
-        if browser.select_list(:id, "ctl00_MasterContent_ddl_commoditycode").include? @commodity_name
-            browser.select_list(:id, "ctl00_MasterContent_ddl_commoditycode").select(@commodity_name)
-            browser.text_field(:id, "ctl00_MasterContent_txtQuantity").set(@quantity_units)
-            browser.send_keys :tab
-            browser.text_field(:id, "ctl00_MasterContent_txtNetValue").set(@total_amount)
-            browser.send_keys :enter
-            browser.send_keys :tab
-            browser.text_field(:id, "ctl00_MasterContent_txtVatTaxValue").set(@total_tax)
-            browser.text_field(:id, "ctl00_MasterContent_txtOthVal").set(@other_value)
-            sleep 5
-      
-            if @tax_type == "CST"
-                browser.radio(:id, "ctl00_MasterContent_rdoStatCat_1").set
-                sleep 5
-                browser.text_field(:id, "ctl00_MasterContent_txtTIN").set(@customer_tin_number.to_i)
-                browser.send_keys :tab   
-               if browser.text_field(:id, "ctl00_MasterContent_txtNameAddrs").enabled?
-                   browser.text_field(:id, "ctl00_MasterContent_txtNameAddrs").set(@customer_name)
-               else
-                   sleep 5
-                   browser.text_field(:id, "ctl00_MasterContent_txtNameAddrs").set(@customer_name)
-               end
-               browser.send_keys :tab
-            end
+              browser.select_list(:id, "ctl00_MasterContent_ddl_commoditycode").select(@commodity_name)
+              #self.update_attributes(error_message: "")                
+              browser.text_field(:id, "ctl00_MasterContent_txt_commodityname").set(@bill.line_items.first.product.product_name)
+              sleep 1
+              browser.text_field(:id, "ctl00_MasterContent_txtQuantity").set(@bill.line_items.first.quantity.to_s + " " +@bill.line_items.first.product.units)
+              browser.send_keys :tab
+              browser.text_field(:id, "ctl00_MasterContent_txtNetValue").set(@total_amount)
+              browser.send_keys :tab
+              browser.text_field(:id, "ctl00_MasterContent_txtVatTaxValue").set(@bill.tax.tax_rate * 0.01 * @total_amount)
+              sleep 1
+        
+              if @tax_type == "CST"
+                  browser.radio(:id, "ctl00_MasterContent_rdoStatCat_1").set
+                  sleep 1
+                  browser.text_field(:id, "ctl00_MasterContent_txtTIN").set(@customer_tin_number.to_i)
+                  browser.send_keys :tab   
+                  if browser.text_field(:id, "ctl00_MasterContent_txtNameAddrs").enabled?
+                     browser.text_field(:id, "ctl00_MasterContent_txtNameAddrs").set(@bill.customer.name)
+                  else
+                     sleep 2
+                     browser.text_field(:id, "ctl00_MasterContent_txtNameAddrs").set(@bill.customer.name)
+                  end
+                  browser.send_keys :tab
+              end
     
             # check if vat and urd
-            if (@tax_type == "VAT") && (@customer_tin_number[2..-1] == "000000000")
-               browser.text_field(:id, "ctl00_MasterContent_txtTIN").set(@customer_tin_number.to_i)
-               browser.send_keys :tab
-               sleep 5
-               browser.text_field(:id, "ctl00_MasterContent_txtNameAddrs").set(@customer_name)
-               browser.send_keys :tab
-            end
+              if (@tax_type == "VAT") && (@customer_tin_number[2..-1] == "000000000")
+                 browser.text_field(:id, "ctl00_MasterContent_txtTIN").set(@customer_tin_number.to_i)
+                 browser.send_keys :tab
+                 sleep 1
+                 browser.text_field(:id, "ctl00_MasterContent_txtNameAddrs").set(@bill.customer.name)
+                 browser.send_keys :tab
+              end
           
-            if @tax_type == "VAT"
-               browser.text_field(:id, "ctl00_MasterContent_txtTIN").set(@customer_tin_number.to_i)
-               browser.send_keys :tab
-            end
+              if @tax_type == "VAT"
+                browser.text_field(:id, "ctl00_MasterContent_txtTIN").set(@customer_tin_number.to_i)
+                browser.send_keys :tab
+              end
         
-            sleep 5 
-               browser.text_field(:id, "ctl00_MasterContent_txtInvoiceNO").set(@bill.invoice_number)
-               if browser.button(:id, "ctl00_MasterContent_btn_savecumsubmit").enabled?
-                  browser.button(:value,"SAVE AND SUBMIT").click
-                  page_html = Nokogiri::HTML.parse(browser.html)
-                  textual = page_html.search('//text()').map(&:text).delete_if{|x| x !~ /\w/}
-                  esugam = textual.fetch(7)
-       
-                  if esugam.include? "Prop/Comp. Name: "
-                        file = File.new("app/assets/images/vat-error.png", "a+")
+              sleep 3
+                  browser.text_field(:id, "ctl00_MasterContent_txtInvoiceNO").set(@bill.invoice_number)
+                  browser.text_field(:id, "ctl00_MasterContent_txtInvoiceDate").set(@bill.bill_date.strftime("%d/%m/%Y"))
+                 if browser.button(:id, "ctl00_MasterContent_btn_savecumsubmit").enabled?
+                    browser.button(:value,"SAVE AND SUBMIT").click
+                    page_html = Nokogiri::HTML.parse(browser.html)
+                    textual = page_html.search('//text()').map(&:text).delete_if{|x| x !~ /\w/}
+                    esugam = textual.fetch(7)
+                    if esugam.include? "Prop/Comp. Name: "
+                      file = File.new("app/assets/images/vat-error" + self.authuser.id.to_s + ".png", "a+")
                         browser.screenshot.save file
-                        self.update_attributes(error_message: file.to_s)
-                        logger.error "esugam not generated due to incomplete form submission"
-                  else
+                        self.update_attributes(error_message: file.to_s)             
+                    else
                         self.update_attributes(esugam: esugam)
-                  end
-                  browser.button(:value,"Exit").click
-                  browser.link(:id, "link_signout").click
-                  browser.close
-                  return esugam
-               else
-                  file = File.new("app/assets/images/vat-error.png", "a+")
-                  browser.screenshot.save file
-                  self.update_attributes(error_message: file.to_s)
-               end
+                    end
+                    browser.button(:value,"Exit").click
+                    browser.link(:id, "link_signout").click
+                    browser.close
+                    return esugam
+                else
+                   file = File.new("app/assets/images/vat-error" + self.authuser.id.to_s + ".png", "a+")
+                   browser.screenshot.save file
+                   self.update_attributes(error_message: file.to_s)
+                end
         else # if commodity is not in list else
            self.update_attributes(error_message: "Selected Commodity is not added in VAT Site")
            browser.close
-        end # commodity not in list end
-        end # login end
-     
-    end # begin end
+        end # commodity not in list end        
+     end #login end
+    
+   end # begin end
   end # def end
  
-
-end # class end
+end # class end 
 
 
 

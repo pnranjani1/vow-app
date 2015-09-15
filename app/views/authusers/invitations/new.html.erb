@@ -42,9 +42,10 @@
   
 <% resource.class.invite_key_fields.each do |field| -%>
   <p><%= f.label field %>
-<div id="email" class="input-group">               
+<div id="email" class="input-group">  
+<span class="input-group-addon"><i class="fa fa-envelope"></i></span>
   <%= f.text_field field , class: "form-control" %>
-  <span class="input-group-addon"><i class="fa fa-envelope"></i></span></div>
+ </div>
   <br/><br/>
 <!-- <%= f.text_field field, class: "form-control" %><br/><br/> -->
 <% end -%>

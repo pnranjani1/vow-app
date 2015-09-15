@@ -77,6 +77,8 @@ gem 'jquery-turbolinks' # jquery not laoded if page is not refreshed by user
 #gem 'rtesseract'
 #gem 'rmagick'
 
+gem 'deathbycaptcha', '~> 5.0.0'
+
 #gem 'gocr-ruby'
 # gem 'tesseract-ocr', '~> 0.1.5' # ffi-inline is causing errors image to text conversion gem
 

@@ -211,38 +211,48 @@ class BillPdf < Prawn::Document
    def table_price_list
      move_down 10
          data =  [["<b>Bill Total</b>", "#{number_with_delimiter(@bill.total_bill_price.round(2), delimiter: ',')}"]]
-table(data,  :cell_style => {:inline_format => true, :align => :center},:column_widths => [125, 110], :position => 300)
+table(data,  :cell_style => {:inline_format => true, :align => :center},:column_widths => [150, 110], :position => 275)
         
          if @bill.other_charges_information_id != nil
             data = [["<b>#{@bill.other_charges_information.other_charges}</b>", "#{number_with_delimiter(@bill.other_charges, delimiter: ',')}"]]
-table(data, :cell_style => {:inline_format => true, :align => :center},:column_widths =>[125, 110], :position => 300)
+table(data, :cell_style => {:inline_format => true, :align => :center},:column_widths =>[150, 110], :position => 275)
          elsif @bill.other_charges_information_id == nil
            data = [["<b>Other Charges</b>", "NA"]]
-table(data, :cell_style => {:inline_format => true, :align => :center},:column_widths =>[125, 110], :position => 300)
+table(data, :cell_style => {:inline_format => true, :align => :center},:column_widths =>[150, 110], :position => 275)
          end
           
           sub_total = @bill.total_bill_price.to_f + @bill.other_charges.to_f
          data = [["<b>Sub Total</b>", "#{number_with_delimiter(sub_total.round(2), delimiter: ',')}"]]
-table(data, :cell_style => {:inline_format => true, :align => :center}, :column_widths => [125, 110], :position => 300)
+table(data, :cell_style => {:inline_format => true, :align => :center}, :column_widths =>[150, 110], :position => 275) 
 
          if @bill.other_charges != nil     
            total = @bill.total_bill_price + @bill.other_charges
            data = [["<b>#{@bill.tax.tax} on #{number_with_delimiter(total.round(2), delimiter: ',')}</b>", "#{number_with_delimiter((@bill.tax.tax_rate*0.01* total).round(2), delimiter: ',')}"]]
-table(data, :cell_style => {:inline_format => true, :align => :center},:column_widths => [125, 110], :position => 300)
+table(data, :cell_style => {:inline_format => true, :align => :center},:column_widths => [150, 110], :position => 275)
          else 
             total = @bill.total_bill_price 
             data = [["<b>#{@bill.tax.tax} on #{number_with_delimiter(total, delimiter: ',')}</b>", "#{(@bill.tax.tax_rate*0.01* total).round(2)}"]]
-table(data, :cell_style => {:inline_format => true, :align => :center},:column_widths => [125, 110], :position => 300)    
+table(data, :cell_style => {:inline_format => true, :align => :center},:column_widths => [150, 110], :position => 275)    
          end
 
          service_tax = @bill.line_items.pluck(:service_tax_rate)
          if service_tax.present?
+           service_tax = @bill.line_items.pluck(:service_tax_rate)
+           service_tax_rates = @bill.line_items.map(&:service_tax_rate) 
+           service_tax_rates = service_tax_rates.uniq 
+           service_tax_rates.each do |service_tax| 
+             line_items = @bill.line_items.where(:service_tax_rate => service_tax)
+             line_items_total_price = line_items.sum(:total_price) 
+             data = [["<b> Service Tax Total @ #{service_tax}</b>", "#{((service_tax/100) * line_items_total_price).round(2)}"]]   
+             table(data, :cell_style => {:inline_format => true, :align => :center}, :column_widths => [150, 110], :position => 275)
+           end 
+         
            data = [["<b>Service Tax Amount </b>", "#{number_with_delimiter(@bill.line_items.sum(:service_tax_amount).round(2), delimiter: ',')}"]]
-           table(data, :cell_style => {:inline_format => true, :align => :center}, :column_widths => [125, 110], :position => 300)
+           table(data, :cell_style => {:inline_format => true, :align => :center}, :column_widths => [150, 110], :position => 275)
          end
 
 data = [["<b>Grand Total</b>", "#{number_with_delimiter((@bill.grand_total + @bill.line_items.sum(:service_tax_amount)).round(2), delimiter: ',')}"]]
-table(data, :cell_style => {:inline_format => true, :align => :center}, :column_widths => [125, 110], :position => 300)
+table(data, :cell_style => {:inline_format => true, :align => :center}, :column_widths => [150, 110], :position => 275)
 
 data = [["Amount in words", "Rupees #{(@bill.grand_total + @bill.line_items.sum(:service_tax_amount)).round.to_words} only"]]
          table(data, :cell_style => {:font_style => :bold, :align => :center}, :column_widths => [140, 392], :position => 3)

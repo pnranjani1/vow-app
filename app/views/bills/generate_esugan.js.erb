@@ -1,22 +1,14 @@
 
-App.unBlockUI($('#bill_body'));
 
-<% if @error.present? %>
-  $('#sugan_error').text(" Error: <%= @error %>");
-  $('#sugan_error').removeClass();
-  $('#sugan_error').addClass('show-sugan');
 
-<% else %>
-  $('#sugan_error').removeClass();
-  $('#sugan_error').addClass('hide-sugan');
-   $('#sugan_text').text("<%= @bill.esugam %>");
-  $("#esugam_div").html("<%= escape_javascript( render(:partial => "bills/esugam_button")) %>");
+
+<% if @bill.esugam.present? %>
+$('#esugam-text').text("<%= @bill.esugam %>");
 <% end %>
 
-
-
-<% if @bill.error_message.present? %>
-$('#error').append("<%= escape_javascript (render 'error') %>");
-<% else %>
-$('#esugam-number').text(" Esugam Number : <%= @bill.esugam %>");
+<% if (@bill.error_message != nil) && (@bill.esugam == nil) %>
+$("#error").append("<%= escape_javascript (render 'error') %>");
 <% end %>
+
+App.unBlockUI($('.portlet-content'));
+$(".ajax-progress").hide();

@@ -72,46 +72,26 @@ class BillsController < ApplicationController
        render action: 'new'
     end
  end
-       #   render js: "window.location='#{bill_path(@bill)}'"
-       # @bill.total_bill_price = @bill.line_items.sum(:total_price)
-        #@bill.save      
-     
-        #format.json {render json: @bill, status: :created, location: @bill }
-       # flash[:notice] = "Bill Created Successfully"
-        #redirect_to bill_path(@bill.id)
-   # else
-    #render :json => {:error => @bill.errors.full_messages.to_sentence},
-    #:status => :unprocessable_entity
-       #respond_to do |format|
-        # format.html {render action: "new"}
-         #format.json {render json: @bill.errors, status: :unprocessable_entity}
-         #format.js
-        # render js: "window.location='#{new_bill_path}'"
-     # render action: 'new'
-   # end
-  #end
-  
-  
+       
   def get_tin
     #state = params[:unregistered_customer][:state]
     @tin_number = TinNumber.where(:state => params[:state]).first.tin_number
-    
   end
   
   
   def generate_esugan
+  #  raise params.inspect
     @bill = Bill.where(id: params["bill_id"]).first
      if @bill.present?
-     # @bill.update_attribute(:image, params[:image])
-       @bill.get_esugam_number
-           # @error = " Oops ! Something went wrong !  " if @bill.esugam.blank?
+       @bill.get_esugam_number  
+       #bill.update_attribute(:esugam, rand(1..200))
+      
      end
   end
  
   
   def show
-    @bill = Bill.find(params[:id])
-    
+    @bill = Bill.find(params[:id])    
     respond_to do |format|
       format.html  do
       end
