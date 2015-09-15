@@ -113,10 +113,11 @@ end
   
     
    def invoke_user_table
-     primary_user_id = self.invited_by_id
-     primary_user = Authuser.where(:id => primary_user_id).first
-     role_names = primary_user.main_roles.pluck(:role_name)
-     if self.name.nil? && (role_names.include? "client")
+    # primary_user_id = self.invited_by_id
+     #primary_user = Authuser.where(:id => primary_user_id).first
+     #role_names = primary_user.main_roles.pluck(:role_name)
+     #if self.name.nil? && (role_names.include? "client")
+     if self.name.nil?
        self.users << User.new 
      end
     end
@@ -124,20 +125,22 @@ end
    
   
   def invoke_address_table
-     primary_user_id = self.invited_by_id
-     primary_user = Authuser.where(:id => primary_user_id).first
-     role_names = primary_user.main_roles.pluck(:role_name)
-     if self.name.nil? && (role_names.include? "client")
+     #primary_user_id = self.invited_by_id
+     #primary_user = Authuser.where(:id => primary_user_id).first
+    # role_names = primary_user.main_roles.pluck(:role_name)
+     #if self.name.nil? && (role_names.include? "client")
+    if self.name.nil?
        self.build_address
       #create_bankdetail{attributes => {:bank_account_number, :ifsc_code}}
       end
     end
   
   def invoke_bankdetail_table
-     primary_user_id = self.invited_by_id
-     primary_user = Authuser.where(:id => primary_user_id).first
-     role_names = primary_user.main_roles.pluck(:role_name)
-     if self.name.nil? && (role_names.include? "client")
+     #primary_user_id = self.invited_by_id
+     #primary_user = Authuser.where(:id => primary_user_id).first
+     #role_names = primary_user.main_roles.pluck(:role_name)
+     #if self.name.nil? && (role_names.include? "client")
+    if self.name.nil?
        self.build_bankdetail
       end
     end
