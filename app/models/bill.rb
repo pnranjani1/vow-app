@@ -196,29 +196,21 @@ class Bill < ActiveRecord::Base
     else
       @customer_city = @bill.customer.city
       @customer_tin_number = @bill.customer.tin_number
-    end
-    @customer_name_address = @bill.customer.name + @bill.customer.city
+    end  
        
     user_id = @bill.primary_user_id
     user = Authuser.where(:id => user_id).first
-    @user_city = user.address.city
-      
-    #@bill_product =  @bill.line_items.first.product.product_name
-    @commodity_name =  @bill.products.first.usercategory.main_category.commodity_name
-   
-     
+    @commodity_name =  @bill.products.first.usercategory.main_category.commodity_name   
     @total_amount = @bill.total_bill_price
     if @bill.other_charges_information_id != nil && @bill.other_charges != nil
-      @total_amount += @bill.other_charges
+     @total_amount += @bill.other_charges
     end
-    
-     begin
+   
+    begin
       browser = Watir::Browser.new :phantomjs
       browser.goto "http://164.100.80.121/vat1/"
       file1 = File.new("app/assets/images/cap" + self.authuser.id.to_s + ".png", "a+")
-      #browser.div(:id, "log").images[0].screenshot(file1) # not supported in watir webdriver
       browser.div(:class, "log").images[0].screenshot(file1) # not supported in watir webdriver
-      sleep 1
       client = DeathByCaptcha.new('ranjanin', 'Abcd1234$', :http)
       captcha = client.decode!(path: "app/assets/images/cap" + self.authuser.id.to_s + ".png")
       text = captcha.text
@@ -235,57 +227,47 @@ class Bill < ActiveRecord::Base
         browser.text_field(:id, "txtCaptcha").set(captcha_text)
         browser.button(:value,"Login").click
       
-        if browser.text.include? "Login Failed"
-           self.update_attribute(:error_message,  "Login Failed. Check your VAT website credentials")
-           browser.close
-        elsif browser.text.include? "Please enter the captcha"
-           self.update_attribute(:error_message, "Login Failed. Enter Captcha ")
-           browser.close  
-        elsif browser.text.include? "Invalid Captcha Characters"
-           self.update_attribute(:error_message, "Login Failed, Try Again")
-           browser.close
+        if ((browser.text.include? "Login Failed")  || (browser.text.include? "Please enter the captcha") || (browser.text.include? "Invalid Captcha Characters"))
+           self.update_attribute(:error_message,  "Login Failed. Check your VAT website credentials and try again")
+           browser.close        
         else
-            
-          browser.button(:id, "ctl00_MasterContent_btnContinue").click
-          sleep 1
-         
+         browser.button(:id, "ctl00_MasterContent_btnContinue").click
+        end
           browser.img(:alt, "Expand e-SUGAM Forms").hover
           sleep 1
           browser.link(:href, "/vat1/CheckInvoiceEnabled.aspx?Form=ESUGAM1").click
-          sleep 1
+          
            browser.button(:value, "Ok").click
-          sleep 1
+          
            browser.img(:alt, "Expand e-SUGAM Forms").hover
           sleep 1
           browser.link(:href, "/vat1/CheckInvoiceEnabled.aspx?Form=ESUGAM1").click
-          sleep 1
-          browser.text_field(:id, "ctl00_MasterContent_txtFromAddrs").set(@user_city)
+         
+          browser.text_field(:id, "ctl00_MasterContent_txtFromAddrs").set(user.address.city)
           browser.text_field(:id, "ctl00_MasterContent_txtToAddrs").set(@customer_city)
          
-         if browser.select_list(:id, "ctl00_MasterContent_ddl_commoditycode").option(:text => "#{@commodity_name}").present?
-      
-              browser.select_list(:id, "ctl00_MasterContent_ddl_commoditycode").select(@commodity_name)
-              #self.update_attributes(error_message: "")                
+          if browser.select_list(:id, "ctl00_MasterContent_ddl_commoditycode").option(:text => "#{@commodity_name}").present?
+             browser.select_list(:id, "ctl00_MasterContent_ddl_commoditycode").select(@commodity_name)
+          else # if commodity is not in list else
+             self.update_attributes(error_message: "Selected Commodity is not added in VAT Site")
+             browser.close
+          end # commodity not in list end    
+                       
               browser.text_field(:id, "ctl00_MasterContent_txt_commodityname").set(@bill.line_items.first.product.product_name)
-              sleep 1
+             
               browser.text_field(:id, "ctl00_MasterContent_txtQuantity").set(@bill.line_items.first.quantity.to_s + " " +@bill.line_items.first.product.units)
               browser.send_keys :tab
               browser.text_field(:id, "ctl00_MasterContent_txtNetValue").set(@total_amount)
               browser.send_keys :tab
               browser.text_field(:id, "ctl00_MasterContent_txtVatTaxValue").set(@bill.tax.tax_rate * 0.01 * @total_amount)
-              sleep 1
-        
+              
               if @tax_type == "CST"
                   browser.radio(:id, "ctl00_MasterContent_rdoStatCat_1").set
                   sleep 1
                   browser.text_field(:id, "ctl00_MasterContent_txtTIN").set(@customer_tin_number.to_i)
                   browser.send_keys :tab   
-                  if browser.text_field(:id, "ctl00_MasterContent_txtNameAddrs").enabled?
-                     browser.text_field(:id, "ctl00_MasterContent_txtNameAddrs").set(@bill.customer.name)
-                  else
-                     sleep 2
-                     browser.text_field(:id, "ctl00_MasterContent_txtNameAddrs").set(@bill.customer.name)
-                  end
+                  sleep 1
+                  browser.text_field(:id, "ctl00_MasterContent_txtNameAddrs").set(@bill.customer.name)
                   browser.send_keys :tab
               end
     
@@ -301,9 +283,9 @@ class Bill < ActiveRecord::Base
               if @tax_type == "VAT"
                 browser.text_field(:id, "ctl00_MasterContent_txtTIN").set(@customer_tin_number.to_i)
                 browser.send_keys :tab
-              end
-        
-              sleep 3
+              end        
+              sleep 3 # dont remove this sleep "click succeed, but load failed" error occurs
+           
                   browser.text_field(:id, "ctl00_MasterContent_txtInvoiceNO").set(@bill.invoice_number)
                   browser.text_field(:id, "ctl00_MasterContent_txtInvoiceDate").set(@bill.bill_date.strftime("%d/%m/%Y"))
                  if browser.button(:id, "ctl00_MasterContent_btn_savecumsubmit").enabled?
@@ -322,18 +304,12 @@ class Bill < ActiveRecord::Base
                     browser.link(:id, "link_signout").click
                     browser.close
                     return esugam
-                else
+                 else
                    file = File.new("app/assets/images/vat-error" + self.authuser.id.to_s + ".png", "a+")
                    browser.screenshot.save file
                    self.update_attributes(error_message: file.to_s)
-                end
-        else # if commodity is not in list else
-           self.update_attributes(error_message: "Selected Commodity is not added in VAT Site")
-           browser.close
-        end # commodity not in list end        
-     end #login end
-    
-   end # begin end
+                 end
+             end # begin end
   end # def end
  
 end # class end 
