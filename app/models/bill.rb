@@ -232,7 +232,7 @@ class Bill < ActiveRecord::Base
            browser.close        
         else
          browser.button(:id, "ctl00_MasterContent_btnContinue").click
-        end
+       
           browser.img(:alt, "Expand e-SUGAM Forms").hover
           sleep 1
           browser.link(:href, "/vat1/CheckInvoiceEnabled.aspx?Form=ESUGAM1").click
@@ -309,6 +309,7 @@ class Bill < ActiveRecord::Base
                    browser.screenshot.save file
                    self.update_attributes(error_message: file.to_s)
                  end
+        end #login end
              end # begin end
   end # def end
  
