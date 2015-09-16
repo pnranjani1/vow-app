@@ -215,6 +215,7 @@ class Bill < ActiveRecord::Base
       captcha = client.decode!(path: "app/assets/images/cap" + self.authuser.id.to_s + ".png")
       text = captcha.text
       
+      
         #  login credentials for primary and secondary user
         user_id = @bill.primary_user_id
         user = Authuser.where(:id => user_id).first
@@ -227,12 +228,18 @@ class Bill < ActiveRecord::Base
         browser.text_field(:id, "txtCaptcha").set(captcha_text)
         browser.button(:value,"Login").click
       
-        if ((browser.text.include? "Login Failed")  || (browser.text.include? "Please enter the captcha") || (browser.text.include? "Invalid Captcha Characters"))
-           self.update_attribute(:error_message,  "Login Failed. Check your VAT website credentials and try again")
-           browser.close        
+        if browser.text.include? "Login Failed"
+           self.update_attribute(:error_message,  "Login Failed. Check your VAT website credentials")
+           browser.close
+        elsif browser.text.include? "Please enter the captcha"
+           self.update_attribute(:error_message, "Login Failed. Enter Captcha ")
+           browser.close  
+        elsif browser.text.include? "Invalid Captcha Characters"
+          self.update_attribute(:error_message, "Invalid Captcha, Try Again")
+           browser.close
         else
          browser.button(:id, "ctl00_MasterContent_btnContinue").click
-       
+        end
           browser.img(:alt, "Expand e-SUGAM Forms").hover
           sleep 1
           browser.link(:href, "/vat1/CheckInvoiceEnabled.aspx?Form=ESUGAM1").click
@@ -309,7 +316,7 @@ class Bill < ActiveRecord::Base
                    browser.screenshot.save file
                    self.update_attributes(error_message: file.to_s)
                  end
-        end #login end
+       
              end # begin end
   end # def end
  
