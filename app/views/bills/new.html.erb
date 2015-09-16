@@ -1,50 +1,47 @@
 
 <div class="container">
-<div class="content">
-<div class="content-container" id="bill_body">      
+ <div class="content">
+   <div class="content-container" id="bill_body">      
 
-<div>
-<h4 class="heading-inline">Bills</h4>        
-</div>
-
-<br>
+    <div>
+       <h4 class="heading-inline">Bills</h4>        
+    </div><br>
       
-  <script type="text/javascript">
-  $(document).ready(function(){
-     $("#bill_date").datepicker({ dateFormat: "dd/mm/yy" }).val();
-     $("#lr_date").datepicker({ dateFormat: "dd/mm/yy" }).val();
+    <script type="text/javascript">
+       $(document).ready(function(){
+         $("#bill_date").datepicker({ dateFormat: "dd/mm/yy" }).val();
+         $("#lr_date").datepicker({ dateFormat: "dd/mm/yy" }).val();
     
-    // for automatic invoice number, paste the @number & make the field readonly!
-    function populateInvoiceNumber(){
-      $('#invoice_field').val("<%= @number %>");
-      $('#check').val("automatic");
-      $('#invoice_field').attr("readonly", true);                      
-    }
+         // for automatic invoice number, paste the @number & make the field readonly!
+          function populateInvoiceNumber(){
+            $('#invoice_field').val("<%= @number %>");
+            $('#check').val("automatic");
+            $('#invoice_field').attr("readonly", true);                      
+          }
     
-    // for manual entry, make the field value blank & enable the field for manual entry.
-    function prepareInvoiceFieldForManualEntry(){
-      $('#invoice_field').val("");
-      $('#check').val("manual");
-      $('#invoice_field').attr("readonly", false);                      
-    }
+         // for manual entry, make the field value blank & enable the field for manual entry.
+          function prepareInvoiceFieldForManualEntry(){
+             $('#invoice_field').val("");
+             $('#check').val("manual");
+             $('#invoice_field').attr("readonly", false);                      
+          }
     
-    // if the user has selected for the automatic type of invoice.
-     <% if @user.invoice_format == 'automatic' %>
-       populateInvoiceNumber();  
-     <% end %>
+         // if the user has selected for the automatic type of invoice.
+           <% if @user.invoice_format == 'automatic' %>
+             populateInvoiceNumber();  
+           <% end %>
     
-     $('#bill_type').click(function() {
-       var bill_type_checked = $('#bill_type').prop('checked');
-       if(bill_type_checked){ 
-         populateInvoiceNumber(); 
-       }
-       else{
-         prepareInvoiceFieldForManualEntry();     
-       }
-      });
-  
-    });  
-   </script>
+            $('#bill_type').click(function() {
+              var bill_type_checked = $('#bill_type').prop('checked');
+              if(bill_type_checked){ 
+                populateInvoiceNumber(); 
+              }
+              else{
+                prepareInvoiceFieldForManualEntry();     
+              }
+        });
+      });  
+    </script>
 
    <div class="row"> 
       
@@ -171,7 +168,7 @@
                                              
                                              <div class="col-sm-6 marggap">  
                                                Tin Number&nbsp;&nbsp;<b style="color:red">*</b>
-                                                 <div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Should Be 11 numbers">
+                                                 <div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Should Be 11 Digits">
                                                     <div id="number" class="input-group">               
                                                        <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
                                                       <%= f.text_field :tin_number, maxlength: 11, class: "form-control" %>
@@ -180,11 +177,13 @@
                                              </div><!-- /.col -->
                                
                                               <div class="col-sm-6 marggap">  
-                                                 Phone Number
+                                                 Mobile Number
+                                                 <div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Should Be 10 Digits">
                                                    <div id="phone" class="input-group">               
                                                       <span class="input-group-addon"><i class="fa fa-phone"></i></span>
                                                      <%= f.text_field :phone_number , maxlength: 10, class: "form-control" %>
                                                    </div>
+                                                </div>
                                               </div> <!-- /.col -->
                                          </div>  <!-- row ends here -->
   
@@ -212,6 +211,14 @@
                                                  <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
                                                   <%= f.text_field :state , maxlength: 15, class: "form-control" %>
                                                </div>
+                                           </div> <!-- /.col -->
+                                           
+                                           <div class="col-sm-6 marggap">  
+                                             Pin Code
+                                              <div id="City" class="input-group">               
+                                                <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+                                                <%= f.text_field :pin_code , :maxlength => 8,  class: "form-control" %>
+                                              </div>
                                            </div> <!-- /.col -->
                                          </div><!-- row ends here -->
   
@@ -295,14 +302,14 @@
        <div class="portlet">
          
            <div class="portlet-header">
-             <h3><i class="fa fa-ruble"></i>Item Details</h3>
+             <h3><i class="fa fa-ruble"></i>Item Details
           
               <!-- dont allow secondary user to create new product -->
               
                    <!-- Button trigger modal for adding products-->
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal1">
                      New Product
-               </button>
+               </button></h3>
              
 
                    <%= content_for :product do %>
@@ -333,6 +340,7 @@
                                           <label class="col-md-3">Belongs to Commodity&nbsp;&nbsp;<b style="color:red">*</b></label>
                                            <div class="col-md-6">
                                               <div id="name" class="input-group">  
+                                                 <span class="input-group-addon"><i class="fa fa-star"></i></span>  
                                                 <!-- show all categories of primary user and secondary user -->
                                                  <% if current_authuser.main_roles.first.role_name == "secondary_user" %>
                                                    <% primary_user_id = current_authuser.invited_by_id %>
@@ -361,10 +369,12 @@
                                 <div class="row">
                                    <label class="col-md-3">Unit&nbsp;&nbsp;<b style="color:red">*</b></label>
                                    <div class="col-md-6">
+                                     <div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Enter units like packets, pieces etc">
                                       <div id="name" class="input-group">               
-                                         <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
+                                         <span class="input-group-addon"><i class="fa fa-text-width"></i></span>
                                           <%= f.text_field :units, class: "form-control" %>
                                       </div>
+                                     </div>
                                    </div>
                                 </div>
                                 <br>
@@ -550,3 +560,6 @@
   </div> <!-- /.content-container -->      
  </div> <!-- /.content -->
 </div> <!-- /.container -->
+  
+  
+  

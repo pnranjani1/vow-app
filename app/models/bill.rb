@@ -214,16 +214,19 @@ class Bill < ActiveRecord::Base
         browser.text_field(:id, "txtCaptcha").set(text)
         browser.button(:value,"Login").click
         if ((!browser.text.include? "Login Failed")  || (!browser.text.include? "Please enter the captcha") || (!browser.text.include? "Invalid Captcha Characters"))
-          browser.button(:id, "ctl00_MasterContent_btnContinue").click        
-          browser.img(:alt, "Expand e-SUGAM Forms").hover
-          #sleep 1
-          browser.link(:href, "/vat1/CheckInvoiceEnabled.aspx?Form=ESUGAM1").click
-          browser.button(:value, "Ok").click
+          browser.button(:id, "ctl00_MasterContent_btnContinue").click   
           
-          browser.img(:alt, "Expand e-SUGAM Forms").hover
-          #sleep 1
+          browser.img(:alt, "Expand e-SUGAM Forms").hover 
+          
+          sleep 1
+          
           browser.link(:href, "/vat1/CheckInvoiceEnabled.aspx?Form=ESUGAM1").click
-         
+          browser.button(:id, "ctl00_MasterContent_btn_ok").click
+          
+         browser.img(:alt, "Expand e-SUGAM Forms").hover 
+          sleep 1
+          browser.link(:href, "/vat1/CheckInvoiceEnabled.aspx?Form=ESUGAM1").click
+        
           browser.text_field(:id, "ctl00_MasterContent_txtFromAddrs").set(user.address.city)
           browser.text_field(:id, "ctl00_MasterContent_txtToAddrs").set(@bill.customer.city)
          
@@ -244,10 +247,12 @@ class Bill < ActiveRecord::Base
                   sleep 2
                   browser.text_field(:id, "ctl00_MasterContent_txtNameAddrs").set(@bill.customer.name)
                   browser.send_keys :tab
-            elsif @bill.tax.tax_type == "VAT"
+            end
+            
+            if @bill.tax.tax_type == "VAT"
                 browser.text_field(:id, "ctl00_MasterContent_txtTIN").set(@bill.customer.tin_number.to_i)
                 browser.send_keys :tab
-              end    
+            end    
             
               sleep 3 # dont remove this sleep "click succeed, but load failed" error occurs
            

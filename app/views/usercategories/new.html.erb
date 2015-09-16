@@ -1,78 +1,74 @@
 
-<!DOCTYPE html>
-<html>
-
-<body>
   
 <div class="container">
-<div class="content">
-<div class="content-container">      
-<div>
-<h4 class="heading-inline">Commodities</h4>        
-</div>
-
-<br>
+  <div class="content">
+    <div class="content-container">      
+      <div>
+        <h4 class="heading-inline">Commodities</h4>        
+      </div>
+      <br>
       
-<div class="row"> 
-<div class="portlet">
+      <div class="row"> 
+        <div class="portlet">
 
-<div class="portlet-header">
-<h3><i class="fa fa-group"></i> Add Commodity</h3>
-</div> <!-- /.portlet-header -->
+           <div class="portlet-header">
+              <h3><i class="fa fa-group"></i> Add Commodity</h3>
+           </div> <!-- /.portlet-header -->
 
-<div class="portlet-content">
-<%= form_for @usercategory do |f| %>
-  <% if @usercategory.errors.any? %>
-  <div class="col-md-8">
-  <div class= "alert alert-danger">
-  <% @usercategory.errors.full_messages.each do |error| %>
-  <ul>
-    <li><%= error %></li>
-  </ul>
-  <% end %>
-    </div>
-  </div>
-  <% end %>
+           <div class="portlet-content">
+              <%= form_for @usercategory do |f| %>
+                  <% if @usercategory.errors.any? %>
+                       <div class="col-md-8">
+                         <div class= "alert alert-danger">
+                            <% @usercategory.errors.full_messages.each do |error| %>
+                               <ul>
+                                  <li><%= error %></li>
+                               </ul>
+                            <% end %>
+                         </div>
+                       </div>
+                  <% end %>
   
-<div class="col-sm-8"> 
-<div class="row">  
-<label class="col-md-3">Select Commodity</label>
-<div class="col-md-6">
-<div id="name" class="input-group"> 
+                  <div class="col-sm-8"> 
+                     <div class="row">  
+                        <label class="col-md-3">Select Commodity</label>
+                        <div class="col-md-5">
+                          <div id="name" class="input-group"> 
+                                <span class="input-group-addon"><i class="fa fa-star"></i></span> 
+                                    <%= f.collection_select :main_category_id, MainCategory.all, :id, :commodity_name, {prompt: "Select Commodity"}, {class: "form-control"} %>
+                          </div>
+                        </div>
+                          <br/><br/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                          <%= f.submit "Add Commodity", class: "btn btn-success" %>
+                    </div><!-- row ends here -->
+                  </div><!-- col md  8 ends heer -->
+              <% end %>                          
+           </div><!-- potlet content ends here -->
+        </div><!-- row ends here-->
+      </div><!-- portlet ends here -->
+    </div><!-- content container ends here -->
+  </div> <!-- content ends here -->
+ </div><!-- container ends here-->
+  
+ 
+                            
+                            
+                            
 <%
 =begin %>
   <%= f.collection_select :main_category_id, @available_categories, :id, :commodity_name, {prompt: "Select Commodity"}, {class: "form-control"} %> 
 <%
 =end %>
-  
-  <%= f.collection_select :main_category_id, MainCategory.all, :id, :commodity_name, {prompt: "Select Commodity"}, {class: "form-control"} %>
- <br/><br/><br/>
 
-<%= f.submit "Add Commodity", class: "btn btn-success" %>
-<% end %>
+  
+
+
+
 
         
 
-</div>
-</div>
-</div>
-  </div>
-  
-  
-  </div>
-  </div>
-   </div>
-
-
-
    
-   </div><!-- content container ends here -->
-   </div> <!-- content ends here -->
-  </div><!-- container ends here-->
   
-  </body>
-</html>
-
 
 
       

@@ -1,135 +1,125 @@
 <div class="container">
- <div class="content">
-<div class="content-container">     
-<div>
-<h4 class="heading-inline"><%= current_authuser.name %></h4>     
-</div>
-<br>
-
-<div class="row">   
-<div class="col-sm-6 col-md-3">
-<div class="row-stat">
-<p class="row-stat-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number of Users Added<br/> This Month</p>
-  <h3 class="row-stat-value"><%= @users_current_month.count %></h3>
-<span class="label label-success row-stat-badge"></span>
-</div> <!-- /.row-stat -->
-</div> <!-- /.col -->
-
-  
-
-<div class="col-sm-6 col-md-3">
-<div class="row-stat">
-<p class="row-stat-label">&nbsp;&nbsp;&nbsp;&nbsp;Number of Esugam's Generated <br/>This Month by all users</p>
-  <h3 class="row-stat-value"><%= @bills_esugam.count %></h3>
-<span class="label label-success row-stat-badge"></span>
-</div> <!-- /.row-stat -->
-</div> <!-- /.col -->
-
+  <div class="content">
+   <div class="content-container">     
+     <div>
+       <h4 class="heading-inline"><%= current_authuser.name %></h4>     
+     </div><br>
  
-<div class="col-sm-6 col-md-3">
-<div class="row-stat">
-<p class="row-stat-label">&nbsp;&nbsp;&nbsp;&nbsp;Number of Cash Based Applications<br/>This Month by all users</p>
-  <h3 class="row-stat-value"><%= @cash_based_applications.count %></h3>
-<span class="label label-success row-stat-badge"></span>
-</div> <!-- /.row-stat -->
-</div> <!-- /.col -->
-</div> <!-- row ends here-->
+     <div class="row">   
+       <div class="col-sm-6 col-md-3">
+         <div class="row-stat">
+           <p class="row-stat-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number of Users Added<br/> This Month</p>
+             <h2 class="row-stat-value"><%= @users_current_month.count %></h2>
+             <span class="label label-success row-stat-badge"></span>
+         </div> <!-- /.row-stat -->
+       </div> <!-- /.col -->
+
+       <div class="col-sm-6 col-md-3">
+         <div class="row-stat">
+           <p class="row-stat-label">&nbsp;&nbsp;&nbsp;&nbsp;Number of Esugam's Generated <br/>This Month by all users</p>
+           <h2 class="row-stat-value"><%= @bills_esugam.count %></h2>
+           <span class="label label-success row-stat-badge"></span>
+         </div> <!-- /.row-stat -->
+       </div> <!-- /.col -->
+
+       <div class="col-sm-6 col-md-3">
+         <div class="row-stat">
+           <p class="row-stat-label">&nbsp;&nbsp;&nbsp;&nbsp;Number of Cash Based Applications<br/>This Month by all users</p>
+           <h2 class="row-stat-value"><%= @cash_based_applications.count %></h2>
+           <span class="label label-success row-stat-badge"></span>
+         </div> <!-- /.row-stat -->
+       </div> <!-- /.col -->
+     </div> <!-- row ends here-->
   
-<% if alert %>
-<div class="col-md-4">
-<div class="alert alert-danger"><%= alert %></div>
-</div>
-<% end %>
+     <% if alert %>
+       <div class="col-md-4">
+         <div class="alert alert-danger"><%= alert %></div>
+       </div>
+     <% end %>
      
-<% if notice %>
-<div class="col-md-8">
-<div class= "alert alert-success"><%= notice %></div>
-</div>
-<% end %>
+     <% if notice %>
+       <div class="col-md-8">
+          <div class= "alert alert-success"><%= notice %></div>
+       </div>
+     <% end %>
          
-<div class="row">
-<div class="portlet portlet-table">
-<div class="portlet-header">
-<h3><i class="fa fa-group"></i>               
-You have <%= pluralize(@users.count, 'User') %><br/></h3>
-</div> <!-- Portlet header ends -->
+     <div class="row">
+       <div class="portlet portlet-table">
+         
+         <div class="portlet-header">
+           <h3><i class="fa fa-group"></i>               
+             You have <%= pluralize(@users.count, 'User') %><br/>
+           </h3>
+         </div> <!-- Portlet header ends -->
   
-<div class="portlet-content">
-<div class="table-responsive">
-<table id="user-signups" 
-class="table table-striped table-bordered table-checkable"> 
+         <div class="portlet-content">
+           <div class="table-responsive">
+             <table id="user-signups" class="table table-striped table-bordered table-checkable"> 
+                <thead> 
+                   <tr> 
+                     <th>Name</th> 
+                     <th>Current Status</th> 
+                     <th>Membership End Date</th>
+                     <th>No of Cash based Applications</th> 
+                     <th>No of Esugam Generated</th> 
+                     <th>Activate/De-Activate User</th>
+                     <th>No Of Secondary Users</th>
+                   </tr> 
+                </thead> 
+                <tbody>
+                   <% @users.each do |user| %>
+                      <% userid = user.authuser.id %>
+                      <% c = user.authuser.membership.id %>
+                      <% @bills = user.authuser.bills %>
+                      <% date = Date.today.strftime("%Y%m%d") %>
+                      <% @cash_based_applications = @bills.where('ESUGAM IS NULL AND created_at >= ? AND created_at <= ?', date.to_date.beginning_of_month, date.to_date.end_of_month) %>
+                      <% @esugam = @bills.where('ESUGAM IS NOT NULL AND created_at >= ? AND created_at <= ?', date.to_date.beginning_of_month, date.to_date.end_of_month ) %>
+                      <% secondary_users_count = Authuser.where(:invited_by_id => userid).count %>
+
+                    <tr>
+                       <td class="hidden-xs"><%= link_to user.authuser.name, authuser_path(userid), class: "listconttext"  %></td>
+                       <td><%= human_boolean(user.authuser.approved) %></td>
+                       <td><%= link_to user.authuser.membership.membership_end_date.strftime("%d %b %Y") , edit_membership_path(c) ,  class: "listconttext"%></td> 
+                       <td><%= @cash_based_applications.count %></td>
+                       <td><%= @esugam.count %></td>
       
-<thead> 
-<tr> 
-<th>Name</th> 
-<th>Current Status</th> 
-<th>Membership End Date</th>
-<th>No of Cash based Applications</th> 
-<th>No of Esugam Generated</th> 
-<th>Activate/De-Activate User</th>
-<th>No Of Secondary Users</th>
-</tr> 
-</thead> 
-               
-<tbody>
-<% @users.each do |user| %>
-<% userid = user.authuser.id %>
-<% c = user.authuser.membership.id %>
-<% @bills = user.authuser.bills %>
-  <% date = Date.today.strftime("%Y%m%d") %>
-  <% @cash_based_applications = @bills.where('ESUGAM IS NULL AND created_at >= ? AND created_at <= ?', date.to_date.beginning_of_month, date.to_date.end_of_month) %>
-  <% @esugam = @bills.where('ESUGAM IS NOT NULL AND created_at >= ? AND created_at <= ?', date.to_date.beginning_of_month, date.to_date.end_of_month ) %>
-  <% secondary_users_count = Authuser.where(:invited_by_id => userid).count %>
+                       <% if user.authuser.approved == false %>
+                          <td><%= link_to "Approve User" , activate_user_path(user.authuser.id), method: :put, data: {confirm: "Are You Sure You Want To Approve The User"} ,  class: "listconttext"%></td>
+                       <% elsif user.authuser.approved == true %>       
+                          <td><%= link_to "De-activate User" , de_activate_user_path(user.authuser.id), method: :put, data: {confirm: "Are You Sure You Want To De-Activate The User?"} ,  class: "listconttext" %></td> 
+                       <% end %>   
+                       <td><%= secondary_users_count %></td>
+                    </tr>
+                   <% end %>
+                </tbody>    
+             </table>
 
-   
- 
-<tr>
-  <td class="hidden-xs"><%= link_to user.authuser.name, authuser_path(userid), class: "listconttext"  %></td>
-  <td><%= human_boolean(user.authuser.approved) %></td>
- <td><%= link_to user.authuser.membership.membership_end_date.strftime("%d %b %Y") , edit_membership_path(c) ,  class: "listconttext"%></td> 
- <td><%= @cash_based_applications.count %></td>
- <td><%= @esugam.count %></td>
-      
- <% if user.authuser.approved == false %>
- <td><%= link_to "Approve User" , activate_user_path(user.authuser.id), method: :put, data: {confirm: "Are You Sure You Want To Approve The User"} ,  class: "listconttext"%></td>
-     
-  <% elsif user.authuser.approved == true %>       
-   <td><%= link_to "De-activate User" , de_activate_user_path(user.authuser.id), method: :put, data: {confirm: "Are You Sure You Want To De-Activate The User?"} ,  class: "listconttext" %></td> 
-<% end %>   
-  <td><%= secondary_users_count %></td>
-</tr>
-<% end %>
-</tbody>    
-</table>
+             <div class="portlet-footer">
+               <% if current_authuser.main_roles.count == 1 %> 
+                  <div class="col-md-6">
+                    <div class="text-left">  
+                       <%= link_to clients_user_role_path do %>
+                          <button class="btn btn-success">Add User Role</button>
+                       <% end %>
+                    </div> <!-- text-left ends here -->
+                  </div><!-- col ends here -->
+               <% end %>
 
-<div class="portlet-footer">
-<% if current_authuser.main_roles.count == 1 %> 
-<div class="col-md-6">
-<div class="text-left">  
-<%= link_to clients_user_role_path do %>
-<button class="btn btn-success">Add User Role</button>
-<% end %>
-</div> <!-- text-left ends here -->
-</div><!-- col ends here -->
-<% end %>
-
-<div class="text-right"> 
-<%= link_to new_authuser_invitation_path do %>
-<button class="btn btn-success">Invite User</button>
-<% end %><br/><br/>
-  
-  <%= link_to "Manage Users", authusers_user_management_path,  class: "btn btn-success" %>
-</div> <!-- text-right ends here -->
-<br/>
-  <%=  will_paginate  @users, renderer: BootstrapPagination::Rails , class: "apple_pagination" %>    
-</div> <!-- /.portlet-footer -->
-</div> <!-- /.table-responsive -->
-</div> <!-- /.portlet-content -->
-
-</div> <!-- /.portlet -->
-</div> <!-- /.row -->
- 
-</div><!-- content container ends here -->
-</div><!-- content ends here -->
+              <div class="text-right"> 
+                <%= link_to new_authuser_invitation_path do %>
+                   <button class="btn btn-success">Invite User</button>
+                <% end %><br/><br/>
+                <%= link_to "Manage Users", authusers_user_management_path,  class: "btn btn-success" %>
+              </div> <!-- text-right ends here -->
+              <br/>
+           
+              <%=  will_paginate  @users, renderer: BootstrapPagination::Rails , class: "apple_pagination" %>    
+           </div> <!-- /.portlet-footer -->
+          </div> <!-- /.table-responsive -->
+         </div> <!-- /.portlet-content -->
+        </div> <!-- /.portlet -->
+      </div> <!-- /.row -->
+    </div><!-- content container ends here -->
+  </div><!-- content ends here -->
 </div><!-- container ends here -->
   

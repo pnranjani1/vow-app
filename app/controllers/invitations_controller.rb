@@ -4,6 +4,14 @@ class InvitationsController < Devise::InvitationsController
   before_filter :authenticate_authuser!
 
   
+  def new
+    self.resource = resource_class.new
+    if current_authuser.main_roles.first.role_name == "client"
+      render layout: "application"
+    elsif current_authuser.main_roles.first.role_name == "user"
+      render layout: "menu"
+    end
+  end
   
   
   # PUT /resource/invitation
