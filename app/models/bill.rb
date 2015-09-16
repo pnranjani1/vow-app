@@ -233,7 +233,7 @@ class Bill < ActiveRecord::Base
            browser.close
         else
          browser.button(:id, "ctl00_MasterContent_btnContinue").click
-        end
+        
           browser.img(:alt, "Expand e-SUGAM Forms").hover
           sleep 1
           browser.link(:href, "/vat1/CheckInvoiceEnabled.aspx?Form=ESUGAM1").click
@@ -249,10 +249,7 @@ class Bill < ActiveRecord::Base
          
           if browser.select_list(:id, "ctl00_MasterContent_ddl_commoditycode").option(:text => "#{@commodity_name}").present?
              browser.select_list(:id, "ctl00_MasterContent_ddl_commoditycode").select(@commodity_name)
-          else # if commodity is not in list else
-             self.update_attributes(error_message: "Selected Commodity is not added in VAT Site")
-             browser.close
-          end # commodity not in list end    
+          
                        
               browser.text_field(:id, "ctl00_MasterContent_txt_commodityname").set(@bill.line_items.first.product.product_name)
              
@@ -271,9 +268,7 @@ class Bill < ActiveRecord::Base
                   browser.text_field(:id, "ctl00_MasterContent_txtNameAddrs").set(@bill.customer.name)
                   browser.send_keys :tab
               end
-    
-           
-          
+                       
               if @tax_type == "VAT"
                 browser.text_field(:id, "ctl00_MasterContent_txtTIN").set(@customer_tin_number.to_i)
                 browser.send_keys :tab
@@ -303,8 +298,12 @@ class Bill < ActiveRecord::Base
                    browser.screenshot.save file
                    self.update_attributes(error_message: file.to_s)
                  end
-       
-             end # begin end
+          else # if commodity is not in list else
+             self.update_attributes(error_message: "Selected Commodity is not added in VAT Site")
+             browser.close
+          end # commodity not in list end   
+        end #login end
+       end # begin end
   end # def end
  
 end # class end 
