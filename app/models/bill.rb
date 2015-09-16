@@ -187,16 +187,10 @@ class Bill < ActiveRecord::Base
     @bill = self 
     @tax_type = @bill.tax.tax_type
     
-   # customer name and tin number for URD 
-    urd_values = ["Others" ,"Other" ,"others", "other"]
-    if urd_values.include? @bill.customer.name
-      urd = UnregisteredCustomer.where(:bill_id => @bill.id).first
-      @customer_city = urd.city
-      @customer_tin_number = TinNumber.where(:state => urd.state).pluck(:tin_number).first
-    else
+   
       @customer_city = @bill.customer.city
       @customer_tin_number = @bill.customer.tin_number
-    end  
+     
        
     user_id = @bill.primary_user_id
     user = Authuser.where(:id => user_id).first
@@ -268,7 +262,7 @@ class Bill < ActiveRecord::Base
               browser.send_keys :tab
               browser.text_field(:id, "ctl00_MasterContent_txtVatTaxValue").set(@bill.tax.tax_rate * 0.01 * @total_amount)
               
-              if @tax_type == "CST"
+             if @tax_type == "CST"
                   browser.radio(:id, "ctl00_MasterContent_rdoStatCat_1").set
                   sleep 1
                   browser.text_field(:id, "ctl00_MasterContent_txtTIN").set(@customer_tin_number.to_i)
@@ -278,14 +272,7 @@ class Bill < ActiveRecord::Base
                   browser.send_keys :tab
               end
     
-            # check if vat and urd
-              if (@tax_type == "VAT") && (@customer_tin_number[2..-1] == "000000000")
-                 browser.text_field(:id, "ctl00_MasterContent_txtTIN").set(@customer_tin_number.to_i)
-                 browser.send_keys :tab
-                 sleep 1
-                 browser.text_field(:id, "ctl00_MasterContent_txtNameAddrs").set(@bill.customer.name)
-                 browser.send_keys :tab
-              end
+           
           
               if @tax_type == "VAT"
                 browser.text_field(:id, "ctl00_MasterContent_txtTIN").set(@customer_tin_number.to_i)
