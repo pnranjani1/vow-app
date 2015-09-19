@@ -127,7 +127,7 @@ class ProductsController < ApplicationController
     Product.import(params[:file], current_authuser.id)
    redirect_to products_product_user_path, notice: "Products Successfully Imported."
       rescue
-        redirect_to products_product_import_report_path,  alert: "Product Name, Units and Usercategory Id can't be blank"
+        redirect_to products_product_import_report_path,  alert: "Product Name, Units and Usercategory Id can not be blank"
     end
      
   end

@@ -86,7 +86,7 @@ class CustomersController < ApplicationController
     # @error = "#{e.message}"
       # flash[:alert] = "#{@customers.errors.full_messages}"
        #flash[:alert] = "Check the data in excel"
-      redirect_to customers_customer_import_report_path,  alert: "Name, Email and Tin Number can't be Blank, TIN Number should be 11 numbers"
+      redirect_to customers_customer_import_report_path,  alert: "Name, Email and Tin Number can not be Blank, TIN Number should be 11 numbers"
     end
      end
    end

@@ -8,7 +8,7 @@ class Product < ActiveRecord::Base
  # validates_format_of :units, {:with => /\A([^@\s]+)((?:[-a-z0-9]+\)+[a-z]{2,})\z/i, :message => "Doesn't look like an email address"}
   #/^[a-zA-Z\d\s]*$/
   # validates_format_of :email, {:with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, :message => "Doesn't look like an email address"}
-  validates :product_name, presence: {:message => " - Product Name can't' be blank"}
+  validates :product_name, presence: {:message => " - Product Name can not be blank"}
   validates :usercategory_id, presence: {:message => " - Select Commodity"}
  # validates :product_name , uniqueness: {:message => " - Selected Product is already added"}, :if => Authuser.current
   #validates_associated :usercategories

@@ -10,7 +10,7 @@ class Customer < ActiveRecord::Base
 #  validates :phone_number, length: { is: 10}
  # validates :phone_number, numericality: {only_integer: true}
   #validates :email, confirmation: true
-  validates_format_of :email, {:with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, :message => "Doesn't look like an email address"}
+  validates_format_of :email, {:with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, :message => "Does not look like an email address"}
   #validates :email, uniqueness: {case_sensitive: false}
   
  

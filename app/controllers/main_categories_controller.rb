@@ -71,7 +71,7 @@ class MainCategoriesController < ApplicationController
         MainCategory.import(params[:file])
         redirect_to main_categories_path, notice: "Commodities Successfully Imported."
       rescue
-        redirect_to main_categories_category_import_report_path,  alert: "Commodity Name and Commodity Code can't be blank"
+        redirect_to main_categories_category_import_report_path,  alert: "Commodity Name and Commodity Code can not be blank"
     end
   end
  end

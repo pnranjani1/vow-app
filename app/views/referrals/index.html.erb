@@ -51,7 +51,7 @@
                           <% end %>
                          </td>
                       
-                        <td> <%= link_to referral_pdf_bill_path(:id => referral.id) do %>
+                        <td> <%= link_to referral_pdf_bill_path(:id => referral.id), title: "Click to Generate Invoice" do %>
                                 <button class="btn btn-success">
                                   <span class="glyphicon glyphicon-cloud-download"></span>
                                   &nbsp;Invoice
