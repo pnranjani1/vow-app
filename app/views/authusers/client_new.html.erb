@@ -118,7 +118,7 @@ Date Of Birth(Format: dd/mm/yyyy)&nbsp;<b style="color:red">*</b>
 <div class="portlet">
   
 <div class="portlet-header">
-<h3><i class="fa fa-user"></i>Address Details</h3>
+<h3><i class="fa fa-map-marker"></i>Address Details</h3>
 </div> <!-- /.portlet-header -->
 
 <div class="portlet-content">
@@ -164,7 +164,7 @@ City&nbsp;<b style="color:red">*</b>
 <div class="col-sm-4">           
 State&nbsp;<b style="color:red">*</b>
 <div id="Country" class="input-group">       
-<span class="input-group-addon"><i class="fa fa-globe"></i></span>
+<span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
 <%= user_address.text_field :state, :maxlength => 15, class: "form-control" %>
 </div>
 </div> <!-- /.col -->
@@ -189,7 +189,7 @@ Country&nbsp;<b style="color:red">*</b>
 <div class="portlet">
   
 <div class="portlet-header">
-<h3><i class="fa fa-user"></i>Bank Details</h3>
+<h3><i class="fa fa-money"></i>Bank Details</h3>
 </div> <!-- /.portlet-header -->
 
 <div class="portlet-content">
@@ -208,7 +208,7 @@ Bank Account Number&nbsp;<b style="color:red">*</b>
 <div class="col-sm-4">           
 IFSC Code &nbsp;<b style="color:red">*</b>
 <div id="ifsccode" class="input-group">              
-<span class="input-group-addon"><i class="fa fa-star"></i></span>
+<span class="input-group-addon"><i class="glyphicon glyphicon-sort-by-alphabet"></i></span>
 <%= user_bank_detail.text_field :ifsc_code, class: "form-control"  %>
 </div>
 </div> <!-- /.col -->
@@ -227,7 +227,7 @@ IFSC Code &nbsp;<b style="color:red">*</b>
 <div class="portlet">
   
 <div class="portlet-header">
-<h3><i class="fa fa-user"></i>Membership Details</h3>
+<h3><i class="fa fa-calendar"></i>Membership Details</h3>
 </div> <!-- /.portlet-header -->
 
 <div class="portlet-content">
@@ -237,7 +237,7 @@ IFSC Code &nbsp;<b style="color:red">*</b>
 Mobile Number&nbsp;<b style="color:red">*</b>
 <div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Should Be 10 Digits">
 <div id="phone" class="input-group">      
-<span class="input-group-addon"><i class="fa fa-phone"></i></span>
+<span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
   <%= user_membership.text_field :phone_number , :maxlength => 10,  class: "form-control" %>
 </div>
 </div>
@@ -256,7 +256,7 @@ Mobile Number&nbsp;<b style="color:red">*</b>
 <div class="portlet">
   
 <div class="portlet-header">
-<h3><i class="fa fa-user"></i>Company Details</h3>
+<h3><i class="fa fa-building-o"></i>Company Details</h3>
 </div> <!-- /.portlet-header -->
 
 <div class="portlet-content">
@@ -293,7 +293,7 @@ Esugam Password&nbsp;<b style="color:red">*</b>
 <div class="col-sm-3">           
 Company&nbsp;<b style="color:red">*</b>
 <div id="Password" class="input-group">   
-<span class="input-group-addon"><i class="fa fa-user"></i></span>
+<span class="input-group-addon"><i class="fa fa-building-o"></i></span>
   <%= user_detail.text_field :company, maxlength: 40,  class: "form-control" %>
 </div>
 </div> <!-- /.col -->
@@ -307,7 +307,7 @@ Company&nbsp;<b style="color:red">*</b>
       Invoice Number Format 
       <div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Maximum is 10 Characters">
        <div id="name" class="input-group" >        
-         <span class="input-group-addon"><i class="fa fa-user"></i></span>
+         <span class="input-group-addon"><i class="fa fa-sort-alpha-asc"></i></span>
          <%= f.text_field :invoice_string, :maxlength => 10,  class: "form-control" %>
        </div>
     </div> <!-- /.col -->

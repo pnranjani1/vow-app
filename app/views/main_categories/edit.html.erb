@@ -1,89 +1,81 @@
  <div class="container">
-<div class="content">
-<div class="content-container">     
+  <div class="content">
+    <div class="content-container">     
 
-<div>
-  <h4 class="heading-inline">Commodities</h4>        
-</div>
-
-<br>
-
-<div class="row"> 
-<div class="portlet">
-
-<div class="portlet-header">
-<h3><i class="fa fa-yen"></i>Edit Commodity</h3>
-</div> <!-- /.portlet-header -->
-
-<div class="portlet-content">
-        
-
-<%= form_for(@category) do |f| %>
-
-<% if @category.errors.any? %>
-  <div class="col-md-6">
-  <div class= "alert alert-danger">
-<% @category.errors.full_messages.each do |error| %>
-<ul>
-  <li> <%= error %></li>
-</ul>
-<% end %>
-    </div>
-  </div>
-<% end %>
-
-<div class="col-sm-8"> 
-  <b style="color:red">*</b>&nbsp;<b>Indicates the mandatory fields</b><br/><br/>
-<div class="row">  
-<label class="col-md-3">Commodity Name&nbsp;&nbsp;<b style="color:red">*</b></label>
-<div class="col-md-6">
-<div id="name" class="input-group">               
-<span class="input-group-addon"><i class="fa fa-yen"></i></span>
-<%= f.text_field :commodity_name, class: "form-control" %>
-</div>
-</div>
-</div>
-<br>
+      <div>
+        <h4 class="heading-inline">Commodities</h4>        
+      </div>
+      <br>
   
-<div class="row">
-<label class="col-md-3">Commodity Code</label>
-<div class="col-md-6">
-<div id="name" class="input-group">               
-<span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
-<%= f.text_field :commodity_code, class: "form-control" %>
-</div>
-</div>
-</div>
-<br>
+      <div class="row"> 
+        <div class="portlet">
 
-<div class="row">
-<label class="col-md-3">Sub Commodity Code</label>
-<div class="col-md-6">
-<div id="name" class="input-group">               
-<span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
-<%= f.text_field :sub_commodity_code, class: "form-control" %>
-</div>
-</div>
-</div>
+            <div class="portlet-header">
+                <h3><i class="fa fa-shopping-cart"></i>Edit Commodity</h3>
+            </div> <!-- /.portlet-header -->
+          
+            <div class="portlet-content">
+               <%= form_for(@category) do |f| %>
+                  <% if @category.errors.any? %>
+                      <div class="col-md-6">
+                          <div class= "alert alert-danger">
+                              <% @category.errors.full_messages.each do |error| %>
+                                  <ul>
+                                    <li> <%= error %></li>
+                                  </ul>
+                              <% end %>
+                          </div>
+                      </div>
+                  <% end %>
+
+                  <div class="col-sm-8"> 
+                      <b style="color:red">*</b>&nbsp;<b>Indicates the mandatory fields</b><br/><br/>
+                        
+                        <div class="row">  
+                          <label class="col-md-3">Commodity Name&nbsp;&nbsp;<b style="color:red">*</b></label>
+                              <div class="col-md-6">
+                                <div id="name" class="input-group">               
+                                  <span class="input-group-addon"><i class="fa fa-shopping-cart"></i></span>
+                                  <%= f.text_field :commodity_name, class: "form-control" %>
+                                </div>
+                              </div>
+                        </div><!-- row ends -->
+                        <br>
   
-<br/>
+                        <div class="row">
+                          <label class="col-md-3">Commodity Code</label>
+                            <div class="col-md-6">
+                              <div id="name" class="input-group">               
+                                  <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
+                                  <%= f.text_field :commodity_code, class: "form-control" %>
+                              </div>
+                            </div>
+                        </div>
+                        <br>
+
+                        <div class="row">
+                          <label class="col-md-3">Sub Commodity Code</label>
+                            <div class="col-md-6">
+                              <div id="name" class="input-group">               
+                                 <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
+                                 <%= f.text_field :sub_commodity_code, class: "form-control" %>
+                              </div>
+                            </div>
+                        </div>
+                        <br/>
   
-<div class="row">
-<div class="col-md-3"></div>
-<div class="col-md-6">
-<%= f.submit "Update Commodity", class: "btn btn-success" %>
-</div>
-</div>
+                        <div class="row">
+                          <div class="col-md-3"></div>
+                          <div class="col-md-6">
+                            <%= f.submit "Update Commodity", class: "btn btn-success" %>
+                          </div>
+                        </div>
+                  </div><!-- col-sm-8 ends here -->
+               <% end %>
+            </div><!-- portlet eontent ends here -->
+        </div><!-- portlet ends here -->
+      </div><!-- row ends here -->
   
-</div><!-- col-sm-8 ends here -->
-  
-  
-  <% end %>
- 
-</div><!-- portlet eontent ends here -->
-</div><!-- portlet ends here -->
-</div><!-- row ends here -->
-  
-   </div><!-- content container ends here -->
-   </div><!-- content ends here -->
-  </div><!-- container ends here -->
+    </div><!-- content container ends here -->
+  </div><!-- content ends here -->
+ </div><!-- container ends here -->

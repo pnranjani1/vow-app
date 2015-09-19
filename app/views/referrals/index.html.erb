@@ -7,7 +7,7 @@
         <div class="portlet portlet-table">
           <div class="portlet-header">
             <h3>
-              <i class="fa fa-group"></i>
+              <i class="fa fa-gift"></i>
               You have <%= pluralize(@count, "Referral") %>
             </h3>
           </div><!-- portlet-header ends here -->
@@ -46,12 +46,18 @@
                         <% else %>
                           <td> NA </td>
                         <% end %>
-                        <td><%= link_to edit_referral_path(referral.id), class: "btn btn-xs btn-primary" do %>
+                        <td><%= link_to edit_referral_path(referral.id), title: "Edit Referral Detail", class: "btn btn-xs btn-primary" do %>
                           <i class="fa fa-edit"></i>
                           <% end %>
                          </td>
                       
-                        <td> <%= link_to "Bill", referral_pdf_bill_path(:id => referral.id), class: "listconttext" %></td>
+                        <td> <%= link_to referral_pdf_bill_path(:id => referral.id) do %>
+                                <button class="btn btn-success">
+                                  <span class="glyphicon glyphicon-cloud-download"></span>
+                                  &nbsp;Invoice
+                                </button>
+                             <% end %>
+                        </td>
                        </tr>
                       <% end %>
                     </tbody>
@@ -59,7 +65,11 @@
               
               <div class="portlet-footer">
                 <div class="text-right">
-                  <%= link_to "Add Referral", new_referral_path, class: "btn btn-success" %>
+                  <%= link_to new_referral_path, title: "Add New Referral" do %>
+                     <button class="btn btn-success">
+                       <span class="glyphicon glyphicon-plus-sign"></span>
+                                 Referral </button>
+                  <% end %>
                  </div><!-- text-right ends here -->
                 </div><!-- portlet footer ends here  -->
               <%= will_paginate @referrals, renderer: BootstrapPagination::Rails, class: "apple-pagination" %>

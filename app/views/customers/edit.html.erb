@@ -18,16 +18,19 @@
         
                      <%= form_for @customer do |f| %>
                          <% if @customer.errors.any? %>
-                           <% @customer.errors.full_messages.each do|error|  %>
-                              <ul>
-                                 <li><div class= "alert alert-danger"><%= error %></div></li>
-                              </ul>
-                           <% end %>
+                            <div class="col-md-8">
+                              <div class= "alert alert-danger">
+                                <% @customer.errors.full_messages.each do|error|  %>
+                                  <ul>
+                                     <li><%= error %></li>
+                                  </ul>
+                                <% end %>
+                              </div>
+                            </div>
                          <% end %>
 
+                        <b style="color:red">*</b>&nbsp;<b> Indicates the mandatory fields</b><br/><br/>
                          <div class="row">
-                           <b style="color:red">*</b>&nbsp;<b> Indicates the mandatory fields</b><br/><br/>
-
                                <div class="col-sm-6 marggap">    
                                  Name&nbsp;&nbsp;<b style="color:red">*</b>
                                  <div id="name" class="input-group">               
@@ -46,8 +49,7 @@
                          </div><!-- row ends -->
  
                          <div class="row">
- 
-                              <div class="col-sm-6 marggap">    
+                            <div class="col-sm-6 marggap">    
                                  Tin Number&nbsp;&nbsp;<b style="color:red">*</b>
                                     <div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Should Be 11 Digits">
                                       <div id="number" class="input-group">               
@@ -61,50 +63,54 @@
                                  Mobile Number
                                 <div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Should Be 10 Digits">
                                    <div id="phone" class="input-group">               
-                                       <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+                                       <span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
                                        <%= f.text_field :phone_number , maxlength: 10, class: "form-control" %>
                                    </div>
                                 </div>
                               </div> <!-- /.col -->
+                         </div><!-- row ends here -->
 
-                              <div class="row"> 
-                                <div class="col-sm-6 marggap">    
-                                   Address
-                                    <div id="Password" class="form-group">               
-                                       <%= f.text_field :address, maxlength: 60, class: "form-control" %>
-                                    </div>
-                                </div> <!-- /.col -->
-            
-                                <div class="col-sm-6 marggap">             
-                                   City&nbsp;&nbsp;<b style="color:red">*</b>
-                                     <div id="City" class="input-group">               
-                                        <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
-                                        <%= f.text_field :city , maxlength: 15, class: "form-control" %>
-                                     </div>
-                                </div> <!-- /.col -->
-                              </div> <!-- row ends here -->
+                         <div class="row">
   
-                              <div class="row">
-                                 <div class="col-sm-6 marggap">  
-                                     State
-                                      <div id="City" class="input-group">               
-                                         <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
-                                         <%= f.text_field :state , maxlength: 15,  class: "form-control" %>
-                                      </div>
-                                 </div> <!-- /.col -->
-    
-                                 <div class="col-sm-6 marggap">  
-                                    Pin Code
-                                    <div id="City" class="input-group">               
-                                       <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
-                                       <%= f.text_field :pin_code , :maxlength => 8, class: "form-control" %>
-                                    </div>
-                                 </div> <!-- /.col -->
-                              </div><!-- row ends here -->
-  
-                              <div class="row portlet-content">       
-                                 <%= f.submit "Update Customer", class: "btn btn-success" %>
+                        <div class="col-sm-6 marggap">  
+                            Address
+                              <div id="city" class="input-group">               
+                                 <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+                                 <%= f.text_field :address, maxlength: 60, class: "form-control" %>
                               </div>
+                        </div> <!-- /.col -->
+            
+                        <div class="col-sm-6 marggap">  
+                           City&nbsp;&nbsp;<b style="color:red">*</b>
+                           <div id="City" class="input-group">               
+                              <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+                              <%= f.text_field :city ,  maxlength: 15, class: "form-control" %>
+                           </div>
+                        </div> <!-- /.col -->
+                    </div><!-- row ends here -->
+  
+                    <div class="row">
+                
+                        <div class="col-sm-6 marggap">  
+                            State
+                           <div id="City" class="input-group">               
+                             <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+                             <%= f.text_field :state , maxlength: 15, class: "form-control" %>
+                           </div>
+                        </div> <!-- /.col -->
+  
+                        <div class="col-sm-6 marggap">  
+                            Pin Code
+                            <div id="City" class="input-group">               
+                              <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+                              <%= f.text_field :pin_code , :maxlength => 8,  class: "form-control" %>
+                            </div>
+                        </div> <!-- /.col -->
+                    </div><!-- row ends here -->
+  
+                         <div class="row portlet-content">       
+                            <%= f.submit "Update Customer", class: "btn btn-success" %>
+                         </div>
                      <% end %><!-- form_for ends here -->
                </div> <!-- /.portlet-content -->
            </div> <!-- /.portlet -->

@@ -8,24 +8,24 @@
      <div class="row">   
        <div class="col-sm-6 col-md-3">
          <div class="row-stat">
-           <p class="row-stat-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number of Users Added<br/> This Month</p>
-             <h2 class="row-stat-value"><%= @users_current_month.count %></h2>
+           <p class="row-stat-label">Number of Users Added<br/> This Month</p>
+             <h2 class="row-stat-value">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= @users_current_month.count %></h2>
              <span class="label label-success row-stat-badge"></span>
          </div> <!-- /.row-stat -->
        </div> <!-- /.col -->
 
        <div class="col-sm-6 col-md-3">
          <div class="row-stat">
-           <p class="row-stat-label">&nbsp;&nbsp;&nbsp;&nbsp;Number of Esugam's Generated <br/>This Month by all users</p>
-           <h2 class="row-stat-value"><%= @bills_esugam.count %></h2>
+           <p class="row-stat-label">Number of Esugam's Generated <br/>This Month by all users</p>
+           <h2 class="row-stat-value">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= @bills_esugam.count %></h2>
            <span class="label label-success row-stat-badge"></span>
          </div> <!-- /.row-stat -->
        </div> <!-- /.col -->
 
        <div class="col-sm-6 col-md-3">
          <div class="row-stat">
-           <p class="row-stat-label">&nbsp;&nbsp;&nbsp;&nbsp;Number of Cash Based Applications<br/>This Month by all users</p>
-           <h2 class="row-stat-value"><%= @cash_based_applications.count %></h2>
+           <p class="row-stat-label">Number of Cash Based Applications<br/>This Month by all users</p>
+           <h2 class="row-stat-value">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= @cash_based_applications.count %></h2>
            <span class="label label-success row-stat-badge"></span>
          </div> <!-- /.row-stat -->
        </div> <!-- /.col -->
@@ -98,18 +98,26 @@
                <% if current_authuser.main_roles.count == 1 %> 
                   <div class="col-md-6">
                     <div class="text-left">  
-                       <%= link_to clients_user_role_path do %>
-                          <button class="btn btn-success">Add User Role</button>
+                      <%= link_to clients_user_role_path , title:"Add User Role" do %>
+                          <button class="btn btn-success">
+                             <span class="glyphicon glyphicon-plus-sign"></span>
+                              &nbsp;User Role</button>
                        <% end %>
                     </div> <!-- text-left ends here -->
                   </div><!-- col ends here -->
                <% end %>
 
               <div class="text-right"> 
-                <%= link_to new_authuser_invitation_path do %>
-                   <button class="btn btn-success">Invite User</button>
+                <%= link_to new_authuser_invitation_path , title:"Invite User" do %>
+                   <button class="btn btn-success">
+                     <span class="glyphicon glyphicon-envelope"></span>
+                      &nbsp;Invite User&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
                 <% end %><br/><br/>
-                <%= link_to "Manage Users", authusers_user_management_path,  class: "btn btn-success" %>
+                <%= link_to authusers_user_management_path,  title: "Manage Users" do %>
+                   <button class="btn btn-success">
+                     <span class="glyphicon glyphicon-list"></span>
+                     &nbsp;Manage Users</button>
+                <% end %>
               </div> <!-- text-right ends here -->
               <br/>
            

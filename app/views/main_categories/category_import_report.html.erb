@@ -16,20 +16,24 @@
 <div class="portlet">
 
 <div class="portlet-header">
-<h3><i class="fa fa-group"></i>Download Formats</h3>
+<h3><i class="glyphicon glyphicon-cloud-download"></i>Download Formats</h3>
 </div> <!-- /.portlet-header -->
 
 <div class="portlet-content">
        
-<div class="col-sm-8"> 
+<div class="col-sm-10"> 
 <div class="row">  
-<div class="col-md-7">
+<div class="col-md-8">
 <div id="name" class="input-group">  
 
  
-<strong>Download the format for "Importing Commodities"</strong>&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to main_categories_category_download_path(format: "xls") do %> 
-   <button class="btn btn-success">Download</button>
-      <% end %>
+<strong>Download the format for "Importing Commodities"</strong>&nbsp;&nbsp;
+  <%= link_to main_categories_category_download_path(format: "xls"), title: "Download Format" do %> 
+      <button class="btn btn-success">
+        <span class="glyphicon glyphicon-cloud-download"></span>
+        Download
+      </button>
+  <% end %>
    
    </div> <!-- name -->
   </div> <!-- col-md-6 -->
@@ -47,7 +51,7 @@
 <div class="portlet portlet-table">
   
 <div class="portlet-header">
-<h3><i class="fa fa-group"></i> Import Commodities</h3> 
+<h3><i class="glyphicon glyphicon-cloud-upload"></i> Import Commodities</h3> 
 </div> <!-- /.portlet-header -->
 
   <% if alert %>

@@ -1,7 +1,3 @@
-<!DOCTYPE html>
-<html>
-
-  <body>
   
 <div class="container">
   <div class="content">
@@ -12,72 +8,61 @@
 
       <br>
       <div class="row"> 
-      <div class="portlet portlet-table">
-      <div class="portlet-header">
-      <h3><i class="fa fa-group"></i>Customers List</h3> 
-      </div> <!-- /.portlet-header -->
+        <div class="portlet portlet-table">
+          <div class="portlet-header">
+             <h3><i class="fa fa-group"></i>Customers List</h3> 
+          </div> <!-- /.portlet-header -->
 
-      <div class="portlet-content">
-      <div class="table-responsive">
-      <table id="user-signups" class="table table-striped table-bordered table-checkable"> 
-  <% if notice %>
-  <br/>
-  <div class="col-md-8">
-  <div class="alert alert-success"><%= notice %></div>
-  </div>
-  <% end %>
-      <thead> 
-      <tr> 
-      <th>Customer Name</th> 
-      <th>Email</th>
-      <th>Phone Number</th>
-      <th> Tin Number </th>      
-      <th> Edit </th>
-      
-      </tr> 
-      </thead> 
-      <tbody> 
-        <% @user_customers.each do|customer| %>
-   <tr>                      
-   <td><%=  customer.name %> </td>
-   <td><%= customer.email %> </td>
-   <td><%= customer.phone_number %> </td>
-   <td><%= customer.tin_number %></td>
-     <td><%= link_to edit_customer_path(customer.id), class: "btn btn-xs btn-primary" do %>
-<i class="fa fa-edit"></i>
-  <% end %>
-  
-  
-        
-        </tr>     
-        <% end %>
-        </tbody> 
-        </table>
+          <div class="portlet-content">
+            <div class="table-responsive">
+              <table id="user-signups" class="table table-striped table-bordered table-checkable"> 
+                 <% if notice %>
+                   <br/>
+                    <div class="col-md-8">
+                      <div class="alert alert-success"><%= notice %></div>
+                    </div>
+                 <% end %>
+                 <thead> 
+                    <tr> 
+                       <th>Customer Name</th> 
+                       <th>Email</th>
+                       <th>Phone Number</th>
+                       <th> Tin Number </th>      
+                       <th> Edit </th>
+                    </tr> 
+                 </thead> 
+                 <tbody> 
+                   <% @user_customers.each do|customer| %>
+                      <tr>                      
+                         <td><%=  customer.name %> </td>
+                         <td><%= customer.email %> </td>
+                         <td><%= customer.phone_number %> </td>
+                         <td><%= customer.tin_number %></td>
+                        <td><%= link_to edit_customer_path(customer.id), title: "Edit Customer Details", class: "btn btn-xs btn-primary" do %>
+                                 <i class="fa fa-edit"></i>
+                              <% end %>
+                         </td>
+                      </tr>     
+                   <% end %>
+                 </tbody> 
+              </table>
  
-        
-       <div class="portlet-footer">
-       <div class="text-right">     
-       <%= link_to  new_customer_path do %>      
-      <button class="btn btn-success">Add Customer</button>
-         <% end %>
-       </div>
-            </div> <!-- /.portlet-footer -->
+              <div class="portlet-footer">
+                 <div class="text-right">     
+                   <%= link_to  new_customer_path, title: "Add New Customer" do %>      
+                       <button class="btn btn-success">
+                           <span class="glyphicon glyphicon-plus-sign"></span>
+                           &nbsp;Customer
+                       </button>
+                   <% end %>
+                 </div>
+              </div> <!-- /.portlet-footer -->
                   
-<%=  will_paginate  @user_customers, renderer: BootstrapPagination::Rails , class: "apple_pagination" %>          </div> <!-- /.table-responsive -->
-</div> <!-- /.portlet-content -->
-</div> <!-- /.portlet -->
-
- </div> <!-- /.row -->
- </div> <!-- /.content-container -->
- </div> <!-- /.content -->
- </div> <!-- /.container -->
-
-</body>
-</html>
-
-
-
-
-
-
+              <%=  will_paginate  @user_customers, renderer: BootstrapPagination::Rails , class: "apple_pagination" %>          </div> <!-- /.table-responsive -->
+           </div> <!-- /.portlet-content -->
+         </div> <!-- /.portlet -->
+        </div> <!-- /.row -->
+      </div> <!-- /.content-container -->
+   </div> <!-- /.content -->
+  </div> <!-- /.container -->
 

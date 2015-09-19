@@ -1,72 +1,52 @@
 <div class="container">
- <div class="content">
- <div class="content-container">     
-   <div>
-    <h4 class="heading-inline"> Reports </h4>        
-   </div>
- <br>
- 
-
-<div class="row"> 
-<div class="portlet">
-
-<div class="portlet-header">
-<h3><i class="fa fa-group"></i>Tally Importable Excel</h3>
-</div> <!-- /.portlet-header -->
-
-<div class="portlet-content">
-       
-<div class="col-sm-8"> 
-<div class="row">  
-<div class="col-md-6">
-<div id="name" class="input-group">               
+   <div class="content">
+      <div class="content-container">     
+        <div>
+          <h4 class="heading-inline"> Reports </h4>        
+        </div>
+        <br>
+        <div class="row"> 
+          <div class="portlet">
+             <div class="portlet-header">
+                <h3><i class="glyphicon glyphicon-cloud-download"></i>Tally Importable Excel</h3>
+             </div> <!-- /.portlet-header -->
+             <div class="portlet-content">
+                <div class="col-sm-8"> 
+                  <div class="row">  
+                    <div class="col-md-6">
+                      <div id="name" class="input-group">               
+                          <script type="text/javascript">
+                             $(document).ready(function(){
+                               $("#start_date").datepicker({ dateFormat: "dd/mm/yy" }).val()
+                               $("#end_date").datepicker({ dateFormat: "dd/mm/yy" }).val()
+                             });
+                          </script>
   
+                          <%= form_tag  bills_tally_import_excel_path( :format => :xls),method: "get" do  %>
+                            <div class="row">
+                               <div class="col-sm-6">
+                                   <%= label_tag(:start_date , 'From Date: ')%> <%= text_field_tag :start_date, params[:start_date], :id => "start_date", :style => "z-index:1000;", :class => "form-control", :placeholder => "select from date" %>
+                               </div>
   
-  
-
-<script type="text/javascript">
-  $(document).ready(function(){
-     $("#start_date").datepicker({ dateFormat: "dd/mm/yy" }).val()
-     $("#end_date").datepicker({ dateFormat: "dd/mm/yy" }).val()
-     
-  });
-</script>
-  
-
-  <%= form_tag  bills_tally_import_excel_path( :format => :xls),method: "get" do  %>
-  <div class="row">
-  <div class="col-sm-6">
-    <%= label_tag(:start_date , 'From Date: ')%> <%= text_field_tag :start_date, params[:start_date], :id => "start_date", :style => "z-index:1000;", :class => "form-control", :placeholder => "select from date" %>
-    </div>
-  
-  
-  <div class="col-sm-6">    
-    <%= label_tag(:end_date , 'To Date: ')%> <%= text_field_tag :end_date, params[:end_date], :id => "end_date", :style => "z-index:1000;", :class => "form-control", :placeholder => "select to date" %>
-    </div>
-  </div>
-  <br/><br/>
-    <div class="row">
-    <div class="col-sm-6">
-      <%= submit_tag("Download", class: "btn btn-success")%>
-   <% end %>
-  </div>
-  </div>
-
-
-</div>
-</div>
-</div>
-  </div>
-  
-  
-  </div>
-  </div>
-   </div>
-
-
-
-   
-   </div><!-- content container ends here -->
+                               <div class="col-sm-6">    
+                                   <%= label_tag(:end_date , 'To Date: ')%> <%= text_field_tag :end_date, params[:end_date], :id => "end_date", :style => "z-index:1000;", :class => "form-control", :placeholder => "select to date" %>
+                               </div>
+                            </div>
+                            <br/><br/>
+                            <div class="row">
+                               <div class="col-sm-6">
+                                  <%= submit_tag("Download", class: "btn btn-success")%>
+                               </div>
+                            </div>
+                         <% end %>
+                     </div><!-- name ends  -->
+                    </div><!-- col md 6 ends  -->
+                  </div><!-- row ends  -->
+                 </div><!-- col sm 8 ends  -->
+               </div><!-- portlet content ends -->
+            </div><!--portlet ends -->
+          </div><!-- row ends -->
+      </div><!-- content container ends here -->
    </div> <!-- content ends here -->
-  </div><!-- container ends here-->
+ </div><!-- container ends here-->
   

@@ -1,310 +1,286 @@
 
 
 <div class="container">
-<div class="content">
-<div class="content-container">      
+  <div class="content">
+    <div class="content-container">      
   
-<div>
-<h4 class="heading-inline">Update Profile</h4>
- <% if current_authuser.image.present? %>
-  <div class="text-right">
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= image_tag current_authuser.image_url, height: 70, width: 80 , crop: "fit"%>
-  </div>
-  <% end %>
-  </div>  
+     <div>
+        <h4 class="heading-inline">Update Profile</h4>
+         <% if current_authuser.image.present? %>
+           <div class="text-right">
+             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= image_tag current_authuser.image_url, height: 70, width: 80 , crop: "fit"%>
+           </div>
+         <% end %>
+     </div>  
 
-<br>
-  <script type="text/javascript">
-  $(document).ready(function(){
-     $("#dob").datepicker({ dateFormat: "dd/mm/yy" }).val()
-    });
-</script>
+    <br>
+      <script type="text/javascript">
+        $(document).ready(function(){
+          $("#dob").datepicker({ dateFormat: "dd/mm/yy" }).val()
+        });
+      </script>
 
-<%= form_for(@client, :url => "/authusers/admin_update") do |f| %><br/>
-<% if @client.errors.any? %>
-  <div class="alert alert-danger">
-<% @client.errors.full_messages.each do|error| %>
-<ul>
-  <li><%= error %></li>
-</ul>
-<% end %>
-  </div>
-<% end %>
+        <%= form_for(@client, :url => "/authusers/admin_update") do |f| %><br/>
+           <% if @client.errors.any? %>
+             <div class="alert alert-danger">
+                <% @client.errors.full_messages.each do|error| %>
+                    <ul>
+                       <li><%= error %></li>
+                    </ul>
+                <% end %>
+             </div>
+           <% end %>
   
-  <% if alert %>
-  <div class="col-md-8">
-    <div class="alert alert-danger"><%= alert %></div>
-    </div>
-  <% end %>
+           <% if alert %>
+             <div class="col-md-8">
+               <div class="alert alert-danger"><%= alert %></div>
+             </div>
+           <% end %>
   
-<div class="row"> 
-  <b style="color:red">*</b>&nbsp;<b> Indicates the mandatory fields</b><br/><br/>
-<div class="portlet">
-  
-<div class="portlet-header">
-  <h3><i class="fa fa-user"></i>Client Details</h3>
-</div> <!-- /.portlet-header -->
+           <div class="row"> 
+              <b style="color:red">*</b>&nbsp;<b> Indicates the mandatory fields</b><br/><br/>
+                <div class="portlet">
+       
+                   <div class="portlet-header">
+                      <h3><i class="fa fa-user"></i>Client Details</h3>
+                   </div> <!-- /.portlet-header -->
 
-<div class="portlet-content">
-
-<div class="row">
-
-<div class="col-sm-3">           
-  Name&nbsp;<b style="color:red">*</b>
-<div id="name" class="input-group">      
-<span class="input-group-addon"><i class="fa fa-user"></i></span>
-<%= f.text_field :name , class: "form-control", autofocus: true %>
-</div>
-</div> <!-- /.col -->
-            
-<div class="col-sm-3">           
-<!-- <label>Email</label> -->
-  Email&nbsp;<b style="color:red">*</b>
-<div id="email" class="input-group">               
-<span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-<%= f.text_field :email , :readonly => true,  class: "form-control" %>
-</div>
-</div> <!-- /.col -->
-            
-<div class="col-sm-3">           
-  Password&nbsp;<b style="color:red">*</b>
-<div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Min 8 Characters">
-<div id="Password" class="input-group">               
-<span class="input-group-addon"><i class="fa fa-star"></i></span>
-<%= f.password_field :password , class: "form-control" %>
-</div>
-</div>
-</div> <!-- /.col -->
-            
-<div class="col-sm-3">   
- Confirm Password&nbsp;<b style="color:red">*</b>
-<div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Minimum 8 Characters">
-<div id="Password" class="input-group">   
-<span class="input-group-addon"><i class="fa fa-star"></i></span>
-<%= f.password_field :password_confirmation , class: "form-control" %> 
-</div>
-</div>
-</div> <!-- /.col -->
-
-</div><!-- Row ends here -->
-<br/>   
-
-<div class="row">
-<div class="col-sm-3">           
-Date Of Birth(Format: dd/mm/yyyy)&nbsp;<b style="color:red">*</b>
-<div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Select Your Date Of Birth">
-<div id="Password" class="input-group">               
-<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-  <%= f.text_field :date_of_birth ,  class: "form-control" , :id => "dob" %>
-</div>
-</div>
-</div> <!-- /.col -->
+                   <div class="portlet-content">
+                      <div class="row">
  
-<%= f.fields_for :membership do |user_membership| %>
-<div class="col-sm-4">           
-Mobile Number&nbsp;<b style="color:red">*</b>
-<div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Should be 10 Digits">
-<div id="phone" class="input-group">      
-<span class="input-group-addon"><i class="fa fa-phone"></i></span>
-  <%= user_membership.text_field :phone_number , :maxlength => 10,  class: "form-control" %>
-</div>
-</div>
-</div> <!-- /.col -->
-  
-<%= user_membership.hidden_field :membership_start_date %>
-<%= user_membership.hidden_field :membership_end_date %>
-  
-<% end %>  
-  
-<!-- <%= f.hidden_field :invited_by_id, :value => current_authuser.id %>-->
-<!-- <%= f.hidden_field :invited_by_type, :value => "Authuser" %> -->
-  
-<!-- <div> -->
-  <!-- <%= f.fields_for :permissions  do |client_permission| %> -->
-  <!-- <%= client_permission.hidden_field :main_role_id, :value => 2.to_i %> -->
-<!-- <% end %>          -->
-  <!-- </div>-->
-  
-  
-</div> <!-- row ends here -->
-</div> <!-- /.portlet-content -->
-</div> <!-- /.portlet -->
-</div> <!-- /.row -->
-  <!-- client details ends here -->
-  
-<div class="row"> 
-<div class="portlet">
-  
-<div class="portlet-header">
-<h3><i class="fa fa-user"></i>Address Details</h3>
-</div> <!-- /.portlet-header -->
-
-<div class="portlet-content">
-
-<%= f.fields_for :address do |user_address| %>
-
-<div class="row">
-<div class="col-sm-4">           
-Address - Door Number &nbsp;<b style="color:red">*</b>
-<div id="City" class="input-group">    
-<span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
-<%= user_address.text_field :address_line_1, :maxlength => 10, class: "form-control" %>
-</div>
-</div> <!-- /.col -->
+                         <div class="col-sm-3">           
+                            Name&nbsp;<b style="color:red">*</b>
+                             <div id="name" class="input-group">      
+                               <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                               <%= f.text_field :name , class: "form-control", autofocus: true %>
+                             </div>
+                         </div> <!-- /.col -->
             
-<div class="col-sm-4">           
-Address Line 2&nbsp;<b style="color:red">*</b>
-<div id="City" class="input-group">    
-<span class="input-group-addon"><i class="fa fa-map-marker"></i></span>   
-<%= user_address.text_field :address_line_2 , :maxlength => 30, class: "form-control" %>
-</div>
-</div> <!-- /.col -->
+                         <div class="col-sm-3">           
+                           Email&nbsp;<b style="color:red">*</b>
+                             <div id="email" class="input-group">               
+                                <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+                                <%= f.text_field :email , :readonly => true,  class: "form-control" %>
+                             </div>
+                         </div> <!-- /.col -->
             
-<div class="col-sm-4">           
-Address Line 3
-<div id="City" class="input-group">    
-<span class="input-group-addon"><i class="fa fa-map-marker"></i></span> 
-<%= user_address.text_field :address_line_3 , :maxlength => 30, class: "form-control" %>
-</div>
-</div> <!-- /.col -->
-</div><!-- row ends here -->
+                         <div class="col-sm-3">           
+                             Password&nbsp;<b style="color:red">*</b>
+                              <div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Min 8 Characters">
+                                <div id="Password" class="input-group">               
+                                  <span class="input-group-addon"><i class="fa fa-star"></i></span>
+                                  <%= f.password_field :password , class: "form-control" %>
+                                </div>
+                              </div>
+                         </div> <!-- /.col -->
             
-<div class="row">
-<br/>
-<div class="col-sm-4">           
-City&nbsp;<b style="color:red">*</b>
-<div id="City" class="input-group">    
-<span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
-<%= user_address.text_field :city , :maxlength => 15, class: "form-control" %>
-</div>
-</div> <!-- /.col -->
-
-<div class="col-sm-4">           
-State&nbsp;<b style="color:red">*</b>
-<div id="Country" class="input-group">       
-<span class="input-group-addon"><i class="fa fa-globe"></i></span>
-<%= user_address.text_field :state , :maxlength => 15, class: "form-control" %>
-</div>
-</div> <!-- /.col -->
-  
-<div class="col-sm-4">           
-Country&nbsp;<b style="color:red">*</b>
-<div id="Country" class="input-group">       
-<span class="input-group-addon"><i class="fa fa-globe"></i></span>
-<%=user_address.text_field :country , class: "form-control" %>
-</div>
-</div> <!-- /.col -->
-<% end %>  
-  
-
-</div> <!-- row ends here -->
-</div> <!-- /.portlet-content -->
-</div> <!-- /.portlet -->
-</div> <!-- /.row -->
-  <!-- address ends here -->
-  
-<div class="row"> 
-<div class="portlet">
-  
-<div class="portlet-header">
-<h3><i class="fa fa-user"></i>Bank Details</h3>
-</div> <!-- /.portlet-header -->
-
-<div class="portlet-content">
-
-<div class="row">
-<%= f.fields_for :bankdetail do |user_bank_detail| %>
-<div class="col-sm-4">           
-Bank Account Number&nbsp;<b style="color:red">*</b>
-<div id="Number" class="input-group">    
-<span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
-<%= user_bank_detail.text_field :bank_account_number, class: "form-control"  %>
-</div>
-</div> <!-- /.col -->
-            
-<div class="col-sm-4">           
-IFSC Code &nbsp;<b style="color:red">*</b>
-<div id="ifsccode" class="input-group">              
-<span class="input-group-addon"><i class="fa fa-star"></i></span>
-<%= user_bank_detail.text_field :ifsc_code, class: "form-control"  %>
-</div>
-</div> <!-- /.col -->
-           
-<% end %>  
-</div> <!-- row ends here -->
-</div> <!-- /.portlet-content -->
-</div> <!-- /.portlet -->
-</div> <!-- /.row -->
-  
-  <!-- bank detail ends here -->
-  
-<div class="row"> 
-<div class="portlet">
-  
-<div class="portlet-header">
-<h3><i class="fa fa-user"></i>Company Details</h3>
-</div> <!-- /.portlet-header -->
-
-<div class="portlet-content">
-
-<%= f.fields_for :users do |user| %>
-<div class="row">
-<div class="col-sm-3">           
-Tin Number&nbsp;<b style="color:red">*</b>
-<div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Should be 11 Digits">
-<div id="number" class="input-group"> 
-<span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
-  <%= user.text_field :tin_number, :maxlength => 11, class: "form-control" %>
-</div>
-</div>
-</div> <!-- /.col -->
-            
-<div class="col-sm-3">           
-Esugam Username&nbsp;<b style="color:red">*</b>
-<div id="name" class="input-group" >        
-<span class="input-group-addon"><i class="fa fa-user"></i></span>
-<%= user.text_field :esugam_username, class: "form-control" %>
-</div>
-</div> <!-- /.col -->
-            
-<div class="col-sm-3">           
-Esugam Password&nbsp;<b style="color:red">*</b>
-<div id="Password" class="input-group">   
-<span class="input-group-addon"><i class="fa fa-star"></i></span>
-<%= user.password_field :esugam_password, class: "form-control" %>
-</div>
-</div> <!-- /.col -->
-<% end %>
-  
-<%= f.fields_for :clients do |user_client| %>
- <div class="col-sm-3">           
-Company
-<div id="Remarks" class="input-group">     
-<span class="input-group-addon"><i class="fa fa-user"></i></span>
-  <%= user_client.text_field :company, maxlength: 40, class: "form-control" %>
-</div>
-</div> <!-- /.col -->
-<% end %>
-
-</div> <!-- row ends here -->
-</div> <!-- /.portlet-content -->
-</div> <!-- /.portlet -->
-</div> <!-- /.row -->
-  <!-- company detail ends here -->
-
-    
-  
+                         <div class="col-sm-3">   
+                            Confirm Password&nbsp;<b style="color:red">*</b>
+                              <div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Minimum 8 Characters">
+                                 <div id="Password" class="input-group">   
+                                    <span class="input-group-addon"><i class="fa fa-star"></i></span>
+                                    <%= f.password_field :password_confirmation , class: "form-control" %> 
+                                 </div>
+                              </div>
+                         </div> <!-- /.col -->
+                      </div><!-- Row ends here -->
+                      <br/>   
+                      <div class="row">
+                          <div class="col-sm-3">           
+                             Date Of Birth(Format: dd/mm/yyyy)&nbsp;<b style="color:red">*</b>
+                             <div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Select Your Date Of Birth">
+                                <div id="Password" class="input-group">               
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <%= f.text_field :date_of_birth ,  class: "form-control" , :id => "dob" %>
+                                </div>
+                             </div>
+                          </div> <!-- /.col -->
  
+                          <%= f.fields_for :membership do |user_membership| %>
+                            <div class="col-sm-4">           
+                               Mobile Number&nbsp;<b style="color:red">*</b>
+                                 <div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Should be 10 Digits">
+                                   <div id="phone" class="input-group">      
+                                      <span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
+                                      <%= user_membership.text_field :phone_number , :maxlength => 10,  class: "form-control" %>
+                                   </div>
+                                 </div>
+                            </div> <!-- /.col -->
   
+                            <%= user_membership.hidden_field :membership_start_date %>
+                            <%= user_membership.hidden_field :membership_end_date %>
+                          <% end %>  
+  
+                          <!-- <%= f.hidden_field :invited_by_id, :value => current_authuser.id %>-->
+                          <!-- <%= f.hidden_field :invited_by_type, :value => "Authuser" %> -->
+  
+                          <!-- <div> -->
+                          <!-- <%= f.fields_for :permissions  do |client_permission| %> -->
+                          <!-- <%= client_permission.hidden_field :main_role_id, :value => 2.to_i %> -->
+                          <!-- <% end %>          -->
+                          <!-- </div>-->
+                      </div> <!-- row ends here -->
+                    </div> <!-- /.portlet-content -->
+                 </div> <!-- /.portlet -->
+               </div> <!-- /.row -->
+               <!-- client details ends here -->
+  
+               <div class="row"> 
+                  <div class="portlet">
+  
+                      <div class="portlet-header">
+                         <h3><i class="fa fa-map-marker"></i>Address Details</h3>
+                      </div> <!-- /.portlet-header -->
 
-<div class="row">      
-  <%= f.submit "Update Profile", class: "btn btn-success" %>
-</div> 
- 
-<% end %>
-  </div><!--  content container ends here -->
-  </div><!--content  ends here -->
+                      <div class="portlet-content">
+
+                          <%= f.fields_for :address do |user_address| %>
+                              <div class="row">
+                                 <div class="col-sm-4">           
+                                    Address - Door Number &nbsp;<b style="color:red">*</b>
+                                    <div id="City" class="input-group">    
+                                       <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+                                       <%= user_address.text_field :address_line_1, :maxlength => 10, class: "form-control" %>
+                                    </div>
+                                 </div> <!-- /.col -->
+            
+                                 <div class="col-sm-4">           
+                                    Address Line 2&nbsp;<b style="color:red">*</b>
+                                     <div id="City" class="input-group">    
+                                        <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>   
+                                        <%= user_address.text_field :address_line_2 , :maxlength => 30, class: "form-control" %>
+                                     </div>
+                                 </div> <!-- /.col -->
+            
+                                 <div class="col-sm-4">           
+                                   Address Line 3
+                                     <div id="City" class="input-group">    
+                                       <span class="input-group-addon"><i class="fa fa-map-marker"></i></span> 
+                                       <%= user_address.text_field :address_line_3 , :maxlength => 30, class: "form-control" %>
+                                     </div>
+                                 </div> <!-- /.col -->
+                             </div><!-- row ends here -->
+            
+                             <div class="row">
+                               <div class="col-sm-4">           
+                                 City&nbsp;<b style="color:red">*</b>
+                                   <div id="City" class="input-group">    
+                                     <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+                                     <%= user_address.text_field :city , :maxlength => 15, class: "form-control" %>
+                                   </div>
+                               </div> <!-- /.col -->
+
+                               <div class="col-sm-4">           
+                                  State&nbsp;<b style="color:red">*</b>
+                                   <div id="Country" class="input-group">       
+                                     <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+                                     <%= user_address.text_field :state , :maxlength => 15, class: "form-control" %>
+                                   </div>
+                               </div> <!-- /.col -->
+  
+                               <div class="col-sm-4">           
+                                 Country&nbsp;<b style="color:red">*</b>
+                                   <div id="Country" class="input-group">       
+                                      <span class="input-group-addon"><i class="fa fa-globe"></i></span>
+                                      <%= user_address.text_field :country , class: "form-control" %>
+                                   </div>
+                               </div> <!-- /.col -->
+                          <% end %>  
+                        </div> <!-- row ends here -->
+                      </div> <!-- /.portlet-content -->
+                   </div> <!-- /.portlet -->
+                </div> <!-- /.row -->
+                <!-- address ends here -->
+  
+                <div class="row"> 
+                  <div class="portlet">
+  
+                      <div class="portlet-header">
+                          <h3><i class="fa fa-money"></i>Bank Details</h3>
+                      </div> <!-- /.portlet-header -->
+
+                      <div class="portlet-content">
+                        <div class="row">
+                           <%= f.fields_for :bankdetail do |user_bank_detail| %>
+                              <div class="col-sm-4">           
+                                  Bank Account Number&nbsp;<b style="color:red">*</b>
+                                  <div id="Number" class="input-group">    
+                                    <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
+                                    <%= user_bank_detail.text_field :bank_account_number, class: "form-control"  %>
+                                  </div> 
+                              </div> <!-- /.col -->
+            
+                              <div class="col-sm-4">           
+                                 IFSC Code &nbsp;<b style="color:red">*</b>
+                                  <div id="ifsccode" class="input-group">              
+                                     <span class="input-group-addon"><i class="glyphicon glyphicon-sort-by-alphabet"></i></span>
+                                     <%= user_bank_detail.text_field :ifsc_code, class: "form-control"  %>
+                                  </div>
+                              </div> <!-- /.col -->
+                           <% end %>  
+                         </div> <!-- row ends here -->
+                      </div> <!-- /.portlet-content -->
+                    </div> <!-- /.portlet -->
+                 </div> <!-- /.row -->
+                 <!-- bank detail ends here -->
+  
+                 <div class="row"> 
+                    <div class="portlet">
+  
+                        <div class="portlet-header">
+                             <h3><i class="fa fa-building-o"></i>Company Details</h3>
+                        </div> <!-- /.portlet-header -->
+
+                        <div class="portlet-content">
+                          <%= f.fields_for :users do |user| %>
+                            <div class="row">
+                              <div class="col-sm-3">           
+                                 Tin Number&nbsp;<b style="color:red">*</b>
+                                    <div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Should be 11 Digits">
+                                       <div id="number" class="input-group"> 
+                                          <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
+                                          <%= user.text_field :tin_number, :maxlength => 11, class: "form-control" %>
+                                       </div>
+                                    </div>
+                              </div> <!-- /.col -->
+            
+                              <div class="col-sm-3">           
+                                 Esugam Username&nbsp;<b style="color:red">*</b>
+                                 <div id="name" class="input-group" >        
+                                   <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                   <%= user.text_field :esugam_username, class: "form-control" %>
+                                 </div>
+                              </div> <!-- /.col -->
+            
+                              <div class="col-sm-3">           
+                                 Esugam Password&nbsp;<b style="color:red">*</b>
+                                  <div id="Password" class="input-group">   
+                                    <span class="input-group-addon"><i class="fa fa-star"></i></span>
+                                    <%= user.password_field :esugam_password, class: "form-control" %>
+                                  </div>
+                              </div> <!-- /.col -->
+                          <% end %>
+  
+                          <%= f.fields_for :clients do |user_client| %>
+                             <div class="col-sm-3">           
+                               Company
+                                <div id="Remarks" class="input-group">     
+                                  <span class="input-group-addon"><i class="fa fa-building-o"></i></span>
+                                  <%= user_client.text_field :company, maxlength: 40, class: "form-control" %>
+                                </div>
+                             </div> <!-- /.col -->
+                          <% end %>
+                       </div> <!-- row ends here -->
+                    </div> <!-- /.portlet-content -->
+                  </div> <!-- /.portlet -->
+                </div> <!-- /.row -->
+                <!-- company detail ends here -->
+
+                <div class="row">      
+                   <%= f.submit "Update Profile", class: "btn btn-success" %>
+                </div> 
+        <% end %>
+      </div><!--  content container ends here -->
+    </div><!--content  ends here -->
   </div><!-- container ends here -->
   
-
-

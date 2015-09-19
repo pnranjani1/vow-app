@@ -1,107 +1,97 @@
-<!DOCTYPE html>
-<html>
 
-  <body>
   
 <div class="container">
-<div class="content">
-<div class="content-container">      
- <div>
- <h4 class="heading-inline">Products</h4>        
- </div>
-
-<br>
-
-<div class="row"> 
-<div class="portlet">
-
-<div class="portlet-header">
-<h3><i class="fa fa-group"></i>Download Formats</h3>
-</div> <!-- /.portlet-header -->
-
-<div class="portlet-content">
-       
-<div class="col-sm-8"> 
-<div class="row">  
-<div class="col-md-7">
-<div id="name" class="input-group">  
-
-  <strong>Download Existing Commodtiy List</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to products_usercategory_product_path(format: "xls") do %> <button class="btn btn-success">Download</button>
-<% end %>
-  <br/><br/>
-  
-<strong>Download the format for "Importing Products"</strong>&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to products_product_download_path(format: "xls") do %> 
-   <button class="btn btn-success">Download</button>
-      <% end %>
-   
-   </div> <!-- name -->
-  </div> <!-- col-md-6 -->
-  </div> <!-- row--><br/><br/>
-  <p><b>Note: </b>When importing .xls files, save the file as <b>"excel 97-2003 workbook"</b> format to avoid errors</p>
-<br/><p>
-  </div> <!-- col-sm-8"-->
- 
-</div> <!-- /.portlet-content -->
-</div> <!-- /.portlet -->
-</div> <!-- /.row -->
-  
-
-<div class="row"> 
-<div class="portlet portlet-table">
-  
-<div class="portlet-header">
-<h3><i class="fa fa-group"></i> Import Products</h3> 
-</div> <!-- /.portlet-header -->
-
-  <% if alert %>
-  <br/>
-    <div class="col-md-6">
-      <div class= "alert alert-danger"><%= alert %>
+  <div class="content">
+    <div class="content-container">      
+      <div>
+         <h4 class="heading-inline">Products</h4>        
       </div>
-  </div>
-  <% end %>
-  
-<div class="portlet-content">  
-<div class="col-sm-8"> 
-<div class="row">  
-<div class="col-md-6">
-<div class="input-group">  
-  
-  <br/><br/>
-  
-  <%= form_tag products_product_import_path, multipart: true  do %><br/>
-<%= file_field_tag :file , class: "form-control" %> <br/><br/><br/>
-  <% if @product.errors.any? %>
-   <div class="alert alert-danger">
-     <% @product.errors.full_messages.each do|error| %>
-<ul>
-  <li><%= error  %></li>
-</ul>
-<% end %>
-  </div>
-<% end %>
+      <br>
 
-<%= submit_tag "Import Products", class: "btn btn-success" %>
-<% end %>
-  
-  
+       <div class="row"> 
+         <div class="portlet">
 
-<br/><br/>
-</div>
-</div>
-</div>
-</div>
- 
-  
-</div>
-</div>
-</div>
-  
+           <div class="portlet-header">
+               <h3><i class="glyphicon glyphicon-cloud-download"></i>Download Formats</h3>
+           </div> <!-- /.portlet-header -->
 
+           <div class="portlet-content">
+       
+              <div class="col-sm-10"> 
+                <div class="row">  
+                  <div class="col-md-8">
+                    <div id="name" class="input-group">  
+
+                        <strong>Download Existing Commodtiy List</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                         <%= link_to products_usercategory_product_path(format: "xls") do %> 
+                            <button class="btn btn-success">
+                              <span class="glyphicon glyphicon-cloud-download"></span>
+                              &nbsp;Download
+                            </button>
+                         <% end %>
+                          <br/><br/>
   
+                        <strong>Download the format for "Importing Products"</strong>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <%= link_to products_product_download_path(format: "xls") do %> 
+                            <button class="btn btn-success">
+                              <span class="glyphicon glyphicon-cloud-download"></span>
+                              &nbsp;Download
+                            </button>
+                        <% end %>
+   
+                    </div> <!-- name -->
+                  </div> <!-- col-md-6 -->
+                </div> <!-- row--><br/><br/>
+                <p><b>Note: </b>When importing .xls files, save the file as <b>"excel 97-2003 workbook"</b> format to avoid errors</p>
+                <br/><p>
+              </div> <!-- col-sm-8"-->
+           </div> <!-- /.portlet-content -->
+         </div> <!-- /.portlet -->
+       </div> <!-- /.row -->
+       
+      <div class="row"> 
+        <div class="portlet portlet-table">
   
-</div> <!-- /.content-container -->
-</div> <!-- /.content -->
+            <div class="portlet-header">
+               <h3><i class="glyphicon glyphicon-cloud-upload"></i> Import Products</h3> 
+            </div> <!-- /.portlet-header -->
+
+            <% if alert %>
+              <br/>
+              <div class="col-md-6">
+                <div class= "alert alert-danger"><%= alert %></div>
+              </div>
+            <% end %>
+  
+            <div class="portlet-content">  
+               <div class="col-sm-8"> 
+                 <div class="row">  
+                    <div class="col-md-6">
+                       <div class="input-group">  
+                        <br/><br/>
+                           <%= form_tag products_product_import_path, multipart: true  do %><br/>
+                                <%= file_field_tag :file , class: "form-control" %> <br/><br/><br/>
+                                    <% if @product.errors.any? %>
+                                        <div class="alert alert-danger">
+                                           <% @product.errors.full_messages.each do|error| %>
+                                               <ul>
+                                                  <li><%= error  %></li>
+                                               </ul>
+                                           <% end %>
+                                        </div>
+                                    <% end %>
+                                    <%= submit_tag "Import Products", class: "btn btn-success" %>
+                           <% end %>
+                           <br/><br/>
+                       </div><!-- input group ends -->
+                    </div><!-- col md 6 ends here -->
+                  </div><!-- row ends here -->
+                </div><!-- col md 8 ends her -->
+            </div><!-- portlet neds here -->
+        </div><!-- portlet ends here -->
+      </div><!-- row ends here -->
+   </div> <!-- /.content-container -->
+  </div> <!-- /.content -->
 </div> <!-- /.container -->
 
 

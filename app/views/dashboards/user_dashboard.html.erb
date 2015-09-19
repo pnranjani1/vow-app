@@ -15,7 +15,7 @@
     <div class="col-sm-6 col-md-3">
       <div class="row-stat">
         <p class="row-stat-label">No of Esugam's Generated<br/>This Month</p>
-        <h2 class="row-stat-value"><%= @bills_esugam.count %></h2>
+        <h2 class="row-stat-value">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= @bills_esugam.count %></h2>
         <span class="label label-success row-stat-badge"></span>
       </div> <!-- /.row-stat -->
     </div> <!-- /.col -->
@@ -24,7 +24,7 @@
     <div class="col-sm-6 col-md-3">
       <div class="row-stat">
         <p class="row-stat-label">No of Cash Based Applications<br/> This Month</p>
-        <h2 class="row-stat-value"><%= @cash_based_applications.count %></h2>
+        <h2 class="row-stat-value">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= @cash_based_applications.count %></h2>
         <span class="label label-success row-stat-badge"></span>
       </div> <!-- /.row-stat -->
     </div> <!-- /.col -->
@@ -80,11 +80,12 @@
 
           <div class="portlet-footer">
            <div class="text-right"> 
-             <%= link_to new_authuser_invitation_path do %>
-               <button class="btn btn-success">Add Secondary User</button>
+             <%= link_to new_authuser_invitation_path , title: "Add Secondary User", class: "btn btn-success" do %>
+             <span class="glyphicon glyphicon-plus-sign"></span>
+             &nbsp;Secondary User
              <% end %>
-            </div><!-- text right ends here -->
-           </div> <!-- /.portlet-footer -->
+           </div><!-- text right ends here -->
+          </div> <!-- /.portlet-footer -->
          
         </div><!--  table-responsive ends here -->
       </div><!--portlet-content ends here -->

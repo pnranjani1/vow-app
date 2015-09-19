@@ -6,7 +6,9 @@
        
         <div class="portlet portlet-table">
           <div class="portlet-header">
-            <h3>Referral Types</h3>
+            <h3><span class="glyphicon glyphicon-tags"></span>
+                         &nbsp;&nbsp;Referral Types
+            </h3>
           </div><!-- portlet-header ends here -->
            
           <div class="portlet-content">
@@ -36,7 +38,7 @@
                         <td><%= index + 1 %></td>
                         <td><%= referral.referral_type %></td>
                         <td><%= referral.pricing %></td>
-                        <td><%=  link_to edit_referral_type_path(referral.id), class: "btn btn-xs btn-primary" do %>
+                        <td><%=  link_to edit_referral_type_path(referral.id), title: "Edit Referral Type", class: "btn btn-xs btn-primary" do %>
                           <i class="fa fa-edit"></i>
                           <% end %></td>
                       </tr>
@@ -46,7 +48,11 @@
               
               <div class="portlet-footer">
                 <div class="text-right">
-                  <%= link_to "Add Referral Type ", new_referral_type_path, class: "btn btn-success" %>
+                  <%= link_to new_referral_type_path, title: "Add Referral Type" do%>
+                  <button class="btn btn-success">
+                    <span class="glyphicon glyphicon-plus-sign"></span>
+                    &nbsp;Referral type</button>
+                  <% end %>
                  </div><!-- text-right ends here -->
                 </div><!-- portlet footer ends here  -->
           

@@ -1,7 +1,3 @@
-<!DOCTYPE html>
-<html>
-
-  <body>
   
 <div class="container">
   <div class="content">
@@ -12,93 +8,66 @@
 
       <br>
       <div class="row"> 
-      <div class="portlet portlet-table">
-      <div class="portlet-header">
-      <h3><i class="fa fa-group"></i>Commodities List</h3> 
-      </div> <!-- /.portlet-header -->
+        <div class="portlet portlet-table">
+      
+           <div class="portlet-header">
+             <h3><i class="fa fa-shopping-cart"></i>Commodities List</h3> 
+           </div> <!-- /.portlet-header -->
 
-      <div class="portlet-content">
-      <div class="table-responsive">
-      <table id="user-signups" class="table table-striped table-bordered table-checkable"> 
+           <div class="portlet-content">
+             <div class="table-responsive">
+               <table id="user-signups" class="table table-striped table-bordered table-checkable"> 
             
-  <% if notice %>
-  <br/>
-  <div class="col-md-8">
-  <div class="alert alert-success"><%= notice %></div>
-  </div>
-  <% end %>
-      <thead> 
-      <tr> 
-      <th>Commodity Name</th> 
-      <th> Commodity ID</th>
-      </tr> 
-      </thead> 
-      <tbody> 
+                 <% if notice %>
+                 <br/>
+                    <div class="col-md-8">
+                       <div class="alert alert-success"><%= notice %></div>
+                    </div>
+                 <% end %>
+                 <thead> 
+                    <tr> 
+                      <th>Commodity Name</th> 
+                      <th> Commodity ID</th>
+                    </tr> 
+                 </thead> 
+                 <tbody> 
+                   <% if false %>
+                     <% if @usercategories.blank? %>
+                       <div class="portlet-footer">
+                         <div class="text-right">     
+                            <%= link_to  new_usercategory_path do %>      
+                               <button class="btn btn-sm btn-default">Add Commodity</button>
+                            <% end %>
+                         </div>
+                       </div> <!-- /.portlet-footer -->
+                    <% end %>
+                   <% end %>
         
-     <% if false %>
-        <% if @usercategories.blank? %>
-         <div class="portlet-footer">
-       <div class="text-right">     
-       <%= link_to  new_usercategory_path do %>      
-       <button class="btn btn-sm btn-default">Add Commodity</button>
-        <% end %>
-       </div>
-       </div> <!-- /.portlet-footer -->
-        <% end %>
-     <% end %>
-        
-        <% @usercategories.each do |category| %>
-     <tr>                      
-       <td><%= category.commodity_name %> </td>
-       <td><%= category.main_category.commodity_code %> </td>
-       </tr>     
-        <% end %>
-       
-        </tbody> 
-        </table>
+                   <% @usercategories.each do |category| %>
+                    <tr>                      
+                      <td><%= category.commodity_name %> </td>
+                      <td><%= category.main_category.commodity_code %> </td>
+                    </tr>     
+                   <% end %>
+                 </tbody> 
+                </table>
             
-             
-       <div class="portlet-footer">
-       <div class="text-right">     
-     
-       <%#= link_to new_usercategory_path do %>      
-        <!-- #<button class="btn btn-success">Add Commodity</button> -->
-        <%# end %>
-
-       <!-- #Instead of creating button inside the link, you can directly 
-        #assign the redirection to the link_to and provide btn btn-success class, 
-        #to make the link look Like a button -->
-         <%= link_to 'Add Commodity', new_usercategory_path, class: 'btn btn-success' %> 
-       </div>
-       </div> <!-- /.portlet-footer -->
-  <%=  will_paginate  @usercategories, renderer: BootstrapPagination::Rails , class: "apple_pagination" %>                 </div> <!-- /.table-responsive -->
-        </div> <!-- /.portlet-content -->
+              <div class="portlet-footer">
+                <div class="text-right">     
+                   <%= link_to new_usercategory_path, title: "Add new Commodity" do %> 
+                     <button class="btn btn-success">
+                       <span class="glyphicon glyphicon-plus-sign"></span>
+                        &nbsp;Commodity
+                     </button>
+                   <% end %>
+                </div>
+              </div> <!-- /.portlet-footer -->
+              <%=  will_paginate  @usercategories, renderer: BootstrapPagination::Rails , class: "apple_pagination" %>  
+             </div> <!-- /.table-responsive -->
+           </div> <!-- /.portlet-content -->
         </div> <!-- /.portlet -->
-
-        </div> <!-- /.row -->
-        </div> <!-- /.content-container -->
-        </div> <!-- /.content -->
-        </div> <!-- /.container -->
-
-
-
-  
- 
-</body>
-</html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+      </div> <!-- /.row -->
+    </div> <!-- /.content-container -->
+   </div> <!-- /.content -->
+ </div> <!-- /.container -->
 

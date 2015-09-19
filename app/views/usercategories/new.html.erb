@@ -12,7 +12,7 @@
         <div class="portlet">
 
            <div class="portlet-header">
-              <h3><i class="fa fa-group"></i> Add Commodity</h3>
+              <h3><i class="fa fa-shopping-cart"></i> Add Commodity</h3>
            </div> <!-- /.portlet-header -->
 
            <div class="portlet-content">
@@ -34,11 +34,11 @@
                         <label class="col-md-3">Select Commodity</label>
                         <div class="col-md-5">
                           <div id="name" class="input-group"> 
-                                <span class="input-group-addon"><i class="fa fa-star"></i></span> 
+                                <span class="input-group-addon"><i class="fa fa-shopping-cart"></i></span> 
                                     <%= f.collection_select :main_category_id, MainCategory.all, :id, :commodity_name, {prompt: "Select Commodity"}, {class: "form-control"} %>
                           </div>
                         </div>
-                          <br/><br/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                          <br/><br/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                           <%= f.submit "Add Commodity", class: "btn btn-success" %>
                     </div><!-- row ends here -->
                   </div><!-- col md  8 ends heer -->

@@ -1,72 +1,60 @@
 
   
 <div class="container">
-<div class="content">
-<div class="content-container">      
-<div>
-<h4 class="heading-inline">Bills Information</h4>        
-</div>
-<br/>
+  <div class="content">
+    <div class="content-container">      
+      <div>
+         <h4 class="heading-inline">Activity Information</h4>        
+      </div>
+      <br/>
 
-<div class="row"> 
-<div class="portlet portlet-table">
-<div class="portlet-header">
-  <h3><i class="fa fa-group"></i>User Bills</h3> 
-</div> <!-- /.portlet-header -->
-<div class="portlet-content">
-<div class="table-responsive">
-<table id="user-signups" class="table table-striped table-bordered table-checkable"> 
-       
-<thead> 
-<tr> 
-<th>User Name</th> 
-<th>Total No Of Bills</th>
-<th>Esugam Generated </th>
-<th>Cash Based Applications </th>
-<th>Bill</th>
-</tr> 
-
-</thead> 
-<tbody> 
-     
-  <% @client_user.each do |user| %>
-  <% userid = user.authuser.id %>
- 
-<tr>                      
-  <td><%= user.authuser.name %> </td>
-  <% bills = Bill.where('created_at >= ? AND created_at <= ? AND primary_user_id =?', Date.today.to_date.beginning_of_month, Date.today.to_date.end_of_month, userid) %>
-  <td><%= bills.count %></td>
-  <td><%= Bill.where("created_at >= ? AND created_at <= ? AND ESUGAM IS NOT NULL AND primary_user_id = ?", Date.today.to_date.beginning_of_month, Date.today.to_date.end_of_month, userid).count %></td>
-  <td><%= Bill.where("created_at >= ? AND created_at <= ? AND ESUGAM IS NULL AND primary_user_id = ?", Date.today.to_date.beginning_of_month, Date.today.to_date.end_of_month, userid).count %></td>
-  <td><%= link_to "Bill", user_bill_pdf_path(:id => userid), class: "listconttext" %></td>
-  
-</tr>     
+      <div class="row"> 
+        <div class="portlet portlet-table">
     
-<%  end %>
-</tbody> 
-</table>
+           <div class="portlet-header">
+              <h3><i class="fa fa-clipboard"></i>User Activity Information</h3> 
+           </div> <!-- /.portlet-header -->
+    
+           <div class="portlet-content">
+              <div class="table-responsive">
+                <table id="user-signups" class="table table-striped table-bordered table-checkable"> 
+                   <thead> 
+                       <tr> 
+                          <th>User Name</th> 
+                          <th>Total No Of Bills</th>
+                          <th>Esugam Generated </th>
+                          <th>Cash Based Applications </th>
+                          <th>Bill</th>
+                       </tr> 
+                   </thead> 
+                   <tbody> 
+                     <% @client_user.each do |user| %>
+                        <% userid = user.authuser.id %>
+                          <tr>                      
+                            <td><%= user.authuser.name %> </td>
+                            <% bills = Bill.where('created_at >= ? AND created_at <= ? AND primary_user_id =?', Date.today.to_date.beginning_of_month, Date.today.to_date.end_of_month, userid) %>
+                            <td><%= bills.count %></td>
+                            <td><%= Bill.where("created_at >= ? AND created_at <= ? AND ESUGAM IS NOT NULL AND primary_user_id = ?", Date.today.to_date.beginning_of_month, Date.today.to_date.end_of_month, userid).count %></td>
+                            <td><%= Bill.where("created_at >= ? AND created_at <= ? AND ESUGAM IS NULL AND primary_user_id = ?", Date.today.to_date.beginning_of_month, Date.today.to_date.end_of_month, userid).count %></td>
+                            <td><%= link_to user_bill_pdf_path(:id => userid), title: "Click to Generate Invoice" do %>
+                                 <button class="btn btn-success">
+                                   <span class="glyphicon glyphicon-cloud-download"></span>
+                                   &nbsp;Invoice
+                                 </button>
+                                <% end %>
+                            </td>
+                          </tr>     
+                     <% end %>
+                   </tbody> 
+                </table>
         
-  <%=  will_paginate  @client_user, renderer: BootstrapPagination::Rails , class: "apple_pagination" %>            
-</div> <!-- /.table-responsive -->
-</div> <!-- /.portlet-content -->
-</div> <!-- /.portlet -->
-</div> <!-- /.row -->
+                <%=  will_paginate  @client_user, renderer: BootstrapPagination::Rails , class: "apple_pagination" %>            
+              </div> <!-- /.table-responsive -->
+            </div> <!-- /.portlet-content -->
+           </div> <!-- /.portlet -->
+         </div> <!-- /.row -->
 
-</div> <!-- /.content-container -->
-</div> <!-- /.content -->
-</div> <!-- /.container -->
+       </div> <!-- /.content-container -->
+      </div> <!-- /.content -->
+    </div> <!-- /.container -->
   
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -20,19 +20,19 @@
 </head>
 <body> 
   
-<% if authuser_signed_in? %>   
+    <% if authuser_signed_in? %>   
   
-<div class="navbar">
-<div class="container">
+     <div class="navbar">
+        <div class="container">
     
-<div class="navbar-header">
-<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-<i class="fa fa-cogs"></i>
-</button>
-<%= link_to "Vatonwheels.com", root_path , class: "navbar-brand " %> 
-</div> <!-- /.navbar-header -->
+           <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <i class="fa fa-cogs"></i>
+              </button>
+              <%= link_to "Vatonwheels.com", root_path , class: "navbar-brand " %> 
+           </div> <!-- /.navbar-header -->
    
-  <!--  <div class="col-md-8"> -->
+  
      <!-- <%= current_authuser.name %> -->
      <!-- <% if current_authuser.main_roles.count >1 %> -->
     <!-- <li>   -->  
@@ -43,268 +43,245 @@
     <!-- </li> -->
    <!-- </div> -->
     
-<!-- right Navigation for profile -->
-<div class="navbar-collapse collapse">
-<ul class="nav navbar-nav navbar-right">   
-
-<li class="dropdown navbar-profile">
-<a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;">
-  <% if current_authuser.role.present? %>
-    <span class="nametitle">Logged in as <%= current_authuser.role.capitalize %></span>
-  <% end %>&nbsp;&nbsp;
-    <% unless current_authuser.image_url.nil? %>
-      <span><%= image_tag current_authuser.image_url , height: 40, width: 40, crop: "fit" %></span>
-    <% else %>
-      <span class="nametitle"><%= current_authuser.name %></span>
-    <% end %>
+            <!-- right Navigation for profile -->
+              <div class="navbar-collapse collapse">
+                 <ul class="nav navbar-nav navbar-right">   
+                    <li class="dropdown navbar-profile">
+                       <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;">
+                           <% if current_authuser.role.present? %>
+                               <span class="nametitle">Logged in as <%= current_authuser.role.capitalize %></span>
+                           <% end %>&nbsp;&nbsp;
+                           <% unless current_authuser.image_url.nil? %>
+                               <span><%= image_tag current_authuser.image_url , height: 40, width: 40, crop: "fit" %></span>
+                           <% else %>
+                               <span class="nametitle"><%= current_authuser.name %></span>
+                           <% end %>
 <!--<img src="img/avatar-1-xs.jpg" class="navbar-profile-avatar" alt="">  -->
-<span class="navbar-profile-label">rod@rod.me &nbsp;</span>
-<i class="fa fa-caret-down"></i>
-</a>
+                            <span class="navbar-profile-label">rod@rod.me &nbsp;</span>
+                              <i class="fa fa-caret-down"></i>
+                       </a>
 
-<ul class="dropdown-menu" role="menu">
-<% if current_authuser.main_roles.first.role_name == "client" %>
-<li>
+                       <ul class="dropdown-menu" role="menu">
+                          <% if current_authuser.main_roles.first.role_name == "client" %>
+                            <li>
 <!-- <a href="./page-profile.html">-->
-<%= link_to authusers_admin_edit_path do %>
-<i class="fa fa-user"></i> 
-&nbsp;&nbsp;Update Profile
-<% end %>
-</li>
-<li>
-<%= link_to authusers_user_profile_picture_path do %>
-<i class="fa fa-user"></i> 
-&nbsp;&nbsp;Upload Profile Picture
-<% end %>
-</li>
-<% end %>
-  <% if current_authuser.main_roles.first.role_name == "admin" %>
-    <li>
-      <%= link_to edit_authuser_registration_path do %>
-        <i class="fa fa-user"></i> 
-        &nbsp;&nbsp;Change Password
-      <% end %>
-    </li>
-  <% end %>
+                               <%= link_to authusers_admin_edit_path do %>
+                                  <i class="fa fa-user"></i> 
+                                   &nbsp;&nbsp;Update Profile
+                               <% end %>
+                            </li>
+                            <li>
+                                <%= link_to authusers_user_profile_picture_path do %>
+                                  <i class="fa fa-picture-o"></i> 
+                                   &nbsp;&nbsp;Upload Profile Picture
+                                <% end %>
+                            </li>
+                          <% end %>
+                          <% if current_authuser.main_roles.first.role_name == "admin" %>
+                            <li>
+                               <%= link_to edit_authuser_registration_path do %>
+                                   <i class="fa fa-star"></i> 
+                                   &nbsp;&nbsp;Change Password
+                               <% end %>
+                            </li>
+                          <% end %>
   
-<li class="divider"></li>
-
-<li>
-<%= link_to destroy_authuser_session_path do %>
+                          <li class="divider"></li>
+                          <li>
+                              <%= link_to destroy_authuser_session_path do %>
 <!--  <a href="./account-login.html"> -->
-<i class="fa fa-sign-out"></i> 
-&nbsp;&nbsp;Logout
-<% end %>
+                                 <i class="fa fa-sign-out"></i> 
+                                  &nbsp;&nbsp;Logout
+                              <% end %>
 <!-- </a>-->
-</li>
-</ul>
-</li>
-</ul>
-</div> <!--/.navbar-collapse -->
-</div> <!-- /.container -->
-</div> <!-- /.navbar -->
+                          </li>
+                       </ul>
+                    </li>
+                 </ul>
+                </div> <!--/.navbar-collapse -->
+               </div> <!-- /.container -->
+              </div> <!-- /.navbar -->
        
- 
-   
-<div class="mainbar">
-<div class="container">
-<button type="button" class="btn mainbar-toggle" data-toggle="collapse" data-target=".mainbar-collapse">
-<i class="fa fa-bars"></i>
-</button>
-<div class="mainbar-collapse collapse">
-<ul class="nav navbar-nav mainbar-nav">
+              <div class="mainbar">
+                 <div class="container">
+                    <button type="button" class="btn mainbar-toggle" data-toggle="collapse" data-target=".mainbar-collapse">
+                       <i class="fa fa-bars"></i>
+                    </button>
+                    <div class="mainbar-collapse collapse">
+                        <ul class="nav navbar-nav mainbar-nav">
         
-<!-- Dashboards -->
-<% if controller.controller_name == "dashboards" %>
-<li class= "active">
-<% else %>
-<li>
-<% end %>
-<% if permitted_to? :admin_dashboard , Dashboard.new %> 
-<%= link_to dashboards_admin_dashboard_path  do %>
-<i class="fa fa-dashboard"></i> Dashboard
-<% end %>
-<% end %>
-<% if permitted_to? :client_dashboard , Dashboard.new %> 
-<%= link_to dashboards_client_dashboard_path  do %>
-<i class="fa fa-dashboard"></i> Dashboard
-<% end %>
-<% end %>
-</li>
+                       <!-- Dashboards -->
+                         <% if controller.controller_name == "dashboards" %>
+                            <li class= "active">
+                         <% else %>
+                            <li>
+                         <% end %>
+                               <% if permitted_to? :admin_dashboard , Dashboard.new %> 
+                                   <%= link_to dashboards_admin_dashboard_path  do %>
+                                      <i class="fa fa-dashboard"></i> Dashboard
+                                   <% end %>
+                               <% end %>
+                               <% if permitted_to? :client_dashboard , Dashboard.new %> 
+                                 <%= link_to dashboards_client_dashboard_path  do %>
+                                    <i class="fa fa-dashboard"></i> Dashboard
+                                 <% end %>
+                               <% end %>
+                            </li>
   
-   <!-- Change Role --> 
-  <% if controller.action_name == "change_role" %> 
-<li class= "active dropdown"> 
-<% else %>
-<li> 
-<% end %>
-<% if current_authuser.main_roles.count > 1 %>
-<%= link_to authusers_change_role_path do %> 
-<i class="fa fa-dashboard"></i> Change Role 
-<% end %>
-<% end %>
-</li>
+                            <!-- Change Role --> 
+                            <% if controller.action_name == "change_role" %> 
+                              <li class= "active dropdown"> 
+                            <% else %>
+                              <li> 
+                            <% end %>
+                                  <% if current_authuser.main_roles.count > 1 %>
+                                      <%= link_to authusers_change_role_path do %> 
+                                         <i class="fa fa-dashboard"></i> Change Role 
+                                      <% end %>
+                                  <% end %>
+                              </li>
+                              
+                              <!-- Bills Information -->
+                                 <% if controller.controller_name == "bills" %>
+                                     <li class="active dropdown">  
+                                 <% else %>
+                                     <li class="dropdown">
+                                 <% end %>
   
-
-<!-- Customers --> 
-<!-- <% if permitted_to? :index, Customer.new %> -->
-<!-- <li class="dropdown">   -->
-<!-- <%= link_to customers_path, class: "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>-->
-<!-- <i class="fa fa-desktop"></i>View Customers<span class="caret"></span>-->
-<!-- <% end %> -->
-
-<!-- <ul class="dropdown-menu">    -->
-<!-- <li>-->
-<!-- <%= link_to customers_path do %> -->
-<!-- <i class="fa fa-user nav-icon"></i> Manage Customers</li>  -->
-<!-- <% end %> -->
-<!-- </ul>
-</li> -->
-<!-- <% end %> -->
-        
-<!-- Bills Information -->
-<% if controller.controller_name == "bills" %>
-<li class="active dropdown">  
-<% else %>
-<li class="dropdown">
-<% end %>
+                                          <% if permitted_to? :client_bill_summary, Bill.new %>
+                                               <%= link_to bills_client_bill_summary_path, class: "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>
+                                                     <i class="fa fa-clipboard"></i> Activity Information<span class="caret"></span>
+                                               <% end %>
+                                          <% end %> 
   
-<% if permitted_to? :client_bill_summary, Bill.new %>
-<%= link_to bills_client_bill_summary_path, class: "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>
-<i class="fa fa-align-left"></i> Bills Information<span class="caret"></span>
-<% end %>
-<% end %> 
+                                           <ul class="dropdown-menu"> 
+                                               <% if permitted_to? :client_bill_summary, Bill.new %>
+                                                   <li><%= link_to bills_client_bill_summary_path do %>
+                                                       <i class="fa fa-clipboard"></i>&nbsp;&nbsp;CA Activity Information
+                                                        <% end %>
+                                                   </li>
+                                               <% end %>
+                                                   <li> 
+                                                      <% if permitted_to? :client_billing_report, Bill.new %>
+                                                           <%= link_to bills_client_billing_report_path do %>
+                                                               <i class="fa fa-align-left"></i>&nbsp;&nbsp;Monthly Bill
+                                                            <% end %>
+                                                      <% end %>
+                                                   </li>
+                                           </ul>
+                                     </li>
   
-<ul class="dropdown-menu"> 
-<% if permitted_to? :client_bill_summary, Bill.new %>
-<li><%= link_to bills_client_bill_summary_path do %>
-  <i class="fa fa-align-left"></i>&nbsp;&nbsp;CA Bills</li>
-<% end %>
-<% end %>
+                                    <!-- bills information for client -->
+                                 <% if controller.controller_name == "bills" %>   
+                                     <li class="active dropdown">  
+                                 <% else %>
+                                     <li class="dropdown">
+                                 <% end %>
+                                           <% if permitted_to? :user_bill_summary, Bill.new %>
+                                                <%= link_to bills_user_bill_summary_path, class: "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>
+                                                   <i class="fa fa-clipboard"></i>Activity Information
+                                                <% end %>
+                                           <% end %>
   
-<li> 
-  <% if permitted_to? :client_billing_report, Bill.new %>
-  <%= link_to bills_client_billing_report_path do %>
-  <i class="fa fa-align-left"></i>&nbsp;&nbsp;Monthly Bill </li>
-<% end %>
-<% end %>
-</ul>
-</li>
+                                           <ul class="dropdown-menu">   
+                                              <% if permitted_to? :user_bill_summary, Bill.new %>
+                                                   <li><%= link_to bills_user_bill_summary_path  do %>
+                                                           <i class="fa fa-clipboard"></i> Users Activity 
+                                                       <% end %>
+                                                   </li>
+                                              <% end %>
+                                           </ul>
+                                     </li>
   
-<!-- bills information for client -->
-<% if controller.controller_name == "bills" %>
-<li class="active dropdown">  
-<% else %>
-<li class="dropdown">
-<% end %>
-<% if permitted_to? :user_bill_summary, Bill.new %>
-<%= link_to bills_user_bill_summary_path, class: "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>
-<i class="fa fa-align-left"></i>Bill Information<span class="caret"></span>
-<% end %>
-<% end %>
-  
-<ul class="dropdown-menu">   
-<% if permitted_to? :user_bill_summary, Bill.new %>
-<li><%= link_to bills_user_bill_summary_path  do %>
-<i class="fa fa-align-left"></i> User Bills </li>
-<% end %>
-<% end %>
-</ul>
-</li>
-  
-  
-          
-<!-- Main Commodities -->  
-<% if permitted_to? :index, MainCategory.new %>
-<% if controller.controller_name == "main_categories" %>
-<li class= "active dropdown">
-<% else %>
-<li>
-<% end %>
+                                     <!-- Main Commodities -->  
+                              <% if permitted_to? :index, MainCategory.new %>
+                                <% if controller.controller_name == "main_categories" %>
+                                     <li class= "active dropdown">
+                                <% else %>
+                                     <li>
+                                <% end %>
  
-<%= link_to main_categories_path, class: "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>
-<i class="fa fa-files-o"></i>Commodities<span class="caret"></span>
-<% end %>
+                                          <%= link_to main_categories_path, class: "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>   
+                                                <i class="fa fa-shopping-cart"></i>Commodities
+                                          <% end %>
 
-<ul class="dropdown-menu">   
-<li>
-<%= link_to main_categories_path do %>
-<i class="fa fa-yen nav-icon"></i> Manage Commodities</li>  
-<% end %>
-<li>
-  <%= link_to main_categories_category_import_report_path do %>
-<i class="fa fa-arrow-up nav-icon"></i> Import Commodities</li>  
-<% end %>
-</ul>
-</li>
-<% end %>
+                                           <ul class="dropdown-menu">   
+                                              <li>
+                                                 <%= link_to main_categories_path do %>
+                                                     <i class="fa fa-list"></i> Manage Commodities
+                                                 <% end %>
+                                              </li>
+                                              <li>
+                                                 <%= link_to main_categories_category_import_report_path do %>
+                                                      <i class="fa fa-cloud-upload"></i> Import Commodities
+                                                 <% end %>
+                                              </li>
+                                           </ul>
+                                     </li>
+                              <% end %>
 
-<!-- Taxes -->
-<% if permitted_to? :index, Tax.new %>
-<% if controller.controller_name == "taxes" %>
-<li class= "active dropdown">
-<% else %>
-<li>
-<% end %>
+                             <!-- Taxes -->
+                             <% if permitted_to? :index, Tax.new %>
+                                  <% if controller.controller_name == "taxes" %>
+                                      <li class= "active dropdown">
+                                  <% else %>
+                                      <li>
+                                  <% end %>
   
-
-<%= link_to taxes_path, class: "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>
-<i class="fa fa-external-link"></i>Tax Details<span class="caret"></span>
-<% end %>
-
-<ul class="dropdown-menu">   
-<li>
-<%= link_to taxes_path do %>
-<i class="fa fa-external-link"></i> Manage Tax</li>  
-<% end %>
-</ul>
-</li>
-<% end %>
+                                          <%= link_to taxes_path, class: "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>
+                                             <i class="fa fa-money"></i>Tax Details<span class="caret"></span>
+                                          <% end %>
+                                          <ul class="dropdown-menu">   
+                                             <li>
+                                                 <%= link_to taxes_path do %>
+                                                    <i class="fa fa-list"></i> Manage Tax
+                                                 <% end %>
+                                             </li>
+                                          </ul>
+                                      </li>
+                             <% end %>
   
- 
-  <!-- tin numbers -->
-  <% if permitted_to? :index, TinNumber.new %>
-  <% if controller.controller_name == "tin_numbers" %>
-<li class= "active dropdown">
-<% else %>
-<li>
-<% end %>
+                             <!-- tin numbers -->
+                             <% if permitted_to? :index, TinNumber.new %>
+                                <% if controller.controller_name == "tin_numbers" %>
+                                    <li class= "active dropdown">
+                                <% else %>
+                                    <li>
+                                <% end %>
+                                          <%= link_to tin_numbers_path, class: "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>
+                                                <i class="fa fa-barcode"></i>Tin Numbers<span class="caret"></span>
+                                           <% end %>
+                                            <ul class="dropdown-menu">   
+                                                <li>
+                                                   <%= link_to tin_numbers_path do %>
+                                                      <i class="fa fa-list"></i> Manage Tin Numbers
+                                                   <% end %>
+                                                </li>
+                                            </ul>
+                                    </li>
+                             <% end %>
   
+                             <!-- referrals -->
+                             <% if permitted_to? :index, Referral.new %>
+                                 <% if controller.controller_name == "referrals" %> 
+                                     <li class= "active dropdown"> 
+                                 <% else %>
+                                     <li> 
+                                 <% end %>
 
-  <%= link_to tin_numbers_path, class: "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>
-<i class="fa fa-th"></i>Tin Numbers<span class="caret"></span>
-<% end %>
+                                 <%= link_to referrals_path, class: "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>
+                                       <i class="fa fa-gift"></i>Referrals<span class="caret"></span>
+                                 <% end %>
 
-<ul class="dropdown-menu">   
-<li>
-  <%= link_to tin_numbers_path do %>
-<i class="fa fa-th"></i> Manage Tin Numbers</li>  
-<% end %>
-</ul>
-</li>
-<% end %>
-  
-  
-  
-  <!-- referrals -->
-  <% if permitted_to? :index, Referral.new %>
-  <% if controller.controller_name == "referrals" %> 
-<li class= "active dropdown"> 
-<% else %>
-<li> 
-<% end %>
-
-  <%= link_to referrals_path, class: "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>
-<i class="fa fa-align-left"></i>Referrals<span class="caret"></span>
-<% end %>
-
-<ul class="dropdown-menu">
-   <li><%= link_to referrals_path do %>
-<i class="fa fa-align-center nav-icon"></i> Manage Referrals </li>  
-<% end %>  
-  <li><%= link_to referral_types_path do %>
-<i class="fa fa-align-center nav-icon"></i> Manage Referral Types </li>  
-<% end %>  
+                                 <ul class="dropdown-menu">
+                                    <li><%= link_to referrals_path do %>
+                                          <i class="fa fa-list"></i> Manage Referrals
+                                        <% end %>  
+                                    </li>
+                                    <li><%= link_to referral_types_path do %>
+                                            <i class="fa fa-tags"></i> Manage Referral Types
+                                        <% end %>  
+                                    </li>
 
 <%
 =begin %>
@@ -314,40 +291,33 @@
 <%
 =end %>
   
-</ul>
-</li>
-<% end %>
+                                        </ul>
+                                      </li>
+                                    <% end %>
     
-</ul><!-- nav navbar-nav mainbar-nav --ends here -->
+                             </ul><!-- nav navbar-nav mainbar-nav --ends here -->
   
-</div> <!-- /.mainbar-collapse -->   
-</div> <!-- /.container --> 
-</div> <!-- /.mainbar -->
-<% end %>
-<%= yield %>
+                            </div> <!-- /.mainbar-collapse -->   
+                          </div> <!-- /.container --> 
+                        </div> <!-- /.mainbar -->
+                     <% end %>
+                  <%= yield %>
    
 
   <!-- <%= link_to "Sign Out", destroy_authuser_session_path, method: :delete %> -->
    <!-- <%= link_to "Sign out", destroy_authuser_session_path %> -->
  
-<footer class="footer">
-<div class="container">
-<div class="row">
-
-<div class="col-sm-9">&copy; 2015 vatonwheels.com </div> <!-- /.col --> 
-<div class="col-sm-3">Design and Developed by <a href="http://iprimitus.com" target="_blank" class="iprim">iprimitus.com</a></div> <!-- /.col -->
-
-</div> <!-- /.row -->
-</div> <!-- /.container -->
+               <footer class="footer">
+                   <div class="container">
+                     <div class="row">
+                       <div class="col-sm-9">&copy; 2015 vatonwheels.com </div> <!-- /.col --> 
+                           <div class="col-sm-3">Design and Developed by <a href="http://iprimitus.com" target="_blank" class="iprim">iprimitus.com</a></div> <!-- /.col -->
+                     </div> <!-- /.row -->
+                   </div> <!-- /.container -->
   
-</footer>
+               </footer>
 
-</body>
-</html>
+    </body>
+   </html>
 
   
-  
-  
- 
-
-

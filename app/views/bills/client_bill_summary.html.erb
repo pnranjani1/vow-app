@@ -1,7 +1,3 @@
-<!DOCTYPE html>
-<html>
-
-  <body>
   
 <div class="container">
   <div class="content">
@@ -14,75 +10,54 @@
       <br/>
       <br>
       <div class="row"> 
-      <div class="portlet portlet-table">
-      <div class="portlet-header">
-      <h3><i class="fa fa-group"></i>Client Bills</h3> 
-      </div> <!-- /.portlet-header -->
+        <div class="portlet portlet-table">
+          <div class="portlet-header">
+             <h3><i class="fa fa-clipboard"></i>Client Bills</h3> 
+          </div> <!-- /.portlet-header -->
 
-      <div class="portlet-content">
-      <div class="table-responsive">
-      <table id="user-signups" class="table table-striped table-bordered table-checkable"> 
-       
-      <thead> 
-      <tr> 
-        <th>Client Name</th> 
-        <th> No Of Users</th>
-        <th>No of Cash Based Applications</th>
-        <th>No of Esugam Generated</th> 
-        <th>Download PDF</th>
-       </tr> 
-      </thead> 
-        
-      <tbody> 
-      <% @clients.each do|client| %>
-        <% client_id = client.authuser.id %>
-        <% @users = User.where(:client_id => client_id) %>
-        <% users_count = @users.count %>
-        
-        <% bills = Bill.where(:client_id => client_id) %>
-        <% cash_based_applications = Bill.where('client_id =? AND ESUGAM IS NULL AND created_at >= ? AND created_at <= ?', client_id, Date.today.to_date.beginning_of_month, Date.today.to_date.end_of_month).count %>
-        <% bills_esugam = Bill.where('client_id =? AND ESUGAM IS NOT NULL AND created_at >= ? AND created_at <= ?', client_id, Date.today.to_date.beginning_of_month, Date.today.to_date.end_of_month).count %>
-       
-  
-        
-        
-       <tr>                      
-         <td><%= link_to client.authuser.name, bills_bill_details_client_path(:id => client.authuser.id), class: "listconttext" %> </td>
-          <td><%= users_count %></td>
-         <td><%=  cash_based_applications %></td>
-        <td><%=  bills_esugam %></td>
-         <td><%= link_to "PDF Invoice", bills_bill_details_client_path(:id => client.authuser.id, format: "pdf"), class: "btn btn-success", target: "blank" %></td>
-        
-    
-    </tr>     
-    
-        <%  end %>
-    </tbody> 
-    </table>
-        <%=  will_paginate  @clients, renderer: BootstrapPagination::Rails , class: "apple_pagination" %>
-           
-        
-</div> <!-- /.table-responsive -->
-</div> <!-- /.portlet-content -->
-</div> <!-- /.portlet -->
-</div> <!-- /.row -->
-
-</div> <!-- /.content-container -->
-</div> <!-- /.content -->
+          <div class="portlet-content">
+            <div class="table-responsive">
+             <table id="user-signups" class="table table-striped table-bordered table-checkable"> 
+               <thead> 
+                  <tr> 
+                    <th>Client Name</th> 
+                    <th> No Of Users</th>
+                    <th>No of Cash Based Applications</th>
+                    <th>No of Esugam Generated</th> 
+                    <th>Download PDF</th>
+                  </tr> 
+               </thead> 
+               <tbody> 
+                 <% @clients.each do|client| %>
+                   <% client_id = client.authuser.id %>
+                   <% @users = User.where(:client_id => client_id) %>
+                   <% users_count = @users.count %>
+                   <% bills = Bill.where(:client_id => client_id) %>
+                   <% cash_based_applications = Bill.where('client_id =? AND ESUGAM IS NULL AND created_at >= ? AND created_at <= ?', client_id, Date.today.to_date.beginning_of_month, Date.today.to_date.end_of_month).count %>
+                   <% bills_esugam = Bill.where('client_id =? AND ESUGAM IS NOT NULL AND created_at >= ? AND created_at <= ?', client_id, Date.today.to_date.beginning_of_month, Date.today.to_date.end_of_month).count %>
+                   <tr>                      
+                      <td><%= link_to client.authuser.name, bills_bill_details_client_path(:id => client.authuser.id), class: "listconttext" %> </td>
+                      <td><%= users_count %></td>
+                      <td><%=  cash_based_applications %></td>
+                      <td><%=  bills_esugam %></td>
+                      <td><%= link_to bills_bill_details_client_path(:id => client.authuser.id, format: "pdf"), title: "Click to Generate Invoice", target: "blank" do %>
+                               <button class="btn btn-success">
+                                  <span class="fa fa-cloud-download"></span>
+                                   Invoice
+                               </button>
+                          <% end %>
+                      </td>
+                   </tr>     
+                 <% end %>
+               </tbody> 
+             </table>
+             <%=  will_paginate  @clients, renderer: BootstrapPagination::Rails , class: "apple_pagination" %>
+            </div> <!-- /.table-responsive -->
+          </div> <!-- /.portlet-content -->
+        </div> <!-- /.portlet -->
+      </div> <!-- /.row -->
+     </div> <!-- /.content-container -->
+  </div> <!-- /.content -->
 </div> <!-- /.container -->
-    
-</body>
-</html>
-
-
-
-
-
-
-
-
-
-
-
 
 

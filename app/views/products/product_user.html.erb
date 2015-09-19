@@ -11,7 +11,7 @@
       <div class="row"> 
        <div class="portlet portlet-table">
          <div class="portlet-header">
-           <h3><i class="fa fa-group"></i>Products List</h3> 
+           <h3><i class="fa fa-gift"></i>Products List</h3> 
          </div> <!-- /.portlet-header -->
 
          <div class="portlet-content">
@@ -45,7 +45,7 @@
                         <td><%= product.product_name %> </td>
                         <td><%= product.units%> </td>
                         <td><%= product.usercategory.commodity_name%> </td>
-                        <td><%= link_to edit_product_path(product.id), class: "btn btn-xs btn-primary" do %>
+                      <td><%= link_to edit_product_path(product.id), title: 'Edit Product details',  class: "btn btn-xs btn-primary" do %>
                                <i class="fa fa-edit"></i>
                              <% end %>
                       </td>
@@ -57,8 +57,10 @@
             
                <div class="portlet-footer">
                   <div class="text-right">     
-                      <%= link_to  new_product_path do %>      
-                          <button class="btn btn-success">Add Product</button>
+                    <%= link_to  new_product_path , title: "Add New Product" do %>      
+                          <button class="btn btn-success">
+                             <span class="glyphicon glyphicon-plus-sign"></span>
+                             &nbsp;Product</button>
                       <% end %>
                   </div>
                </div> <!-- /.portlet-footer -->
