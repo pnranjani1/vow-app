@@ -281,7 +281,7 @@ end
         # bills2 is to get the bills of that user for a particular month and tax type
         bills1 = Bill.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id)
         bills2 = Bill.where('created_at >= ? AND created_at <= ? AND tax_type = ?', chosen_month.to_time.beginning_of_month, chosen_month.to_time.end_of_month, "VAT")
-        @user_bills = bills1 & bills2.order('created_at')
+        @user_bills = bills1 & bills2.order('created_at ASC')
        end
        respond_to do |format|
          format.html
@@ -299,11 +299,11 @@ end
         primary_user_id = current_authuser.invited_by_id
         bills1 = Bill.where('authuser_id =? OR primary_user_id =?', primary_user_id, primary_user_id)
         bills2 = Bill.where('created_at >= ? AND created_at <= ? AND tax_type = ?', chosen_month.to_time.beginning_of_month, chosen_month.to_time.end_of_month, "VAT")
-        @user_bills = bills1 & bills2.order('created_at')
+        @user_bills = bills1 & bills2.order('created_at ASC')
      else
         bills1 = Bill.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id)
         bills2 = Bill.where('created_at >= ? AND created_at <= ? AND tax_type = ?', chosen_month.to_time.beginning_of_month, chosen_month.to_time.end_of_month, "VAT")
-        @user_bills = bills1 & bills2.order('created_at')
+        @user_bills = bills1 & bills2.order('created_at ASC')
        end
        respond_to do |format|
         format.html
@@ -318,11 +318,11 @@ end
         primary_user_id = current_authuser.invited_by_id
         bills1 = Bill.where('authuser_id =? OR primary_user_id =?', primary_user_id, primary_user_id)
         bills2 = Bill.where('created_at >= ? AND created_at <= ? AND tax_type = ?', chosen_month.to_time.beginning_of_month, chosen_month.to_time.end_of_month, "CST")
-        @user_bills = bills1 & bills2.order('created_at')
+        @user_bills = bills1 & bills2.order('created_at ASC')
      else
         bills1 = Bill.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id)
         bills2 = Bill.where('created_at >= ? AND created_at <= ? AND tax_type = ?', chosen_month.to_time.beginning_of_month, chosen_month.to_time.end_of_month, "CST")
-        @user_bills = bills1 & bills2.order('created_at')
+        @user_bills = bills1 & bills2.order('created_at ASC')
      end
      respond_to do |format|
         format.html
@@ -339,11 +339,11 @@ end
         primary_user_id = current_authuser.invited_by_id
         bills1 = Bill.where('authuser_id =? OR primary_user_id =?', primary_user_id, primary_user_id)
         bills2 = Bill.where('created_at >= ? AND created_at <= ? AND tax_type = ?', chosen_month.to_time.beginning_of_month, chosen_month.to_time.end_of_month, "CST")
-        @user_bills = bills1 & bills2.order('created_at')
+        @user_bills = bills1 & bills2.order('created_at ASC')
      else
         bills1 = Bill.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id)
         bills2 = Bill.where('created_at >= ? AND created_at <= ? AND tax_type = ?', chosen_month.to_time.beginning_of_month, chosen_month.to_time.end_of_month, "CST")
-        @user_bills = bills1 & bills2.order('created_at')
+        @user_bills = bills1 & bills2.order('created_at ASC')
      end
      respond_to do |format|
         format.html
@@ -359,11 +359,11 @@ end
         primary_user_id = current_authuser.invited_by_id
         bills1 = Bill.where('authuser_id =? OR primary_user_id =?', primary_user_id, primary_user_id)
         bills2 = Bill.where('created_at >= ? AND created_at <= ?', start_date.to_time, end_date.to_time)
-        @user_bills = bills1 & bills2.order('created_at')
+        @user_bills = bills1 & bills2.order('created_at ASC')
     else
         bills1 = Bill.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id)
         bills2 = Bill.where('created_at >= ? AND created_at <= ?', start_date.to_time, end_date.to_time)
-        @user_bills = bills1 & bills2.order('created_at')
+        @user_bills = bills1 & bills2.order('created_at ASC')
     end
     #@user_bills = Bill.where('created_at >= ? AND created_at <= ? AND authuser_id = ? OR primary_user_id = ?',start_date.to_time, end_date.to_time, current_authuser.id, current_authuser.id )
     respond_to do|format|
@@ -382,11 +382,11 @@ end
         primary_user_id = current_authuser.invited_by_id
         bills1 = Bill.where('authuser_id =? OR primary_user_id =?', primary_user_id, primary_user_id)
         bills2 = Bill.where('created_at >= ? AND created_at <= ?', start_date.to_time, end_date.to_time)
-        @user_bills = bills1 & bills2.order('created_at')
+        @user_bills = bills1 & bills2.order('created_at ASC')
     else
         bills1 = Bill.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id)
         bills2 = Bill.where('created_at >= ? AND created_at <= ?', start_date.to_time, end_date.to_time)
-        @user_bills = bills1 & bills2.order('created_at')
+        @user_bills = bills1 & bills2.order('created_at ASC')
     end
       respond_to do |format|
         format.html
