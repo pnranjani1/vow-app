@@ -21,13 +21,15 @@
               <%= form_for @tax do |f| %>
                   <div class="col-sm-8"> 
                     <b style="color:red">*</b>&nbsp;<b> Indicates the mandatory fields</b><br/><br/>
-                       
+                    
                        <div class="row">  
                          <label class="col-md-3">Tax Type&nbsp;&nbsp;<b style="color:red">*</b></label>
                             <div class="col-md-6">
-                              <div id="name" class="input-group">   
-                                <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                                <%= f.text_field :tax_type ,class: "form-control" %>
+                              <div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Maximum 3 Characters">
+                                <div id="name" class="input-group">   
+                                  <span class="input-group-addon"><i class="fa fa-money"></i></span>
+                                  <%= f.text_field :tax_type, maxlength: 3, class: "form-control" %>
+                                </div>
                               </div>
                             </div>
                        </div><br>
