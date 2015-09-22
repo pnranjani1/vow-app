@@ -11,18 +11,27 @@
         </div><!-- portlet header ends here -->
         <div class="portlet-content">
           
-          <%= form_for @user, :html => {:multipart => true} do |f| %>
+          <%= form_for @user , :html => {:multipart => true} do |f| %>
+         
+             <% if alert  %>
+               <div class="row">
+                 <div class='col-md-6'>
+                   <div class="alert alert-danger">
+                      <%= alert %>
+                   </div>
+                 </div>
+               </div>
+             <% end %>
           
-          <div class="col-md-4">
-          <%= f.file_field :image, class: "form-control" %><br/>
-          <%= f.submit "Upload", class: "btn btn-success" %>
-          </div>
-          
+             <div class="row">
+               <div class="col-md-4">
+                 <%= f.file_field :image, class: "form-control" , required: true %><br/>
+                 <%= f.submit "Upload", class: "btn btn-success" %>
+               </div>
+             </div>
           <% end %>
-          
         </div><!-- portlet content ends here -->
-      </div><!-- portlet ends here --.
-      
+      </div><!-- portlet ends here -->
     </div><!-- content container ends here -->
   </div><!-- content ends here -->
 </div><!-- container ends here --.

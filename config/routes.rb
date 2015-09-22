@@ -103,6 +103,7 @@ Rails.application.routes.draw do
   patch 'authusers/invite_user_again'
   get 'bills/captcha'
   patch 'bills/:id/captcha_image' => "bills#captcha_image", :as => "captcha_image"
+  patch 'authusers/:id/update_profile_picture' => 'authusers#update_profile_picture', as: "update_user_profile_picture"
   
  # patch 'bills/pdf_format_select'
     
