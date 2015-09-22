@@ -65,13 +65,24 @@ class BillsController < ApplicationController
       @bill.primary_user_id = current_authuser.id
       @bill.authuser_id = current_authuser.id
     end
+    customer_id = params[:bill]['customer_id']
+    customer = Customer.where(:id => customer_id).first
+    if customer.name != "Others"
+      @bill.unregistered_customers.first.delete
+      #urd = UnregisteredCustomer.where(:bill_id => @bill.id).first
+      #urd.delete
+    #else
+      #@bill.unregistered_customers.first.save
+      #@bill.unregistered_customers.bill_id = @bill.id
+     # urd = UnregisteredCustomer.where(:bill_id => @bill.id).first.save
+    end
     if @bill.save
        @bill.update_attribute(:total_bill_price, @bill.line_items.sum(:total_price))
        redirect_to bill_path(@bill.id)
     else
        render action: 'new'
     end
- end
+    end
        
   def get_tin
     #state = params[:unregistered_customer][:state]

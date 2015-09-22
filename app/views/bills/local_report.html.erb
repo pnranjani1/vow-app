@@ -42,7 +42,7 @@
                           </script>
   
                           <%= form_tag bills_local_path(:format => "xls"), method: :get do %>
-                             <%= text_field_tag :choose_month, params[:choose_month], :id => 'date-picker', placeholder: "Select month to generate Local Sales xml", class: "btn btn-default fileupload-exists"  %>&nbsp;&nbsp;&nbsp;
+                             <%= text_field_tag :choose_month, params[:choose_month], :id => 'date-picker', required: true,  placeholder: "Select month to generate Local Sales xml", class: "btn btn-default fileupload-exists"  %>&nbsp;&nbsp;&nbsp;
                              <%= submit_tag "Download" , class: "btn btn-success" %>
                           <% end %>
                       </div><!-- name ends here -->

@@ -31,11 +31,11 @@
                   <div class="row">
                     <div class="col-md-6">
                         <%= label_tag(:start_date, "From Date") %>
-                        <%= text_field_tag(:start_date, params[:start_date], class: "form-control", :id => "start_date", :placeholder => "Enter Start Date") %>
+                        <%= text_field_tag(:start_date, params[:start_date], class: "form-control", :id => "start_date", required: true,  :placeholder => "Enter Start Date") %>
                     </div>
                     <div class="col-md-6">
                         <%= label_tag(:end_date, "To Date") %>
-                        <%= text_field_tag(:end_date, params[:end_date], class: "form-control", :id => "end_date", :placeholder => "Enter End Date") %>
+                        <%= text_field_tag(:end_date, params[:end_date], class: "form-control", :id => "end_date", required: true, :placeholder => "Enter End Date") %>
                     </div>
                   </div><!-- row ends here -->
               

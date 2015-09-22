@@ -1,92 +1,79 @@
-
-
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<title>Vatonwheels</title>
-<meta charset="utf-8">    
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<meta name="description" content="Your description">
-<meta name="keywords" content="Your keywords">
-<meta name="author" content="Your name">
-<meta name = "format-detection" content = "telephone=no" />
-</head>
-  
-<body>
-<!--header-->
-
-<header class="clearfix">
-    <div class="container">
-       <h1 class="navbar-brand navbar-brand_ wow fadeInDown"><a href="/">Vatonwheels.com</a></h1>       
-       <ul class="follow_icon">
+ <html lang="en">
+  <head>
+    <title>Vatonwheels</title>
+    <meta charset="utf-8">    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Your description">
+    <meta name="keywords" content="Your keywords">
+    <meta name="author" content="Your name">
+    <meta name = "format-detection" content = "telephone=no" />
+  </head>
+  <body>
+  <!--header-->
+   <header class="clearfix">
+     <div class="container">
+          
+        <h1 class="navbar-brand navbar-brand_ wow fadeInDown"><a href="/">Vatonwheels.com</a></h1>       
+         <ul class="follow_icon">
               <li><a href="https://www.facebook.com/IPrimitusConsultancyServices" class="fa fa-facebook"></a></li>
-<li><a href="https://twitter.com/iPrimitus" class="fa fa-twitter"></a></li>
-<li><a href="https://www.linkedin.com/company/iprimitus-consultancy-services" class="fa fa-linkedin"></a></li>
-<li><a href="https://plus.google.com/108877132961366118945/videos" class="fa fa-google-plus"></a></li>
-       </ul>
-    </div>   
-</header>
+              <li><a href="https://twitter.com/iPrimitus" class="fa fa-twitter"></a></li>
+              <li><a href="https://www.linkedin.com/company/iprimitus-consultancy-services" class="fa fa-linkedin"></a></li>
+              <li><a href="https://plus.google.com/108877132961366118945/videos" class="fa fa-google-plus"></a></li>
+         </ul>
+     </div>   
+   </header>
+  
+   <!--content-->
+   <div class="content"> 
+     <br/><br/><br/><br/>
+     <% if alert %>
+       <div class="col-md-6">
+         <div class="alert alert-danger"><%= alert %></div>
+       </div>
+     <% end %>
+  
+     <div class="register-container container">
+       <div class="row"> 
+         <div class="covrpage">         
+            <div class="register">
+                <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+                    <h2>Sign in</h2>
+                      <label for="email">Email</label>
+                      <%= f.email_field :email, autofocus: true, :placeholder => "Enter your Email ID" %>
 
-<!--content-->
- 
-<div class="content"> 
-  <br/><br/><br/><br/>
-   <% if alert %>
-   <div class="col-md-6">
-      <div class="alert alert-danger"><%= alert %></div>
+                      <label for="password">Password</label>
+                      <%= f.password_field :password, autocomplete: "off" , :placeholder => "Enter Your Password..." %><br/><br/>
+  
+                      <%= f.submit "SIGN IN",:class => "grenbutton" %><br/><br/>
+                <% end %>
+  
+                <%= render "devise/shared/links" %>
+            </div>
+          </div>
+        </div>
+      </div>
    </div>
-      <% end %>
-  
- <div class="register-container container">
- <div class="row"> 
- <div class="covrpage">         
-<div class="register">
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-<h2>Sign in</h2>
-                       
-<label for="email">Email</label>
-  <%= f.email_field :email, autofocus: true, :placeholder => "Enter your Email ID" %>
-<label for="password">Password</label>
-  <%= f.password_field :password, autocomplete: "off" , :placeholder => "Enter Your Password..." %><br/><br/>
-  <%= f.submit "SIGN IN",:class => "grenbutton" %><br/><br/>
-  <% end %>
-  
-  <%= render "devise/shared/links" %>
-  
-</div>
-</div>
-   
-</div>
-</div>
-</div>
 
-  
-  
-  
-
-<!--footer-->
-<footer>
-<div class="container">
-<div class="row">
-<div class="col-lg-9 col-md-6 col-sm-12 wow fadeInUp"> 
-<div class="title">&copy; 2015 vatonwheels.com</div>
-<p class="prev"><a href="index-5.html"></a></p>                 
-</div>  
+  <!--footer-->
+  <footer>
+    <div class="container">
+      <div class="row">
+       <div class="col-lg-9 col-md-6 col-sm-12 wow fadeInUp"> 
+          <div class="title">&copy; 2015 vatonwheels.com</div>
+          <p class="prev"><a href="index-5.html"></a></p>                 
+       </div>  
    
-<div class="col-lg-3 col-md-6 col-sm-12 wow fadeInUp">                             
-<div class="title">
-Design and Developed by &nbsp;&nbsp;<%= link_to "iPrimitus.com", "http://iprimitus.com", class: "indextitle" , target: "blank" %></div>
+       <div class="col-lg-3 col-md-6 col-sm-12 wow fadeInUp">                             
+        <div class="title">
+          Design and Developed by &nbsp;&nbsp;<%= link_to "iPrimitus.com", "http://iprimitus.com", class: "indextitle" , target: "blank" %>
+       </div>
 <!--<p ><a href="http://iprimitus.com" target="_blank" class="iprim">iprimitus.com</a></p> -->
-</div>         
-                   
-            
-            
-</div>
-</div>
+      </div>         
+    </div>
+   </div><!-- content ends here -->
   <!-- {%FOOTER_LINK} -->
-</footer>
-
-</body>
+  </footer>
+ </body>
 </html>
 

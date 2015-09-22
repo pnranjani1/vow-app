@@ -28,11 +28,11 @@
                        <%= form_tag  bills_tally_import_path( :format => :xml),method: "get" do  %>
                          <div class="row">
                             <div class="col-sm-6">
-                              <%= label_tag(:start_date , 'From Date: ')%> <%= text_field_tag :start_date, params[:start_date], :id => "start_date", :style => "z-index:1000;", :class => "form-control", :placeholder => "select from date" %>
+                              <%= label_tag(:start_date , 'From Date: ')%> <%= text_field_tag :start_date, params[:start_date], :id => "start_date", :style => "z-index:1000;", :class => "form-control", required: true, :placeholder => "select from date" %>
                             </div>
   
                             <div class="col-sm-6">    
-                              <%= label_tag(:end_date , 'To Date: ')%> <%= text_field_tag :end_date, params[:end_date], :id => "end_date", :style => "z-index:1000;", :class => "form-control", :placeholder => "select to date" %>
+                              <%= label_tag(:end_date , 'To Date: ')%> <%= text_field_tag :end_date, params[:end_date], :id => "end_date", :style => "z-index:1000;", :class => "form-control", required: true, :placeholder => "select to date" %>
                             </div>
                          </div>
                          <br/><br/>
