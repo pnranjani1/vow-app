@@ -10,7 +10,7 @@ class Bill < ActiveRecord::Base
  #before_save :generate_invoice_record
   
   before_save :generate_grand_total
-  before_save :generate_tax_type
+  before_save :generate_tax_type#self.line_items.pluck(:tax_id) != empty
   
   belongs_to :other_charges_information
   
@@ -21,12 +21,12 @@ class Bill < ActiveRecord::Base
   has_many :unregistered_customers
   belongs_to :authuser
   
-  belongs_to :tax
+  #belongs_to :tax
   has_one :invoice_record
  
  
   
-  validates  :invoice_number, :bill_date, :tax_id, presence: true
+  validates  :invoice_number, :bill_date, presence: true
   # CValidation for invoice number for manual and automated invoice numbers
   validates_presence_of :invoice_number
  
@@ -152,14 +152,22 @@ class Bill < ActiveRecord::Base
    end
   
   def generate_grand_total
-    tax_amount = self.tax.tax_rate * 0.01
-    total_amount = self.total_bill_price.to_f + self.other_charges.to_f
-    total_tax = tax_amount * total_amount
-    self.grand_total = total_amount.to_f + total_tax.to_f 
+   
+    products_other_charges = self.total_bill_price.to_f + self.other_charges.to_f
+    tax_total = self.line_items.sum(:tax_rate)
+    service_total = self.line_items.sum(:service_tax_amount)
+    self.grand_total = ((products_other_charges.to_f  + tax_total.to_f + service_total.to_f) - discount.to_f)
   end
 
   def generate_tax_type
-    self.tax_type  = self.tax.tax_type
+   # self.tax_type  = self.line_items.first.tax.tax_type
+    items = self.line_items.pluck(:tax_type)
+    item = items.compact
+    if item.empty?
+      self.tax_type = "No Tax"
+    else
+      self.tax_type = item.first
+    end
   end
   
   

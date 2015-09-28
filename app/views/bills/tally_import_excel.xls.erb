@@ -6,7 +6,7 @@
     <th>Customer</th>
     <th>Customer Tin Number</th>
     <th>Tax Type</th>
-    <th>Tax Amount</th>
+    <%#<th>Tax Amount</th> %>
     <th>Grand Total</th>
    </tr>
 
@@ -17,8 +17,8 @@
       <td><%= bill.bill_date.strftime("%d %b %y") %></td>
       <td><%= bill.customer.name %></td>
       <td><%= bill.customer.tin_number %></td>
-      <td><%= bill.tax.tax_type %></td>
-      <td><%= ((bill.tax.tax_rate*0.01) * bill.grand_total).round(2) %></td>
+      <td><%= bill.line_items.first.tax.tax_type %></td>
+      <%# <td><%= ((bill.line_items.first.tax.tax_rate*0.01) * bill.grand_total).round(2) %>
       <td><%= bill.grand_total.round(2) %></td>
     </tr>
   <% end %>

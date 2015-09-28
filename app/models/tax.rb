@@ -4,7 +4,8 @@ class Tax < ActiveRecord::Base
   belongs_to :usercategory
   belongs_to :user
   belongs_to :authuser
-  has_many :bills
+#  has_many :bills
+  has_one :line_item
   
   validates :tax_type, :tax_rate, presence: true
   

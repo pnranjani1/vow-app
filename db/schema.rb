@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150826105939) do
+ActiveRecord::Schema.define(version: 20150928092729) do
 
   create_table "addresses", force: true do |t|
     t.string   "address_line_1"
@@ -94,9 +94,7 @@ ActiveRecord::Schema.define(version: 20150826105939) do
     t.text     "other_information"
     t.float    "total_bill_price"
     t.float    "grand_total"
-    t.integer  "tax_id"
     t.float    "other_charges"
-    t.string   "tax_type"
     t.string   "other_charges_info"
     t.string   "esugam"
     t.integer  "client_id"
@@ -113,6 +111,8 @@ ActiveRecord::Schema.define(version: 20150826105939) do
     t.string   "record_number"
     t.string   "invoice_format"
     t.string   "image"
+    t.float    "discount"
+    t.string   "tax_type"
   end
 
   create_table "cainvoices", force: true do |t|
@@ -195,6 +195,9 @@ ActiveRecord::Schema.define(version: 20150826105939) do
     t.float    "total_item_price"
     t.float    "service_tax_rate"
     t.float    "service_tax_amount"
+    t.float    "tax_rate"
+    t.integer  "tax_id"
+    t.string   "tax_type"
   end
 
   create_table "main_categories", force: true do |t|

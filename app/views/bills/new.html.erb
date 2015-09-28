@@ -394,7 +394,7 @@
            <%= f.fields_for :line_items do |bill_product| %>
                <div class="row"> 
     
-                  <div class="col-sm-3">           
+                  <div class="col-sm-2">           
                      <strong>Item&nbsp;<b style="color:red">*</b></strong> 
                      <div id="name" class="input-group">   
                        <span class="input-group-addon"><i class="fa fa-gift"></i></span>
@@ -403,7 +403,7 @@
                      </div> 
                   </div> <!-- /.col -->
  
-                  <div class="col-sm-3">           
+                  <div class="col-sm-2">           
                     <strong>Quantity&nbsp;<b style="color:red">*</b></strong> 
                     <div id="quantity_div" class="input-group">               
                        <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
@@ -411,7 +411,7 @@
                     </div>
                   </div> <!-- /.col -->
            
-                  <div class="col-sm-3">           
+                  <div class="col-sm-2">           
                      <strong>Unit Price&nbsp;<b style="color:red">*</b></strong> 
                      <div id="unit_price_div" class="input-group">               
                        <span class="input-group-addon"><i class="fa fa-money"></i></span>
@@ -426,21 +426,22 @@
                        <%= bill_product.text_field :service_tax_rate, class: "form-control" %>
                      </div>
                   </div> <!-- /.col -->
-
-                  <div class="col-sm-1">      
-                    <div class="marggap">
-                      <!-- <div class="btn btn-xs btn-primary" >-->
-                      <div class="remove-button">
-                        <%= bill_product.link_to_remove do %>
-                        <%= image_tag("remove_icon.png", size: "37", :title => "Remove Item") %>
-                        <% end %>         
-                      </div>
-                    </div>
-                  </div>
-    
+                  
+                  <div class="col-sm-2">           
+                    <strong> Tax %(Optional) &nbsp;</strong> 
+                     <div id="unit_price_div" class="input-group"> 
+                       <span class="input-group-addon"><i class="fa fa-money"></i></span>
+                       <%= bill_product.collection_select :tax_id, Tax.all, :id, :tax, {:prompt => "select Tax"}, {class: "form-control"} %>
+                     </div>
+                  </div> <!-- /.col -->
+                   
+                  <div class="col-sm-1">  
+                    <%= bill_product.link_to_remove image_tag("remove_icon.png", width: 45, height: 45) %>
+                  </div> <!-- /.col -->
+                  
                </div><!-- row ends here --><br/>
             <% end %><!-- nested_form ends here -->
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+           
            <%= f.link_to_add :line_items do %>
              <button class="btn btn-success">
                <span class="glyphicon glyphicon-plus-sign"></span>
@@ -507,14 +508,14 @@
   <div class="portlet">
 
       <div class="portlet-header">
-        <h3><i class="fa fa-th"></i> Other Information</h3>
+        <h3><i class="fa fa-th"></i> Other Information and Discounts</h3>
       </div> <!-- /.portlet-header -->
 
       <div class="portlet-content">
          <div class="row"> 
 
             <div class="col-sm-3">           
-               <strong>Name Other Charges, if any?</strong> 
+               <strong>Name Other Charges (if any)</strong> 
                <div id="name" class="input-group">               
                   <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
                   <%= f.collection_select :other_charges_information_id, OtherChargesInformation.all, :id, :other_charges,  {:prompt => "Select Type"} , {:class => "form-control"} %>
@@ -528,7 +529,16 @@
                  <%= f.number_field :other_charges, :min => 1, class: "form-control" %>
                </div>
             </div> <!-- /.col -->
-        
+           
+            <div class="col-sm-3">           
+              <strong>Discount <medium>(if any)</medium></strong> 
+               <div id="name" class="input-group">               
+                  <span class="input-group-addon"><i class="fa fa-money"></i></span>
+                 <%= f.number_field :discount, :min => 1, class: "form-control" %>
+               </div>
+            </div> <!-- /.col -->
+<%
+=begin %>
             <div class="col-sm-3">           
                <strong>Tax Information&nbsp;<b style="color:red">*</b></strong> 
                <div id="name" class="input-group">  
@@ -536,7 +546,8 @@
                   <%= f.collection_select :tax_id, Tax.all, :id, :tax ,{prompt: "Select Tax"}, {class: "form-control", :required => true} %>
                </div>
             </div> <!-- /.col -->
- 
+<%
+=end %>
             <br/><br/><br/><br/>
   
             <div class="col-sm-9">           

@@ -38,8 +38,24 @@ xml.Saledetails do |saledetails|
           xml.InvNo bill.invoice_number
           xml.InvDate bill.bill_date.strftime("%Y%m%d")
           xml.NetVal bill.total_bill_price
-          xml.TaxCh bill.tax.tax_rate
-          xml.OthCh bill.other_charges
+          if bill.tax_type.present?
+          taxes = bill.line_items.pluck(:tax_id)
+           tax = taxes.compact.first
+           tax_rate = Tax.where(:id => tax).first.tax_rate
+           #xml.TaxCh bill.line_items.first.tax.tax_rate
+           xml.TaxCh tax_rate
+          else
+            xml.TaxCh "No Tax"
+          end
+          service_tax = bill.line_items.pluck(:service_tax_amount).compact
+          if (!service_tax.empty?) && (bill.other_charges != nil)
+            service_tax_total = bill.line_items.sum(:service_tax_amount)
+            xml.OthCh (bill.other_charges + service_tax_total)
+          elsif bill.other_charges.present?
+            xml.OthCh bill.other_charges 
+          else
+            xml.OthCh
+          end
           xml.TotCh bill.grand_total
         end
   end     
