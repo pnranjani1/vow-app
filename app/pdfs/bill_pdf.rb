@@ -148,7 +148,7 @@ class BillPdf < Prawn::Document
          end
       end
         
-      bounding_box([3,515], :width => 300) do
+      bounding_box([3,510], :width => 300) do
          if @bill.vechicle_number == ""
            text "Vehicle Number :  NA" , :inline_format => true, size: 9
          else
@@ -156,7 +156,7 @@ class BillPdf < Prawn::Document
          end
       end
         
-      bounding_box([320,515], :width => 300) do
+      bounding_box([320,510], :width => 300) do
           if @bill.lr_date == nil
             text "LR Date       : NA" , :inline_format => true, size: 9
           else
