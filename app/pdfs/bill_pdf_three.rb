@@ -159,7 +159,7 @@ class BillPdfThree < Prawn::Document
    end
  
    def bill_table   
-      bounding_box([5,495], :width => 550) do
+      bounding_box([5,500], :width => 550) do
         #move_down 30
          table bill_products do
            row(0).font_style = :bold
