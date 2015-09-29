@@ -39,6 +39,7 @@ class BillsController < ApplicationController
   
   def create  
     @bill = Bill.new(set_params)
+    @taxes = Tax.all
     @customer = Customer.new
     @product = Product.new
     @user = current_authuser  
@@ -68,7 +69,9 @@ class BillsController < ApplicationController
     end
     customer_id = params[:bill]['customer_id']
     customer = Customer.where(:id => customer_id).first
-    if customer.name != "Others"
+   # if customer.name != "Others"
+    urd_values = ["others", "other", "Others", "Other"]
+    if !urd_values.include? customer.name 
       @bill.unregistered_customers.first.delete
       #urd = UnregisteredCustomer.where(:bill_id => @bill.id).first
       #urd.delete
