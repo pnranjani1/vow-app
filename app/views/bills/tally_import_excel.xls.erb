@@ -17,7 +17,14 @@
       <td><%= bill.bill_date.strftime("%d %b %y") %></td>
       <td><%= bill.customer.name %></td>
       <td><%= bill.customer.tin_number %></td>
-      <td><%= bill.line_items.first.tax.tax_type %></td>
+      <% if bill.tax_type != 'No Tax' %>
+        <% taxes = bill.line_items.pluck(:tax_id) %>
+        <% tax = taxes.compact.first %>
+        <% taxrate = Tax.where(:id => tax).first.tax_rate %>
+       <td><%= taxrate %></td>
+      <% else %>
+       <td> No Tax</td>
+      <% end %>
       <%# <td><%= ((bill.line_items.first.tax.tax_rate*0.01) * bill.grand_total).round(2) %>
       <td><%= bill.grand_total.round(2) %></td>
     </tr>
