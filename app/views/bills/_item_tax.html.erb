@@ -1,0 +1,8 @@
+<div class="col-sm-2">
+  <strong> Tax %(Optional) &nbsp;</strong> 
+  <div id="unit_price_div" class="input-group"> 
+    <span class="input-group-addon"><i class="fa fa-money"></i></span>
+    <%= bill_product.collection_select :tax_id, @taxes, :id, :tax, 
+      { prompt: 'select Tax'}, { class: "form-control" } %>
+  </div>
+</div>

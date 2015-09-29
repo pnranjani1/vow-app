@@ -131,7 +131,11 @@
                        <tbody> 
                            <% @bill.line_items.each do|line_item| %>
                                <tr>                      
-                                  <td><%= line_item.product.product_name  %></td> 
+                                 <td><b><%= line_item.product.product_name  %></b>
+                                   <% if line_item.item_description.present? %>
+                                      <br/>&nbsp;&nbsp;<%= line_item.item_description %>
+                                   <% end %>
+                                  </td> 
                                    
                                    <% if line_item.tax_id != nil %>
                                      <% tax_type = line_item.tax.tax %>

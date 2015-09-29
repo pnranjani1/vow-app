@@ -46,7 +46,7 @@ class Bill < ActiveRecord::Base
   accepts_nested_attributes_for :unregistered_customers
   
   
-  def generate_invoice_format
+   def generate_invoice_format
    # if Authuser.current.main_roles.first.role_name != "secondary_user"
       self.invoice_format = Authuser.current.invoice_format    
    # else

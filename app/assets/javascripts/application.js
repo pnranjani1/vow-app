@@ -133,8 +133,7 @@ $(document).ready(function(){
 });
 
   $(document).ready(function(){
-    $("#state_list").change(function(){
-    
-      
+    $('#item_add').on("click", function(){
+      console.log("okay");
     });
   });

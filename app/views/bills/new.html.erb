@@ -225,7 +225,7 @@
   
                                          <div class="row portlet-content">       
                                             <%= f.submit "Create Customer", class: "btn btn-success" %>
-                                          </div>
+                                         </div>
                                        <% end %>
                                     </div>
                                  </div><!-- modal-content ends here -->
@@ -392,6 +392,7 @@
 
          <div class="portlet-content" id="line_items_list">
            <%= f.fields_for :line_items do |bill_product| %>
+               
                <div class="row"> 
     
                   <div class="col-sm-2">           
@@ -427,23 +428,29 @@
                      </div>
                   </div> <!-- /.col -->
                   
-                  <div class="col-sm-2">           
-                    <strong> Tax %(Optional) &nbsp;</strong> 
-                     <div id="unit_price_div" class="input-group"> 
-                       <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                       <%= bill_product.collection_select :tax_id, Tax.all, :id, :tax, {:prompt => "select Tax"}, {class: "form-control"} %>
+                 <div id ='item_tax'>
+                   <%= render partial: 'item_tax', locals: {bill_product: bill_product} %>
+                 </div>
+                                     
+               </div><!-- row ends here --><br/>
+           
+               <div class="row">
+                  <div class="col-sm-4">           
+                    <strong>Item Description (Optional)&nbsp;</strong> 
+                     <div id="name" class="input-group">   
+                       <span class="input-group-addon"><i class="fa fa-gift"></i></span>
+                       <%= bill_product.text_area :item_description, maxlength: 50, class: "form-control" %>
                      </div>
                   </div> <!-- /.col -->
-                   
-                  <div class="col-sm-1">  
-                    <%= bill_product.link_to_remove image_tag("remove_icon.png", width: 45, height: 45) %>
+                 
+                  <div class="col-sm-1" style="margin-top:30px;">  
+                    <%= bill_product.link_to_remove image_tag("remove_icon.png", width: 37, height: 37) %>
                   </div> <!-- /.col -->
-                  
                </div><!-- row ends here --><br/>
             <% end %><!-- nested_form ends here -->
            
            <%= f.link_to_add :line_items do %>
-             <button class="btn btn-success">
+             <button class="btn btn-success" id='item_add'>
                <span class="glyphicon glyphicon-plus-sign"></span>
                 Add Items
              </button>
@@ -457,7 +464,7 @@
   <div class="portlet">
 
     <div class="portlet-header">
-      <h3><i class="fa fa-share"></i> Transporter /Owner  Details</h3>
+      <h3><i class="fa fa-share"></i> Transporter/Owner  Details</h3>
     </div> <!-- /.portlet-header -->
 
     <div class="portlet-content">

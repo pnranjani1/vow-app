@@ -148,7 +148,13 @@ class BillPdfThree < Prawn::Document
         else
           service_tax = "NA"
         end
-        [line_item.product.product_name.titleize, tax, service_tax, qty, "#{number_with_delimiter(line_item.unit_price,delimiter: ',')}", "#{number_with_delimiter(line_item.total_price.round(2), delimiter: ',')}"]
+        #product details
+         if line_item.item_description.present?
+           product_name = "#{line_item.product.product_name.titleize} \n #{item = line_item.item_description}"
+        else
+          product_name = line_item.product.product_name.titleize
+        end
+        [product_name, tax, service_tax, qty, "#{number_with_delimiter(line_item.unit_price,delimiter: ',')}", "#{number_with_delimiter(line_item.total_price.round(2), delimiter: ',')}"]
      end
    end
  
