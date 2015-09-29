@@ -127,8 +127,8 @@ class BillPdfTwo < Prawn::Document
    end
  
    def bill_table   
-      bounding_box([5,510], :width => 530) do
-        move_down 20
+      bounding_box([5,505], :width => 530) do
+        move_down 25
          table bill_products do
            #border_color = "FF0FFF"
            row(0).font_style = :bold
