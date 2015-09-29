@@ -193,13 +193,26 @@ class Bill < ActiveRecord::Base
   
   def get_esugam_number
     @bill = self 
-   
+    # customer name and tin number for URD 
+    urd_values = ["Others" ,"Other" ,"others", "other"]
+    if urd_values.include? @bill.customer.name
+      urd = UnregisteredCustomer.where(:bill_id => @bill.id).first
+      @customer_city = urd.city
+      @customer_tin_number = TinNumber.where(:state => urd.state).pluck(:tin_number).first
+    else
+      @customer_city = @bill.customer.city
+      @customer_tin_number = @bill.customer.tin_number
+    end
     user_id = @bill.primary_user_id
     user = Authuser.where(:id => user_id).first
    # @commodity_name =  @bill.products.first.usercategory.main_category.commodity_name   
     @total_amount = @bill.total_bill_price
-    if @bill.other_charges_information_id != nil && @bill.other_charges != nil
-     @total_amount += @bill.other_charges
+    service_tax_amount = @bill.line_items.pluck(:service_tax_amount).compact
+    if @bill.other_charges_information_id != nil && @bill.other_charges != nil  && service_tax_amount != empty
+      service_tax = @bill.line_items.sum(:service_tax_amount)
+      @total_amount += (@bill.other_charges + service_tax)
+    elsif @bill.other_charges_information_id != nil && @bill.other_charges != nil
+      @total_amount += @bill.other_charges
     end
    
     begin
@@ -236,7 +249,7 @@ class Bill < ActiveRecord::Base
           browser.link(:href, "/vat1/CheckInvoiceEnabled.aspx?Form=ESUGAM1").click
         
           browser.text_field(:id, "ctl00_MasterContent_txtFromAddrs").set(user.address.city)
-          browser.text_field(:id, "ctl00_MasterContent_txtToAddrs").set(@bill.customer.city)
+          browser.text_field(:id, "ctl00_MasterContent_txtToAddrs").set(@customer_city)
          
           if browser.select_list(:id, "ctl00_MasterContent_ddl_commoditycode").option(:text => "#{@bill.products.first.usercategory.main_category.commodity_name}").present?
              browser.select_list(:id, "ctl00_MasterContent_ddl_commoditycode").select(@bill.products.first.usercategory.main_category.commodity_name)       
@@ -247,18 +260,27 @@ class Bill < ActiveRecord::Base
               browser.send_keys :tab
               browser.text_field(:id, "ctl00_MasterContent_txtVatTaxValue").set(@bill.tax.tax_rate * 0.01 * @total_amount)
               
-            if @bill.tax.tax_type == "CST"
+            if @bill.tax_type == "CST"
                   browser.radio(:id, "ctl00_MasterContent_rdoStatCat_1").set
                   #sleep 1
-                  browser.text_field(:id, "ctl00_MasterContent_txtTIN").set(@bill.customer.tin_number.to_i)
+                  browser.text_field(:id, "ctl00_MasterContent_txtTIN").set(@customer_tin_number.to_i)
                   browser.send_keys :tab   
                   sleep 2
                   browser.text_field(:id, "ctl00_MasterContent_txtNameAddrs").set(@bill.customer.name)
                   browser.send_keys :tab
             end
             
-            if @bill.tax.tax_type == "VAT"
-                browser.text_field(:id, "ctl00_MasterContent_txtTIN").set(@bill.customer.tin_number.to_i)
+              # check if vat and urd
+              if (@bill.tax_type == "VAT") && (@customer_tin_number[2..-1] == "000000000")
+                 browser.text_field(:id, "ctl00_MasterContent_txtTIN").set(@customer_tin_number.to_i)
+                 browser.send_keys :tab
+                 sleep 5
+                 browser.text_field(:id, "ctl00_MasterContent_txtNameAddrs").set(@customer_name)
+                 browser.send_keys :tab
+              end
+            
+            if @bill.tax_type == "VAT"
+                browser.text_field(:id, "ctl00_MasterContent_txtTIN").set(@customer_tin_number.to_i)
                 browser.send_keys :tab
             end    
             
