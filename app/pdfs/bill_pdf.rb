@@ -126,7 +126,7 @@ class BillPdf < Prawn::Document
    end
      
    def bill_line 
-      move_down 12
+      move_down 10
       stroke_horizontal_rule
    end
       
