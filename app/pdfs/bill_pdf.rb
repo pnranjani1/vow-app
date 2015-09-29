@@ -132,7 +132,7 @@ class BillPdf < Prawn::Document
       
        
    def bill_transport   
-      bounding_box([3,530], :width => 300) do
+      bounding_box([3,525], :width => 300) do
           if @bill.transporter_name == ""
             text "Goods Through : NA" , size: 9, :inline_format => true
           else
@@ -140,7 +140,7 @@ class BillPdf < Prawn::Document
            end
       end
         
-      bounding_box([320,530], :width => 200) do
+      bounding_box([320,525], :width => 200) do
          if @bill.gc_lr_number == ""
            text "LR Number : NA" , :inline_format => true,  size: 9
          else
@@ -148,7 +148,7 @@ class BillPdf < Prawn::Document
          end
       end
         
-      bounding_box([3,510], :width => 300) do
+      bounding_box([3,515], :width => 300) do
          if @bill.vechicle_number == ""
            text "Vehicle Number :  NA" , :inline_format => true, size: 9
          else
@@ -156,7 +156,7 @@ class BillPdf < Prawn::Document
          end
       end
         
-      bounding_box([320,510], :width => 300) do
+      bounding_box([320,515], :width => 300) do
           if @bill.lr_date == nil
             text "LR Date       : NA" , :inline_format => true, size: 9
           else
