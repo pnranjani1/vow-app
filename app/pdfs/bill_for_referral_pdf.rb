@@ -22,46 +22,46 @@ class BillForReferralPdf < Prawn::Document
   
   def title
    # font "Times-Roman"
-#    font "Helvetica"
-    draw_text "INVOICE", :at => [220, 690], size: 18
+    font "Helvetica"
+    draw_text "INVOICE", :at => [220, 690], size: 14
     bounding_box([350, 670], width: 250) do
-      text "<b>Invoice Date</b>  : #{Date.today}", size: 11, :inline_format => true
+      text "Invoice Date  : #{Date.today}", size: 9, :inline_format => true
     end
   end
   
   def iprimitus
-    bounding_box([20, 640], width: 350) do
+    bounding_box([20, 660], width: 350) do
       image open("app/assets/images/iprimitus.jpg"), height: 90, width: 110
       move_down 10
-      text "iPrimitus Consultancy Services", size:12, :style => :bold, :leading => 3
-      text "43/39, Level 1,",  size: 10, :leading => 3
-      text " 2nd cross, Promenade Road" , size: 10, :leading => 3
-      text "Bangalore - 560005, India", size: 10, :leading => 3
-      text "Mobile number :  9632502351", size: 10
+      text "iPrimitus Consultancy Services", size:10, :style => :bold, :leading => 2
+      text "43/39, Level 1,",  size: 9, :leading => 2
+      text " 2nd cross, Promenade Road" , size: 9, :leading => 2
+      text "Bangalore - 560005, India", size: 9, :leading => 2
+      text "Mobile number :  9632502351", size: 9
     end
   end
   
   
   def referal
-    bounding_box([320,570], width: 300) do
-      text "Bill To,", size: 12
-      text "#{@referral.name}", size: 12, :style => :bold, :leading => 3
-      text "#{@referral.address_line_1}", size: 10, :leading => 3
-      text "#{@referral.address_line_2}", size:10, :leading => 3
-      text "#{@referral.state}", size: 10, :leading => 3
-      text "Mobile Number : #{@referral.mobile_number}", size: 10
+    bounding_box([320,550], width: 300) do
+      text "Bill To,", size: 9
+      text "#{@referral.name}", size: 10, :style => :bold, :leading => 2
+      text "#{@referral.address_line_1}", size: 9, :leading => 2
+      text "#{@referral.address_line_2}", size:9, :leading => 2
+      text "#{@referral.state}", size: 9, :leading => 2
+      text "Mobile Number : #{@referral.mobile_number}", size: 9
     end
     
   end
   
   def ca_accounts
-     move_down 20
+     move_down 15
      stroke_horizontal_rule
    
      clients = Client.where('referral_id = ? AND created_at >= ? AND created_at <= ?', @referral.id, @start_date, @end_date)
      clients_count = clients.count
-     draw_text "Referral Type                                                                                                  :  #{@referral.referral_type.referral_type}", :at => [15, 430], :style => :bold, size: 11
-     draw_text "No. Of Chartered Accountants referred from #{@start_date.strftime("%d-%m-%Y")} till #{@end_date.strftime("%d-%m-%Y")}  :  #{clients_count}", :at => [15, 410], :style => :bold, size: 11
+     draw_text "Referral Type                                                                                                  :  #{@referral.referral_type.referral_type}", :at => [15, 450], :style => :bold, size: 10
+     draw_text "No. Of Chartered Accountants referred from #{@start_date.strftime("%d-%m-%Y")} till #{@end_date.strftime("%d-%m-%Y")}  :  #{clients_count}", :at => [15, 430], :style => :bold, size: 10
    
   end
   
@@ -75,7 +75,7 @@ class BillForReferralPdf < Prawn::Document
          data += [value]
       end
 
-      bounding_box([10, 380], width: 520) do
+      bounding_box([10, 410], width: 520) do
         table(data) do
           self.header = true
           self.column(0).width = 50
@@ -89,6 +89,7 @@ class BillForReferralPdf < Prawn::Document
           row(0).style = :bold
           self.columns(0..4).size = 11
           row(0).size = 11
+           columns(0..4).size = 9
         end
       end
   end
@@ -99,7 +100,7 @@ class BillForReferralPdf < Prawn::Document
       bills = Bill.where('created_at >= ? AND created_at <= ?', @start_date, @end_date)
       client_bills = bills.where("client_id IN (?)", client_ids)
       bills_count = client_bills.count
-    move_down 20
+    move_down 10
     data =  [["Total Bills", "#{number_with_delimiter(bills_count, delimiter: ',')}"]]
     indent 280 do
         table(data) do
@@ -108,7 +109,7 @@ class BillForReferralPdf < Prawn::Document
           column(0).font_style = :bold
           column(0).style :align => :center
           column(1).style :align => :right 
-          self.columns(0..1).size = 11
+          self.columns(0..1).size = 9
         end
     end
     
@@ -120,12 +121,12 @@ class BillForReferralPdf < Prawn::Document
          column(0).font_style = :bold
          column(0).style :align => :center
          column(1).style :align => :right
-        self.columns(0..1).size = 11
+        self.columns(0..1).size = 9
       end
     end
     move_down 10
     indent 0, 20 do
-      text "<u><b>Rupees #{(bills_count * @referral.referral_type.pricing.to_f).round.to_words} only</b></u>", size: 11, align: :right, :inline_format => true       
+      text "<u><b>Rupees #{(bills_count * @referral.referral_type.pricing.to_f).round.to_words} only</b></u>", size: 10, align: :right, :inline_format => true       
      
     end
     

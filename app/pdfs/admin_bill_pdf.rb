@@ -19,7 +19,7 @@ class AdminBillPdf < Prawn::Document
    end
      
   def bill_title
-    font "Times-Roman"
+    font 'Helvetica'
     draw_text "INVOICE", :at => [225,650],size: 18
     draw_text "Date:  #{Date.today.strftime( "%B %d, %Y")}", :at => [40, 570], size: 12
     #draw_text "Bill for : #{Date.today.strftime("%B %Y")}" ,:at => [350,670],size:12
