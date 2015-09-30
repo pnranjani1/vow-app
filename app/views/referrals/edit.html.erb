@@ -50,16 +50,16 @@
               Mobile number
               <div id="name" class="input-group">
                 <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
-                <%= f.text_field :mobile_number, :class => "form-control" %>
+                <%= f.text_field :mobile_number, maxlength: 10, :class => "form-control" %>
               </div>
              </div>
           </div><!-- row ends here -->
           <br/>           
            <div class="row">
             <div class="col-md-4">
-              Address Line 1
+              Address Line 1(Door Number)
               <div id="Password" class="form-group">
-             <%= f.text_field :address_line_1, :class => "form-control" %>
+                <%= f.text_field :address_line_1, :maxlength => 6,  :class => "form-control" %>
             </div>
           </div>
             
@@ -67,7 +67,7 @@
             <div class="col-md-4">
               Address Line 2
               <div id="Password" class="form-group">
-               <%= f.text_field :address_line_2, :class => "form-control" %>
+                <%= f.text_field :address_line_2, maxlength: 45, :class => "form-control" %>
             </div>
           </div>
             
