@@ -30,7 +30,7 @@ class BillForReferralPdf < Prawn::Document
   end
   
   def referal
-    bounding_box([320,650], width: 300) do
+    bounding_box([320,600], width: 300) do
       text "Bill To,", size: 9, leading: 3
       text "#{@referral.name}", size: 10, :style => :bold, :leading => 2
       text "#{@referral.address_line_1}", size: 9, :leading => 2
