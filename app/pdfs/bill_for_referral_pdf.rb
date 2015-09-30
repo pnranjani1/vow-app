@@ -25,7 +25,7 @@ class BillForReferralPdf < Prawn::Document
     font "Helvetica"
     draw_text "INVOICE", :at => [220, 690], size: 14
     bounding_box([350, 670], width: 250) do
-      text "Invoice Date  : #{Date.today}", size: 9, :inline_format => true
+      text "Invoice Date  : #{Date.today}", size: 10, :inline_format => true
     end
   end
   
@@ -43,7 +43,7 @@ class BillForReferralPdf < Prawn::Document
   
   
   def referal
-    bounding_box([320,550], width: 300) do
+    bounding_box([320,590], width: 300) do
       text "Bill To,", size: 9
       text "#{@referral.name}", size: 10, :style => :bold, :leading => 2
       text "#{@referral.address_line_1}", size: 9, :leading => 2
@@ -55,7 +55,7 @@ class BillForReferralPdf < Prawn::Document
   end
   
   def ca_accounts
-     move_down 15
+     move_down 10
      stroke_horizontal_rule
    
      clients = Client.where('referral_id = ? AND created_at >= ? AND created_at <= ?', @referral.id, @start_date, @end_date)
