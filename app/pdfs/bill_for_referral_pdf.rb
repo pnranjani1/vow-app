@@ -30,8 +30,8 @@ class BillForReferralPdf < Prawn::Document
   end
   
   def referal
-    bounding_box([320,630], width: 300) do
-      text "Bill To,", size: 9
+    bounding_box([320,650], width: 300) do
+      text "Bill To,", size: 9, leading: 3
       text "#{@referral.name}", size: 10, :style => :bold, :leading => 2
       text "#{@referral.address_line_1}", size: 9, :leading => 2
       text "#{@referral.address_line_2}", size:9, :leading => 2
@@ -58,8 +58,8 @@ class BillForReferralPdf < Prawn::Document
    
      clients = Client.where('referral_id = ? AND created_at >= ? AND created_at <= ?', @referral.id, @start_date, @end_date)
      clients_count = clients.count
-     draw_text "Referral Type                                                                                                  :  #{@referral.referral_type.referral_type}", :at => [15, 470], :style => :bold, size: 10
-     draw_text "No. Of Chartered Accountants referred from #{@start_date.strftime("%d-%m-%Y")} till #{@end_date.strftime("%d-%m-%Y")}  :  #{clients_count}", :at => [15, 450], :style => :bold, size: 10
+     draw_text "Referral Type                                                                                                  :  #{@referral.referral_type.referral_type}", :at => [15, 490], :style => :bold, size: 10
+     draw_text "No. Of Chartered Accountants referred from #{@start_date.strftime("%d-%m-%Y")} till #{@end_date.strftime("%d-%m-%Y")}  :  #{clients_count}", :at => [15, 470], :style => :bold, size: 10
    
   end
   
@@ -73,7 +73,7 @@ class BillForReferralPdf < Prawn::Document
          data += [value]
       end
 
-      bounding_box([10, 430], width: 520) do
+      bounding_box([10, 450], width: 520) do
         table(data) do
           self.header = true
           self.column(0).width = 50
