@@ -152,7 +152,7 @@
                                                Name&nbsp;&nbsp;<b style="color:red">*</b>
                                                 <div id="name" class="input-group">               
                                                   <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                                                    <%= f.text_field :name, maxlength: 40,  class: "form-control" %>
+                                                    <%= f.text_field :name, maxlength: 40,  class: "form-control", required: true %>
                                                 </div>
                                              </div> <!-- /.col -->
                                            
@@ -160,7 +160,7 @@
                                                Email&nbsp;&nbsp;<b style="color:red">*</b>
                                                <div id="email" class="input-group">          
                                                  <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-                                                  <%= f.text_field :email, class: "form-control" %>
+                                                  <%= f.text_field :email, class: "form-control", required: true %>
                                                </div>
                                              </div> <!-- /.col -->
                                          </div> <!-- row ends here -->
@@ -172,7 +172,7 @@
                                                  <div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Should Be 11 Digits">
                                                     <div id="number" class="input-group">               
                                                        <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
-                                                      <%= f.text_field :tin_number, maxlength: 11, class: "form-control" %>
+                                                      <%= f.text_field :tin_number, maxlength: 11, class: "form-control", required: true %>
                                                     </div>
                                                  </div> 
                                              </div><!-- /.col -->
@@ -200,7 +200,7 @@
                                               City<b style="color:red">*</b>
                                                <div id="City" class="input-group">               
                                                   <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
-                                                   <%= f.text_field :city ,maxlength: 15,  class: "form-control" %>
+                                                   <%= f.text_field :city ,maxlength: 15,  class: "form-control", required: true %>
                                                </div>
                                             </div> <!-- /.col -->
                                          </div><!-- row ends here -->
@@ -341,10 +341,10 @@
                                                  <% if current_authuser.main_roles.first.role_name == "secondary_user" %>
                                                    <% primary_user_id = current_authuser.invited_by_id %>
                                                    <% @user_category = Usercategory.where('authuser_id =? OR primary_user_id =? ', primary_user_id, primary_user_id) %>
-                                                <%= f.collection_select :usercategory_id, @user_category, :id, :commodity_name, {prompt: "Select Commodity"}, {class: "form-control"} %>
+                                                <%= f.collection_select :usercategory_id, @user_category, :id, :commodity_name, {prompt: "Select Commodity"}, {class: "form-control", required: true} %>
                                                  <% else %>
                                                    <% @user_category = Usercategory.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id) %>
-                                                   <%= f.collection_select :usercategory_id, @user_category, :id, :commodity_name, {prompt: "Select Commodity"}, {class: "form-control"} %>
+                                                   <%= f.collection_select :usercategory_id, @user_category, :id, :commodity_name, {prompt: "Select Commodity"}, {class: "form-control", required: true} %>
                                                  <% end %>
                                               </div>
                                            </div>
@@ -356,7 +356,7 @@
                                      <div class="col-md-6">
                                        <div id="name" class="input-group">               
                                           <span class="input-group-addon"><i class="fa fa-gift"></i></span>
-                                           <%= f.text_field :product_name ,maxlength: 25,  class: "form-control" %>
+                                           <%= f.text_field :product_name ,maxlength: 25,  class: "form-control", required: true %>
                                        </div>
                                      </div>
                                 </div>
@@ -368,7 +368,7 @@
                                      <div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Enter units like packets, pieces etc">
                                       <div id="name" class="input-group">               
                                          <span class="input-group-addon"><i class="fa fa-text-width"></i></span>
-                                          <%= f.text_field :units, class: "form-control" %>
+                                          <%= f.text_field :units, class: "form-control", required: true %>
                                       </div>
                                      </div>
                                    </div>

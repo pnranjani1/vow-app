@@ -59,7 +59,7 @@
                      <div id="name" class="input-group">    
         
                          <%= form_tag customers_customer_import_path, multipart: true do %><br/><br/>
-                             <%= file_field_tag :file, class: "form-control" %><br/><br/><br/>
+                             <%= file_field_tag :file, class: "form-control", required: true  %><br/><br/><br/>
                              <%= submit_tag "Import Customers", class: "btn btn-success" %>
                          <% end %><br/>
                      </div><!-- name ends here -->

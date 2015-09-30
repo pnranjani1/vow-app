@@ -125,17 +125,7 @@
                             <% end %>
                           <% end %>
                           
-                          <div class="col-sm-3">           
-                          Invoice Number Format 
-                           <div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Maximum is 10 Characters">
-                             <div id="name" class="input-group" >        
-                               <span class="input-group-addon"><i class="fa fa-sort-alpha-asc"></i></span>
-                               <%= f.text_field :invoice_string, :maxlength => 10,  class: "form-control" %>
-                             </div>
-                           </div> 
-                          </div><!-- /.col -->
-                          
-                          <div class="col-sm-3">           
+                           <div class="col-sm-3">           
                             <div id="Password" class="input-group">               
                                <%= f.check_box :invoice_format, {:class => "submittable"}, "automatic", "manual" %>&nbsp;&nbsp;&nbsp;<label>Automated Invoice Number</label>  
                             </div>

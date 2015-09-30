@@ -35,7 +35,7 @@
                         <div class="col-md-5">
                           <div id="name" class="input-group"> 
                                 <span class="input-group-addon"><i class="fa fa-shopping-cart"></i></span> 
-                                    <%= f.collection_select :main_category_id, MainCategory.all, :id, :commodity_name, {prompt: "Select Commodity"}, {class: "form-control"} %>
+                                    <%= f.collection_select :main_category_id, MainCategory.all, :id, :commodity_name, {prompt: "Select Commodity"}, {class: "form-control", required: true } %>
                           </div>
                         </div>
                           <br/><br/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

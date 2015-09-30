@@ -41,9 +41,9 @@
                               <span class="input-group-addon"><i class="fa fa-shopping-cart"></i></span>    
                                   <% if current_authuser.main_roles.first.role_name =="secondary_user" %>
                                       <% primary_user_id = current_authuser.invited_by_id %>
-                                       <%= f.collection_select :usercategory_id, Usercategory.where('authuser_id =? OR primary_user_id =? ', primary_user_id, primary_user_id), :id, :commodity_name, {prompt: "Select Commodity"}, {class: "form-control"} %>
+                                       <%= f.collection_select :usercategory_id, Usercategory.where('authuser_id =? OR primary_user_id =? ', primary_user_id, primary_user_id), :id, :commodity_name, {prompt: "Select Commodity"}, {class: "form-control", required: true } %>
   <% else %>
-                                       <%= f.collection_select :usercategory_id, Usercategory.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id), :id, :commodity_name, {prompt: "Select Commodity"}, {class: "form-control"} %>
+                                       <%= f.collection_select :usercategory_id, Usercategory.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id), :id, :commodity_name, {prompt: "Select Commodity"}, {class: "form-control", required: true } %>
                                   <% end %>
                           </div>
                         </div>
@@ -54,7 +54,7 @@
                           <div class="col-md-6">
                              <div id="name" class="input-group">               
                                 <span class="input-group-addon"><i class="fa fa-gift"></i></span>
-                                <%= f.text_field :product_name , maxlength: 25,  class: "form-control" %>
+                                <%= f.text_field :product_name , maxlength: 25,  class: "form-control", required: true  %>
                              </div>
                           </div>
                     </div>
@@ -65,7 +65,7 @@
                            <div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Enter units like packets, pieces etc">
                               <div id="name" class="input-group">               
                                   <span class="input-group-addon"><i class="fa fa-text-width"></i></span>
-                                  <%= f.text_field :units, class: "form-control" %>
+                                  <%= f.text_field :units, class: "form-control", required: true  %>
                               </div>
                            </div> 
                         </div>

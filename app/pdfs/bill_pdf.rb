@@ -85,10 +85,21 @@ class BillPdf < Prawn::Document
       if role_name.include? "user"
        if @user.image.present?
          image open(@user.image_url), height: 50, width: 90, crop: "fit", :at => [10,710]
+       else
+         bounding_box([10,690], width: 200) do
+           text "#{@user.users.first.company.titleize}",size: 10, :style => :bold, align: :center
+         end
        end
       elsif @user.main_roles.first.role_name == "secondary_user"
         primary_user_id = @user.invited_by_id
-        image open(Authuser.find(primary_user_id).image_url), height: 50, width: 90, crop: "fit", :at => [10,710]
+        user = Authuser.find(primary_user_id)
+        if user.image.present?
+          image open(user.image_url), height: 50, width: 90, crop: "fit", :at => [10,710]
+        else
+          bounding_box([10,690], width: 200) do
+            text "#{user.users.first.company.titleize}",size: 10, :style => :bold, align: :center
+          end
+        end
       end
    end
         # gravatar_id = Digest::MD5::hexdigest(user.email.downcase)
@@ -126,7 +137,7 @@ class BillPdf < Prawn::Document
    end
      
    def bill_line 
-      move_down 10
+      move_down 12
       stroke_horizontal_rule
    end
       
