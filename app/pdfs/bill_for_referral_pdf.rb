@@ -12,8 +12,8 @@ class BillForReferralPdf < Prawn::Document
     @end_date = end_date    
     stroke_bounds
     title
-    iprimitus
     referal
+    iprimitus
     ca_accounts
     ca_table
     total_bills
@@ -24,23 +24,10 @@ class BillForReferralPdf < Prawn::Document
    # font "Times-Roman"
     font "Helvetica"
     draw_text "INVOICE", :at => [220, 690], size: 14
-    bounding_box([350, 670], width: 250) do
+    bounding_box([350, 680], width: 250) do
       text "Invoice Date  : #{Date.today}", size: 10, :inline_format => true
     end
   end
-  
-  def iprimitus
-    bounding_box([20, 660], width: 350) do
-      image open("app/assets/images/iprimitus.jpg"), height: 90, width: 110
-      move_down 10
-      text "iPrimitus Consultancy Services", size:10, :style => :bold, :leading => 2
-      text "43/39, Level 1,",  size: 9, :leading => 2
-      text " 2nd cross, Promenade Road" , size: 9, :leading => 2
-      text "Bangalore - 560005, India", size: 9, :leading => 2
-      text "Mobile number :  9632502351", size: 9
-    end
-  end
-  
   
   def referal
     bounding_box([320,590], width: 300) do
@@ -50,8 +37,19 @@ class BillForReferralPdf < Prawn::Document
       text "#{@referral.address_line_2}", size:9, :leading => 2
       text "#{@referral.state}", size: 9, :leading => 2
       text "Mobile Number : #{@referral.mobile_number}", size: 9
+    end    
+  end
+  
+  def iprimitus
+    bounding_box([20, 690], width: 350) do
+      image open("app/assets/images/iprimitus.jpg"), height: 90, width: 110
+      move_down 10
+      text "iPrimitus Consultancy Services", size:10, :style => :bold, :leading => 2
+      text "43/39, Level 1,",  size: 9, :leading => 2
+      text " 2nd cross, Promenade Road" , size: 9, :leading => 2
+      text "Bangalore - 560005, India", size: 9, :leading => 2
+      text "Mobile number :  9632502351", size: 9
     end
-    
   end
   
   def ca_accounts
