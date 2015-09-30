@@ -34,7 +34,7 @@
               Name
               <div id="name"class="input-group">
                 <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                <%= f.text_field :name, class: "form-control", autofocus: true %>
+                <%= f.text_field :name, class: "form-control", required: true, autofocus: true %>
                </div>
             </div>
             
@@ -42,62 +42,66 @@
               Email
               <div id="name" class="input-group">
                 <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-                <%= f.text_field :email, class: "form-control" %>
+                <%= f.text_field :email, class: "form-control", required: true %>
               </div>
             </div>
             
             <div class="col-md-4">
               Mobile number
               <div id="name" class="input-group">
-                <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
-                <%= f.text_field :mobile_number, maxlength: 10, :class => "form-control" %>
+                <span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
+                <%= f.text_field :mobile_number, maxlength: 10, :class => "form-control", required: true %>
               </div>
              </div>
           </div><!-- row ends here -->
           <br/>           
            <div class="row">
-            <div class="col-md-4">
-              Address Line 1(Door Number)
-              <div id="Password" class="form-group">
-                <%= f.text_field :address_line_1, :maxlength => 6,  :class => "form-control" %>
-            </div>
-          </div>
+                <div class="col-md-4">
+                 Address Line 1(Door Number)
+                   <div id="city" class="input-group">
+                      <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+                      <%= f.text_field :address_line_1, maxlength: 6, :class => "form-control", required: true %>
+                   </div>
+                </div>
             
-               
-            <div class="col-md-4">
-              Address Line 2
-              <div id="Password" class="form-group">
-                <%= f.text_field :address_line_2, maxlength: 45, :class => "form-control" %>
-            </div>
-          </div>
+                <div class="col-md-4">
+                 Address Line 2
+                   <div id="city" class="input-group">
+                     <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+                     <%= f.text_field :address_line_2, maxlength: 45, :class => "form-control", required: true %>
+                   </div>
+                </div>
             
-               
-            <div class="col-md-4">
-              State
-              <div id="Password" class="form-group">
-               <%= f.text_field :state, :class => "form-control" %>
-            </div>
-          </div>
-          </div><!-- row ends here -->
-          <br/>
+                <div class="col-md-4">
+                 State
+                   <div id="city" class="input-group">
+                     <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+                     <%= f.text_field :state, :class => "form-control", required: true %>
+                   </div>
+                </div>
+              </div><!-- row ends here -->
+              <br/>
               
-           <div class="row">
-            <div class="col-md-4">
-              Country
-              <div id="Password" class="form-group">
-               <%= f.text_field :country, :class => "form-control" %>
-            </div>
-          </div>
-             <div class="col-md-4">
-              Referral type
-              <div id="Password" class="form-group">
-                <%= f.collection_select :referral_type_id, ReferralType.all, :id, :referral_type, {prompt: "Select Referral type"}, {class: "form-control"} %>
-            </div>
-          </div>
-         </div><!-- row ends here -->
-         <br/><br/>
+              <div class="row">
+                <div class="col-md-4">
+                 Country
+                  <div id="city" class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-map-globe"></i></span>
+                    <%= f.text_field :country, :class => "form-control", required: true %>
+                  </div>
+                </div>
+             
+                <div class="col-md-4">
+                 Referral type
+                  <div id="city" class="input-group">
+                     <span class="input-group-addon"><i class="fa fa-tags"></i></span>
+                     <%= f.collection_select :referral_type_id, ReferralType.all, :id, :referral_type, {:prompt => "Select Referral type"}, {:class => "form-control", required: true} %>
+                  </div>
+                </div>
+              </div><!-- row ends here -->
+              <br/><br/>
 
-          <%= f.submit "Update Referral", class: "btn btn-success" %>
+             <%= f.submit "Update Referral", class: "btn btn-success" %>
           <% end %>
         </div><!-- portlet content ends here  -->
        </div><!-- portlet ends here -->

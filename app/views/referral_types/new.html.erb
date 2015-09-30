@@ -7,57 +7,53 @@
       </div>
       <br>
     <div class="row"> 
-<div class="portlet">
+     <div class="portlet">
 
-<div class="portlet-header">
-<h3><i class="fa fa-tags"></i> Add Referral Type</h3>
-</div> <!-- /.portlet-header -->
+       <div class="portlet-header">
+         <h3><i class="fa fa-tags"></i> Add Referral Type</h3>
+       </div> <!-- /.portlet-header -->
 
-<div class="portlet-content">
+       <div class="portlet-content">
+         <%= form_for(@referral_type) do |f| %>
             
-  <%= form_for(@referral_type) do |f| %>
-      <% if @referral_type.errors.any? %>
-        <div class="row">
-          <div class="col-md-4">
-            <div class="alert alert-danger">
-              <% @referral_type.errors.full_messages.each do |error| %>
-              <ul>
-                <li><%= error %></li>
-              </ul>
-              <% end %>
-             </div><!-- alert ends here -->
-          </div><!-- col ends here -->
-         </div><!-- row ends here -->
-      <% end %>
-  <br/>
-          <div class="row">
+            <% if @referral_type.errors.any? %>
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="alert alert-danger">
+                     <% @referral_type.errors.full_messages.each do |error| %>
+                       <ul>
+                         <li><%= error %></li>
+                       </ul>
+                     <% end %>
+                  </div><!-- alert ends here -->
+                </div><!-- col ends here -->
+              </div><!-- row ends here -->
+            <% end %>
+            <br/>
+            <div class="row">
                 
-            <div class="col-md-4">
-              Referral Type
-              <div id="name"class="input-group">
-                <span class="input-group-addon"><i class="fa fa-tags"></i></span>
-                <%= f.text_field :referral_type,  class: "form-control", autofocus: true %>
-               </div>
-            </div>
-            
-            <div class="col-md-4">
-             Price Rate
-              <div id="name" class="input-group">
-                <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                <%= f.text_field :pricing, class: "form-control" %>
+              <div class="col-md-4">
+               Referral Type
+                <div id="name"class="input-group">
+                  <span class="input-group-addon"><i class="fa fa-tags"></i></span>
+                  <%= f.text_field :referral_type,  class: "form-control", required: true, autofocus: true %>
+                </div>
               </div>
-            </div>
             
-        
-         </div><!-- row ends here -->
-         <br/><br/>
-
-  <%= f.submit "Create Referral Type", class: "btn btn-success" %>
-<% end %>
-        </div><!-- portlet content ends here  -->
-       </div><!-- portlet ends here -->
-      </div><!-- row ends here   -->
-
-    </div><!-- content-container ends here -->
-  </div><!-- content ends here -->
+              <div class="col-md-4">
+              Price Rate
+                <div id="name" class="input-group">
+                   <span class="input-group-addon"><i class="fa fa-money"></i></span>
+                   <%= f.text_field :pricing, class: "form-control", required: true %>
+                </div>
+              </div>
+            </div><!-- row ends here -->
+            <br/><br/>
+            <%= f.submit "Create Referral Type", class: "btn btn-success" %>
+         <% end %>
+       </div><!-- portlet content ends here  -->
+     </div><!-- portlet ends here -->
+   </div><!-- row ends here   -->
+  </div><!-- content-container ends here -->
+ </div><!-- content ends here -->
 </div><!-- container ends here -->

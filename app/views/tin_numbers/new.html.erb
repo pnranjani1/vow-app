@@ -36,7 +36,7 @@
                             <div class="col-md-6">
                               <div id="name" class="input-group">               
                                 <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
-                                <%= f.text_field :state ,class: "form-control" %>
+                                <%= f.text_field :state ,class: "form-control", required: true %>
                               </div>
                             </div>
                         </div>
@@ -47,7 +47,7 @@
                             <div class="col-md-6">
                               <div id="name" class="input-group">               
                                 <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
-                                <%= f.text_field :tin_number, :maxlength => 11,  class: "form-control" %>
+                                <%= f.text_field :tin_number, :maxlength => 11,  class: "form-control", required: true %>
                               </div>
                             </div>
                         </div><br>

@@ -39,7 +39,7 @@
                            <div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Maximum 3 Characters">
                              <div id="name" class="input-group">               
                                <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                               <%= f.text_field :tax_type ,maxlength: 3, class: "form-control" %>
+                               <%= f.text_field :tax_type ,maxlength: 3, class: "form-control", required: true %>
                              </div>
                            </div>
                          </div>
@@ -51,7 +51,7 @@
                           <div class="col-md-6">
                             <div id="name" class="input-group">               
                               <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
-                              <%= f.text_field :tax_rate, class: "form-control" %>
+                              <%= f.text_field :tax_rate, class: "form-control",  required: true %>
                             </div>
                           </div>
                     </div>

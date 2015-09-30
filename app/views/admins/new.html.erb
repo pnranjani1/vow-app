@@ -83,7 +83,7 @@ Password
 <div class="col-sm-3">           
 Mobile Number
 <div id="name" class="input-group">      
-<%= admin_membership.text_field :phone_number, class: "form-control " %>
+  <%= admin_membership.text_field :phone_number, maxlength: 10, class: "form-control " %>
 <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
 </div>
 </div> <!-- /.col -->
