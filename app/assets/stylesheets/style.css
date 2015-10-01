@@ -141,7 +141,7 @@ h3 {
 =========================================================*/
 header {
 	position: relative;	
-	padding: 31px 0 0 0;
+	padding: 10px 0 0 0; 
 	z-index: 11;
     margin: 0 auto;    
     background: #f8f8f8 url(pattern.jpg) left top repeat;
@@ -153,7 +153,7 @@ header {
 
 
 .follow_icon {
-	padding: 0;
+	padding: 25px;
 	margin: 8px 0 8px 25px;
 	list-style: none;
 	overflow: hidden;
@@ -393,7 +393,7 @@ nav.tm_navbar .sub-menu > ul li > ul li a:hover {
 .select-menu {
 	display: none !important;
 }
-.signinbut{width: auto; margin: 9px 5px 0px 10px; padding: 5px; font: normal 14px 'Exo'; border-radius:5px;
+.signinbut{width: auto; margin: 35px 5px 0px 10px; padding: 5px; font: normal 14px 'Exo'; border-radius:5px;
 	text-transform: uppercase;	color: #fff; text-align: center; background: #026e11; float: right;}
 	
 .signinbut:hover{color:#000;}

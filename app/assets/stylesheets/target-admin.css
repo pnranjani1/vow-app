@@ -870,8 +870,8 @@ input[type="checkbox"] {
   color: #ffffff;
 }
 .navbar-brand {
-  height: 60px;
-  padding-top: 20px;
+  height: 100px;
+  /*padding-top: 20px;  */
   padding-bottom: 20px;
     font-family: 'Exo';
     font-size: 36px;
@@ -888,8 +888,8 @@ input[type="checkbox"] {
   height: 60px;
   padding-top: 0;
   padding-bottom: 0;
-  line-height: 60px;
-}
+  line-height: 90px;
+  }
 .navbar-profile-avatar {
   position: relative;
   top: -1px;
@@ -943,6 +943,7 @@ input[type="checkbox"] {
   text-align: center;
   background: #026e11;
   border-bottom: 10px solid #fff;
+  margin-top: 40px;
 }
 .mainbar .mainbar-nav {
   text-align: left;
