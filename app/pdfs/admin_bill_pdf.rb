@@ -80,7 +80,7 @@ class AdminBillPdf < Prawn::Document
       data = ([ ["Total", amount.to_s+".00"] ])
       table(data) do
         self.column(0).width = 390
-        columns(0.1).size = 9
+        columns(0..1).size = 9
         self.column(1).width = 80
         self.column(0).align = :right
         self.column(0..1).font_style = :bold
