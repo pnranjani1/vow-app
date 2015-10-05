@@ -100,7 +100,7 @@ Rails.application.routes.draw do
   get 'bills/secondary_user_bill'
   get 'bills/secondary_user_activity_report'
   get 'bills/get_tin'
-  patch 'authusers/invite_user_again'
+  post 'authusers/:id/invite_user_again' => 'authusers#invite_user_again', as: "invite_user"
   get 'bills/captcha'
   patch 'bills/:id/captcha_image' => "bills#captcha_image", :as => "captcha_image"
   patch 'authusers/:id/update_profile_picture' => 'authusers#update_profile_picture', as: "update_user_profile_picture"

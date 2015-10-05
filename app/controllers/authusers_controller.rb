@@ -244,6 +244,7 @@ end
   def invite_user_again
     @user = Authuser.find(params[:id])
     @user.update_attribute(:invitation_sent_at, Time.now)
+    redirect_to dashboards_client_dashboards_path
   end
   
 

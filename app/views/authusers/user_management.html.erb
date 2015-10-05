@@ -81,7 +81,7 @@
                    <tbody>
                        <% @users_expired_invitation.each do |user| %>
                           <tr>
-                             <td><%= user.email %></td><td><%= link_to "Invite Again", authusers_invite_user_again_path(:id => user.id) %></td>
+                            <td><%= user.email %></td>
                           </tr>
                        <% end %>
                    </tbody>
