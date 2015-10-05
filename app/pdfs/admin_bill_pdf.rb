@@ -68,7 +68,7 @@ class AdminBillPdf < Prawn::Document
         row(0).size = 11
         row(0).background_color = '778899'
         columns(0..4).align = :center
-        columns(0.4).size = 9
+        columns(0..4).size = 9
         self.header = true
         self.width = 470
         self.column(0).width = 50
