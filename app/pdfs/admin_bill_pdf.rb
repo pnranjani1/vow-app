@@ -43,7 +43,7 @@ class AdminBillPdf < Prawn::Document
      bounding_box([40,550],:width =>300) do
        text "<u>To:</u>", size: 10, :inline_format => true
        move_down 10
-       text "#{@client.name},", size: 120
+       text "#{@client.name},", size: 10
        if @client.clients.first.company.present?
          text "#{@client.clients.first.company},", size: 10
           end
