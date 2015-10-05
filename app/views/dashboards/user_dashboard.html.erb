@@ -83,6 +83,11 @@
              <%= link_to new_authuser_invitation_path , title: "Add Secondary User", class: "btn btn-success" do %>
              <span class="glyphicon glyphicon-plus-sign"></span>
              &nbsp;Secondary User
+             <% end %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+             <%= link_to authusers_user_management_path,  title: "Manage invited users" do %>
+                   <button class="btn btn-success">
+                     <span class="glyphicon glyphicon-list"></span>
+                     &nbsp;Manage Users</button>
              <% end %>
            </div><!-- text right ends here -->
           </div> <!-- /.portlet-footer -->
