@@ -67,7 +67,7 @@ Rails.application.routes.draw do
   get 'bills/bill_tally_import_reports'
   get 'products/product_import_report'
   get 'customers/customer_import_report'
-  get 'bills/bill_details_client'
+  get 'bills/:id/bill_details_client' => "bills#bill_details_client" , as: "bill_details_client"
   get 'home_page/read_pdf'
   get 'bills/user_billing'
  # get 'bills/user_billing_report'
@@ -104,6 +104,7 @@ Rails.application.routes.draw do
   get 'bills/captcha'
   patch 'bills/:id/captcha_image' => "bills#captcha_image", :as => "captcha_image"
   patch 'authusers/:id/update_profile_picture' => 'authusers#update_profile_picture', as: "update_user_profile_picture"
+  get 'bills/:id/client_pdf_bill' => 'bills#client_pdf_bill' , as: "client_pdf_bill"
   
  # patch 'bills/pdf_format_select'
     

@@ -218,10 +218,14 @@ class BillsController < ApplicationController
       end 
     end
   end
+
+  def client_pdf_bill
+    @client = Authuser.find(params[:id])
+  end
   
 
-def client_billing_report
-end
+  def client_billing_report
+  end
 
 def client_monthly_bill
    chosen_month = params[:choose_month]
@@ -235,13 +239,17 @@ end
   
   
   def bill_details_client 
-    @user = Authuser.find(params[:id])
-   @client_user = User.where(:client_id => @user.id).paginate(:page => params[:page], :per_page => 5)
+    @client = Authuser.find(params[:id])
+    start_date = params[:start_date]
+    end_date = params[:end_date]
+    @start_date = start_date.to_date
+    @end_date = end_date.to_date
+    #@client_user = User.where(:client_id => @client.id).paginate(:page => params[:page], :per_page => 5)
     respond_to do |format|
       format.html
     format.pdf do
-    pdf = AdminBillPdf.new(@user)
-      send_data pdf.render, filename: "#{@user.name}-bill.pdf", type: "application/pdf", disposition: "inline"
+      pdf = AdminBillPdf.new(@client, @start_date, @end_date)
+      send_data pdf.render, filename: "#{@client.name}-bill.pdf", type: "application/pdf", disposition: "inline"
       end
     end
    end

@@ -3,9 +3,11 @@ class AdminBillPdf < Prawn::Document
  
   
    
-  def initialize(user)
+  def initialize(client, start_date, end_date)
     super()
-    @user = user
+    @client = client
+    @start_date = start_date
+    @end_date = end_date  
     stroke_bounds
     bill_title
     invoice_details
@@ -41,21 +43,22 @@ draw_text "Ref: Professional Services", :at => [350, 550], size: 12
      bounding_box([40,550],:width =>300) do
        text "<u>To:</u>", size: 12, :inline_format => true
        move_down 10
-       text "#{@user.name},", size: 12 
-          if @user.clients.first.company.present?
-             text "#{@user.clients.first.company},", size: 12
+       text "#{@client.name},", size: 12 
+       if @client.clients.first.company.present?
+         text "#{@client.clients.first.company},", size: 12
           end
-        text "#{@user.address.address_line_1},", size: 12
-        text "#{@user.address.address_line_2},", size: 12
-        text "#{@user.address.city}", size: 12
+       text "#{@client.address.address_line_1},", size: 12
+       text "#{@client.address.address_line_2},", size: 12
+       text "#{@client.address.city}", size: 12
        end
   end
 
 
  def bill_table 
-  total_bills = Bill.where('created_at >= ? AND created_at <= ? AND client_id = ?', Date.today.beginning_of_month, Date.today.end_of_month, @user.id).count
+  total_bills = Bill.where('created_at >= ? AND created_at <= ? AND client_id =? ', @start_date, @end_date, @client.id).count
   amount  = total_bills * 1
-  bounding_box([30, 450], width: 580) do 
+  bounding_box([30, 440], width: 580) do 
+    text "<b>Bills Generated from #{@start_date} till #{@end_date}  :  </b> #{total_bills}", size: 10, inline_format: true
     data =  ([ ["Sl.No", "Particulars", "Total Bills", "Currency", "Amount"],
     ["1", "Professional Services Vatonwheels.com", total_bills, "INR", amount]
     ])
@@ -86,8 +89,9 @@ end
 
   def amount_words
     indent 210 do
-       total_bills = Bill.where('created_at >= ? AND created_at <= ? AND client_id = ?', Date.today.beginning_of_month, Date.today.end_of_month, @user.id).count
-  amount  = total_bills * 1
+       #total_bills = Bill.where('created_at >= ? AND created_at <= ? AND client_id = ?', Date.today.beginning_of_month, Date.today.end_of_month, @user.id).count
+      total_bills = Bill.where('created_at >= ? AND created_at <= ? AND client_id = ?', @start_date, @end_date, @client.id).count
+      amount  = total_bills * 1
       move_down 5
       text "(Rupees #{amount.to_words.capitalize} only)", :align => :center
    end

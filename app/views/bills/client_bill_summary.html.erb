@@ -36,11 +36,13 @@
                    <% cash_based_applications = Bill.where('client_id =? AND ESUGAM IS NULL AND created_at >= ? AND created_at <= ?', client_id, Date.today.to_date.beginning_of_month, Date.today.to_date.end_of_month).count %>
                    <% bills_esugam = Bill.where('client_id =? AND ESUGAM IS NOT NULL AND created_at >= ? AND created_at <= ?', client_id, Date.today.to_date.beginning_of_month, Date.today.to_date.end_of_month).count %>
                    <tr>                      
-                      <td><%= link_to client.authuser.name, bills_bill_details_client_path(:id => client.authuser.id), class: "listconttext" %> </td>
+                     <%# <td><%= link_to client.authuser.name, bill_details_client_path(:id => client.authuser.id), class: "listconttext" %> 
+                     <td><%= client.authuser.name %></td>
                       <td><%= users_count %></td>
                       <td><%=  cash_based_applications %></td>
                       <td><%=  bills_esugam %></td>
-                      <td><%= link_to bills_bill_details_client_path(:id => client.authuser.id, format: "pdf"), title: "Click to Generate Invoice", target: "blank" do %>
+                      <%#<td><%= link_to bills_bill_details_client_path(:id => client.authuser.id, format: "pdf"), title: "Click to Generate Invoice", target: "blank" do %>
+                     <td><%= link_to client_pdf_bill_path(:id => client.authuser.id), title: "click to generate CA Bill" do %>
                                <button class="btn btn-success">
                                   <span class="fa fa-cloud-download"></span>
                                    Invoice
