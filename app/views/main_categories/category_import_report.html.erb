@@ -1,110 +1,70 @@
-<!DOCTYPE html>
-<html>
-
-  <body>
-  
-<div class="container">
-<div class="content">
-<div class="content-container">      
- <div>
- <h4 class="heading-inline">Main Commodities</h4>        
- </div>
-
-<br>
-
-<div class="row"> 
-<div class="portlet">
-
-<div class="portlet-header">
-<h3><i class="glyphicon glyphicon-cloud-download"></i>Download Formats</h3>
-</div> <!-- /.portlet-header -->
-
-<div class="portlet-content">
-       
-<div class="col-sm-10"> 
-<div class="row">  
-<div class="col-md-8">
-<div id="name" class="input-group">  
-
- 
-<strong>Download the format for "Importing Commodities"</strong>&nbsp;&nbsp;
-  <%= link_to main_categories_category_download_path(format: "xls"), title: "Download Format" do %> 
-      <button class="btn btn-success">
-        <span class="glyphicon glyphicon-cloud-download"></span>
-        Download
-      </button>
-  <% end %>
-   
-   </div> <!-- name -->
-  </div> <!-- col-md-6 -->
-  </div> <!-- row--><br/><br/>
-  <p><b>Note: </b>When importing .xls files, save the file as <b>"excel 97-2003 workbook"</b> format to avoid errors</p>
-<br/><p>
-  </div> <!-- col-sm-8"-->
- 
-</div> <!-- /.portlet-content -->
-</div> <!-- /.portlet -->
-</div> <!-- /.row -->
-  
-
-<div class="row"> 
-<div class="portlet portlet-table">
-  
-<div class="portlet-header">
-<h3><i class="glyphicon glyphicon-cloud-upload"></i> Import Commodities</h3> 
-</div> <!-- /.portlet-header -->
-
-  <% if alert %>
-  <br/>
-    <div class="col-md-6">
-      <div class= "alert alert-danger"><%= alert %>
+ <div class="container">
+   <div class="content">
+    <div class="content-container">      
+      <div>
+        <h4 class="heading-inline">Main Commodities</h4>        
       </div>
-  </div>
-  <% end %>
+      <br>
+      <div class="row"> 
+        <div class="portlet">
+          
+          <div class="portlet-header">
+             <h3><i class="glyphicon glyphicon-cloud-download"></i>Download Formats</h3>
+          </div> <!-- /.portlet-header -->
+          
+          <div class="portlet-content">
+            <div class="col-sm-10"> 
+              <div class="row">  
+                <div class="col-md-8">
+                   <div id="name" class="input-group">  
+                      <strong>Download the format for "Importing Commodities"</strong>&nbsp;&nbsp;
+                      <%= link_to main_categories_category_download_path(format: "xls"), title: "Download Format" do %> 
+                          <button class="btn btn-success">
+                              <span class="glyphicon glyphicon-cloud-download"></span>
+                              Download
+                          </button>
+                      <% end %>
+                   </div> <!-- name -->
+                </div> <!-- col-md-8 -->
+              </div> <!-- row--><br/><br/>
+              <p><b>Note: </b>When importing .xls files, save the file as <b>"excel 97-2003 workbook"</b> format to avoid errors</p>
+              <br/><p>
+           </div> <!-- col-sm-10-->
+          </div> <!-- /.portlet-content -->
+        </div> <!-- /.portlet -->
+     </div> <!-- /.row -->
   
-<div class="portlet-content">  
-<div class="col-sm-8"> 
-<div class="row">  
-<div class="col-md-6">
-<div class="input-group">  
-  
-  <br/><br/>
-  
-  <%= form_tag main_categories_category_import_path, multipart: true  do %><br/>
-<%= file_field_tag :file , class: "form-control" %> <br/><br/><br/>
-<%= submit_tag "Import Commodities", class: "btn btn-success" %>
-<% end %>
-  
-  
-
-<br/><br/>
-</div>
-</div>
-</div>
-</div>
- 
-  
-</div>
-</div>
-</div>
-  
-
-  
-  
-</div> <!-- /.content-container -->
-</div> <!-- /.content -->
-</div> <!-- /.container -->
-
-
-
-  
- 
-</body>
-</html>
-
-
-
-
-
-
+     <div class="row"> 
+       <div class="portlet portlet-table">
+         <div class="portlet-header">
+           <h3><i class="glyphicon glyphicon-cloud-upload"></i> Import Commodities</h3> 
+         </div> <!-- /.portlet-header -->
+         <% if alert %>
+         <br/>
+           <div class="col-md-6">
+              <div class= "alert alert-danger"><%= alert %></div>
+           </div>
+         <% end %>
+         
+         <div class="portlet-content">  
+          <div class="col-sm-8"> 
+            <div class="row">  
+             <div class="col-md-6">
+               <div class="input-group">  
+                <br/><br/>
+                 <%= form_tag main_categories_category_import_path, multipart: true  do %><br/>
+                 <%= file_field_tag :file , class: "form-control", required: true %> <br/><br/><br/>
+                  <%= submit_tag "Import Commodities", class: "btn btn-success" %>
+                 <% end %>
+                 <br/><br/>
+               </div><!-- input group -->
+             </div><!-- col md 6 -->
+            </div><!-- row ends  -->
+          </div><!-- col md 8 ends -->
+         </div><!-- portlet content ends -->
+       </div><!-- portlet -->
+     </div><!-- row ends  -->
+   </div> <!-- /.content-container -->
+  </div> <!-- /.content -->
+ </div> <!-- /.container -->
 

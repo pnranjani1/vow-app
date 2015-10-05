@@ -36,18 +36,18 @@
                               <div class="col-md-6">
                                 <div id="name" class="input-group">               
                                   <span class="input-group-addon"><i class="fa fa-shopping-cart"></i></span>
-                                  <%= f.text_field :commodity_name, class: "form-control" %>
+                                  <%= f.text_field :commodity_name, class: "form-control" , required: true %>
                                 </div>
                               </div>
                         </div><!-- row ends -->
                         <br>
   
                         <div class="row">
-                          <label class="col-md-3">Commodity Code</label>
+                          <label class="col-md-3">Commodity Code&nbsp;&nbsp;<b style="color:red">*</b></label>
                             <div class="col-md-6">
                               <div id="name" class="input-group">               
                                   <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
-                                  <%= f.text_field :commodity_code, class: "form-control" %>
+                                <%= f.text_field :commodity_code, class: "form-control", required: true %>
                               </div>
                             </div>
                         </div>
