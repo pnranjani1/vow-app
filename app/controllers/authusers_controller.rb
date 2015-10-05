@@ -243,8 +243,15 @@ end
 
   def invite_user_again
     @user = Authuser.find(params[:id])
-    @user.update_attribute(:invitation_sent_at, Time.now)
-    redirect_to dashboards_client_dashboards_path
+    @user.address.delete
+    @user.membership.delete
+    @user.bankdetail.delete
+    @user.users.delete_all
+    @user.permissions.delete_all
+    @user.delete
+    #@user.update_attribute(:invitation_sent_at, Time.now)
+    #redirect_to dashboards_client_dashboards_path
+    redirect_to new_authuser_invitation_path
   end
   
 
