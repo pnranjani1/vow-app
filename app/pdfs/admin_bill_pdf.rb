@@ -95,7 +95,7 @@ class AdminBillPdf < Prawn::Document
         total_bills = Bill.where('created_at >= ? AND created_at <= ? AND client_id = ?', @start_date, @end_date, @client.id).count
         amount  = total_bills * 1
         move_down 5
-        text "(Rupees #{amount.to_words.capitalize} only)", :align => :center
+      text "(Rupees #{amount.to_words.capitalize} only)", :align => :center, size: 10
     end
   end
 
