@@ -39,7 +39,7 @@
                 <div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Enter Current Password">
                   <div id="Password"  class="input-group">         
                      <span class="input-group-addon"><i class="fa fa-star"></i></span>
-                    <%= f.password_field :current_password ,  required: true, class: "form-control" %>
+                    <%= f.password_field :current_password , minlength: 8,  required: true, class: "form-control" %>
                   </div>
                 </div>
             </div> <!-- /.col -->
@@ -52,7 +52,7 @@
              <div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Minimum 8 Characters">
                <div id="Password"  class="input-group">         
                 <span class="input-group-addon"><i class="fa fa-star"></i></span>
-                <%= f.password_field :password , required: true, class: "form-control" %>
+                 <%= f.password_field :password , required: true, minlength: 8, class: "form-control" %>
                </div>
               </div><!-- tooltip ends here -->
               </div> <!-- /.col -->
@@ -62,7 +62,7 @@
                 <div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Minimum 8 Characters">
                   <div id="Password"  class="input-group">         
                      <span class="input-group-addon"><i class="fa fa-star"></i></span>
-                    <%= f.password_field :password_confirmation , required: true,  class: "form-control" %>
+                    <%= f.password_field :password_confirmation , required: true, minlength: 8,  class: "form-control" %>
                   </div>
                 </div>
             </div> <!-- /.col -->

@@ -1094,7 +1094,7 @@ input[type="checkbox"] {
  
 }
 .content .breadcrumb {
-  padding: 4px 0;
+  padding: 4px 0; 
   margin-bottom: 0;
   background: none;
 }
@@ -1125,7 +1125,7 @@ input[type="checkbox"] {
 }
 @media (min-width: 768px) {
   .content {
-    min-height: 750px;
+    min-height:400px;
     padding: 0;
     margin-top: -52px;
     border-top-right-radius: 5px;

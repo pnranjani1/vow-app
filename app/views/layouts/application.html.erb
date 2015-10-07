@@ -139,7 +139,7 @@
                             <% end %>
                                   <% if current_authuser.main_roles.count > 1 %>
                                       <%= link_to authusers_change_role_path do %> 
-                                         <i class="fa fa-dashboard"></i> Change Role 
+                                         <i class="fa fa-users"></i> Change Role 
                                       <% end %>
                                   <% end %>
                               </li>
@@ -303,23 +303,19 @@
                             </div> <!-- /.mainbar-collapse -->   
                           </div> <!-- /.container --> 
                         </div> <!-- /.mainbar -->
+                        
                      <% end %>
                   <%= yield %>
-   
-
-  <!-- <%= link_to "Sign Out", destroy_authuser_session_path, method: :delete %> -->
-   <!-- <%= link_to "Sign out", destroy_authuser_session_path %> -->
- 
+  <% if controller.controller_name != "passwords" && controller.action_name != "new" %>  
                <footer class="footer">
-                   <div class="container">
-                     <div class="row">
-                       <div class="col-sm-9">&copy; 2015 vatonwheels.com </div> <!-- /.col --> 
-                           <div class="col-sm-3">Design and Developed by <a href="http://iprimitus.com" target="_blank" class="iprim">iprimitus.com</a></div> <!-- /.col -->
-                     </div> <!-- /.row -->
-                   </div> <!-- /.container -->
-  
+                <div class="container">
+                  <div class="row">
+                     <div class="col-sm-9">&copy; 2015 vatonwheels.com </div> <!-- /.col --> 
+                     <div class="col-sm-3">Design and Developed by <a href="http://iprimitus.com" target="_blank" class="iprim">iprimitus.com</a></div> <!-- /.col -->
+                  </div> <!-- /.row -->
+                </div> <!-- /.container -->
                </footer>
-
+       <% end %>
     </body>
    </html>
 

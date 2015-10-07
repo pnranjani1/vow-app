@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150928114932) do
+ActiveRecord::Schema.define(version: 20151006114518) do
 
   create_table "addresses", force: true do |t|
     t.string   "address_line_1"
@@ -67,6 +67,7 @@ ActiveRecord::Schema.define(version: 20150928114932) do
     t.string   "role"
     t.string   "invoice_format",         default: "automatic"
     t.string   "invoice_string"
+    t.boolean  "invited_user_status"
   end
 
   add_index "authusers", ["approved"], name: "index_authusers_on_approved"

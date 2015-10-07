@@ -27,54 +27,51 @@
   
    <!--content-->
    <div class="content"> 
-     <br/><br/><br/><br/>
-     <% if alert %>
-       <div class="col-md-6">
-         <div class="alert alert-danger"><%= alert %></div>
-       </div>
-     <% end %>
-  
-     <div class="register-container container">
+      <div class="register-container container">
        <div class="row"> 
          <div class="covrpage">         
+           <% if alert %>
+             <div class="row">
+              <div class="col-md-9">
+                 <div class="alert alert-danger"><%= alert %></div>
+              </div>
+             </div>
+           <% end %>
+  
             <div class="register">
                 <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
                     <h2>Sign in</h2>
                       <label for="email">Email</label>
-                      <%= f.email_field :email, autofocus: true, :placeholder => "Enter your Email ID" %>
+                      <%= f.email_field :email, autofocus: true, required: true, :placeholder => "Enter your Email ID" %>
 
                       <label for="password">Password</label>
-                      <%= f.password_field :password, autocomplete: "off" , :placeholder => "Enter Your Password..." %><br/><br/>
+                      <%= f.password_field :password, autocomplete: "off" , required: true, :placeholder => "Enter Your Password..." %><br/><br/>
   
                       <%= f.submit "SIGN IN",:class => "grenbutton" %><br/><br/>
-                <% end %>
-  
+                <% end %>  
                 <%= render "devise/shared/links" %>
-            </div>
-          </div>
-        </div>
-      </div>
-   </div>
+            </div><!-- register ends  -->
+         </div><!-- covrpage ends -->
+       </div><!-- row ends  -->
+     </div><!-- register container ends  -->
+   </div><!-- content ends -->
 
-  <!--footer-->
-  <footer>
+   <!--footer-->
+   <footer>
     <div class="container">
       <div class="row">
        <div class="col-lg-9 col-md-6 col-sm-12 wow fadeInUp"> 
           <div class="title">&copy; 2015 vatonwheels.com</div>
           <p class="prev"><a href="index-5.html"></a></p>                 
-       </div>  
+       </div>  <!-- col ends -->
    
        <div class="col-lg-3 col-md-6 col-sm-12 wow fadeInUp">                             
-        <div class="title">
-          Design and Developed by &nbsp;&nbsp;<%= link_to "iPrimitus.com", "http://iprimitus.com", class: "indextitle" , target: "blank" %>
-       </div>
-<!--<p ><a href="http://iprimitus.com" target="_blank" class="iprim">iprimitus.com</a></p> -->
-      </div>         
-    </div>
-   </div><!-- content ends here -->
-  <!-- {%FOOTER_LINK} -->
-  </footer>
+         <div class="title">
+           Design and Developed by &nbsp;&nbsp;<%= link_to "iPrimitus.com", "http://iprimitus.com", class: "indextitle" , target: "blank" %>
+         </div>
+       </div><!-- col lg ends -->
+      </div><!-- row ends -->
+    </div><!-- container ends here -->
+   </footer>
  </body>
 </html>
-

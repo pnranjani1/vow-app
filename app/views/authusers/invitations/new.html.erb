@@ -32,12 +32,20 @@
                                       <% resource.class.invite_key_fields.each do |field| -%>
                                             <!-- <%= f.label field %> -->
                                             <label> Email ID </label>
-                                            <div id="email" class="input-group">  
+                                            <div class="has-tooltip" data-toggle="tooltip" data-placement="right" title="Enter Email ID of user to invite">
+                                              <div id="email" class="input-group">  
                                                <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-                                              <%= f.text_field field , autofocus: true, class: "form-control" %>
+                                                <%= f.text_field field , autofocus: true, class: "form-control" %>
+                                              </div>
                                             </div>
                                       <% end -%><br/>
                                       <p><%= f.submit t("devise.invitations.new.submit_button"), :title => "Send Mail to User", class: "btn btn-success" %>
+                                        <% if current_authuser.main_roles.first.role_name == "user" %>
+                                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to "Cancel", dashboards_user_dashboard_path, class: "btn btn-success" %>
+                                        <% elsif current_authuser.main_roles.first.role_name == "client" %>
+                                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to "Cancel", dashboards_client_dashboard_path, class: "btn btn-success" %>
+                                        <% end %>
+                                      
                                  <% end %>
                              </div><!-- name group ends -->
                           </div><!-- col md -6 ends -->

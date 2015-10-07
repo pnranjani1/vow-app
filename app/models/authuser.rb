@@ -27,6 +27,7 @@ require 'active_support/core_ext/date/conversions'
    
  # validates :date_of_birth, presence: true
   
+  
   has_many :admins
   has_many :customers
   has_many :taxes
@@ -156,16 +157,52 @@ end
     # self.membership.membership_status = false
     #end
   #end
+  def future_date
+    date = Date.today - 18.years
+    if self.date_of_birth <= date
+      errors.add(:date_of_birth, "You are not 18 years old")
+     end
+   end
   
  def active_for_authentication? 
  # if self.sign_in_count > 0
-   if self.membership.membership_end_date + 1.days ==  Date.today
-    self.approved == false
+   if self.main_roles.first.role_name == "client"
+     if self.membership.membership_end_date <  Date.today
+       self.approved = false        
+     else
+       super && approved? 
+     end
+   elsif self.main_roles.first.role_name == "user"
+     if self.membership.membership_end_date > Date.today
+       if self.invited_by.membership.membership_end_date < Date.today
+         self.invited_user_status = false
+       else
+         super && approved?
+       end
+     else
+       self.approved = false
+     end
+   elsif self.main_roles.first.role_name == "secondary_user"
+     primary_user = self.invited_by
+     client = primary_user.invited_by
+     if self.membership.membership_end_date > Date.today
+       if primary_user.membership.membership_end_date > Date.today
+         if client.membership.membership_end_date < Date.today
+           self.invited_user_status = false
+         else
+           super && approved?
+         end
+       else
+         self.invited_user_status = false
+       end
+     else
+       self.approved = false
+     end
    else
-     super && approved? 
-   #end
+     super && approved?
+   end
  end
- end
+
 
  def inactive_message 
   # if !approved? && invitation_accepted_at == Time.now-5.minutes
@@ -173,10 +210,12 @@ end
      :not_approved 
    elsif !approved
      :waiting_for_approval
+   elsif !invited_user_status
+     :invited_user_end
    else
       super 
-    end 
-  end
+  end 
+ end
   
   def current_role
   end

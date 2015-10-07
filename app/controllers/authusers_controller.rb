@@ -48,10 +48,11 @@ redirect_to dashboards_client_dashboard_path
        redirect_to dashboards_user_dashboard_path
       elsif current_authuser.main_roles.first.role_name == 'secondary_user'
         redirect_to dashboards_secondary_user_dashboard_path
-   else
+      end
+    else
      render action: 'force_password_change'
+      flash[:alert] = "Ensure Both the passwords are the same"
     end
-  end
   end
   
   
@@ -116,34 +117,29 @@ redirect_to dashboards_client_dashboard_path
   
   def activate_user
     user = Authuser.find(params[:id])
-    user.approved = true
-     invited_by_id =  user.invited_by_id
-    role_invited_by = Permission.where(:authuser_id => invited_by_id)
-    role_id = role_invited_by.first.main_role_id
-    user.save
-     if role_id == 2
+    user.update_attribute(:approved, true)
+    invited_role = user.invited_by.main_roles.first.role_name
+    if invited_role == "client"
       redirect_to dashboards_client_dashboard_path
-    elsif role_id == 1
+    elsif invited_role == "admin"
        redirect_to dashboards_admin_dashboard_path    
+    elsif invited_role == "user"
+      redirect_to dashboards_user_dashboard_path
    end
   end
     
   
   def de_activate_user
-    @current_authuser_clients = Client.where(:created_by => current_authuser.id)
     user = Authuser.find(params[:id])
-    user.approved = false
-    
-     invited_by_id =  user.invited_by_id
-    role_invited_by = Permission.where(:authuser_id => invited_by_id)
-    role_id = role_invited_by.first.main_role_id
-    user.save
-     if role_id == 2
+    user.update_attribute(:approved, false)
+    invited_role = user.invited_by.main_roles.first.role_name
+    if invited_role == "client"
       redirect_to dashboards_client_dashboard_path
-      elsif role_id == 1
+    elsif invited_role =="admin"
         redirect_to dashboards_admin_dashboard_path    
-    
-      end
+    elsif invited_role == "user"
+      redirect_to dashboards_user_dashboard_path    
+    end
   end
     
   def change_role
@@ -172,9 +168,9 @@ redirect_to dashboards_client_dashboard_path
 end
   
 
-def force_password_change
-  @user = current_authuser
-end
+  def force_password_change
+    @user = current_authuser
+  end
 
 
 # For user creation, views/authusers/invitations/new and edit are used. Devise_invitable is used to invite user and in the model all the required tables are invoked when user is invited

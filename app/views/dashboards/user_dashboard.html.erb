@@ -49,6 +49,7 @@
                   <th>Name</th> 
                   <th>Email</th> 
                   <th>Membership End Date</th>
+                  <th>Activate/Deactivate User</th>
                   <th>No of Cash based Applications</th> 
                   <th>No of Esugam Generated</th> 
                  
@@ -71,6 +72,11 @@
                     <% else %>
                        <td style="text-align:center">NA </td>
                     <% end %>
+                    <% if user.approved == false %>
+                      <td><%= link_to "Approve User" , activate_user_path(user.id), method: :put, data: {confirm: "Are You Sure You Want To Approve The User"} ,  class: "listconttext"%></td>
+                    <% elsif user.approved == true %>       
+                       <td><%= link_to "De-activate User" , de_activate_user_path(user.id), method: :put, data: {confirm: "Are You Sure You Want To De-Activate The User?"} ,  class: "listconttext" %></td> 
+                    <% end %>   
                     <td style="text-align:center"><%= @cash_applications.count %></td>
                     <td style="text-align:center"><%= @esugam.count %></td>
                   </tr>
@@ -84,10 +90,10 @@
              <span class="glyphicon glyphicon-plus-sign"></span>
              &nbsp;Secondary User
              <% end %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-             <%= link_to authusers_user_management_path,  title: "Manage invited users" do %>
+             <%= link_to authusers_user_management_path,  title: "View invited users activity" do %>
                    <button class="btn btn-success">
                      <span class="glyphicon glyphicon-list"></span>
-                     &nbsp;Manage Users</button>
+                     &nbsp;View Users Activity</button>
              <% end %>
            </div><!-- text right ends here -->
           </div> <!-- /.portlet-footer -->

@@ -34,7 +34,10 @@
       <br>
         <script type="text/javascript">
           $(document).ready(function(){
-             $("#dob").datepicker({ dateFormat: "dd/mm/yy" }).val()
+             $("#dob").datepicker({ 
+               dateFormat: "dd/mm/yy",
+               maxDate: '-18Y'
+             });
           });
         </script>
 
@@ -58,7 +61,7 @@
                              Name&nbsp;<b style="color:red">*</b>
                                 <div id="name" class="input-group">      
                                   <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                                  <%= f.text_field :name , class: "form-control", autofocus: true %>
+                                  <%= f.text_field :name , class: "form-control", required: true, autofocus: true %>
                                 </div>
                              </div> <!-- /.col -->
             
@@ -67,7 +70,7 @@
                               <div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Minimum 8 Characters">
                                 <div id="Password" class="input-group">  
                                     <span class="input-group-addon"><i class="fa fa-star"></i></span>
-                                    <%= f.password_field :password , class: "form-control" %>
+                                    <%= f.password_field :password , required: true, minlength: 8, class: "form-control" %>
                                 </div>
                               </div>
                              </div> <!-- /.col -->
@@ -77,7 +80,7 @@
                                 <div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Minimum 8 Characters">
                                    <div id="Password" class="input-group">               
                                       <span class="input-group-addon"><i class="fa fa-star"></i></span>
-                                      <%= f.password_field :password_confirmation , class: "form-control" %>
+                                      <%= f.password_field :password_confirmation , required: true, minlength: 8,  class: "form-control" %>
                                    </div>
                                 </div>
                              </div> <!-- /.col -->
@@ -90,7 +93,7 @@
                               <div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Enter Your Date of Birth">
                                 <div id="Password" class="input-group">               
                                   <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                  <%= f.text_field :date_of_birth ,  class: "form-control", :id => "dob" %>
+                                  <%= f.text_field :date_of_birth ,  class: "form-control", :id => "dob" , required: true, readonly: true %>
                                  </div>
                               </div> <!-- /.col -->
                               <% if primary_user.main_roles.first.role_name == "user" %>
@@ -102,14 +105,18 @@
    
                           <%= f.fields_for :membership do |user_membership| %>
                              <%= user_membership.hidden_field :membership_start_date, :value => Date.today %>
-                             <%= user_membership.hidden_field :membership_end_date, :value => Date.today + 1.year %>
+                             <% if resource.invited_by.main_roles.first.role_name == "client" %>
+                                  <%= user_membership.hidden_field :membership_end_date, :value => Date.today + 1.year %>
+                             <% elsif resource.invited_by.main_roles.first.role_name == "user" %>
+                                  <%= user_membership.hidden_field :membership_end_date, :value => primary_user.membership.membership_end_date %>
+                             <% end %>
                              <% if primary_user.main_roles.first.role_name != "user" %>
                                 <div class="col-sm-3">           
                                   Mobile Number&nbsp;<b style="color:red">*</b>
                                     <div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Should Be 10 Digits">
                                       <div id="phone" class="input-group">      
                                          <span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
-                                         <%= user_membership.text_field :phone_number , :maxlength => 10, class: "form-control" %>
+                                         <%= user_membership.text_field :phone_number , :maxlength => 10, required: true, class: "form-control" %>
                                       </div>
                                     </div>
                                 </div> <!-- /.col -->
@@ -154,7 +161,7 @@
                                Address - Door Number&nbsp;<b style="color:red">*</b>
                                   <div id="City" class="input-group">            
                                     <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
-                                    <%= user_address.text_field :address_line_1, :maxlength => 10,  class: "form-control" %>
+                                    <%= user_address.text_field :address_line_1, :maxlength => 10, required: true, class: "form-control" %>
                                   </div>
                                </div> <!-- /.col -->
             
@@ -162,7 +169,7 @@
                                Address Line 2&nbsp;<b style="color:red">*</b>
                                    <div id="City" class="input-group">            
                                      <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>        
-                                     <%= user_address.text_field :address_line_2 , :maxlength => 30,  class: "form-control" %>
+                                     <%= user_address.text_field :address_line_2 , :maxlength => 30, required: true, class: "form-control" %>
                                    </div>
                                </div> <!-- /.col -->
             
@@ -181,7 +188,7 @@
                                 City&nbsp;<b style="color:red">*</b>
                                  <div id="City" class="input-group">            
                                     <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
-                                    <%= user_address.text_field :city , :maxlength => 15, class: "form-control" %>
+                                    <%= user_address.text_field :city , :maxlength => 15, class: "form-control", required: true  %>
                                  </div>
                               </div> <!-- /.col -->
 
@@ -189,7 +196,7 @@
                               State&nbsp;<b style="color:red">*</b>
                                  <div id="Country" class="input-group">       
                                    <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
-                                   <%= user_address.text_field :state , :maxlength => 15, class: "form-control" %>
+                                   <%= user_address.text_field :state , :maxlength => 15, class: "form-control", required: true  %>
                                  </div>
                               </div> <!-- /.col -->
    
@@ -197,7 +204,7 @@
                               Country&nbsp;<b style="color:red">*</b>
                                 <div id="Country" class="input-group">       
                                    <span class="input-group-addon"><i class="fa fa-globe"></i></span>
-                                   <%= user_address.text_field :country , class: "form-control" %>
+                                   <%= user_address.text_field :country , class: "form-control", required: true  %>
                                 </div>
                               </div> <!-- /.col -->
                             </div> <!-- row ends here -->
@@ -225,7 +232,7 @@
                                   Bank Account Number&nbsp;<b style="color:red">*</b>
                                     <div id="Number" class="input-group">    
                                        <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
-                                       <%= user_bank_detail.text_field :bank_account_number, class: "form-control"  %>
+                                       <%= user_bank_detail.text_field :bank_account_number, class: "form-control", required: true  %>
                                     </div>
                                 </div> <!-- /.col -->
             
@@ -233,7 +240,7 @@
                                   IFSC Code &nbsp;<b style="color:red">*</b>
                                     <div id="ifsccode" class="input-group">              
                                       <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                                      <%= user_bank_detail.text_field :ifsc_code, class: "form-control"  %>
+                                      <%= user_bank_detail.text_field :ifsc_code, class: "form-control", required: true  %>
                                     </div>
                                 </div> <!-- /.col -->
                               <% end %>  
@@ -256,7 +263,7 @@
                                    <div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Should Be 11 Digits">
                                       <div id="number" class="input-group"> 
                                           <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
-                                          <%= user.text_field :tin_number, :maxlength => 11, class: "form-control" %>
+                                          <%= user.text_field :tin_number, :maxlength => 11, class: "form-control", required: true %>
                                       </div>
                                    </div>
                                </div> <!-- /.col -->
@@ -265,7 +272,7 @@
                                 Esugam Username &nbsp;<b style="color:red">*</b>
                                   <div id="name" class="input-group" >        
                                      <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                                     <%= user.text_field :esugam_username, class: "form-control" %>
+                                     <%= user.text_field :esugam_username, class: "form-control", required: true %>
                                   </div>
                                </div> <!-- /.col -->
             
@@ -273,7 +280,7 @@
                                Esugam Password&nbsp;<b style="color:red">*</b>
                                  <div id="Password" class="input-group">   
                                     <span class="input-group-addon"><i class="fa fa-star"></i></span>
-                                    <%= user.password_field :esugam_password, class: "form-control" %>
+                                    <%= user.password_field :esugam_password, class: "form-control", required: true %>
                                  </div>
                                </div> <!-- /.col -->
 
@@ -281,7 +288,7 @@
                                Company&nbsp;<b style="color:red">*</b>
                                  <div id="Password" class="input-group">   
                                     <span class="input-group-addon"><i class="fa fa-building-o"></i></span>
-                                    <%= user.text_field :company, maxlength: 40, class: "form-control" %>
+                                    <%= user.text_field :company, maxlength: 40, class: "form-control", required: true %>
                                  </div>
                                </div> <!-- /.col -->
   

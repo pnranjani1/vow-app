@@ -85,11 +85,18 @@
                           </tr>
                        <% end %>
                    </tbody>
-               </table>
+                 </table>
                <%= will_paginate @users_expired_invitation, renderer: BootstrapPagination::Rails, class: "apple_pagination" %>
              </div>
            </div><!-- col md 4 ends here -->
+           
          </div><!-- portlet content ends here -->
+           <% if current_authuser.main_roles.first.role_name == "user" %>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to "Cancel", dashboards_user_dashboard_path, class: "btn btn-success" %>
+           <% elsif current_authuser.main_roles.first.role_name == "client" %>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to "Cancel", dashboards_client_dashboard_path, class: "btn btn-success" %>
+           <% end %>
+          <br/><br/>
  <!--  &nbsp;&nbsp;&nbsp; <b>Note:</b>If the user has failed to accept the invitation within the time limit(2 days), the invitation will expire.To invite the same user, kindly contact support@vatonwheels.com.<br/><br/> -->
      </div> <!-- /.portlet ends here -->
     </div> <!-- /.row ends here -->

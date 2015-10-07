@@ -54,7 +54,7 @@
                    <% if current_authuser.bills.count != 0 %>
                       <div class="row">
                         
-                        <div class="col-md-2">
+                        <div class="col-md-1">
                           <%= link_to bills_user_bill_path(format: "xls"), title: 'Download Excel' do %>
                               <button class="btn btn-success">
                                 <span class="glyphicon glyphicon-cloud-download"></span>
@@ -62,12 +62,18 @@
                            <% end %>
                         </div>
     
-                        <div class="col-md-2">
+                        <div class="col-md-1">
                           <%= link_to bills_user_bill_path(format: "csv"), title: "Download CSV" do %>
                                <button class="btn btn-success">
                                   <span class="glyphicon glyphicon-cloud-download"></span>
                                    &nbsp; Csv&nbsp;&nbsp;  </button>
                             <% end %>                          
+                        </div>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-1">
+                          <% role = current_authuser.role %>
+                          <%= link_to "Cancel", dashboards_user_dashboard_path, class: "btn btn-success" %>
+                         
                         </div>
                       </div>
                    <% end %>

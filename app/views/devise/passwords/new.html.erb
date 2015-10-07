@@ -1,17 +1,4 @@
-<!--<!DOCTYPE html>
-<html lang="en">
-<head>
-<title>Vatonwheels</title>
-<meta charset="utf-8">    
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta name="description" content="Your description">
-<meta name="keywords" content="Your keywords">
-<meta name="author" content="Your name">
-<meta name = "format-detection" content = "telephone=no" />
-</head> 
-<body> -->
-  <!-- <header> -->
 <header class="clearfix">
     <div class="container">
      <!-- <h1 class="navbar-brand navbar-brand_ wow fadeInDown"><a href="/">Vatonwheels.com</a></h1>    -->
@@ -29,14 +16,20 @@
      <div class="register-container container">
         <div class="row"> 
           <div class="covrpage">         
+             <% if devise_error_messages!.present? %>  
+                <div class="row">
+                  <div class="col-md-9">
+                   <div class="alert alert-danger">
+                     <%= devise_error_messages! %>
+                   </div>
+                  </div>
+                </div>
+             <% end %>
             <div class="register">
+              <br/><br/>
                <h2> Forgot Password </h2>
+              <br/><br/>
                  <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
-                     <% if devise_error_messages!.present? %>  
-                         <div class="alert alert-danger">
-                            <%= devise_error_messages! %>
-                         </div>
-                     <% end %>
                      <div class="field">
                        <%= f.label :email %><br />
                        <%= f.email_field :email, placeholder: "Enter your email-id", autofocus: true, required: true %>
@@ -54,22 +47,20 @@
       </div>
   </div>
   <!--footer-->
-  <footer>
+  <!--footer-->
+   <footer>
     <div class="container">
       <div class="row">
        <div class="col-lg-9 col-md-6 col-sm-12 wow fadeInUp"> 
           <div class="title">&copy; 2015 vatonwheels.com</div>
           <p class="prev"><a href="index-5.html"></a></p>                 
-       </div>  
+       </div>  <!-- col ends -->
    
        <div class="col-lg-3 col-md-6 col-sm-12 wow fadeInUp">                             
-        <div class="title">
-          Design and Developed by &nbsp;&nbsp;<%= link_to "iPrimitus.com", "http://iprimitus.com", class: "indextitle" , target: "blank" %>
-       </div>
-<!--<p ><a href="http://iprimitus.com" target="_blank" class="iprim">iprimitus.com</a></p> -->
-      </div>         
-    </div>
-   </div><!-- content ends here -->
-  <!-- {%FOOTER_LINK} -->
-  </footer>
-
+         <div class="title">
+           Design and Developed by &nbsp;&nbsp;<%= link_to "iPrimitus.com", "http://iprimitus.com", class: "indextitle" , target: "blank" %>
+         </div>
+       </div><!-- col lg ends -->
+      </div><!-- row ends -->
+    </div><!-- container ends here -->
+   </footer>
