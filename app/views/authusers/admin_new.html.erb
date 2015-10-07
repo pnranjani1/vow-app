@@ -325,7 +325,7 @@
                                      <div class="col-sm-6">
                                        <div class="input-group">
 
-                                            <% MainRole.all.each do |role| %>
+                                         <% MainRole.where(:role_name => ["client", "user"]).each do |role| %>
                                                <%= check_box_tag "authuser[main_role_ids][]", role.id, @client.main_role_ids.include?(role.id), :id => dom_id(role) %>
                                                &nbsp;&nbsp;<%= label_tag dom_id(role), role.role_name.capitalize %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                             <% end %><br/>
