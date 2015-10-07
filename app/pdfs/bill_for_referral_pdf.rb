@@ -124,7 +124,7 @@ class BillForReferralPdf < Prawn::Document
     end
     move_down 10
     indent 0, 20 do
-      text "<u><b>Rupees #{(bills_count * @referral.referral_type.pricing.to_f).round.to_words} only</b></u>", size: 10, align: :right, :inline_format => true       
+      text "<u><b> #{number_to_currency_in_words(bills_count * @referral.referral_type.pricing.to_f, currency: :rupee).titleize} only</b></u>", size: 10, align: :right, :inline_format => true       
      
     end
     

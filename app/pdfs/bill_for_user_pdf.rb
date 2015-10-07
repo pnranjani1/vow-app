@@ -105,7 +105,7 @@ class BillForUserPdf < Prawn::Document
      end
     move_down 10
     indent 0, 50 do
-      text "<u><b>Rupees #{(bills_count * 1).round.to_words} only</b></u>", size: 10, align: :right, :inline_format => true   
+      text "<u><b>#{number_to_currency_in_words(bills_count * 1, currency: :rupee).titleize} only</b></u>", size: 10, align: :right, :inline_format => true   
     end
   end
    

@@ -52,7 +52,7 @@ gem 'prawn-table', '~> 0.2.0'
 gem 'roo'
 gem 'layout_by_action'
 gem 'to_words'
-gem 'rupees'
+gem 'currency-in-words'
 #gem  'watir-webdriver'
 group :development, :test do
   gem 'sqlite3'

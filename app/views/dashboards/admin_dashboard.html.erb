@@ -57,9 +57,9 @@
                                 <td><%= @user_count %></td>
        
                                 <% if client.authuser.approved == false %>
-                                    <td><%= link_to "Approve User" , activate_user_path(client.authuser.id), method: :put, data: {confirm: "Are You Sure You Want To Approve The Client?"}, class: "listconttext" %></td>
+                               <td><%= link_to "Approve Client" , activate_user_path(client.authuser.id), method: :put, data: {confirm: "Are You Sure You Want To Approve The Client?"}, class: "listconttext" %></td>
                                 <% elsif client.authuser.approved == true %>       
-                                    <td><%= link_to "De-activate User" , de_activate_user_path(client.authuser.id), method: :put, data: {confirm: "Are You Sure You Want To De-Activate The Client?"}, class: "listconttext"  %></td> 
+                               <td><%= link_to "De-activate Client" , de_activate_user_path(client.authuser.id), method: :put, data: {confirm: "Are You Sure You Want To De-Activate The Client?"}, class: "listconttext"  %></td> 
                                 <% end %> 
   
                                 <% if client.referral.present? %>

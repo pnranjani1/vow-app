@@ -293,7 +293,7 @@ table(data, :cell_style => {size: 9, :inline_format => true, :align => :right},:
         data = [["Grand Total", "#{number_with_delimiter(@bill.grand_total.round(2), delimiter: ',')}"]]
         table(data, :cell_style => {size: 9,  :align => :right, :font_style => :bold}, :column_widths => [160, 95], :position => 280)
 
-       data = [["Amount in words", "Rupees #{@bill.grand_total.round.to_words} only"]]
+data = [["Amount in words", " #{number_to_currency_in_words(@bill.grand_total, currency: :rupee).titleize} only"]]
        table(data, :cell_style => {size: 9, :font_style => :bold, :align => :center}, :column_widths => [140, 392], :position => 3)
    end
 

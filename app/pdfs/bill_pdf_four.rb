@@ -223,7 +223,7 @@ table(data, :cell_style => {size: 9, :font_style => :bold, :inline_format => tru
         data = [["Grand Total", "#{number_with_delimiter(@bill.grand_total.round(2), delimiter: ',')}"]]
         table(data, :cell_style => {size: 9, :font_style => :bold, :inline_format => true, :align => :right}, :column_widths => [435, 95], :position => 5)
          move_down 5
-         text "<u><b>Rupees #{@bill.grand_total.round.to_words} only</b></u>", size: 9, align: :right, :inline_format => true
+text "<u><b>#{number_to_currency_in_words(@bill.grand_total, currency: :rupee).titleize} only</b></u>", size: 9, align: :right, :inline_format => true
    end
 
     def authority
