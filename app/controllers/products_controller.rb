@@ -156,7 +156,7 @@ class ProductsController < ApplicationController
     products = user_products.pluck(:product_name)
     if products.any?{|product| product.downcase.gsub(/\s/,"")["#{params[:product][:product_name].downcase.gsub(/\s/,"")}"]}
       redirect_to new_bill_path
-      flash[:alert] = "Product is already added"
+    flash[:alert] = "#{params[:product][:product_name]} is already added"
     else
       if @product.update_attributes(set_params)
         redirect_to new_bill_path

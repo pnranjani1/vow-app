@@ -20,11 +20,17 @@ class MainCategoriesController < ApplicationController
   def create
     @category = MainCategory.new(set_params)
 #    @customer.authuser_id = current_authuser.id
-    if @category.save
+    commodities = MainCategory.all.pluck(:commodity_name)
+    if commodities.any?{|commodity| commodity.downcase.gsub(/\s/,"")["#{params[:main_category][:commodity_name].downcase.gsub(/\s/,"")}"]}
       redirect_to main_categories_path
-      flash[:notice] = "Commodity Successfully Created!"
+      flash[:alert] = "#{params[:main_category][:commodity_name]} is already added"
     else
-      render action: 'new'
+       if @category.save
+          redirect_to main_categories_path
+          flash[:notice] = "Commodity Successfully Created!"
+       else
+          render action: 'new'
+       end
     end
   end
   

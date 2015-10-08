@@ -11,10 +11,16 @@ class TinNumbersController < ApplicationController
   
   def create
     @tin_number = TinNumber.new(set_params)
-    if @tin_number.save
+    tin_numbers = TinNumber.all.pluck(:state)
+    if tin_numbers.any?{|state| state.downcase.gsub(/\s/,"")["#{params[:tin_number][:state].downcase.gsub(/\s/,"")}"]}
       redirect_to tin_numbers_path
+      flash[:alert] = "Tin Number is already added for #{params[:tin_number][:state]}"
     else
-      render action: 'new'
+      if @tin_number.save
+        redirect_to tin_numbers_path
+      else
+        render action: 'new'
+      end
     end
   end
   

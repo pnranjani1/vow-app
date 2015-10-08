@@ -23,11 +23,16 @@
                       <div class="alert alert-success"><%= notice %></div>
                     </div>
                  <% end %>
+                 <% if alert %>
+                    <br/>
+                    <div class="col-md-6">
+                      <div class="alert alert-danger"><%= alert %></div>
+                    </div>
+                 <% end %>
                  <thead> 
                     <tr> 
                       <th>Tax Type</th> 
                       <th>Tax Rate</th>                       
-                      <th>Edit</th> 
                       <!-- <th>Delete</th>                     -->
                     </tr> 
                  <thead> 
@@ -36,10 +41,10 @@
                         <tr>                      
                           <td><%= tax.tax_type %></td>
                           <td><%= tax.tax_rate %></td>
-                          <td><%= link_to  edit_tax_path(tax.id),  title: "Edit Tax Detail", class: "btn btn-xs btn-primary" do %>
+                         <!--  <td><%= link_to  edit_tax_path(tax.id),  title: "Edit Tax Detail", class: "btn btn-xs btn-primary" do %>
                                     <i class="fa fa-edit"></i>
                               <% end %>
-                          </td>
+                          </td> -->
                     <!-- <td><%= link_to "Delete Tax" , tax_path(tax.id), class: "btn btn-xs btn-primary", method: :delete, data: {confirm: "Are you sure?"} %>
                     <i class="fa fa-trash-o"></i></td>                        -->
                         </tr>    
@@ -57,7 +62,7 @@
                      <% end %>
                   </div><!-- text right ends -->
                </div> <!-- /.portlet-footer -->
-               <%=  will_paginate  @taxes, renderer: BootstrapPagination::Rails , class: "apple_pagination" %>                
+              &nbsp;&nbsp;&nbsp; <%=  will_paginate  @taxes, renderer: BootstrapPagination::Rails , class: "apple_pagination" %>                
              </div> <!-- /.table-responsive -->
             </div> <!-- /.portlet-content -->
            </div> <!-- /.portlet -->

@@ -12,12 +12,18 @@ class TaxesController < ApplicationController
   
   def create
     @tax = Tax.new(set_params)
-    if @tax.save
+    tax = Tax.all.pluck(:tax)
+    if tax.any?{|t| t.downcase.gsub(/\s/,"")[("#{params[:tax][:tax_type]}" + "#{params[:tax][:tax_rate]}".downcase.gsub(/\s/,""))]}
       redirect_to taxes_path
-      flash[:notice] = "Tax Created Successfully!"
+      flash[:alert] = "#{params[:tax][:tax_type] + params[:tax][:tax_rate].to_s} is already added"
     else
-      render action: 'new'
-    end
+      if @tax.save
+         redirect_to taxes_path
+         flash[:notice] = "Tax Created Successfully!"
+      else
+         render action: 'new'
+      end
+    end 
   end
   
   def show

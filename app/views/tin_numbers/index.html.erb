@@ -23,6 +23,12 @@
                       <div class="alert alert-success"><%= notice %></div>
                     </div>
                  <% end %>
+                <% if alert %>
+                    <br/>
+                    <div class="col-md-6">
+                      <div class="alert alert-danger"><%= alert %></div>
+                    </div>
+                 <% end %>
                  <thead> 
                     <tr> 
                       <th>Sl.No</th> 
