@@ -30,15 +30,16 @@
       <div class="register-container container">
        <div class="row"> 
          <div class="covrpage">         
-           <% if alert %>
-             <div class="row">
-              <div class="col-md-9">
-                 <div class="alert alert-danger"><%= alert %></div>
-              </div>
-             </div>
-           <% end %>
+          
   
             <div class="register">
+               <% if alert %>
+                 <div class="row">
+                   <div class="col-md-9">
+                     <div class="alert alert-danger"><%= alert %></div>
+                   </div>
+                 </div>
+               <% end %>
                 <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
                     <h2>Sign in</h2>
                       <label for="email">Email</label>
