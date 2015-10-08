@@ -31,16 +31,22 @@ class ProductsController < ApplicationController
         @product.authuser_id = current_authuser.id
       end
       params[:usercategory_id] = @product.usercategory_id
-      if @product.save 
-        redirect_to products_product_user_path(current_authuser.id)
-        flash[:notice] = "Product Created Successfully"
-      else 
-        render action: 'new'
-      end
-  end   
-   
-
-   def show
+      user_products = Product.where(:primary_user_id => [current_authuser.id, current_authuser.invited_by.id])
+      products = user_products.pluck(:product_name)
+      if products.any?{|product| product.downcase.gsub(/\s/, "")["#{params[:product][:product_name].downcase.gsub(/\s/,"")}"]}
+        redirect_to products_product_user_path
+        flash[:alert] = "#{params[:product][:product_name]} is already added" 
+      else
+        if  @product.save 
+         redirect_to products_product_user_path(current_authuser.id)
+         flash[:notice] = "Product Created Successfully" 
+        else
+           render action: 'new'
+        end
+      end  
+  end
+  
+  def show
     @product = Product.find(params[:id])
   end
   
@@ -62,6 +68,8 @@ class ProductsController < ApplicationController
        @product.primary_user_id = current_authuser.id
         @product.authuser_id = current_authuser.id
       end
+    
+    
       if @product.update_attributes(set_params)
       redirect_to products_product_user_path
     else
@@ -141,14 +149,20 @@ class ProductsController < ApplicationController
   
   
   def newproduct_in_bill
-    @product = Product.new
-     
+    @product = Product.new     
     @product.authuser_id = current_authuser.id
     @product.primary_user_id = current_authuser.invited_by_id
-    if @product.update_attributes(set_params)
+    user_products = Product.where(:primary_user_id => [current_authuser.id, current_authuser.invited_by.id])
+    products = user_products.pluck(:product_name)
+    if products.any?{|product| product.downcase.gsub(/\s/,"")["#{params[:product][:product_name].downcase.gsub(/\s/,"")}"]}
       redirect_to new_bill_path
+      flash[:alert] = "Product is already added"
     else
-      render action: 'new'
+      if @product.update_attributes(set_params)
+        redirect_to new_bill_path
+      else
+        render action: 'new'
+      end
     end
   end
   

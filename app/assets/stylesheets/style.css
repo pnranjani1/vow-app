@@ -425,7 +425,7 @@ h2 {
 }
 
 .register {
-    padding: 20px 50px 40px 50px;
+    padding: 20px 50px 27px 50px;
     background: #f8f8f8 url(pattern.jpg) left top repeat;
     -moz-border-radius: 8px;
     -webkit-border-radius: 8px;
@@ -434,6 +434,9 @@ h2 {
     -webkit-box-shadow: 0 1px 5px 0 rgba(0,0,0,.3);
     box-shadow: 0 1px 5px 0 rgba(0,0,0,.3);
     text-align: center;
+    border: 1px solid gray;
+    margin-top: 110px;
+    /* border-top: 1px solid gray;*/ 
 }
 
 .register h2 {
@@ -1508,7 +1511,8 @@ h2 {
 	margin: 0;
 }
 .thumb-pad8 .thumbnail .caption hr {
-	border-top: 1px solid #dedfe0;
+	/* border-top: 1px solid #dedfe0; */
+ 
 	margin: 12px 0 13px 0;
 }
 .thumb-pad8 figure {
@@ -2228,7 +2232,7 @@ h2 {
                     footer
 =========================================================*/
 footer {
-	padding: 20px 0;
+	padding: 15px 0;
 	overflow: hidden;
   background-color: #026e11;
 }

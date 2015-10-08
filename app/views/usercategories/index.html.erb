@@ -24,6 +24,12 @@
                        <div class="alert alert-success"><%= notice %></div>
                     </div>
                  <% end %>
+                 <% if alert %>
+                 <br/>
+                    <div class="col-md-8">
+                      <div class="alert alert-danger"><%= alert %></div>
+                    </div>
+                 <% end %>
                  <thead> 
                     <tr> 
                       <th>Commodity Name</th> 

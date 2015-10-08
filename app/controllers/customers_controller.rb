@@ -29,11 +29,18 @@ class CustomersController < ApplicationController
       @customer.authuser_id = current_authuser.id
       @customer.primary_user_id = current_authuser.id
     end
-    if @customer.save
+    user_customers = Customer.where(:primary_user_id => [current_authuser.id, current_authuser.invited_by.id])
+    customers = user_customers.pluck(:name)
+    if customers.any?{|customer| customer.downcase.gsub(/\s/,"")["#{params[:customer][:name].downcase.gsub(/\s/,"")}"]}
       redirect_to customers_user_customer_path
-      flash[:notice] = "Customer Created Successfully"
-    else
-      render action: 'new'
+      flash[:alert] = "Customer is already added"
+    else    
+      if @customer.save
+        redirect_to customers_user_customer_path
+        flash[:notice] = "Customer Created Successfully"
+      else
+        render action: 'new'
+      end
     end
   end
   
@@ -113,11 +120,19 @@ class CustomersController < ApplicationController
     @customer = Customer.new
     @customer.authuser_id = current_authuser.id
     @customer.primary_user_id = current_authuser.invited_by_id
-    if @customer.update_attributes(set_params)
+    user_customers = Customer.where(:primary_user_id => [current_authuser.id, current_authuser.invited_by.id])
+    customers = user_customers.pluck(:name)
+    if customers.any?{|customer| customer.downcase.gsub(/\s/,"")["#{params[:customer][:name].downcase.gsub(/\s/,"")}"]}
+      #redirect_to customers_user_customer_path
       redirect_to new_bill_path
-     else
-      render action: 'new'
-     end
+      flash[:alert] = "Customer is already added"
+    else  
+      if @customer.update_attributes(set_params)
+         redirect_to new_bill_path
+      else
+         render action: 'new'
+      end
+    end
   end
   
   private

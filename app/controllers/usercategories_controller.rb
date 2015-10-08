@@ -1,7 +1,7 @@
 class UsercategoriesController < ApplicationController
   filter_access_to :all
   before_filter :authenticate_authuser!
-  #before_filter :get_available_categories, only: [:new, :create, :edit, :update]
+  before_filter :get_available_categories, only: [:new, :create, :edit, :update]
   layout_by_action [:new, :create, :show, :edit, :update, :index] => "menu"
   
   def index
@@ -15,7 +15,6 @@ class UsercategoriesController < ApplicationController
   
   def new
     @usercategory = Usercategory.new
-    #@user = Authuser.find(current_authuser.id)
   end
   
   def create
@@ -30,12 +29,12 @@ class UsercategoriesController < ApplicationController
       @usercategory.primary_user_id = current_authuser.id
     end
     if @usercategory.save 
-      redirect_to usercategories_path(current_authuser.id)
-      flash[:notice] = "Commodity Added Successfully"
+        redirect_to usercategories_path(current_authuser.id)
+        flash[:notice] = "Commodity Added Successfully"
     else
-      render action: 'new'
-     end
-  end   
+        render action: 'new'
+    end
+  end
  
   def show
     @usercategory = Usercategory.find(params[:id])
