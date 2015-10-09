@@ -56,7 +56,7 @@ xml.Saledetails do |saledetails|
           else
             xml.OthCh
           end
-          xml.TotCh bill.grand_total
+          xml.TotCh bill.grand_total.round(2)
         end
   end     
 end
