@@ -1,0 +1,16 @@
+<table border=1>
+  <thead>
+    <tr>
+      <th style="background-color: steelblue">State</th>
+      <th style="background-color: steelblue">Tin Number</th>
+    </tr>
+  </thead>
+  <tbody>
+     <%  @tin_numbers.each do |tin_number| %>
+       <tr>
+        <td><%= tin_number.state %></td>
+        <td><%= tin_number.tin_number %></td>
+       </tr>
+     <% end %>
+  </tbody>
+</table>

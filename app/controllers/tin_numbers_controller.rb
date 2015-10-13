@@ -46,6 +46,14 @@ class TinNumbersController < ApplicationController
     @tin_number.destroy
     redirect_to tin_numbers_path
   end
+
+  def download_tinnumber
+    @tin_numbers = TinNumber.all
+    respond_to do |format|
+      format.html
+      format.xls
+    end
+  end
   
   private
   def set_params

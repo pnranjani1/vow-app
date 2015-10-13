@@ -105,6 +105,7 @@ Rails.application.routes.draw do
   patch 'bills/:id/captcha_image' => "bills#captcha_image", :as => "captcha_image"
   patch 'authusers/:id/update_profile_picture' => 'authusers#update_profile_picture', as: "update_user_profile_picture"
   get 'bills/:id/client_pdf_bill' => 'bills#client_pdf_bill' , as: "client_pdf_bill"
+  get 'tin_numbers/download_tinnumber' => 'tin_numbers#download_tinnumber'
   
  # patch 'bills/pdf_format_select'
     
