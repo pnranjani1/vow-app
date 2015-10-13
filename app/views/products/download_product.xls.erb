@@ -1,0 +1,16 @@
+<table border=1>
+  <thead>
+    <tr>
+      <th style="background-color:steelblue">Product Name</th>
+      <th style="background-color:steelblue">Unit</th>      
+    </tr>
+  </thead>
+  <tbody>
+    <% @products.each do |product| %>
+       <tr>
+         <td><%= product.product_name %></td>
+         <td><%= product.units %></td>
+       </tr>
+    <% end %>
+  </tbody>  
+</table>

@@ -1,0 +1,16 @@
+<table border=1>
+  <thead>
+    <tr>
+      <th style="background-color:steelblue"> Tax Type</th>
+      <th style="background-color:steelblue">Tax Rate</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @taxes.each do |tax| %>
+     <tr>
+      <td><%= tax.tax_type %></td>
+      <td><%= tax.tax_rate %></td>
+     </tr>
+    <% end %>
+  </tbody>
+</table>

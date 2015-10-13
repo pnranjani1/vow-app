@@ -134,6 +134,10 @@ class CustomersController < ApplicationController
       end
     end
   end
+
+  def download_customer
+    @customers = Customer.where(:primary_user_id => [current_authuser.id, current_authuser.invited_by.id])
+  end
   
   private
   def set_params

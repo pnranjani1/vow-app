@@ -1,0 +1,16 @@
+<table border=1>
+  <thead>
+    <tr>
+      <th style="background-color:steelblue">Commodity Name</th>
+      <th style="background-color:steelblue">Commodity Code</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @main_categories.each do |category| %>
+     <tr>
+       <td><%= category.commodity_name %></td>
+       <td><%= category.commodity_code %></td>
+     </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -64,6 +64,13 @@
                </div> <!-- /.portlet-footer -->
               &nbsp;&nbsp;&nbsp; <%=  will_paginate  @taxes, renderer: BootstrapPagination::Rails , class: "apple_pagination" %>                
              </div> <!-- /.table-responsive -->
+            &nbsp;&nbsp;&nbsp;<%= link_to taxes_download_tax_path(format: "xls") do %>
+                                <button class="btn btn-success">
+                                  <span class="glyphicon glyphicon-cloud-download"></span>
+                                  &nbsp; Available Tax Types
+                                </button>
+                              <% end %>
+            <br/><br/>
             </div> <!-- /.portlet-content -->
            </div> <!-- /.portlet -->
          </div> <!-- /.row -->

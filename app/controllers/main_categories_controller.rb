@@ -85,7 +85,11 @@ class MainCategoriesController < ApplicationController
   
   def category_import_report
     @category = MainCategory.new 
-    end
+  end
+
+  def download_commodity
+    @main_categories = MainCategory.all
+  end
   
   private
   def set_params

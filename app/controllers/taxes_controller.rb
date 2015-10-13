@@ -50,6 +50,11 @@ class TaxesController < ApplicationController
     redirect_to taxes_path
   end
 
+  def download_tax
+    @taxes = Tax.all
+  end
+
+
 
   private
   

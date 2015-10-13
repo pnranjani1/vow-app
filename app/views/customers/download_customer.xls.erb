@@ -1,0 +1,16 @@
+<table border=1>
+  <thead>
+    <tr>
+      <th style="background-color:steelblue">Customer Name</th>
+      <th style="background-color:steelblue">Tin Number</th>      
+    </tr>
+  </thead>
+  <tbody>
+    <% @customers.each do |customer| %>
+       <tr>
+         <td><%= customer.name %></td>
+         <td><%= customer.tin_number %></td>
+       </tr>
+    <% end %>
+  </tbody>  
+</table>

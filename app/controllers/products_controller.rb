@@ -165,6 +165,10 @@ class ProductsController < ApplicationController
       end
     end
   end
+
+  def download_product
+    @products = Product.where(:primary_user_id => [current_authuser.id, current_authuser.invited_by.id])
+  end
   
  private
     
