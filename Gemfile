@@ -58,6 +58,7 @@ group :development, :test do
   gem 'sqlite3'
   gem 'hirb'
   gem 'quiet_assets'
+  gem 'rails-erd'
  end
 
 group :production do

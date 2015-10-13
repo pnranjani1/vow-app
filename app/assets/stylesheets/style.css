@@ -434,7 +434,7 @@ h2 {
     -webkit-box-shadow: 0 1px 5px 0 rgba(0,0,0,.3);
     box-shadow: 0 1px 5px 0 rgba(0,0,0,.3);
     text-align: center;
-    border: 1px solid gray;
+    border: 1px solid lightgray;
     margin-top: 110px;
     /* border-top: 1px solid gray;*/ 
 }
