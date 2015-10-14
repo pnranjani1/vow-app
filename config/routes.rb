@@ -110,6 +110,7 @@ Rails.application.routes.draw do
   get 'main_categories/download_commodity' => 'main_categories#download_commodity'
   get 'products/download_product' => "products#download_product"
   get 'customers/download_customer' => "customers#download_customer"
+  get 'bills/download_excel' => 'bills#download_excel'
   
  # patch 'bills/pdf_format_select'
     

@@ -31,8 +31,12 @@ class ProductsController < ApplicationController
         @product.authuser_id = current_authuser.id
       end
       params[:usercategory_id] = @product.usercategory_id
-      user_products = Product.where(:primary_user_id => [current_authuser.id, current_authuser.invited_by.id])
-      products = user_products.pluck(:product_name)
+     if current_authuser.main_roles.first.role_name == "secondary_user"
+      @user_products = Product.where(:primary_user_id => [current_authuser.id, current_authuser.invited_by.id])
+     else
+       @user_products = Product.where(:primary_user_id => current_authuser.id)
+     end
+      products = @user_products.pluck(:product_name)
       if products.any?{|product| product.downcase.gsub(/\s/, "")["#{params[:product][:product_name].downcase.gsub(/\s/,"")}"]}
         redirect_to products_product_user_path
         flash[:alert] = "#{params[:product][:product_name]} is already added" 
@@ -152,8 +156,12 @@ class ProductsController < ApplicationController
     @product = Product.new     
     @product.authuser_id = current_authuser.id
     @product.primary_user_id = current_authuser.invited_by_id
-    user_products = Product.where(:primary_user_id => [current_authuser.id, current_authuser.invited_by.id])
-    products = user_products.pluck(:product_name)
+    if current_authuser.main_roles.first.role_name == "secondary_user"
+      @user_products = Product.where(:primary_user_id => [current_authuser.id, current_authuser.invited_by.id])
+    else
+      @user_products = Product.where(:primary_user_id => current_authuser.id)
+    end
+    products = @user_products.pluck(:product_name)
     if products.any?{|product| product.downcase.gsub(/\s/,"")["#{params[:product][:product_name].downcase.gsub(/\s/,"")}"]}
       redirect_to new_bill_path
     flash[:alert] = "#{params[:product][:product_name]} is already added"
@@ -167,7 +175,11 @@ class ProductsController < ApplicationController
   end
 
   def download_product
-    @products = Product.where(:primary_user_id => [current_authuser.id, current_authuser.invited_by.id])
+    if current_authuser.main_roles.first.role_name == "secondary_user"
+      @products = Product.where(:primary_user_id => [current_authuser.id, current_authuser.invited_by.id])
+    else
+      @products = Product.where(:primary_user_id => current_authuser.id)
+    end
   end
   
  private

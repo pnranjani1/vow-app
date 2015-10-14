@@ -162,21 +162,31 @@ class BillsController < ApplicationController
      if current_authuser.main_roles.first.role_name == "secondary_user"
         primary_user_id = current_authuser.invited_by_id
         @user_bills = Bill.where('authuser_id =? OR primary_user_id =? ', primary_user_id, primary_user_id).paginate(:page => params[:page], :per_page => 5).order('created_at DESC')
+       user_bills = Bill.where('authuser_id =? OR primary_user_id =? ', primary_user_id, primary_user_id)
        respond_to do |format|
          format.html
          format.xml 
-         format.csv { send_data @user_bills.to_csv, :filename => '<bills>.csv' }
+         format.csv { send_data user_bills.to_csv, :filename => '<bills>.csv' }
          format.xls 
        end
      else
         @user_bills = Bill.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id).paginate(:page => params[:page], :per_page => 5).order('created_at DESC')
+        user_bills = Bill.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id)
          respond_to do |format|
            format.html
            format.xml 
-           format.csv { send_data @user_bills.to_csv, :filename => '<bills>.csv' }
+           format.csv { send_data user_bills.to_csv, :filename => '<bills>.csv' }
            format.xls 
          end
      end
+  end
+
+  def download_excel
+    if current_authuser.main_roles.first.role_name == "secondary_user"
+      @user_bills = Bill.where(:primary_user_id => [current_authuser.id, current_authuser.invited_by.id])
+    else
+      @user_bills = Bill.where(:primary_user_id => current_authuser.id)
+    end
   end
      
    def bill_local_sales_reports

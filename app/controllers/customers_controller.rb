@@ -29,8 +29,12 @@ class CustomersController < ApplicationController
       @customer.authuser_id = current_authuser.id
       @customer.primary_user_id = current_authuser.id
     end
-    user_customers = Customer.where(:primary_user_id => [current_authuser.id, current_authuser.invited_by.id])
-    customers = user_customers.pluck(:name)
+    if current_authuser.main_roles.first.role_name == "secondary_user"
+      @user_customers = Customer.where(:primary_user_id => [current_authuser.id, current_authuser.invited_by.id])
+    else 
+      @user_customers = Customer.where(:primary_user_id => current_authuser.id)
+    end
+    customers = @user_customers.pluck(:name)
     if customers.any?{|customer| customer.downcase.gsub(/\s/,"")["#{params[:customer][:name].downcase.gsub(/\s/,"")}"]}
       redirect_to customers_user_customer_path
       flash[:alert] = "Customer is already added"
@@ -120,8 +124,12 @@ class CustomersController < ApplicationController
     @customer = Customer.new
     @customer.authuser_id = current_authuser.id
     @customer.primary_user_id = current_authuser.invited_by_id
-    user_customers = Customer.where(:primary_user_id => [current_authuser.id, current_authuser.invited_by.id])
-    customers = user_customers.pluck(:name)
+    if current_authuser.main_roles.first.role_name == "secondary_user"
+       @user_customers = Customer.where(:primary_user_id => [current_authuser.id, current_authuser.invited_by.id])
+    else
+      @user_customers = Customer.where(:primary_user_id => current_authuser.id)
+    end
+    customers = @user_customers.pluck(:name)
     if customers.any?{|customer| customer.downcase.gsub(/\s/,"")["#{params[:customer][:name].downcase.gsub(/\s/,"")}"]}
       #redirect_to customers_user_customer_path
       redirect_to new_bill_path
@@ -136,7 +144,11 @@ class CustomersController < ApplicationController
   end
 
   def download_customer
-    @customers = Customer.where(:primary_user_id => [current_authuser.id, current_authuser.invited_by.id])
+    if current_authuser.main_roles.first.role_name == "secondary_user"
+       @customers = Customer.where(:primary_user_id => [current_authuser.id, current_authuser.invited_by.id])
+    else
+      @customers = Customer.where(:primary_user_id => current_authuser.id)
+    end
   end
   
   private

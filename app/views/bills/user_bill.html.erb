@@ -36,7 +36,7 @@
                                     <%= bill.invoice_number %>/
                                 <% end %>
                                 
-                               <%=  bill.tax_type %> /
+                                <%=  bill.tax_type %> /
                                 <% if bill.esugam.present? %>
                                     Esugam Generated - <%= bill.esugam %>
                                 <% else %>
@@ -56,7 +56,7 @@
                       <div class="row">
                         
                         <div class="col-md-1">
-                          <%= link_to bills_user_bill_path(format: "xls"), title: 'Download Excel' do %>
+                          <%= link_to bills_download_excel_path(format: "xls"), title: 'Download Excel' do %>
                               <button class="btn btn-success">
                                 <span class="glyphicon glyphicon-cloud-download"></span>
                                 &nbsp; Excel</button> 
