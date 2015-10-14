@@ -42,24 +42,17 @@
         </script>
       
         <script type="text/javascript">
-           $(function() {
-             $('#dob').datepicker( {
-               changeMonth: true,
-               changeYear: true,
-               showButtonPanel: true,
-               dateFormat: 'dd/mm/yy',
-               maxDate: '-18Y',
-               onClose: function(dateText, inst) { 
-                var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
-                var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
-                $(this).datepicker('setDate', new Date(year, month, 1));
-               }
-             });
-           });
+          $(document).ready(function(){
+            $("#dob").datepicker({
+              dateFormat: "dd/mm/yy" ,
+              changeMonth: true,
+              changeYear: true,
+              changeDate: true,
+              maxDate: '-18Y'
+            });        
+          });
         </script>
-        
-   
-
+      
         <%= form_for resource, :as => resource_name, :url => invitation_path(resource_name), :html => { :method => :put } do |f| %>
            <%= devise_error_messages! %>
            <%= f.hidden_field :invitation_token %>
@@ -109,11 +102,9 @@
                         <div class="row">
                           <div class="col-sm-3">           
                             Date Of Birth(Format: dd/mm/yyyy)&nbsp;<b style="color:red">*</b>
-                              <div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Enter Your Date of Birth">
-                                <div id="Password" class="input-group">               
+                              <div id="Password" class="input-group">               
                                   <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                   <%= f.text_field :date_of_birth ,  class: "form-control", :id => "dob" , required: true, readonly: true %>
-                                 </div>
                               </div> <!-- /.col -->
                               <% if primary_user.main_roles.first.role_name == "user" %>
                                 <%= f.hidden_field :approved, :value => true %>
