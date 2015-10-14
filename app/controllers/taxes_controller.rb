@@ -17,6 +17,7 @@ class TaxesController < ApplicationController
       redirect_to taxes_path
       flash[:alert] = "#{params[:tax][:tax_type] + params[:tax][:tax_rate].to_s} is already added"
     else
+      @tax.tax_type = params[:tax][:tax_type].upcase
       if @tax.save
          redirect_to taxes_path
          flash[:notice] = "Tax Created Successfully!"
