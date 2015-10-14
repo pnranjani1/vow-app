@@ -45,6 +45,7 @@ class Customer < ActiveRecord::Base
         customer.authuser_id = current_authuser
       else
         customer.authuser_id = current_authuser
+        customer.primary_user_id = current_authuser
       end
       customer.save!
     end

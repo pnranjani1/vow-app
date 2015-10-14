@@ -46,6 +46,7 @@ class Product < ActiveRecord::Base
         product.authuser_id = current_authuser
       else
         product.authuser_id = current_authuser
+        product.primary_user_id = current_authuser
       end
         product.product_name = row["Product Name"]
         product.units = row["Units"]
