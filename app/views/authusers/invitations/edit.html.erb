@@ -34,12 +34,31 @@
       <br>
         <script type="text/javascript">
           $(document).ready(function(){
-             $("#dob").datepicker({ 
+             $("#dob1").datepicker({ 
                dateFormat: "dd/mm/yy",
                maxDate: '-18Y'
              });
           });
         </script>
+      
+        <script type="text/javascript">
+           $(function() {
+             $('#dob').datepicker( {
+               changeMonth: true,
+               changeYear: true,
+               showButtonPanel: true,
+               dateFormat: 'dd/mm/yy',
+               maxDate: '-18Y',
+               onClose: function(dateText, inst) { 
+                var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+                var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+                $(this).datepicker('setDate', new Date(year, month, 1));
+               }
+             });
+           });
+        </script>
+        
+   
 
         <%= form_for resource, :as => resource_name, :url => invitation_path(resource_name), :html => { :method => :put } do |f| %>
            <%= devise_error_messages! %>

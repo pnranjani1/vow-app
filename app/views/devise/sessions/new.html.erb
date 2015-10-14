@@ -35,8 +35,15 @@
             <div class="register">
                <% if alert %>
                  <div class="row">
-                   <div class="col-md-9">
+                   <div class="col-md-12">
                      <div class="alert alert-danger"><%= alert %></div>
+                   </div>
+                 </div>
+               <% end %>
+               <% if notice %>
+                 <div class="row">
+                   <div class="col-md-12">
+                     <div class="alert alert-success"><%= notice %></div>
                    </div>
                  </div>
                <% end %>

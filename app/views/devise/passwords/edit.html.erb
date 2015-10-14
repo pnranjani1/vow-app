@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,67 +25,55 @@
 </header>
   <br/><p>
   
-<div class="container">
-<div class="content">
-<div class="content-container">      
   
-<div class="row"> 
-<div class="portlet">
+<div class="content"> 
+ <div class="register-container container">
+   <div class="row"> 
+       <div class="covrpage">         
+          <div class="register">
+            <% if devise_error_messages!.present? %>
+                 <div class="row">
+                   <div class="col-md-9">
+                     <div class="alert alert-danger"><%= devise_error_messages! %></div>
+                   </div>
+                 </div>
+               <% end %>
+              
+               <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
+               <%= f.hidden_field :reset_password_token %>
+                  <h2>Change Password</h2>
+               
+                    <label>New Password</label>
+                    <%= f.password_field :password, autofocus: true, required: true, minlength: 8,  placeholder: 'Enter New Password' %> 
+                        
+                    <label>Confirm Password</label>
+                    <%= f.password_field :password_confirmation, autocomplete: "off", minlength: 8, required: true, placeolder: 'Confirm Password' %>
+                    <br/><br/>
+                    <%= f.submit "Change my password" , class: "grenbutton" %><br/><p>
+               <% end %>  
+          </div><!-- register ends  -->
+       </div><!-- covrpage ends -->
+     </div><!-- row ends  -->
+    </div><!-- register container ends  -->
+   </div><!-- content ends -->
 
-<div class="portlet-header">
-<h3><i class="fa fa-user"></i>Change Password</h3>
-</div> <!-- /.portlet-header -->
-
-<div class="portlet-content">
-        
- <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
-  <%= devise_error_messages! %>
-  <%= f.hidden_field :reset_password_token %>
-
-<div class="col-sm-8"> 
-  
-<div class="row">  
-<label class="col-md-3">New Password</label>
-<div class="col-md-6">
-<div id="name" class="input-group">               
-<%= f.password_field :password, autofocus: true, autocomplete: "off", class: "form-control" %>
-<span class="input-group-addon"><i class="fa fa-user"></i></span>
-</div>
-</div>
-</div>
-<br>
-  
-<div class="row">
-<label class="col-md-3"> Confirm Password</label>
-<div class="col-md-6">
-<div id="name" class="input-group">               
-<%= f.password_field :password_confirmation, autocomplete: "off", class: "form-control" %>
-<span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
-</div>
-</div>
-</div>
-<br>
-
-  
-<div class="row">
-<div class="col-md-3"></div>
-<div class="col-md-6">
-  <%= f.submit "Change my password" , class: "btn btn-success" %><br/><p>
-    <!-- <%= render "devise/shared/links" %> -->
-</div>
-</div>
-  
-</div><!-- col-sm-8 ends here -->
-    <% end %>
+   <!--footer-->
+   <footer>
+    <div class="container">
+      <div class="row">
+       <div class="col-lg-9 col-md-6 col-sm-12 wow fadeInUp"> 
+          <div class="title">&copy; 2015 vatonwheels.com</div>
+          <p class="prev"><a href="index-5.html"></a></p>                 
+       </div>  <!-- col ends -->
+   
+       <div class="col-lg-3 col-md-6 col-sm-12 wow fadeInUp">                             
+         <div class="title">
+           Design and Developed by &nbsp;&nbsp;<%= link_to "iPrimitus.com", "http://iprimitus.com", class: "indextitle" , target: "blank" %>
+         </div>
+       </div><!-- col lg ends -->
+      </div><!-- row ends -->
+    </div><!-- container ends here -->
+   </footer>
+ </body>
+</html>
  
-</div><!-- portlet eontent ends here -->
-</div><!-- portlet ends here -->
-</div><!-- row ends here -->
-
-</div><!-- content conatiner ends here -->
-</div><!-- content ends here -->
-</div><!-- container ends here -->
-
-  </body>
-  </html>
-

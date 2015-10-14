@@ -43,9 +43,9 @@ class AuthusersController < ApplicationController
     if @user.update_attributes(set_params)
      # flash[:notice]=  "Password updated successfully"
       if current_authuser.main_roles.first.role_name == 'client'
-redirect_to dashboards_client_dashboard_path
+        redirect_to dashboards_client_dashboard_path
       elsif current_authuser.main_roles.first.role_name == 'user'
-       redirect_to dashboards_user_dashboard_path
+        redirect_to dashboards_user_dashboard_path
       elsif current_authuser.main_roles.first.role_name == 'secondary_user'
         redirect_to dashboards_secondary_user_dashboard_path
       end
