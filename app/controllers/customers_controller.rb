@@ -37,7 +37,7 @@ class CustomersController < ApplicationController
     customers = @user_customers.pluck(:name)
     if customers.any?{|customer| customer.downcase.gsub(/\s/,"")["#{params[:customer][:name].downcase.gsub(/\s/,"")}"]}
       redirect_to customers_user_customer_path
-      flash[:alert] = "Customer is already added"
+    flash[:alert] = "#{params[:customer][:name]} is already added"
     else    
       if @customer.save
         redirect_to customers_user_customer_path
@@ -133,7 +133,7 @@ class CustomersController < ApplicationController
     if customers.any?{|customer| customer.downcase.gsub(/\s/,"")["#{params[:customer][:name].downcase.gsub(/\s/,"")}"]}
       #redirect_to customers_user_customer_path
       redirect_to new_bill_path
-      flash[:alert] = "Customer is already added"
+    flash[:alert] = "#{params[:customer][:name]} is already added"
     else  
       if @customer.update_attributes(set_params)
          redirect_to new_bill_path
