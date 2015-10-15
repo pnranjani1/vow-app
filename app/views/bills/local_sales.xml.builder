@@ -51,6 +51,9 @@ xml.Saledetails do |saledetails|
           if (!service_tax.empty?) && (bill.other_charges != nil)
             service_tax_total = bill.line_items.sum(:service_tax_amount)
             xml.OthCh (bill.other_charges + service_tax_total)
+          elsif service_tax.present?
+            service_tax_total = bill.line_items.sum(:service_tax_amount)
+            xml.OthCh service_tax_total
           elsif bill.other_charges.present?
             xml.OthCh bill.other_charges 
           else

@@ -48,6 +48,9 @@ xml.ISSale do
         if (!service_tax.empty?) && (bill.other_charges != nil)
           service_tax = bill.line_items.sum(:service_tax_amount)
           xml.OthCh (bill.other_charges + service_tax)
+        elsif service_tax.present? 
+          service_tax = bill.line_items.sum(:service_tax_amount)
+          xml.OthCh service_tax
         elsif bill.other_charges.present?
           xml.OthCh bill.other_charges 
         else

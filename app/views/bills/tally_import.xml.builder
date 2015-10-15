@@ -73,6 +73,9 @@ xml.ENVELOPE do
                      xml.LEDGERNAME bill.other_charges_information.other_charges 
                      service_tax = bill.line_items.sum(:service_tax_amount)
                      xml.AMOUNT (bill.other_charges + service_tax)
+                   elsif service_tax.present? 
+                     service_amount = bill.line_items.sum(:service_tax_amount)
+                     xml.AMOUNT service_amount
                    elsif bill.other_charges.present?
                      xml.LEDGERNAME bill.other_charges_information.other_charges 
                      xml.AMOUNT bill.other_charges 
