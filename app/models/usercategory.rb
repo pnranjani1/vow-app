@@ -17,11 +17,19 @@ class Usercategory < ActiveRecord::Base
   #Below written multiple queries can be more compacted ingo a single join query.
   #But  for now let's use multiple queries.
   def self.available_categories(current_user) 
-    commodities = Usercategory.where(:primary_user_id => [Authuser.current.id, Authuser.current.invited_by.id])
-    #assigned_cat = current_user.usercategories.pluck(:main_category_id)
-    assigned_cat = commodities.pluck(:main_category_id)
-    available_categories = MainCategory.select('id, commodity_name').where.not(id: assigned_cat)
-    available_categories #returning available_categories
+    if Authuser.current.main_roles.first.role_name == "secondary_user"
+        commodities = Usercategory.where(:primary_user_id => [Authuser.current.id, Authuser.current.invited_by.id])
+        #assigned_cat = current_user.usercategories.pluck(:main_category_id)
+        assigned_cat = commodities.pluck(:main_category_id)
+        available_categories = MainCategory.select('id, commodity_name').where.not(id: assigned_cat)
+        available_categories #returning available_categories
+    else
+        commodities = Usercategory.where(:primary_user_id => Authuser.current.id)
+        #assigned_cat = current_user.usercategories.pluck(:main_category_id)
+        assigned_cat = commodities.pluck(:main_category_id)
+        available_categories = MainCategory.select('id, commodity_name').where.not(id: assigned_cat)
+        available_categories #returning available_categories
+    end
   end
   
  end
