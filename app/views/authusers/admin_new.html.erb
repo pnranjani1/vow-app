@@ -68,7 +68,7 @@
                             Email&nbsp;<b style="color:red">*</b>
                                <div id="email" class="input-group">               
                                   <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-                                  <%= f.text_field :email , required: true,  class: "form-control" %>
+                                 <%= f.email_field :email , required: true,  class: "form-control" %>
                                </div>
                           </div> <!-- /.col -->
  
@@ -108,7 +108,7 @@
   
                           <%= f.fields_for :clients do |user_client| %>
                              <div class="col-sm-3">           
-                                Company
+                                Company&nbsp;<b style="color:red">*</b>
                                 <div id="Remarks" class="input-group">     
                                     <span class="input-group-addon"><i class="fa fa-building-o"></i></span>
                                     <%= user_client.text_field :company, required: true, maxlength: 40,  class: "form-control" %>
@@ -264,7 +264,7 @@
                                         <div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Should be 10 Digits">
                                           <div id="phone" class="input-group">      
                                               <span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
-                                              <%= user_membership.text_field :phone_number , :maxlength => 10,  class: "form-control", required: true %>
+                                            <%= user_membership.text_field :phone_number , minlength:10,  :maxlength => 10,  class: "form-control", required: true %>
                                           </div>
                                         </div>
                                    </div> <!-- /.col -->
@@ -290,7 +290,7 @@
                                         <div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Should be 11 Digits">
                                           <div id="number" class="input-group"> 
                                             <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
-                                            <%= user.text_field :tin_number, :value => "12345678901", :maxlength => 11, class: "form-control" %>
+                                            <%= user.text_field :tin_number, :value => "12345678901", minlength: 11, :maxlength => 11, class: "form-control" %>
                                           </div>
                                         </div>
                                    </div> <!-- /.col -->
@@ -299,7 +299,7 @@
                                       Esugam Username&nbsp;<b style="color:red">*</b>
                                         <div id="name" class="input-group" >        
                                            <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                                           <%= user.text_field :esugam_username, :value => "esugamuser", class: "form-control" %>
+                                           <%= user.text_field :esugam_username, :value => "esugamuser", class: "form-control", required: true %>
                                         </div>
                                    </div> <!-- /.col -->
             
@@ -307,7 +307,7 @@
                                       Esugam Password&nbsp;<b style="color:red">*</b>
                                         <div id="Password" class="input-group">   
                                           <span class="input-group-addon"><i class="fa fa-star"></i></span>
-                                          <%= user.password_field :esugam_password, :value => "esugampassword",class: "form-control" %>
+                                          <%= user.password_field :esugam_password, :value => "esugampassword",class: "form-control", required: true %>
                                         </div>
                                    </div> <!-- /.col -->
                                   <% end %>

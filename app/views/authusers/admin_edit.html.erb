@@ -67,7 +67,7 @@
                            Email&nbsp;<b style="color:red">*</b>
                              <div id="email" class="input-group">               
                                 <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-                                <%= f.text_field :email , :readonly => true,  class: "form-control" %>
+                               <%= f.email_field :email , :readonly => true,  class: "form-control" %>
                              </div>
                          </div> <!-- /.col -->
             
@@ -107,7 +107,7 @@
                                  <div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Should be 10 Digits">
                                    <div id="phone" class="input-group">      
                                       <span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
-                                      <%= user_membership.text_field :phone_number , :maxlength => 10,  required: true, class: "form-control" %>
+                                     <%= user_membership.text_field :phone_number , minlength: 10, :maxlength => 10,  required: true, class: "form-control" %>
                                    </div>
                                  </div>
                             </div> <!-- /.col -->
@@ -244,7 +244,7 @@
                                     <div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Should be 11 Digits">
                                        <div id="number" class="input-group"> 
                                           <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
-                                          <%= user.text_field :tin_number, :maxlength => 11, required: true, class: "form-control" %>
+                                         <%= user.text_field :tin_number, minlength: 10, :maxlength => 11, required: true, class: "form-control" %>
                                        </div>
                                     </div>
                               </div> <!-- /.col -->
@@ -268,7 +268,7 @@
   
                           <%= f.fields_for :clients do |user_client| %>
                              <div class="col-sm-3">           
-                               Company
+                               Company<b style="color:red">*</b>
                                 <div id="Remarks" class="input-group">     
                                   <span class="input-group-addon"><i class="fa fa-building-o"></i></span>
                                   <%= user_client.text_field :company, maxlength: 40, class: "form-control", required: true  %>

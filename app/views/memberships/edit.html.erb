@@ -1,109 +1,78 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width">
-
- 
-</head>
-
-<body>
 
  <div class="container">
- <div class="content">
- <div class="content-container">     
-   <div>
-     <h4 class="heading-inline">Membership Details</h4>        
-   </div>
- <br>
+  <div class="content">
+   <div class="content-container">     
+     <div>
+       <h4 class="heading-inline">Membership Details</h4>        
+     </div>
+     <br>
+     <div class="row"> 
+      <div class="portlet">
 
+        <div class="portlet-header">
+          <h3><i class="fa fa-calendar"></i> Amend Membership</h3>
+        </div> <!-- /.portlet-header -->
 
-<div class="row"> 
-<div class="portlet">
-
-<div class="portlet-header">
-<h3><i class="fa fa-user"></i> Amend Membership</h3>
-</div> <!-- /.portlet-header -->
-
-<div class="portlet-content">
+        <div class="portlet-content">
    
-  <script type="text/javascript">
-  $(document).ready(function(){
-     $("#start_date").datepicker({ dateFormat: "dd/mm/yy" }).val()
-    $("#end_date").datepicker({ dateFormat: "dd/mm/yy" }).val()     
-  });
-</script>
+         <script type="text/javascript">
+           $(document).ready(function(){
+             $("#start_date").datepicker({ dateFormat: "dd/mm/yy" }).val()
+             $("#end_date").datepicker({ dateFormat: "dd/mm/yy" }).val()     
+           });
+         </script>
   
-<%= form_for(@membership) do |f| %><br>
-<% if @membership.errors.any? %>
-<%= @membership.errors.full_messages %><br/><p>
-<% end %>
-<div class="col-sm-8"> 
+         <%= form_for(@membership) do |f| %><br>
+           <% if @membership.errors.any? %>
+             <%= @membership.errors.full_messages %><br/><p>
+           <% end %>
+          <div class="col-sm-8"> 
        
-<div class="row">
-<label class="col-md-3">Phone Number</label>
-<div class="col-md-6">
-<div id="name" class="input-group"> 
-<span class="input-group-addon"><i class="fa fa-phone"></i></span>
-<%= f.text_field :phone_number , class: "form-control" %> 
-</div>
-</div>
-</div>
- <br>
+            <div class="row">
+              <label class="col-md-3">Mobile Number</label>
+              <div class="col-md-6">
+                <div id="name" class="input-group"> 
+                  <span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
+                  <%= f.text_field :phone_number , class: "form-control", maxlength: 10 %> 
+                </div>
+              </div>
+            </div>
+            <br>
       
-<div class="row">
-<label class="col-md-3">Membership Start Date</label>
-<div class="col-md-6">
-<div id="name" class="input-group">               
-<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-  <%= f.text_field :membership_start_date, :value => f.object.membership_start_date.strftime("%d-%m-%Y"), class: "form-control", :id => "start_date" %>
-</div>
-</div>
-</div>
-<br>
+            <div class="row">
+              <label class="col-md-3">Membership Start Date</label>
+              <div class="col-md-6">
+                <div id="name" class="input-group">               
+                  <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                  <%= f.text_field :membership_start_date, :value => f.object.membership_start_date.strftime("%d-%m-%Y"), class: "form-control", :id => "start_date" %>
+                </div>
+              </div>
+            </div>
+            <br>
       
-<div class="row">
-<label class="col-md-3">Membership End Date</label>
-<div class="col-md-6">
-<div id="name" class="input-group">               
-<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-  <%= f.text_field :membership_end_date, :value => f.object.membership_end_date.strftime("%d-%m-%Y"), class: "form-control", :id => "end_date" %>
-</div>
-</div>
-</div>
-<br>
+            <div class="row">
+              <label class="col-md-3">Membership End Date</label>
+                <div class="col-md-6">
+                  <div id="name" class="input-group">               
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    <%= f.text_field :membership_end_date, :value => f.object.membership_end_date.strftime("%d-%m-%Y"), class: "form-control", :id => "end_date" %>
+                  </div>
+                </div>
+            </div>
+            <br>
              
-               
-<div class="row">
-<div class="col-md-3"></div>
-<div class="col-md-6">
-<%= f.submit "Update Membership" , class: "btn btn-success" %> 
-  <% end %>
- </div>
-</div>
-   
-   
-
-</div>
-
-
-
-            
-</div> <!-- /.portlet-content -->
-</div> <!-- /.portlet -->
-</div> <!-- /.row -->
-  
- 
-
-   
-   </div><!-- content container ends here -->
+            <div class="row">
+              <div class="col-md-3"></div>
+                <div class="col-md-6">
+                   <%= f.submit "Update Membership" , class: "btn btn-success" %> 
+                </div>
+              </div>
+            </div>
+         <% end %>
+        </div> <!-- /.portlet-content -->
+       </div> <!-- /.portlet -->
+     </div> <!-- /.row -->
+    </div><!-- content container ends here -->
    </div><!-- content ends here -->
-  </div><!-- container ends here -->
+ </div><!-- container ends here -->
   
-  </body>
-  </html>
-
-
-
- 

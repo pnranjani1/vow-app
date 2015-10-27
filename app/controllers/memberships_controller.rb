@@ -24,10 +24,14 @@ class MembershipsController < ApplicationController
    end
   
   def edit
+    if current_authuser.main_roles.first.role_name == "admin"
+      render layout: "application"
+    elsif (current_authuser.main_roles.first.role_name == "client" || current_authuser.main_roles.first.role_name == "user")
+      render layout: "menu"
+    end
     @membership = Membership.find(params[:id])
   #  @current_authuser_clients = Client.where(:created_by => current_authuser.id)
   end
-  
   
   def update
       @membership = Membership.find(params[:id])
