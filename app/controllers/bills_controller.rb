@@ -34,8 +34,7 @@ class BillsController < ApplicationController
        #@user_products = Product.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id).paginate(:page => params[:page], :per_page => 5).order('created_at DESC')
        @user_products = Product.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id)
       end
-    
-  end
+   end
   
   
   def create  

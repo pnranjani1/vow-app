@@ -216,12 +216,15 @@ class Bill < ActiveRecord::Base
     else
       @other_charges = @bill.line_items.sum(:service_tax_amount)
     end
-   # @commodity_name =  @bill.products.first.usercategory.main_category.commodity_name   
-    #@total_amount = @bill.total_bill_price - @bill.discount
-    #@tax_amount = @bill.line_items.sum(:tax_rate).round(2)
-    #service_tax_total = @bill.line_items.sum(:service_tax_amount).round(2)
-    #other_amount = @bill.other_charges
-    #@other_charges_amount = other_amount + service_tax_total
+    
+=begin
+    @commodity_name =  @bill.products.first.usercategory.main_category.commodity_name   
+    @total_amount = @bill.total_bill_price - @bill.discount
+    @tax_amount = @bill.line_items.sum(:tax_rate).round(2)
+    service_tax_total = @bill.line_items.sum(:service_tax_amount).round(2)
+    other_amount = @bill.other_charges
+    @other_charges_amount = other_amount + service_tax_total
+=end
       
    
     begin
@@ -235,7 +238,7 @@ class Bill < ActiveRecord::Base
       text = captcha.text
      # puts user.users.first.esugam_username
       #puts user.users.first.esugam_password
-      #puts text
+      puts text
       
       
         #  login credentials for primary and secondary user
@@ -251,28 +254,29 @@ class Bill < ActiveRecord::Base
           browser.close
         else
           #the following code is for each login error seperately
-      #if (!browser.text.include? "Login Failed ...Try again") 
-       #   self.update_attribute(:error_message,  "Login Failed. Check your VAT website credentials and try again")
-       # browser.close
-      #elsif browser.text.include? "Please enter the captcha."
-       #` self.update_attribute(:error_message,  "Please enter captcha and try again")
-       # browser.close
-      #elsif browser.text.include? "Invalid Captcha Characters."
-       # self.update_attribute(:error_message,  "Invalid captcha and try again")
-        #browser.close
-      #else
-          #login error ends
+           #if (!browser.text.include? "Login Failed ...Try again") 
+            # self.update_attribute(:error_message,  "Login Failed. Check your VAT website credentials and try again")
+             #browser.close
+           #elsif browser.text.include? "Please enter the captcha."
+            # self.update_attribute(:error_message,  "Please enter captcha and try again")
+             #browser.close
+           #elsif browser.text.include? "Invalid Captcha Characters."
+           #  self.update_attribute(:error_message,  "Invalid captcha and try again")
+           # browser.close
+           #else
+             #login error ends
           
           #primary link code to go to the form
-          # browser.button(:id, "ctl00_MasterContent_btnContinue").click   
-          #browser.img(:alt, "Expand e-SUGAM Forms").hover 
-          #sleep 1
-          #browser.link(:href, "/vat1/CheckInvoiceEnabled.aspx?Form=ESUGAM1").click
-          #browser.button(:id, "ctl00_MasterContent_btn_ok").click
-          #browser.img(:alt, "Expand e-SUGAM Forms").hover 
-         # sleep 1
-         # browser.link(:href, "/vat1/CheckInvoiceEnabled.aspx?Form=ESUGAM1").click
+           #browser.button(:id, "ctl00_MasterContent_btnContinue").click   
+           #browser.img(:alt, "Expand e-SUGAM Forms").hover 
+           #sleep 1
+           #browser.link(:href, "/vat1/CheckInvoiceEnabled.aspx?Form=ESUGAM1").click
+           #browser.button(:id, "ctl00_MasterContent_btn_ok").click
+           #browser.img(:alt, "Expand e-SUGAM Forms").hover 
+           #sleep 1
+           #browser.link(:href, "/vat1/CheckInvoiceEnabled.aspx?Form=ESUGAM1").click
           #primary link ends 
+
           
           #code for secondary link to go to form
           browser.link(:id, "LinkButton1").click   
