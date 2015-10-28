@@ -331,7 +331,7 @@ class Bill < ActiveRecord::Base
                     if esugam.include? "Prop/Comp. Name: "
                       file = File.new("app/assets/images/vat-error" + self.authuser.id.to_s + ".png", "a+")   
                       browser.screenshot.save file
-                      self.update_attributes(error_message: file.to_s)
+                      self.update_attributes(esugam: file.to_s)
                       logger.error "esugam not generated due to incomplete form submission"
                     else
                       self.update_attributes(esugam: esugam)
@@ -343,10 +343,10 @@ class Bill < ActiveRecord::Base
                  else
                     file = File.new("app/assets/images/vaterror" + self.authuser.id.to_s + ".png", "a+")
                     browser.screenshot.save file
-                    self.update_attributes(error_message: file.to_s)
+                    self.update_attributes(esugam: file.to_s)
                 end  
           else # if commodity is not in list else
-             self.update_attributes(error_message: "Selected Commodity is not added in VAT Site")
+            self.update_attributes(esugam: "Selected Commodity is not added in VAT Site")
              browser.close
           end # commodity not in list end 
         #else # login else
