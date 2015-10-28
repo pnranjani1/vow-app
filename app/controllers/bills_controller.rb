@@ -27,11 +27,12 @@ class BillsController < ApplicationController
     @user = current_authuser   
      if current_authuser.main_roles.first.role_name == "secondary_user"
         primary_user_id = current_authuser.invited_by_id
-       @user_customers = Customer.where('authuser_id =? OR primary_user_id =? ', primary_user_id, primary_user_id).paginate(:page => params[:page], :per_page => 5).order('created_at DESC')
-       @user_products = Product.where('authuser_id =? OR primary_user_id =? ', primary_user_id, primary_user_id).paginate(:page => params[:page], :per_page => 5).order('created_at DESC')
+       @user_customers = Customer.where('authuser_id =? OR primary_user_id =? ', primary_user_id, primary_user_id)
+       @user_products = Product.where('authuser_id =? OR primary_user_id =? ', primary_user_id, primary_user_id)
       else
-       @user_customers = Customer.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id).paginate(:page => params[:page], :per_page => 5).order('created_at DESC')
-       @user_products = Product.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id).paginate(:page => params[:page], :per_page => 5).order('created_at DESC')
+       @user_customers = Customer.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id)
+       #@user_products = Product.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id).paginate(:page => params[:page], :per_page => 5).order('created_at DESC')
+       @user_products = Product.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id)
       end
     
   end
@@ -45,11 +46,11 @@ class BillsController < ApplicationController
     @user = current_authuser  
      if current_authuser.main_roles.first.role_name == "secondary_user"
         primary_user_id = current_authuser.invited_by_id
-       @user_customers = Customer.where('authuser_id =? OR primary_user_id =? ', primary_user_id, primary_user_id).paginate(:page => params[:page], :per_page => 5).order('created_at DESC')
-       @user_products = Product.where('authuser_id =? OR primary_user_id =? ', primary_user_id, primary_user_id).paginate(:page => params[:page], :per_page => 5).order('created_at DESC')
+       @user_customers = Customer.where('authuser_id =? OR primary_user_id =? ', primary_user_id, primary_user_id)
+       @user_products = Product.where('authuser_id =? OR primary_user_id =? ', primary_user_id, primary_user_id)
       else
-       @user_customers = Customer.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id).paginate(:page => params[:page], :per_page => 5).order('created_at DESC')
-       @user_products = Product.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id).paginate(:page => params[:page], :per_page => 5).order('created_at DESC')
+       @user_customers = Customer.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id)
+       @user_products = Product.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id)
       end
     
     if current_authuser.main_roles.first.role_name == "secondary_user"
