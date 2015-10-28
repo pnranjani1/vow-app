@@ -205,52 +205,81 @@ class Bill < ActiveRecord::Base
     end
     user_id = @bill.primary_user_id
     user = Authuser.where(:id => user_id).first
-   # @commodity_name =  @bill.products.first.usercategory.main_category.commodity_name   
-    @total_amount = @bill.total_bill_price
-    service_tax_amount = @bill.line_items.pluck(:service_tax_amount).compact
-    if @bill.other_charges_information_id != nil && @bill.other_charges != nil  && service_tax_amount != empty
-      service_tax = @bill.line_items.sum(:service_tax_amount)
-      @total_amount += (@bill.other_charges + service_tax)
-    elsif @bill.other_charges_information_id != nil && @bill.other_charges != nil
-      @total_amount += @bill.other_charges
+    
+    if @bill.discount.present?
+      @total_amount = @bill.total_bill_price - @bill.discount
+    else
+      @total_amount = @bill.total_bill_price
     end
+    if @bill.other_charges != nil
+      @other_charges = @bill.other_charges + @bill.line_items.sum(:service_tax_amount)
+    else
+      @other_charges = @bill.line_items.sum(:service_tax_amount)
+    end
+   # @commodity_name =  @bill.products.first.usercategory.main_category.commodity_name   
+    #@total_amount = @bill.total_bill_price - @bill.discount
+    #@tax_amount = @bill.line_items.sum(:tax_rate).round(2)
+    #service_tax_total = @bill.line_items.sum(:service_tax_amount).round(2)
+    #other_amount = @bill.other_charges
+    #@other_charges_amount = other_amount + service_tax_total
+      
    
     begin
       browser = Watir::Browser.new :phantomjs
-      browser.goto "http://164.100.80.121/vat1/"
+      # browser.goto "http://164.100.80.121/vat1/" - primary link 
+      browser.goto "http://sugam.kar.nic.in/"
       file1 = File.new("app/assets/images/cap" + self.authuser.id.to_s + ".png", "a+")
-      browser.div(:class, "log").images[0].screenshot(file1) # not supported in watir webdriver
+      browser.div(:class, "log").images[0].screenshot(file1) 
       client = DeathByCaptcha.new('ranjanin', 'Abcd1234$', :http)
       captcha = client.decode!(path: "app/assets/images/cap" + self.authuser.id.to_s + ".png")
       text = captcha.text
+     # puts user.users.first.esugam_username
+      #puts user.users.first.esugam_password
+      #puts text
       
       
         #  login credentials for primary and secondary user
         user_id = @bill.primary_user_id
         user = Authuser.where(:id => user_id).first
-       
-    
+        
         browser.text_field(:id, "UserName").set(user.users.first.esugam_username)
-      browser.text_field(:id, "Password").set(user.users.first.esugam_password)   
+        browser.text_field(:id, "Password").set(user.users.first.esugam_password)   
         browser.text_field(:id, "txtCaptcha").set(text)
         browser.button(:value,"Login").click
-        if ((!browser.text.include? "Login Failed")  || (!browser.text.include? "Please enter the captcha") || (!browser.text.include? "Invalid Captcha Characters"))
-          browser.button(:id, "ctl00_MasterContent_btnContinue").click   
+        if ((browser.text.include? "Login Failed ...Try again")  || (browser.text.include? "Please enter the captcha.") || (browser.text.include? "Invalid Captcha Characters."))
+          self.update_attribute(:error_message,  "Login Failed. Check your VAT website credentials and try again")
+          browser.close
+        else
+          #the following code is for each login error seperately
+      #if (!browser.text.include? "Login Failed ...Try again") 
+       #   self.update_attribute(:error_message,  "Login Failed. Check your VAT website credentials and try again")
+       # browser.close
+      #elsif browser.text.include? "Please enter the captcha."
+       #` self.update_attribute(:error_message,  "Please enter captcha and try again")
+       # browser.close
+      #elsif browser.text.include? "Invalid Captcha Characters."
+       # self.update_attribute(:error_message,  "Invalid captcha and try again")
+        #browser.close
+      #else
+          #login error ends
           
-          browser.img(:alt, "Expand e-SUGAM Forms").hover 
+          #primary link code to go to the form
+          # browser.button(:id, "ctl00_MasterContent_btnContinue").click   
+          #browser.img(:alt, "Expand e-SUGAM Forms").hover 
+          #sleep 1
+          #browser.link(:href, "/vat1/CheckInvoiceEnabled.aspx?Form=ESUGAM1").click
+          #browser.button(:id, "ctl00_MasterContent_btn_ok").click
+          #browser.img(:alt, "Expand e-SUGAM Forms").hover 
+         # sleep 1
+         # browser.link(:href, "/vat1/CheckInvoiceEnabled.aspx?Form=ESUGAM1").click
+          #primary link ends 
           
+          #code for secondary link to go to form
+          browser.link(:id, "LinkButton1").click   
           sleep 1
-          
-          browser.link(:href, "/vat1/CheckInvoiceEnabled.aspx?Form=ESUGAM1").click
-          browser.button(:id, "ctl00_MasterContent_btn_ok").click
-          
-         browser.img(:alt, "Expand e-SUGAM Forms").hover 
-          sleep 1
-          browser.link(:href, "/vat1/CheckInvoiceEnabled.aspx?Form=ESUGAM1").click
-        
           browser.text_field(:id, "ctl00_MasterContent_txtFromAddrs").set(user.address.city)
           browser.text_field(:id, "ctl00_MasterContent_txtToAddrs").set(@customer_city)
-         
+                                       
           if browser.select_list(:id, "ctl00_MasterContent_ddl_commoditycode").option(:text => "#{@bill.products.first.usercategory.main_category.commodity_name}").present?
              browser.select_list(:id, "ctl00_MasterContent_ddl_commoditycode").select(@bill.products.first.usercategory.main_category.commodity_name)       
            #  browser.text_field(:id, "ctl00_MasterContent_txt_commodityname").set(@bill.line_items.first.product.product_name)
@@ -258,7 +287,9 @@ class Bill < ActiveRecord::Base
               browser.send_keys :tab
               browser.text_field(:id, "ctl00_MasterContent_txtNetValue").set(@total_amount)
               browser.send_keys :tab
-              browser.text_field(:id, "ctl00_MasterContent_txtVatTaxValue").set(@bill.tax.tax_rate * 0.01 * @total_amount)
+              browser.text_field(:id, "ctl00_MasterContent_txtVatTaxValue").set(@bill.line_items.sum(:tax_rate).round(2))
+              browser.send_keys :tab
+              browser.text_field(:id => "ctl00_MasterContent_txtOthVal").set(@other_charges)
               
             if @bill.tax_type == "CST"
                   browser.radio(:id, "ctl00_MasterContent_rdoStatCat_1").set
@@ -274,7 +305,7 @@ class Bill < ActiveRecord::Base
               if (@bill.tax_type == "VAT") && (@customer_tin_number[2..-1] == "000000000")
                  browser.text_field(:id, "ctl00_MasterContent_txtTIN").set(@customer_tin_number.to_i)
                  browser.send_keys :tab
-                 sleep 5
+                 sleep 2
                  browser.text_field(:id, "ctl00_MasterContent_txtNameAddrs").set(@customer_name)
                  browser.send_keys :tab
               end
@@ -288,24 +319,35 @@ class Bill < ActiveRecord::Base
            
                   browser.text_field(:id, "ctl00_MasterContent_txtInvoiceNO").set(@bill.invoice_number)
                  # browser.text_field(:id, "ctl00_MasterContent_txtInvoiceDate").set(@bill.bill_date.strftime("%d/%m/%Y"))
-                  browser.button(:id, "ctl00_MasterContent_btn_savecumsubmit").enabled?
+                 if browser.button(:id, "ctl00_MasterContent_btn_savecumsubmit").enabled?
                     browser.button(:value,"SAVE AND SUBMIT").click
                     page_html = Nokogiri::HTML.parse(browser.html)
                     textual = page_html.search('//text()').map(&:text).delete_if{|x| x !~ /\w/}
                     esugam = textual.fetch(7)
-                    self.update_attributes(esugam: esugam)
+                    if esugam.include? "Prop/Comp. Name: "
+                      file = File.new("app/assets/images/vat-error" + self.authuser.id.to_s + ".png", "a+")   
+                      browser.screenshot.save file
+                      self.update_attributes(error_message: file.to_s)
+                      logger.error "esugam not generated due to incomplete form submission"
+                    else
+                      self.update_attributes(esugam: esugam)
+                    end
                     browser.button(:value,"Exit").click
                     browser.link(:id, "link_signout").click
                     browser.close
                     return esugam
-                 
+                 else
+                    file = File.new("app/assets/images/vaterror" + self.authuser.id.to_s + ".png", "a+")
+                    browser.screenshot.save file
+                    self.update_attributes(error_message: file.to_s)
+                end  
           else # if commodity is not in list else
              self.update_attributes(error_message: "Selected Commodity is not added in VAT Site")
              browser.close
           end # commodity not in list end 
-        else # login else
-          self.update_attribute(:error_message,  "Login Failed. Check your VAT website credentials and try again")
-           browser.close        
+        #else # login else
+         # self.update_attribute(:error_message,  "Login Failed. Check your VAT website credentials and try again")
+          #browser.close        
         end #login end
        end # begin end
   end # def end

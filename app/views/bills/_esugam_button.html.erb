@@ -1,8 +1,10 @@
   
 <div class="col-md-8">
-  <% if @bill.esugam.blank? %>
-    <%= link_to 'Generate esugam', generate_esugan_bills_path(bill_id: @bill), method: :post, 
+  <% if @bill.tax_type != "No Tax" %>
+    <% if @bill.esugam.blank? %>
+      <%= link_to 'Generate esugam', generate_esugan_bills_path(bill_id: @bill), method: :post, 
       remote: true, class: 'btn btn-success', id: 'user-notice' %> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <% end %>
   <% end %>
 <%= image_tag "loader.gif", style: "display:none;", class: "loading-image" %>
  </div>
