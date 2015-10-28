@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
- <meta http-equiv="refresh" content="50">
+ <meta http-equiv="refresh" content="55">
 </head>
   
  <div class="container">
@@ -119,7 +119,7 @@
                        </h4>
                      <% if @bill.error_message.present? %>
                        <h5> Error :
-                         <span id="error"></span>
+                         <span id="error"><%= @bill.error_message %></span>
                        </h5>
                      <% end %>
                       <!--  <h5 id="error"></h5> -->
