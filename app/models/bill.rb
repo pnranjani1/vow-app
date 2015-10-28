@@ -317,7 +317,8 @@ class Bill < ActiveRecord::Base
             if @bill.tax_type == "VAT"
                 browser.text_field(:id, "ctl00_MasterContent_txtTIN").set(@customer_tin_number.to_i)
                 browser.send_keys :tab
-              if browser.text.include? "WARNING: INVALID TIN"
+             
+              if !browser.text_field(:id, "ctl00_MasterContent_txtNameAddrs").enabled?
                  file = File.new("app/assets/images/vat-error" + self.authuser.id.to_s + ".png", "a+")
                  browser.screenshot.save file
                  self.update_attributes(error_message: file.to_s)
