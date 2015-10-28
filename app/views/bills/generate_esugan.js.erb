@@ -6,9 +6,14 @@
 $('#esugam-text').text("<%= @bill.esugam %>");
 <% end %>
 
+
+
 <% if (@bill.error_message != nil) && (@bill.esugam == nil) %>
 $("#error").append("<%= escape_javascript (render 'error') %>");
 <% end %>
+
+
+
 
 App.unBlockUI($('.portlet-content'));
 $(".ajax-progress").hide();
