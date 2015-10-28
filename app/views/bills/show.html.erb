@@ -117,10 +117,8 @@
                        <h4>Esugam Number :
                           <span id="esugam-text"> <%= @bill.esugam.present? ? @bill.esugam : "Not Generated" %></span>
                        </h4>
-                     <% if @bill.error_message.present? %>
-                       <h5> Error :
-                         <span id="error"><%= @bill.error_message %></span>
-                       </h5>
+                     <% if (@bill.error_message.present?) && (@bill.esugam == nil) %>
+                        <%= render 'error' %>
                      <% end %>
                       <!--  <h5 id="error"></h5> -->
                        <div id='esugam_div'>       

@@ -9,7 +9,7 @@ $('#esugam-text').text("<%= @bill.esugam %>");
 
 
 <% if (@bill.error_message != nil) && (@bill.esugam == nil) %>
-$("#error").append("<%= escape_javascript (render 'error') %>");
+$("#error1").append("<%= escape_javascript (render 'error') %>");
 <% end %>
 
 
