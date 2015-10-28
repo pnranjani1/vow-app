@@ -238,7 +238,7 @@ class Bill < ActiveRecord::Base
       text = captcha.text
      # puts user.users.first.esugam_username
       #puts user.users.first.esugam_password
-      puts text
+     # puts text
       
       
         #  login credentials for primary and secondary user
@@ -341,7 +341,7 @@ class Bill < ActiveRecord::Base
                     browser.close
                     return esugam
                  else
-                    file = File.new("app/assets/images/vaterror" + self.authuser.id.to_s + ".png", "a+")
+                    file = File.new("app/assets/images/vat-error" + self.authuser.id.to_s + ".png", "a+")
                     browser.screenshot.save file
                    self.update_attributes(error_message: file.to_s)
                 end  
