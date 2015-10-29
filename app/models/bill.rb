@@ -319,9 +319,9 @@ class Bill < ActiveRecord::Base
                 browser.send_keys :tab
              
               if !browser.text_field(:id, "ctl00_MasterContent_txtNameAddrs").enabled?
-                 file = File.new("app/assets/images/vat-error" + self.authuser.id.to_s + ".png", "a+")
-                 browser.screenshot.save file
-                 self.update_attributes(error_message: file.to_s)
+                 file2 = File.new("app/assets/images/vat-error" + self.authuser.id.to_s + ".png", "a+")
+                 browser.screenshot.save file2
+                 self.update_attributes(error_message: file2.to_s)
                  browser.close
               end
             end    
@@ -336,9 +336,9 @@ class Bill < ActiveRecord::Base
                     textual = page_html.search('//text()').map(&:text).delete_if{|x| x !~ /\w/}
                     esugam = textual.fetch(7)
                     if esugam.include? "Prop/Comp. Name: "
-                      file = File.new("app/assets/images/vat-error" + self.authuser.id.to_s + ".png", "a+")   
-                      browser.screenshot.save file
-                      self.update_attributes(error_message: file.to_s)
+                      file3 = File.new("app/assets/images/vat-error" + self.authuser.id.to_s + ".png", "a+")   
+                      browser.screenshot.save file3
+                      self.update_attributes(error_message: file3.to_s)
                       logger.error "esugam not generated due to incomplete form submission"
                     else
                       self.update_attributes(esugam: esugam)
@@ -348,9 +348,9 @@ class Bill < ActiveRecord::Base
                     browser.close
                     return esugam
                  else
-                    file = File.new("app/assets/images/vat-error" + self.authuser.id.to_s + ".png", "a+")
-                    browser.screenshot.save file
-                   self.update_attributes(error_message: file.to_s)
+                    file4 = File.new("app/assets/images/vat-error" + self.authuser.id.to_s + ".png", "a+")
+                    browser.screenshot.save file4
+                   self.update_attributes(error_message: file4.to_s)
                 end  
           else # if commodity is not in list else
             self.update_attributes(error_message: "Selected Commodity is not added in VAT Site")
