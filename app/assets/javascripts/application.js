@@ -59,19 +59,16 @@ var App = function(){
 }();
 
 
-/*
-
 $(document).ready(function(){
  
  /* once the user submits the form just block it until it's processed 
 +  fully by the server side  */
-+
-/*
   $('#user-notice').on('click', function(){
        App.blockUI( $('#bill_body'));
     });
     });
 
+/*
   
  $(document).ready(function(){
   $("#user-notice").on("click",function(event) {
