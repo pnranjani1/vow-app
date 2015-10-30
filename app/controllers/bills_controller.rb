@@ -118,7 +118,7 @@ class BillsController < ApplicationController
            pdf = BillPdfTwo.new(@bill)
            send_data pdf.render, filename: "#{@bill.customer.name}  #{@bill.invoice_number}  #{@bill.bill_date.strftime("%b %d %Y")}.pdf", type: "application/pdf" , disposition: "inline"
        elsif @bill.pdf_format == "Format3"
-      pdf = BillPdfThree.new(@bill)
+           pdf = BillPdfThree.new(@bill)
            send_data pdf.render, filename: "#{@bill.customer.name}  #{@bill.invoice_number}  #{@bill.bill_date.strftime("%b %d %Y")}.pdf", type: "application/pdf" , disposition: "inline"
      elsif @bill.pdf_format == "Format4"
       pdf = BillPdfFour.new(@bill)

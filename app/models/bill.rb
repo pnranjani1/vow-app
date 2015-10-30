@@ -151,8 +151,7 @@ class Bill < ActiveRecord::Base
      end
    end
   
-  def generate_grand_total
-   
+  def generate_grand_total   
     products_other_charges = self.total_bill_price.to_f + self.other_charges.to_f
     tax_total = self.line_items.sum(:tax_rate)
     service_total = self.line_items.sum(:service_tax_amount)
