@@ -285,7 +285,7 @@ class Bill < ActiveRecord::Base
                                        
           if browser.select_list(:id, "ctl00_MasterContent_ddl_commoditycode").option(:text => "#{@bill.products.first.usercategory.main_category.commodity_name}").present?
              browser.select_list(:id, "ctl00_MasterContent_ddl_commoditycode").select(@bill.products.first.usercategory.main_category.commodity_name)       
-           #  browser.text_field(:id, "ctl00_MasterContent_txt_commodityname").set(@bill.line_items.first.product.product_name)
+           # browser.text_field(:id, "ctl00_MasterContent_txt_commodityname").set(@bill.line_items.first.product.product_name)
              browser.text_field(:id, "ctl00_MasterContent_txtQuantity").set(@bill.line_items.first.quantity.to_s + " " +@bill.line_items.first.product.units)
               browser.send_keys :tab
               browser.text_field(:id, "ctl00_MasterContent_txtNetValue").set(@total_amount)
@@ -294,7 +294,7 @@ class Bill < ActiveRecord::Base
               browser.send_keys :tab
               browser.text_field(:id => "ctl00_MasterContent_txtOthVal").set(@other_charges)
               
-            if @bill.tax_type == "CST"
+              if @bill.tax_type == "CST"
                   browser.radio(:id, "ctl00_MasterContent_rdoStatCat_1").set
                   #sleep 1
                   browser.text_field(:id, "ctl00_MasterContent_txtTIN").set(@customer_tin_number.to_i)
@@ -302,18 +302,18 @@ class Bill < ActiveRecord::Base
                   sleep 2
                   browser.text_field(:id, "ctl00_MasterContent_txtNameAddrs").set(@bill.customer.name)
                   browser.send_keys :tab
-            end
+              end
             
               # check if vat and urd
               if (@bill.tax_type == "VAT") && (@customer_tin_number[2..-1] == "000000000")
                  browser.text_field(:id, "ctl00_MasterContent_txtTIN").set(@customer_tin_number.to_i)
                  browser.send_keys :tab
                  sleep 2
-                 browser.text_field(:id, "ctl00_MasterContent_txtNameAddrs").set(@customer_name)
+                 browser.text_field(:id, "ctl00_MasterContent_txtNameAddrs").set(@bill.unregistered_customers.first.customer_name)
                  browser.send_keys :tab
               end
             
-            if @bill.tax_type == "VAT"
+              if @bill.tax_type == "VAT"
                 browser.text_field(:id, "ctl00_MasterContent_txtTIN").set(@customer_tin_number.to_i)
                 browser.send_keys :tab
              
@@ -323,7 +323,7 @@ class Bill < ActiveRecord::Base
                #  self.update_attributes(error_message: file2.to_s)
                #  browser.close
              # end
-            end    
+              end    
             
               sleep 3 # dont remove this sleep "click succeed, but load failed" error occurs
            
