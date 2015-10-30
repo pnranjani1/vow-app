@@ -16,368 +16,323 @@
   
 
   
-<script>
+  <script>
     $(document).ready(function(){
         jQuery('.camera_wrap').camera();
     });
-</script>
-<script>
-   $(window).load(function() {
-     // Initialize the gallery
-    $('.thumb-box4 figure a').touchTouch();
-  });
-</script>
-<script>
-	$(window).load(function() {
-		$(function() {
-            $('.foo1').carouFredSel({
-				auto: true,
-				responsive: true,
-				width: '100%',
-				scroll: 1,
-                prev: '.prev1',
-				next: '.next1',
-				items: {
-					height: 'auto',
-					width:200,
-					visible: {
-						min: 1,
-						max: 6
-					}
-				},
-				mousewheel: true,
-				swipe: {
-					onMouse: true,
-					onTouch: true
-				}
-			});
-            $('#foo2').carouFredSel({
-				auto: false,
-				responsive: true,
-				width: '100%',
-				scroll: 1,
-                pagination  : "#foo2_pag",
-				items: {
-					height: 'auto',
-					width:300,
-					visible: {
-						min: 1,
-						max: 1
-					}
-				},
-				mousewheel: true,
-				swipe: {
-					onMouse: true,
-					onTouch: true
-				}
-			});
-		}); 	 				
+  </script>
+  <script>
+    $(window).load(function() {
+      // Initialize the gallery
+      $('.thumb-box4 figure a').touchTouch();
     });
-</script>
+  </script>
+  <script>
+	   $(window).load(function() {
+		   $(function() {
+            $('.foo1').carouFredSel({
+				      auto: true,
+				      responsive: true,
+				      width: '100%',
+				      scroll: 1,
+              prev: '.prev1',
+    				  next: '.next1',
+		    		  items: {
+				      	height: 'auto',
+					      width:200,
+					      visible: {
+						        min: 1,
+						        max: 6
+					      }
+				      },
+				      mousewheel: true,
+				      swipe: {
+					       onMouse: true,
+					       onTouch: true
+				      }
+			      });
+            $('#foo2').carouFredSel({
+				       auto: false,
+				       responsive: true,
+				       width: '100%',
+				       scroll: 1,
+               pagination  : "#foo2_pag",
+       				 items: {
+					        height: 'auto',
+					        width:300,
+					        visible: {
+						         min: 1,
+						         max: 1
+					        }
+				       },
+				       mousewheel: true,
+				       swipe: {
+					       onMouse: true,
+					       onTouch: true
+				       }
+			      });
+		   }); 	 				
+     });
+  </script>
 
-<script>
+  <script>
     $(document).ready(function () {       
       if ($('html').hasClass('desktop')) {
         new WOW().init();
       }   
     });
-</script>
+  </script>
   
-   <script type="text/javascript">
-
-        marqueeInit({
-            uniqueid: 'mycrawler1',
-            style: {
+  <script type="text/javascript">
+      marqueeInit({
+        uniqueid: 'mycrawler1',
+        style: {
                 'padding':'5px',
                 'margin':'5px',
                 'width': '100%',
                 'height': 'auto'
-            },
-            inc: 2, //speed - pixel increment for each iteration of this marquee's movement
-            mouse: 'pause', //mouseover behavior ('pause' 'cursor driven' or false)
-            moveatleast: 2,
-            neutral: 150,
-            savedirection: true,
-            random: false
-        });
- 
-    </script>
+        },
+        inc: 2, //speed - pixel increment for each iteration of this marquee's movement
+        mouse: 'pause', //mouseover behavior ('pause' 'cursor driven' or false)
+        moveatleast: 2,
+        neutral: 150,
+        savedirection: true,
+       random: false
+      });
+  </script>
     
-<!--<![endif]-->
-
-
+  <!--<![endif]-->
 </head>
 <body>
 <!--header-->
-<header class="clearfix">
-<div class="container">
-
-<!-- <h1 class="navbar-brand navbar-brand_ wow fadeInDown"> -->
-<%# link_to "Vatonwheels.com", root_path </h1>  %>
-<%= image_tag "vaton wheels logo.png", class: "navbar-brand navbar-brand_ wow fadeInDown" %>
+  <header class="clearfix">
+    <div class="container">
+        <!-- <h1 class="navbar-brand navbar-brand_ wow fadeInDown"> -->
+        <%# link_to "Vatonwheels.com", root_path </h1>  %>
+        <%= image_tag "vaton wheels logo.png", class: "navbar-brand navbar-brand_ wow fadeInDown" %>
   
 
-<div align="center">
-<%= link_to "SIGN IN", new_authuser_session_path, class: "signinbut" %>
-</div>
+             <div align="center">
+                <%= link_to "SIGN IN", new_authuser_session_path, class: "signinbut" %>
+             </div>
  
 
-<ul class="follow_icon">
-<li><a href="https://www.facebook.com/IPrimitusConsultancyServices" class="fa fa-facebook" target="blank"></a></li>
-<li><a href="https://twitter.com/iPrimitus" class="fa fa-twitter" target="blank"></a></li>
-<li><a href="https://www.linkedin.com/company/iprimitus-consultancy-services" class="fa fa-linkedin" target="blank"></a></li>
-<li><a href="https://plus.google.com/108877132961366118945/videos" class="fa fa-google-plus" target="blank"></a></li>
-</ul>
-  <% if notice %>
-   <div class="col-md-6">
-     <div class="alert alert-success"><%= notice %></div>
-   </div>
-      <% end %>
- 
-</div>   <!-- container ends here -->
-</header>
- <!-- header ends here -->
+             <ul class="follow_icon">
+                <li><a href="https://www.facebook.com/IPrimitusConsultancyServices" class="fa fa-facebook" target="blank"></a></li>
+                <li><a href="https://twitter.com/iPrimitus" class="fa fa-twitter" target="blank"></a></li>
+                <li><a href="https://www.linkedin.com/company/iprimitus-consultancy-services" class="fa fa-linkedin" target="blank"></a></li>
+                <li><a href="https://plus.google.com/108877132961366118945/videos" class="fa fa-google-plus" target="blank"></a></li>
+             </ul>
+             <% if notice %>
+                <div class="col-md-6">
+                    <div class="alert alert-success"><%= notice %></div>
+                </div>
+             <% end %>
+    </div>   <!-- container ends here -->
+  </header>
+  <!-- header ends here -->
   
+  <div class="slider">  
+     <div class="camera_wrap"> 
   
-<div class="slider">  
-<div class="camera_wrap"> 
+         <div>
+             <%= image_tag "picture1.jpg" %>
+             <div class="camera-caption fadeIn"><p class="title">We Make Billing Easier!</p></div>
+         </div>
+         <!-- <div><%= image_tag "picture2.jpg" %><div class="camera-caption fadeIn"><p class="title">United by the hobby<br>of model aircraft flying</p></div></div>
+         <div><%= image_tag "picture3.jpg" %><div class="camera-caption fadeIn"><p class="title">United by the hobby<br>of model aircraft flying</p></div></div>  -->
+         <!-- <div data-src="picture1.jpg"><div class="camera-caption fadeIn"><p class="title">United by the hobby<br>of model aircraft flying</p></div></div>
+         <div data-src="picture2.jpg"><div class="camera-caption fadeIn"><p class="title">Promoting the safe<br>radio model flying</p></div></div>
+         <div data-src="picture3.jpg"><div class="camera-caption fadeIn"><p class="title">Sharing the experience<br>of the best pastime</p></div></div>  -->
+     </div> <!-- camera_wrap ensds here -->
+  </div> <!-- slider ends here -->
+  <!--content-->
+  <div class="content"> 
   
-<div><%= image_tag "picture1.jpg" %><div class="camera-caption fadeIn"><p class="title">We Make Billing Easier!</p></div></div>
-<!-- <div><%= image_tag "picture2.jpg" %><div class="camera-caption fadeIn"><p class="title">United by the hobby<br>of model aircraft flying</p></div></div>
-<div><%= image_tag "picture3.jpg" %><div class="camera-caption fadeIn"><p class="title">United by the hobby<br>of model aircraft flying</p></div></div>  -->
-        
- <!-- <div data-src="picture1.jpg"><div class="camera-caption fadeIn"><p class="title">United by the hobby<br>of model aircraft flying</p></div></div>
-        <div data-src="picture2.jpg"><div class="camera-caption fadeIn"><p class="title">Promoting the safe<br>radio model flying</p></div></div>
-        <div data-src="picture3.jpg"><div class="camera-caption fadeIn"><p class="title">Sharing the experience<br>of the best pastime</p></div></div>  -->
-      
-</div> <!-- camera_wrap ensds here -->
-</div> <!-- slider ends here -->
+       <div class="thumb-box1">
+          <div class="container">            
+             <div class="row">
   
-<!--content-->
-<div class="content"> 
+                  <div class="col-lg-4 col-md-4 col-sm-4 maxheight wow fadeInUp">
+                     <div class="thumb-pad1">
+                         
+                         <div class="thumbnail">                           
+                            <div class="caption">
+                               <strong>Who We Are</strong>
+                            </div>   <!-- caption ends here -->
+                         </div> <!-- thumbnail ends here -->
   
-<div class="thumb-box1">
-<div class="container">            
-<div class="row">
-  
-<div class="col-lg-4 col-md-4 col-sm-4 maxheight wow fadeInUp">
-<div class="thumb-pad1">
-  
-<div class="thumbnail">                           
-<div class="caption">
-<strong>Who We Are</strong>
-</div>   <!-- caption ends here -->
-</div> <!-- thumbnail ends here -->
-  
-<p>iPrimitus have robust processes and extensive experience of delivering cost-effective and high quality technology services to institutions and helps to derive maximum value out of one's investment in technology. Our primary services offerings will help to maintain the day-to-day operations using our diversified domains. What makes iPrimitus Consultancy Services have an edge over the others is a blend of rich domain functional knowledge and harness of right technology.</p>
+                         <p>iPrimitus have robust processes and extensive experience of delivering cost-effective and high quality technology services to institutions and helps to derive maximum value out of one's investment in technology. Our primary services offerings will help to maintain the day-to-day operations using our diversified domains. What makes iPrimitus Consultancy Services have an edge over the others is a blend of rich domain functional knowledge and harness of right technology.</p>
+                     </div> <!-- thumb-pad1" ends here -->
+                  </div> <!-- col-lg-4 col-md-4 col-sm-4 maxheight wow fadeInUp" -->
 
-
-</div> <!-- thumb-pad1" ends here -->
-</div> <!-- col-lg-4 col-md-4 col-sm-4 maxheight wow fadeInUp" -->
-
-<div class="col-lg-4 col-md-4 col-sm-4 maxheight wow fadeInUp" data-wow-delay="0.1s">
-<div class="thumb-pad1">
+                  <div class="col-lg-4 col-md-4 col-sm-4 maxheight wow fadeInUp" data-wow-delay="0.1s">
+                      <div class="thumb-pad1">
   
-<div class="thumbnail">                            
-<div class="caption">
-<strong>What We Do</strong>
-</div>  <!-- caption ends here -->
-</div> <!-- thumbnail ends here -->
+                           <div class="thumbnail">                            
+                              <div class="caption">
+                                  <strong>What We Do</strong>
+                              </div>  <!-- caption ends here -->
+                           </div> <!-- thumbnail ends here -->
   
-<p>We provide customer focused ,cloud based accounting tools and services that make the process of accounting easier for everyone.(Both our chartered accountants and their clients).
+                           <p>We provide customer focused ,cloud based accounting tools and services that make the process of accounting easier for everyone.(Both our chartered accountants and their clients).
 Our services are designed to be modular from the  get go.
 By being modular we can add features that are perfectly suited to a certain end customer.
 Hence we can  provide customization similar to big accounting  software (like sap) while being cheaper than the current software being used by SME (like tally)</p>
-  
+                      </div> <!-- thumb-pad1 ends here -->
+                  </div> <!-- col-lg-4 col-md-4 col-sm-4 maxheight wow fadeInUp -->
 
-
-</div> <!-- thumb-pad1 ends here -->
-</div> <!-- col-lg-4 col-md-4 col-sm-4 maxheight wow fadeInUp -->
-
-<div class="col-lg-4 col-md-4 col-sm-4 maxheight wow fadeInUp" data-wow-delay="0.2s">
-<div class="thumb-pad1">
+                  <div class="col-lg-4 col-md-4 col-sm-4 maxheight wow fadeInUp" data-wow-delay="0.2s">
+                     <div class="thumb-pad1">
   
-<div class="thumbnail">                           
-<div class="caption">
-<strong>Why Choose Us</strong>
-</div>  <!--caption ends here --> 
-</div> <!-- thumbnail ends here -->
+                         <div class="thumbnail">                           
+                             <div class="caption">
+                                 <strong>Why Choose Us</strong>
+                             </div>  <!--caption ends here --> 
+                         </div> <!-- thumbnail ends here -->
   
-<ul class="list1">
-<li>Customised Billing Solutions- the client can generate his bills with his logo and according to his request.</li>
-<li>Automatic Bill and e-sugam generation.</li>
-<li>I/s and Local Sales Upload-Auto generation of Xml.</li>
-<li>Fully Compatible with Tally. ERP 9</li>
-</ul>
- 
-
- 
-</div> <!-- thumb-pad1 ends here -->
-</div> <!-- col-lg-4 col-md-4 col-sm-4 maxheight wow fadeInUp -->
+                         <ul class="list1">
+                             <li>Customised Billing Solutions- the client can generate his bills with his logo and according to his request.</li>
+                             <li>Automatic Bill and e-sugam generation.</li>
+                             <li>I/s and Local Sales Upload-Auto generation of Xml.</li>
+                             <li>Fully Compatible with Tally. ERP 9</li>
+                         </ul>
+                     </div> <!-- thumb-pad1 ends here -->
+                  </div> <!-- col-lg-4 col-md-4 col-sm-4 maxheight wow fadeInUp -->
+             </div> <!-- row ends here -->
+          </div> <!-- container ends here -->
+       </div> <!-- thumb-box1 ends here -->
   
-</div> <!-- row ends here -->
-</div> <!-- container ends here -->
-</div> <!-- thumb-box1 ends here -->
+       <div class="thumb-box2">
+          <div class="container">
   
-<div class="thumb-box2">
-<div class="container">
+              <p class="title wow fadeIn">Welcome to our website</p>        
+              <div class="row">
   
-<p class="title wow fadeIn">Welcome to our website</p>        
-  
-<div class="row">
-  
-<div class="col-lg-8 col-md-8 col-sm-12 wow fadeInUp">
-<div class="thumb-pad2">
-<div class="thumbnail">                            
-<div class="caption">                                
-  <p>In India, there are no services that provide solutions to Chartered Accountants.There are a few cloud based accounting solutions like waveaccounting.com, but they have been designed primarily for the American Accounting system and they are not configured for the current Indian legal and accounting frameworks.No simplification for the accountant or integration for SME.</p>
-  <h4 style="text-align:left"> Present System</h4>
-<p>In Normal situations, the dealer creates the sale bill on his billing software or Tally or by just writing it down.He then enters the Sale bill number and its details on the VAT website to generate the e-Sugam number , which has to be mentioned on the Sale bill.Sale bill is finally given to the customer.
+                   <div class="col-lg-8 col-md-8 col-sm-12 wow fadeInUp">
+                      <div class="thumb-pad2">
+                        <div class="thumbnail">                            
+                            <div class="caption">                                
+                                <p>In India, there are no services that provide solutions to Chartered Accountants.There are a few cloud based accounting solutions like waveaccounting.com, but they have been designed primarily for the American Accounting system and they are not configured for the current Indian legal and accounting frameworks.No simplification for the accountant or integration for SME.</p>
+                                <h4 style="text-align:left"> Present System</h4>
+                                <p>In Normal situations, the dealer creates the sale bill on his billing software or Tally or by just writing it down.He then enters the Sale bill number and its details on the VAT website to generate the e-Sugam number , which has to be mentioned on the Sale bill.Sale bill is finally given to the customer.
 The e-Sugam number and the Sale bill numberare then forwarded to the Chartered Accountant.This data is re-entered into an accounting software.(Tally etc)  
 The above process involves multiple repititions, thereby making the process in-efficient, repititive and error prone.</p>
-  <h4 style="text-align:left"> Process in Our application</h4>
-<p>Dealers log on to "www.vatonwheels.com" to generate a Sale bill.The application generates the Sale bill number, e-Sugam number  and the formatted Sale bill for the dealer.This data can be imported to Tally with the click of a button , which can then be used by both the dealer and the accountant.This process just makes everything easy for everyone!</p>  
-                               
-</div>   <!-- caption ends here-->
-</div> <!--thumbnail ends here -->
-</div> <!--thumb-pad2 ends here-->
-</div> <!-- col-lg-8 col-md-8 col-sm-12 wow fadeInUp" ends here -->
+                                <h4 style="text-align:left"> Process in Our application</h4>
+                                <p>Dealers log on to "www.vatonwheels.com" to generate a Sale bill.The application generates the Sale bill number, e-Sugam number  and the formatted Sale bill for the dealer.This data can be imported to Tally with the click of a button , which can then be used by both the dealer and the accountant.This process just makes everything easy for everyone!</p>  
+                            </div>   <!-- caption ends here-->
+                        </div> <!--thumbnail ends here -->
+                      </div> <!--thumb-pad2 ends here-->
+                   </div> <!-- col-lg-8 col-md-8 col-sm-12 wow fadeInUp" ends here -->
                 
-<div class="col-lg-4 col-md-4 col-sm-12 wow fadeInUp" data-wow-delay="0.2s">
-<div class="thumb-pad2">
-<div class="thumbnail">
+                   <div class="col-lg-4 col-md-4 col-sm-12 wow fadeInUp" data-wow-delay="0.2s">
+                      <div class="thumb-pad2">
+                        <div class="thumbnail">
 
-<!-- <div><iframe src="https://www.youtube.com/embed/MyxcBQmMCfY" class="vid" frameborder="0" allowfullscreen></iframe></div> -->
- <div><iframe src="https://www.youtube.com/embed/fYpopJVkz9U" class="vid" frameborder="0" allowfullscreen></iframe></div> 
+                           <!-- <div><iframe src="https://www.youtube.com/embed/MyxcBQmMCfY" class="vid" frameborder="0" allowfullscreen></iframe></div> -->
+                           <div><iframe src="https://www.youtube.com/embed/fYpopJVkz9U" class="vid" frameborder="0" allowfullscreen></iframe></div> 
    <!-- <div><iframe src="https://www.youtube.com/embed/ytR9LrpQjKY" class="vid" frameborder="0" allowfullscreen></iframe></div>  -->
-  
-<div class="caption">
-<strong>Video</strong>
-</div>   <!-- caption ends here -->
-  
-</div> <!-- thumbnail ends here -->
-</div> <!-- thumb-pad2 ends here -->
-</div> <!-- col-lg-4 col-md-4 col-sm-12 wow fadeInUp ends here -->
-  
-</div> <!-- row ends here -->
-</div> <!-- container ends here -->
-</div> <!-- thumb-box2 ends here -->
+                           <div class="caption">
+                               <strong>Video</strong>
+                           </div>   <!-- caption ends here -->
+                        </div> <!-- thumbnail ends here -->
+                      </div> <!-- thumb-pad2 ends here -->
+                   </div> <!-- col-lg-4 col-md-4 col-sm-12 wow fadeInUp ends here -->
+              </div> <!-- row ends here -->
+          </div> <!-- container ends here -->
+       </div> <!-- thumb-box2 ends here -->
  
-
-    
-<div class="thumb-box6">    
-<div class="container">
+       <div class="thumb-box6">    
+         <div class="container">
   
-<p class="title wow fadeIn"><span>our Clients</span></p>
-<div class="marquee" id="mycrawler1">
-<%= image_tag("page1_company1.png", alt: " ", class: "padboard") %>
-<%= image_tag("page1_company2.png", alt: " ", class: "padboard") %>
-<%= image_tag("page1_company3.png", alt: " ", class: "padboard") %>
-<%= image_tag("page1_company4.png", alt: " ", class: "padboard") %>
-<%= image_tag("page1_company5.png", alt: " ", class: "padboard") %>
-<%= image_tag("page1_company6.png", alt: " ", class: "padboard") %>
- </div>
-
-</div> <!-- container ends here -->
-</div> <!-- thumb-box6" edns here -->
-    
-</div> <!-- content ends here -->
+             <p class="title wow fadeIn"><span>our Clients</span></p>
+             <div class="marquee" id="mycrawler1">
+                 <%= image_tag("page1_company1.png", alt: " ", class: "padboard") %>
+                 <%= image_tag("page1_company2.png", alt: " ", class: "padboard") %>
+                 <%= image_tag("page1_company3.png", alt: " ", class: "padboard") %>
+                 <%= image_tag("page1_company4.png", alt: " ", class: "padboard") %>
+                 <%= image_tag("page1_company5.png", alt: " ", class: "padboard") %>
+                 <%= image_tag("page1_company6.png", alt: " ", class: "padboard") %>
+             </div>
+         </div> <!-- container ends here -->
+       </div> <!-- thumb-box6" edns here -->
+  </div> <!-- content ends here -->
   
-<!--footer-->
-<footer>
-<div class="container">
-<div class="row">
-<div class="col-lg-4 col-md-4 col-sm-12 wow fadeInUp">
-<p class="title2">Copyright</p>
-
-<ul class="follow_icon2">
-<li><a href="https://www.facebook.com/IPrimitusConsultancyServices" class="fa fa-facebook" target="blank"></a></li>
-<li><a href="https://twitter.com/iPrimitus" class="fa fa-twitter" target="blank"></a></li>
-<li><a href="https://www.linkedin.com/company/iprimitus-consultancy-services" class="fa fa-linkedin" target="blank"></a></li>
-<li><a href="https://plus.google.com/108877132961366118945/videos" class="fa fa-google-plus" target="blank"></a></li>
-</ul>
+  <!--footer-->
+  <footer>
+    <div class="container">
+      <div class="row">
+          <div class="col-lg-4 col-md-4 col-sm-12 wow fadeInUp">
+             <p class="title2">Copyright</p>
+                 <ul class="follow_icon2">
+                     <li><a href="https://www.facebook.com/IPrimitusConsultancyServices" class="fa fa-facebook" target="blank"></a></li>
+                     <li><a href="https://twitter.com/iPrimitus" class="fa fa-twitter" target="blank"></a></li>
+                     <li><a href="https://www.linkedin.com/company/iprimitus-consultancy-services" class="fa fa-linkedin" target="blank"></a></li>
+                     <li><a href="https://plus.google.com/108877132961366118945/videos" class="fa fa-google-plus" target="blank"></a></li>
+                 </ul>
   
-<p class="title">&copy; 2015 vatonwheels.com</p>
-<p class="prev">
-  <%= link_to "Terms Of Services",  asset_path("Terms of Service VatOnWheels.pdf" ), target: "blank" %></p>
-              
-<p class="title">A Product From &nbsp;&nbsp;<%= link_to "iPrimitus Consultancy Services", "http://iprimitus.com" , class: "indextitle" %></p>
-</div>   <!-- col-lg-4 col-md-4 col-sm-12 wow fadeInUp ends here -->     
+                 <p class="title">&copy; 2015 vatonwheels.com</p>
+                 <p class="prev">
+                 <%= link_to "Terms Of Services",  asset_path("Terms of Service VatOnWheels.pdf" ), target: "blank" %></p>
+                 <p class="title">A Product From &nbsp;&nbsp;<%= link_to "iPrimitus Consultancy Services", "http://iprimitus.com" , class: "indextitle" %></p>
+          </div>   <!-- col-lg-4 col-md-4 col-sm-12 wow fadeInUp ends here -->     
             
-            
-        
-<div class="col-lg-4 col-md-4 col-sm-12 wow fadeInUp" data-wow-delay="0.1s">
-<p class="title2">Contact Address</p>
-<div class="foo_info">
-<p># 303, House Of Lords,<br>St.Mark's Road, Bangalore-560001<br>Karnataka, India<br>Telephone:  +91 80 4153 1624</p>
-<br>
-</div> <!-- class="foo_info ends here -->
-</div> <!-- col-lg-4 col-md-4 col-sm-12 wow fadeInUp ends here -->
+          <div class="col-lg-4 col-md-4 col-sm-12 wow fadeInUp" data-wow-delay="0.1s">
+            <p class="title2">Contact Address</p>
+            <div class="foo_info">
+               <p># 303, House Of Lords,<br>St.Mark's Road, Bangalore-560001<br>Karnataka, India<br>Telephone:  +91 80 4112 3752</p>
+               <br>
+            </div> <!-- class="foo_info ends here -->
+          </div> <!-- col-lg-4 col-md-4 col-sm-12 wow fadeInUp ends here -->
 
-  
-<div class="col-lg-4 col-md-4 col-sm-12 wow fadeInUp" data-wow-delay="0.2s">
-<p class="title2">Quick Contact</p>
- <!--  For Enquiry , click <%= link_to "here", new_enquiry_form_path %> -->
- <%= form_for(@enquiry_form) do |f| %>
-<div class="row">                
-<div class="col-lg-4 quickname">Name :</div>
-<div class="col-lg-8">
-  <%= f.text_field :name , placeholder: "Name", class: "quickfield" %>
-<!--<input type="text" placeholder="Name" class="quickfield"/> -->
-</div>
-  
-</div> <!-- row ends here -->
+          <div class="col-lg-4 col-md-4 col-sm-12 wow fadeInUp" data-wow-delay="0.2s">
+             <p class="title2">Quick Contact</p>
+             <!--  For Enquiry , click <%= link_to "here", new_enquiry_form_path %> -->
+               <%= form_for(@enquiry_form) do |f| %>
+                  <div class="row">                
+                     <div class="col-lg-4 quickname">Name :</div>
+                        <div class="col-lg-8">
+                          <%= f.text_field :name , placeholder: "Name", maxlength: 25,  class: "quickfield" %>
+                           <!--<input type="text" placeholder="Name" class="quickfield"/> -->
+                        </div>
+                  </div> <!-- row ends here -->
                 
-<div class="row">                
-<div class="col-lg-4 quickname">Email :</div>
-<div class="col-lg-8">
-<%= f.email_field :email, class: "quickfield", placeholder: "Email" %>
-<!-- <input type="text" placeholder="Email" class="quickfield"/> -->
-</div>
-</div> <!-- row ends here -->
+                  <div class="row">                
+                     <div class="col-lg-4 quickname">Email :</div>
+                     <div class="col-lg-8">
+                        <%= f.email_field :email, class: "quickfield", placeholder: "Email" %>
+                        <!-- <input type="text" placeholder="Email" class="quickfield"/> -->
+                     </div>
+                  </div> <!-- row ends here -->
                 
-<div class="row">                
-<div class="col-lg-4 quickname">Phone :</div>
-<div class="col-lg-8">
-<%= f.text_field :phone_number, placeholder: "Phone Number", class: "quickfield" %>  
-<!-- <input type="text" placeholder="Phone" class="quickfield"/> -->
-</div>
-</div> <!-- row ends here -->
+                  <div class="row">                
+                     <div class="col-lg-4 quickname">Phone :</div>
+                     <div class="col-lg-8">
+                       <%= f.number_field :phone_number, min:1, placeholder: "Phone Number", maxlength: 10,  class: "quickfield" %>  
+                         <!-- <input type="text" placeholder="Phone" class="quickfield"/> -->
+                     </div>
+                  </div> <!-- row ends here -->
                 
-<div class="row">                
-<div class="col-lg-4 quickname">Comments :</div>
-<div class="col-lg-8">
-<%= f.text_area :comments , class: "quickfield2" %>
-<!-- <textarea class="quickfield2"></textarea> -->
-</div>                	
-</div> <!-- row ends here -->
+                  <div class="row">                
+                     <div class="col-lg-4 quickname">Comments :</div>
+                     <div class="col-lg-8">
+                       <%= f.text_area :comments , maxlength: 100 , class: "quickfield2" %>
+                          <!-- <textarea class="quickfield2"></textarea> -->
+                     </div>                	
+                  </div> <!-- row ends here -->
                 
-<div class="row">                
-<div class="col-lg-4 quickname"></div>
-<div class="col-lg-8">
-<%= f.submit "Submit", class: "enterbut" %>
-<% end %>
- <!-- <a href="#" class="enterbut">Submit</a>-->
-  </div>                	
-</div> <!-- row ends here -->
-                
-                
-</div> <!-- col-lg-4 col-md-4 col-sm-12 wow fadeInUp ends here -->
-  
-</div> <!-- footer row ends here -->
-</div> <!-- footer container ends here -->
+                  <div class="row">                
+                     <div class="col-lg-4 quickname"></div>
+                     <div class="col-lg-8">
+                           <%= f.submit "Submit", class: "enterbut" %>
+                     </div>
+                  </div><!-- row ends here -->
+               <% end %>
+          </div> <!-- col-lg-4 col-md-4 col-sm-12 wow fadeInUp ends here -->
+      </div> <!-- footer row ends here -->
+    </div> <!-- footer container ends here -->
 <!-- {%FOOTER_LINK} -->
-</footer>
+  </footer>
 
-  
-<!-- <div class="container">
-<div class="row">
-
-<div class="col-sm-9">&copy; 2015 vatonwheels.com </div> <!-- /.col --> 
-<!-- <div class="col-sm-3">Design and Developed by <a href="http://iprimitus.com" target="_blank" class="iprim">iprimitus.com</a></div> <!-- /.col -->
-
-<!-- </div> <!-- /.row -->
-<!-- </div> <!-- /.container -->
-
-</body>
+  </body>
 </html>
