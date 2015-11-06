@@ -122,8 +122,15 @@ class CustomersController < ApplicationController
   
   def newcustomer_in_bill
     @customer = Customer.new
-    @customer.authuser_id = current_authuser.id
-    @customer.primary_user_id = current_authuser.invited_by_id
+     if current_authuser.main_roles.first.role_name == "secondary_user"
+      invited_by_user_id = current_authuser.invited_by_id
+      invited_user = Authuser.find(invited_by_user_id)
+      @customer.authuser_id = current_authuser.id
+      @customer.primary_user_id = invited_by_user_id
+    else
+      @customer.authuser_id = current_authuser.id
+      @customer.primary_user_id = current_authuser.id
+    end
     if current_authuser.main_roles.first.role_name == "secondary_user"
        @user_customers = Customer.where(:primary_user_id => [current_authuser.id, current_authuser.invited_by.id])
     else
@@ -139,6 +146,40 @@ class CustomersController < ApplicationController
          redirect_to new_bill_path
       else
          render action: 'new'
+      end
+    end
+  end
+
+  def new_customer_in_edit
+    @customer = Customer.new
+    @bill = Bill.find(params[:id])
+    if current_authuser.main_roles.first.role_name == "secondary_user"
+      invited_by_user_id = current_authuser.invited_by_id
+      invited_user = Authuser.find(invited_by_user_id)
+      @customer.authuser_id = current_authuser.id
+      @customer.primary_user_id = invited_by_user_id
+    else
+      @customer.authuser_id = current_authuser.id
+      @customer.primary_user_id = current_authuser.id
+    end
+    if current_authuser.main_roles.first.role_name == "secondary_user"
+       @user_customers = Customer.where(:primary_user_id => [current_authuser.id, current_authuser.invited_by.id])
+    else
+      @user_customers = Customer.where(:primary_user_id => current_authuser.id)
+    end
+    customers = @user_customers.pluck(:name)
+    if customers.any?{|customer| customer.downcase.gsub(/\s/,"")["#{params[:customer][:name].downcase.gsub(/\s/,"")}"]}
+      #redirect_to customers_user_customer_path
+      redirect_to new_bill_path
+    flash[:alert] = "#{params[:customer][:name]} is already added"
+    else  
+      if @customer.update_attributes(set_params)
+        user_id = @customer.authuser_id
+        user = Authuser.where(:id => user_id).first
+        
+        redirect_to edit_bill_path(@bill.id)
+      else
+        render action: 'new'
       end
     end
   end

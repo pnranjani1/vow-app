@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151006114518) do
+ActiveRecord::Schema.define(version: 20151104120944) do
 
   create_table "addresses", force: true do |t|
     t.string   "address_line_1"
@@ -234,6 +234,7 @@ ActiveRecord::Schema.define(version: 20151006114518) do
     t.string   "other_charges"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "authuser_id"
   end
 
   create_table "permissions", force: true do |t|
@@ -284,11 +285,12 @@ ActiveRecord::Schema.define(version: 20151006114518) do
   end
 
   create_table "taxes", force: true do |t|
-    t.string   "tax_type"
-    t.float    "tax_rate"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "tax"
+    t.integer  "authuser_id"
+    t.string   "tax_name"
+    t.string   "tax_type"
+    t.boolean  "tax_on_tax"
   end
 
   create_table "tin_numbers", force: true do |t|

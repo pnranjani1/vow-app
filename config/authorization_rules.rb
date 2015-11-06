@@ -30,8 +30,9 @@ authorization do
     has_permission_on [:dashboards], :to => [:user_dashboard]
     has_permission_on [:products], :to => [:new, :create, :show, :edit, :update, :product_user, :product_import, :product_import_report, :product_import_result]
     has_permission_on [:customers], :to => [:new, :create, :show, :edit, :update, :destroy, :user_customer, :customer_import, :customer_import_report]
-    has_permission_on [:bills], :to => [:new, :create, :show, :local_sales, :interstate_sales, :tally_import, :user_bill, :bill_reports, :generate_esugan, :local_sales_reports, :interstate_sales_reports, :tally_import_reports, :bill_local_sales_reports, :bill_interstate_sales_reports, :bill_tally_import_reports, :pdf_format, :pdf_format_select, :tally_import_report, :tally_import_excel, :invoice_format, :invoice_format_update, :captcha_image]
+    has_permission_on [:bills], :to => [:new, :create, :show, :local_sales, :interstate_sales, :tally_import, :user_bill, :bill_reports, :generate_esugan, :local_sales_reports, :interstate_sales_reports, :tally_import_reports, :bill_local_sales_reports, :bill_interstate_sales_reports, :bill_tally_import_reports, :pdf_format, :pdf_format_select, :tally_import_report, :tally_import_excel, :invoice_format, :invoice_format_update, :captcha_image, :edit, :update]
     has_permission_on [:authusers], :to => [:force_password_change, :client_edit, :client_update, :change_role, :client_create, :client_new, :user_profile_picture, :update_profile_picture, :secondary_user, :secondary_user_create, :invoice_format_update, :activate_user, :de_activate_user, :update]
+    has_permission_on [:taxes], :to => [:new, :create, :edit, :update, :show, :index]
     
  #   has_permission_on [:main_categories], :to => [:index]
        

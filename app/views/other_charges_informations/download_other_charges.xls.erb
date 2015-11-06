@@ -1,0 +1,14 @@
+<table border=1>
+  <thead>
+    <tr>
+      <th style="background-color:steelblue"> Other Charges</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @other_charges_information.each do |charges| %>
+     <tr>
+       <td><%= charges.other_charges %></td>
+     </tr>
+    <% end %>
+  </tbody>
+</table>

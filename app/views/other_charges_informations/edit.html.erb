@@ -1,0 +1,61 @@
+
+
+<div class="container">
+  <div class="content">
+    <div class="content-container">     
+
+      <div>
+        <h4 class="heading-inline">Other Charges</h4>        
+      </div>
+      <br>
+
+      <div class="row"> 
+        <div class="portlet">
+  
+          <div class="portlet-header">
+              <h3><i class="fa fa-money"></i>Add Other Charges</h3>
+          </div> <!-- /.portlet-header -->
+
+          <div class="portlet-content">
+            <%= form_for @other_charges_information do |f| %>
+               <% if @other_charges_information.errors.any? %>
+                   <div class="col-md-6">
+                      <div class= "alert alert-danger">
+                        <% @other_charges_information.errors.full_messages.each do |error| %>
+                          <ul>
+                            <li><%= error  %></li>
+                          </ul>
+                        <% end %>
+                      </div>
+                   </div>
+                <% end %>
+
+                <div class="col-sm-8"> 
+                  <b style="color:red">*</b>&nbsp;<b>Indicates the mandatory fields</b><br/><br/>
+                  
+                    <div class="row">  
+                      <label class="col-md-3">Other Charges&nbsp;&nbsp;<b style="color:red">*</b></label>
+                         <div class="col-md-6">
+                            <div id="name" class="input-group">               
+                               <span class="input-group-addon"><i class="fa fa-money"></i></span>
+                              <%= f.text_field :other_charges ,maxlength: 25, class: "form-control", required: true %>
+                            </div>
+                         </div>
+                    </div>
+                    <br>
+  
+                    <div class="row">
+                      <div class="col-md-3"></div>
+                       <div class="col-md-6">
+                         <%= f.submit "Update other Charges", class: "btn btn-success" %>&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to "Cancel", other_charges_informations_path , class: "btn btn-success" %>
+                       </div>
+                    </div>
+                </div><!-- col-sm-8 ends here -->
+              <% end %>
+           </div><!-- portlet content ends here -->
+        </div><!-- portlet ends here -->
+      </div><!-- row ends here -->
+    </div><!-- content container ends here -->
+  </div><!-- content ends here -->
+</div><!-- container ends here -->
+  

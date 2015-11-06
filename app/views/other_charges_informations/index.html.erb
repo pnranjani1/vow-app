@@ -4,14 +4,14 @@
     <div class="content-container">      
 
       <div>
-        <h4 class="heading-inline"> Taxes</h4>        
+        <h4 class="heading-inline"> Other Charges Information </h4>        
       </div>
       <br>
       <div class="row"> 
         <div class="portlet portlet-table">
           
           <div class="portlet-header">
-            <h3><i class="fa fa-money"></i>Manage Tax</h3> 
+            <h3><i class="fa fa-money"></i>Manage Other Charges</h3> 
           </div> <!-- /.portlet-header -->
 
           <div class="portlet-content">
@@ -31,25 +31,25 @@
                  <% end %>
                  <thead> 
                     <tr> 
-                      <th>Tax Name</th> 
-                      <th>Tax type</th>                       
-                      <th>Tax On Tax</th>
+                      <th>Sl.No</th> 
+                      <th>Other Charges</th>                       
                     </tr> 
                  <thead> 
                  <tbody> 
-                   <% @taxes.each do |tax| %>
+                   <% @other_charges_informations.each_with_index do |charges, index| %>
                     <tr>                      
-                      <td><%= tax.tax_name %></td>
-                      <td><%= tax.tax_type %></td>
-                      <% if tax.tax_on_tax == true %>
-                        <td> Yes </td>
-                      <% elsif tax.tax_on_tax == false %>
-                        <td> No </td>
-                      <% end %>
-                    </tr>    
+                      <td><%= index + 1 %></td>
+                      <td><%= charges.other_charges %></td>
                    <% end %>
 <%
 =begin %>
+                      <td>
+                        <%= link_to  edit_other_charges_information_path(charges.id),  title: "Edit Other Charges", class: "btn btn-xs btn-primary" do %>
+                            <i class="fa fa-edit"></i>
+                         <% end %>
+                      </td> 
+                    </tr>    
+                   <% end %>
                 
                     <!-- <td><%= link_to "Delete Tax" , tax_path(tax.id), class: "btn btn-xs btn-primary", method: :delete, data: {confirm: "Are you sure?"} %>
                     <i class="fa fa-trash-o"></i></td>                        -->
@@ -60,20 +60,20 @@
                
                <div class="portlet-footer">
                   <div class="text-right">                  
-                     <%= link_to new_tax_path ,title: "Add New Tax" do %>
+                    <%= link_to new_other_charges_information_path ,title: "Add Other Charges" do %>
                            <button class="btn btn-success">
                              <span class="glyphicon glyphicon-plus-sign"></span>
-                              &nbsp;Tax 
+                              &nbsp;Other Charges
                            </button>
                      <% end %>
                   </div><!-- text right ends -->
                </div> <!-- /.portlet-footer -->
-              &nbsp;&nbsp;&nbsp; <%=  will_paginate  @taxes, renderer: BootstrapPagination::Rails , class: "apple_pagination" %>                
+              &nbsp;&nbsp;&nbsp; <%=  will_paginate  @other_charges_informations, renderer: BootstrapPagination::Rails , class: "apple_pagination" %>                
              </div> <!-- /.table-responsive -->
-            &nbsp;&nbsp;&nbsp;<%= link_to taxes_download_tax_path(format: "xls") do %>
+            &nbsp;&nbsp;&nbsp;<%= link_to other_charges_informations_download_other_charges_path(format: "xls") do %>
                                 <button class="btn btn-success">
                                   <span class="glyphicon glyphicon-cloud-download"></span>
-                                  &nbsp; Available Tax Types
+                                  &nbsp; Available Other Charges
                                 </button>
                               <% end %>
             <br/><br/>

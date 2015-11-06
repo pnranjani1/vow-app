@@ -2,8 +2,11 @@ class TaxesController < ApplicationController
 
   before_filter :authenticate_authuser!
   
+  layout_by_action [:new, :create, :show, :edit, :update, :index] => "menu"
+  
   def index
-    @taxes = Tax.all.order('tax_rate').paginate(:page => params[:page], :per_page => 5)
+  #  @taxes = Tax.all.order('tax_rate').paginate(:page => params[:page], :per_page => 5)
+    @taxes = Tax.where(:authuser_id => current_authuser.id).order('created_at DESC').paginate(:page => params[:page], :per_page => 5)
   end
   
   def new
@@ -12,7 +15,22 @@ class TaxesController < ApplicationController
   
   def create
     @tax = Tax.new(set_params)
-    tax = Tax.all.pluck(:tax)
+    @tax.authuser_id = current_authuser.id
+    tax = Tax.where(:authuser_id => current_authuser.id).pluck(:tax_name)
+    if tax.any?{|t| t.downcase.gsub(/\s/,"")[("#{params[:tax][:tax_name]}".downcase.gsub(/\s/,""))]}
+      redirect_to taxes_path
+      flash[:alert] = "#{params[:tax][:tax_name]} is already added"
+    else
+     if @tax.save     
+      redirect_to taxes_path
+     else
+      render action: "new"
+     end
+    end
+  end
+      
+=begin
+    tax = Tax.where(:authuser_id => current_authuser.id).pluck(:tax)
     if tax.any?{|t| t.downcase.gsub(/\s/,"")[("#{params[:tax][:tax_type]}" + "#{params[:tax][:tax_rate]}".downcase.gsub(/\s/,""))]}
       redirect_to taxes_path
       flash[:alert] = "#{params[:tax][:tax_type] + params[:tax][:tax_rate].to_s} is already added"
@@ -25,7 +43,8 @@ class TaxesController < ApplicationController
          render action: 'new'
       end
     end 
-  end
+=end
+ 
   
   def show
     @tax = Tax.find(params[:id])
@@ -52,7 +71,7 @@ class TaxesController < ApplicationController
   end
 
   def download_tax
-    @taxes = Tax.all
+    @taxes = Tax.where(:authuser_id => current_authuser.id)
   end
 
 
@@ -60,7 +79,7 @@ class TaxesController < ApplicationController
   private
   
   def set_params
-    params[:tax].permit(:tax_type, :tax_rate, :tax)
+    params[:tax].permit(:tax_name, :tax_type, :tax_on_tax)
   end
   
 end

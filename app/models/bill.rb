@@ -3,6 +3,7 @@ class Bill < ActiveRecord::Base
   
  # after_create :generate_invoice_format  
   after_create :invoke_invoice_record
+  #before_update :create_urd
  # after_create :update_authuser_automated
  # after_create  :update_invoice_number
   
@@ -56,6 +57,10 @@ class Bill < ActiveRecord::Base
    # end
   end
   
+  
+  def create_urd
+    self.unregistered_customers << UnregisteredCustomer.new
+  end
    
   def invoke_invoice_record
      user = Authuser.current

@@ -111,6 +111,10 @@ Rails.application.routes.draw do
   get 'products/download_product' => "products#download_product"
   get 'customers/download_customer' => "customers#download_customer"
   get 'bills/download_excel' => 'bills#download_excel'
+  post 'customers/new_customer_in_edit'
+  post 'products/new_product_in_edit'
+  get 'other_charges_informations/download_other_charges' => "other_charges_informations#download_other_charges"
+  
   
  # patch 'bills/pdf_format_select'
     
@@ -141,6 +145,7 @@ Rails.application.routes.draw do
   resources :referral_types
   resources :tin_numbers 
   resources :service_taxes
+  resources :other_charges_informations
   
   
   # The priority is based upon order of creation: first created -> highest priority.

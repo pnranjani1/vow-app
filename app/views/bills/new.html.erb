@@ -42,6 +42,15 @@
         });
       });  
     </script>
+     
+     <script>
+       $(document).ready(function(){
+         $("#state_list").change(function(){
+          var selectedOption = $("#state_list:selected").val();
+           $("#state-tin").val();
+         });
+       });
+     </script>
 
    <div class="row"> 
       
@@ -270,7 +279,7 @@
                               Mobile Number &nbsp;&nbsp;
                                <div id="email" class="input-group">          
                                   <span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
-                                 <%= customer.number_field :phone_number, :maxlength => 10, class: "form-control" %>
+                                 <%= customer.text_field :phone_number, :maxlength => 10, class: "form-control" %>
                                </div>
                             </div> <!-- /.col -->
                     
@@ -296,13 +305,12 @@
                                State<b style="color:red">*</b>
                                  <div id="name" class="input-group">  
                                    <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
-                                     <%= customer.collection_select :state, TinNumber.all, :state, :state, {:prompt => "Select State"}, {class: "form-control", :id => "state_list" , remote: true}  %>
+                                   <%= customer.collection_select :state, TinNumber.all, :state, :state, {:prompt => "Select State"}, {class: "form-control", :id => "state_list" }  %>
                                  </div>
                             </div> <!-- /.col -->
-                          
-                             
+                         <% end %>
                         </div><!-- row ends here -->
-                     <% end %><!-- fields_for unregistered customers ends here -->
+                    
                   </div><!-- id=text box ends here-->
  
            </div> <!-- portlet content ends here -->

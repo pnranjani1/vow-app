@@ -295,6 +295,35 @@
                                       </ul>
                                  </li>
                           <% end %>
+                          <!-- settings -->
+              <% if controller_name == "taxes" || controller_name == "other_charges_informations" && action_name == "new" || action_name == "index" || action_name == "edit" %>
+                                      <li class="active dropdown">
+                                   <% else %>
+                                      <li class="dropdown ">   
+                                   <% end %>
+                                   <%= link_to  bills_bill_local_sales_reports_path, class: "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>
+                                        <i class="fa fa-download"></i>Settings<span class="caret"></span>
+                                   <% end %>
+                                  
+
+                                      <ul class="dropdown-menu">
+                                        <li><%= link_to taxes_path do %>
+                                                 <i class="fa fa-download nav-icon"></i> Manage Tax
+                                            <% end %>
+                                        </li>
+                                        
+                                        <li><%= link_to other_charges_informations_path do %>
+                                                 <i class="fa fa-download nav-icon"></i> Manage Other Charges 
+                                            <% end %>
+                                        </li>
+                                        
+                                        <li><%= link_to bills_interstate_report_path do %>
+                                                <i class="fa fa-download nav-icon"></i> Manage Invoice Number Format 
+                                            <% end %>
+                                        </li>                                        
+                                      </ul>
+                                 </li>
+              
             </ul><!-- nav navbar-nav mainbar-nav --ends here -->
           </div> <!-- /.mainbar-collapse -->   
        </div> <!-- /.container --> 

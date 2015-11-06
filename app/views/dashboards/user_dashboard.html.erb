@@ -48,6 +48,7 @@
                 <tr> 
                   <th>Name</th> 
                   <th>Email</th> 
+                  <th>Membership Start Date</th>
                   <th>Membership End Date</th>
                   <th>Activate/Deactivate User</th>
                   <th>No of Cash based Applications</th> 
@@ -67,8 +68,16 @@
                   <tr>
                     <td style="text-align:center" class="hidden-xs"><%= user.name %></td>
                     <td style="text-align:center"><%= user.email %></td>
+                    
+                    
+                    <% if user.membership.membership_start_date.present? %>
+                    <td style="text-align:center"><%=  user.membership.membership_start_date.strftime("%d %b %Y") %></td>
+                    <% else %>
+                       <td style="text-align:center">NA </td>
+                    <% end %>
+                    
                     <% if user.membership.membership_end_date.present? %>
-                    <td style="text-align:center"><%= link_to user.membership.membership_end_date.strftime("%d %b %Y"), edit_membership_path(user.membership.id) ,  class: "listconttext"%></td>
+                    <td style="text-align:center"><%= user.invited_by.membership.membership_end_date.strftime("%d %b %Y") %></td>
                     <% else %>
                        <td style="text-align:center">NA </td>
                     <% end %>

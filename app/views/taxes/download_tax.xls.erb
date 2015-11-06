@@ -1,15 +1,17 @@
 <table border=1>
   <thead>
     <tr>
-      <th style="background-color:steelblue"> Tax Type</th>
-      <th style="background-color:steelblue">Tax Rate</th>
+      <th style="background-color:steelblue"> Tax Name</th>
+      <th style="background-color:steelblue">Tax Type</th>
+      <th style="background-color:steelblue">Tax on Tax</th>      
     </tr>
   </thead>
   <tbody>
     <% @taxes.each do |tax| %>
      <tr>
-      <td><%= tax.tax_type %></td>
-      <td><%= tax.tax_rate %></td>
+       <td><%= tax.tax_name %></td>
+       <td><%= tax.tax_type %></td>
+       <td><%= tax.tax_on_tax %></td>       
      </tr>
     <% end %>
   </tbody>

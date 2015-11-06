@@ -154,8 +154,15 @@ class ProductsController < ApplicationController
   
   def newproduct_in_bill
     @product = Product.new     
-    @product.authuser_id = current_authuser.id
-    @product.primary_user_id = current_authuser.invited_by_id
+    if current_authuser.main_roles.first.role_name == "secondary_user"
+        invited_by_user_id = current_authuser.invited_by_id
+        invited_user = Authuser.find(invited_by_user_id)
+        @product.authuser_id = current_authuser.id
+        @product.primary_user_id = invited_by_user_id
+      else
+        @product.primary_user_id = current_authuser.id
+        @product.authuser_id = current_authuser.id
+      end
     if current_authuser.main_roles.first.role_name == "secondary_user"
       @user_products = Product.where(:primary_user_id => [current_authuser.id, current_authuser.invited_by.id])
     else
@@ -168,6 +175,35 @@ class ProductsController < ApplicationController
     else
       if @product.update_attributes(set_params)
         redirect_to new_bill_path
+      else
+        render action: 'new'
+      end
+    end
+  end
+
+  def new_product_in_edit
+    @product = Product.new     
+    if current_authuser.main_roles.first.role_name == "secondary_user"
+        invited_by_user_id = current_authuser.invited_by_id
+        invited_user = Authuser.find(invited_by_user_id)
+        @product.authuser_id = current_authuser.id
+        @product.primary_user_id = invited_by_user_id
+      else
+        @product.primary_user_id = current_authuser.id
+        @product.authuser_id = current_authuser.id
+      end
+    if current_authuser.main_roles.first.role_name == "secondary_user"
+      @user_products = Product.where(:primary_user_id => [current_authuser.id, current_authuser.invited_by.id])
+    else
+      @user_products = Product.where(:primary_user_id => current_authuser.id)
+    end
+    products = @user_products.pluck(:product_name)
+    if products.any?{|product| product.downcase.gsub(/\s/,"")["#{params[:product][:product_name].downcase.gsub(/\s/,"")}"]}
+      redirect_to new_bill_path
+    flash[:alert] = "#{params[:product][:product_name]} is already added"
+    else
+      if @product.update_attributes(set_params)
+        redirect_to edit_bill_path
       else
         render action: 'new'
       end
