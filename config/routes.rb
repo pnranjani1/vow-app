@@ -96,6 +96,7 @@ Rails.application.routes.draw do
   get 'dashboards/secondary_user_dashboard'
   get 'bills/tally_import_report'
   get 'bills/tally_import_excel'
+  get 'authusers/invoice_format'
   patch 'authusers/invoice_format_update'
   get 'bills/secondary_user_bill'
   get 'bills/secondary_user_activity_report'
@@ -114,6 +115,7 @@ Rails.application.routes.draw do
   post 'customers/new_customer_in_edit'
   post 'products/new_product_in_edit'
   get 'other_charges_informations/download_other_charges' => "other_charges_informations#download_other_charges"
+  post 'bills/sub_user_bill'
   
   
  # patch 'bills/pdf_format_select'
@@ -146,6 +148,8 @@ Rails.application.routes.draw do
   resources :tin_numbers 
   resources :service_taxes
   resources :other_charges_informations
+  resources :bill_taxes
+  
   
   
   # The priority is based upon order of creation: first created -> highest priority.

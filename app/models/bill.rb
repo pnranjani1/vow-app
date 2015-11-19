@@ -3,20 +3,29 @@ class Bill < ActiveRecord::Base
   
  # after_create :generate_invoice_format  
   after_create :invoke_invoice_record
+  after_save :generate_tax_amount
+  #after_create :generate_tax_amount
+  #after_update :generate_tax_amount
+  
+  
   #before_update :create_urd
  # after_create :update_authuser_automated
  # after_create  :update_invoice_number
   
   
  #before_save :generate_invoice_record
-  
+  before_save :generate_other_charges
   before_save :generate_grand_total
   before_save :generate_tax_type#self.line_items.pluck(:tax_id) != empty
   
-  belongs_to :other_charges_information
-  
   has_many :line_items 
   has_many :products, through: :line_items
+  
+  #has_many :bill_taxes
+  #has_many :taxes, through: :bill_taxes
+  
+  has_many :bill_other_charges
+  has_many :other_charges_informations, through: :bill_other_charges
   
   belongs_to :customer
   has_many :unregistered_customers
@@ -24,6 +33,7 @@ class Bill < ActiveRecord::Base
   
   #belongs_to :tax
   has_one :invoice_record
+  has_many :bill_taxes
  
  
   
@@ -45,6 +55,8 @@ class Bill < ActiveRecord::Base
   
   accepts_nested_attributes_for :line_items, :allow_destroy => true, :reject_if => :all_blank
   accepts_nested_attributes_for :unregistered_customers
+  accepts_nested_attributes_for :bill_taxes
+  accepts_nested_attributes_for :bill_other_charges, :allow_destroy => true, :reject_if => :all_blank
   
   
    def generate_invoice_format
@@ -57,6 +69,16 @@ class Bill < ActiveRecord::Base
    # end
   end
   
+  def generate_other_charges
+    other_charges = BillOtherCharge.where(:bill_id => self.id)
+    if !other_charges.nil?
+      charges = other_charges.sum(:other_charges_amount)
+      self.other_charges = charges
+    else
+      self.other_charges = nil
+    end
+      
+  end
   
   def create_urd
     self.unregistered_customers << UnregisteredCustomer.new
@@ -92,14 +114,14 @@ class Bill < ActiveRecord::Base
       user = Authuser.where(:id => primary_user_id).first
        bill_ids = InvoiceRecord.all.pluck(:bill_id)
       last_bill = Bill.where(:authuser_id => user.id).last
-      if (secondary_user.invoice_format == "automatic") && (self.invoice_format == "automatic")
+      if (user.invoice_format == "automatic") && (self.invoice_format == "automatic")
          if user.invoice_records.blank?
            self.build_invoice_record
            self.invoice_record.number = "001"
            self.invoice_record.authuser_id = self.authuser.id
            self.invoice_record.bill_id = self.id
            self.record_number = "001"
-         elsif (secondary_user.invoice_format == "automatic") &&  user.invoice_records.present?
+         elsif (user.invoice_format == "automatic") &&  user.invoice_records.present?
             bill_id = Bill.where(:authuser_id => user.id).last.id
             invoice = InvoiceRecord.where(:authuser_id => user.id).last
             number_updated = invoice.number.to_i + 1
@@ -158,20 +180,34 @@ class Bill < ActiveRecord::Base
   
   def generate_grand_total   
     products_other_charges = self.total_bill_price.to_f + self.other_charges.to_f
-    tax_total = self.line_items.sum(:tax_rate)
-    service_total = self.line_items.sum(:service_tax_amount)
-    self.grand_total = ((products_other_charges.to_f  + tax_total.to_f + service_total.to_f) - discount.to_f)
+    #tax_total = self.line_items.sum(:tax_rate)
+    tax_total = self.bill_taxes.sum(:tax_amount)
+#    service_total = self.line_items.sum(:service_tax_amount)
+    self.grand_total = ((products_other_charges.to_f  + tax_total.to_f ) - discount.to_f)
   end
 
   def generate_tax_type
-   # self.tax_type  = self.line_items.first.tax.tax_type
-    items = self.line_items.pluck(:tax_type)
-    item = items.compact
-    if item.empty?
+    tax = BillTax.where(:bill_id => self.id)
+    all_taxes = tax.pluck(:tax_name)
+    taxes_without_nil = all_taxes.compact
+    if taxes_without_nil.empty?
       self.tax_type = "No Tax"
-    else
-      self.tax_type = item.first
+    elsif taxes_without_nil.include? "VAT"
+      self.tax_type = "VAT"
+    elsif taxes_without_nil.include? "CST"
+      self.tax_type = "CST"
+    else 
+      self.tax_type = "Other Tax"
     end
+   # self.tax_type  = self.line_items.first.tax.tax_type
+    # below commeneted after introducing tax for each user
+    #items = self.line_items.pluck(:tax_type)
+    #item = items.compact
+    #if item.empty?
+     # self.tax_type = "No Tax"
+    #else
+    #  self.tax_type = item.first
+    #end
   end
   
   
@@ -194,6 +230,38 @@ class Bill < ActiveRecord::Base
       end
     end
   end
+  
+  def generate_tax_amount
+   self.bill_taxes.each do |billtax|
+    if ((billtax.tax_name != "VAT") && (billtax.tax_name != "CST"))
+      if billtax.tax.tax_type == "Flat"
+         billtax.update_attribute(:tax_amount , billtax.tax_rate)
+      elsif billtax.tax.tax_type == "Percentage"
+        billtax.update_attribute(:tax_amount, (billtax.line_item.total_price * (billtax.tax_rate/100)))
+      end
+    elsif (billtax.tax_name == "VAT") || (billtax.tax_name == "CST")
+      other_taxes = billtax.line_item.bill_taxes.where.not(:tax_name => ["VAT", "CST"])
+      other_tax_amount = other_taxes.sum(:tax_amount)
+      puts other_tax_amount
+      if billtax.tax.tax_on_tax == "yes"        
+        if billtax.tax.tax_type == "Percentage"      
+          puts (other_tax_amount + billtax.line_item.total_price)
+          puts (billtax.tax_rate/100)
+          billtax.update_attribute(:tax_amount, ((other_tax_amount + billtax.line_item.total_price) * (billtax.tax_rate/100)))
+        elsif billtax.tax.tax_type == "Flat"
+          billtax.update_attribute(:tax_amount, billtax.tax_rate)
+        end
+      elsif billtax.tax.tax_on_tax == "no"
+        if billtax.tax.tax_type == "Percentage"        
+          billtax.update_attribute(:tax_amount, ((billtax.line_item.total_price) * (billtax.tax_rate/100)))
+        elsif billtax.tax.tax_type == "Flat"
+          billtax.update_attribute(:tax_amount, billtax.tax_rate)
+        end
+      end
+    end
+   end
+  end
+  
   
   def get_esugam_number
     @bill = self 

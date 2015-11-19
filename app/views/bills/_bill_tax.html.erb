@@ -1,0 +1,37 @@
+  
+                <!-- Button trigger modal for adding taxes to line items -->
+                <!-- Modal -->
+                 <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                         <div class="modal-dialog">
+                           <div class="modal-content">
+                              <div class="modal-header">
+                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                     <h4 class="modal-title" id="myModalLabel">Add Product</h4>
+                              </div><!-- modal header ends here -->
+                              <div class="modal-body">
+                      
+                       <div class="row">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                         <div class="col-md-3">
+                          <strong>Tax&nbsp;<b style="color:red">*</b></strong> 
+                          <div id="quantity_div" class="input-group">               
+                            <span class="input-group-addon"><i class="fa fa-money"></i></span>
+                            <%= f.collection_select :tax_id , Tax.all, :id, :tax_name , {prompt: "Select Tax"}, {class: "form-control", :id => 'tax-item'} %>
+                          </div>
+                         </div> <!-- /.col -->
+                    
+                         <div class="col-md-3">
+                           <strong>Tax Rate&nbsp;<b style="color:red">*</b></strong> 
+                           <div id="quantity_div" class="input-group">               
+                             <span class="input-group-addon"><i class="fa fa-money"></i></span>
+                             <%= f.text_field :tax_rate, class: "form-control" %>
+                           </div>
+                         </div> <!-- /.col -->
+                       </div><!-- row ends here -->
+                       <br/>
+                     
+                     </div><!-- modal body ends here -->
+                         </div><!-- modal content ends here -->
+                        </div><!-- modal dialog ends here -->
+                       </div><!-- modal fade ends here -->
+                
+  

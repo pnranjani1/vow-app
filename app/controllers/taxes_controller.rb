@@ -6,7 +6,7 @@ class TaxesController < ApplicationController
   
   def index
   #  @taxes = Tax.all.order('tax_rate').paginate(:page => params[:page], :per_page => 5)
-    @taxes = Tax.where(:authuser_id => current_authuser.id).order('created_at DESC').paginate(:page => params[:page], :per_page => 5)
+     @taxes = Tax.where(:authuser_id => current_authuser.id).order('created_at DESC').paginate(:page => params[:page], :per_page => 5)
   end
   
   def new
@@ -79,7 +79,7 @@ class TaxesController < ApplicationController
   private
   
   def set_params
-    params[:tax].permit(:tax_name, :tax_type, :tax_on_tax)
+    params[:tax].permit(:id, :tax_name, :tax_type, :tax_on_tax)
   end
   
 end

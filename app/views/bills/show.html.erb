@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
- <meta http-equiv="refresh" content="55">
+ <!-- <meta http-equiv="refresh" content="55"> -->
 </head>
   
  <div class="container">
@@ -107,7 +107,7 @@
                </div><!-- row ends here-->
               </div> <!-- /.portlet-header -->
 
-              <div class="portlet-content">
+             <div class="portlet-content">
                  <div id="user_notice" class='hide'>
                     Esugam number has been generated successfully!
                  </div>
@@ -128,8 +128,7 @@
                        <thead> 
                            <tr> 
                               <th>Description of Goods</th> 
-                              <th>Tax Rate %</th>
-                              <th>Service Tax %</th>
+                              <th>Tax </th>
                               <th>Quantity</th>  
                               <th>Unit Price</th>
                               <th>Total Price</th> 
@@ -144,44 +143,73 @@
                                       <br/>&nbsp;&nbsp;<%= line_item.item_description %>
                                    <% end %>
                                   </td> 
-                                   
-                                   <% if line_item.tax_id != nil %>
-                                     <% tax_type = line_item.tax.tax %>
-                                     <td><%= tax_type %></td>
-                                   <% else %>
-                                      <td> NA </td>
-                                   <% end %>
- 
-                                   <% if line_item.service_tax_rate != nil %>
-                                     <td><%= line_item.service_tax_rate %></td>
-                                     <%#= line_item.service_tax_amount.round(2) %>
-                                   <% else %>
-                                     <td>NA </td>
-                                   <% end %>
                                  
-                                   <% qty = line_item.quantity %>
-                                   <% if qty % 1 == 0.0 %>
-                                     <td><%= qty.to_i %></td>
-                                   <% else %>
-                                     <td><%= qty %></td>
-                                   <% end %>
+                                  <% if line_item.bill_taxes.present? %>
+                                   <td>
+                                     <% line_item.bill_taxes.each do |tax| %>
+                                     <% tax_type =  tax.tax.tax_type %>
+                                       
+                                        <ul style="list-style:none;">
+                                          <% if tax_type == "Percentage" %>
+                                           <li>
+                                             <%= tax.tax_type %> %
+                                           </li>
+                                          <% else  %>
+                                           <li>
+                                             <%= tax.tax_type %> 
+                                           </li>
+                                          <% end %>
+                                        </ul>
+                                     <% end %>
+                                   </td>
+                                  <% else %>
+                                    <td>NA</td>   
+                                  <% end %>
+                                 
+                                 
+<%
+=begin %>        
+<!-- follwing code is commented due to db design change -->
+<% if line_item.tax_id != nil %>
+   <% tax_type = line_item.tax.tax %>
+   <td><%= tax_type %></td>
+<% else %>
+   <td> NA </td>
+<% end %>
+
+<% if line_item.service_tax_rate != nil %>
+  <td><%= line_item.service_tax_rate %></td>
+    <%#= line_item.service_tax_amount.round(2) %>
+<% else %>
+  <td>NA </td>
+<% end %>
+<%
+=end %> 
+<!-- comments end -->
+                                  <% qty = line_item.quantity %>
+                                  <% if qty % 1 == 0.0 %>
+                                    <td><%= qty.to_i %></td>
+                                  <% else %>
+                                    <td><%= qty %></td>
+                                  <% end %>
    
-                                   <td><%= number_with_delimiter(line_item.unit_price, :delimiter => ',') %></td> 
-                                   <td><%= number_with_delimiter(line_item.total_price.round(2), :delimiter => ',')  %></td>
+                                  <td><%= number_with_delimiter(line_item.unit_price, :delimiter => ',') %></td> 
+                                  <td><%= number_with_delimiter(line_item.total_price.round(2), :delimiter => ',')  %></td>
                            <% end %>                      
-                                  
 <%
 =begin %>
-   <% if line_item.service_tax.present? %>
-      <td><%= line_item.service_tax.service_tax_rate %></td>
-      <td><%= ((line_item.service_tax.service_tax_rate/100) * line_item.total_price).round(2) %></td>
-   <% else %>
-      <td>NA </td>
-      <td>NA</td>
-   <% end %>
+<!-- following code is commented due to db design change -->
+ <% if line_item.service_tax.present? %>
+     <td><%= line_item.service_tax.service_tax_rate %></td>
+     <td><%= ((line_item.service_tax.service_tax_rate/100) * line_item.total_price).round(2) %></td>
+ <% else %>
+     <td>NA </td>
+     <td>NA</td>
+ <% end %>
  </tr>   
 <%
 =end %>
+<!-- comment ends -->
                            <tr>
                               <td colspan="6">      
                                  <div class="comlin">
@@ -192,11 +220,13 @@
                                            <td><%= number_with_delimiter(@bill.total_bill_price.round(2), :delimiter => ',') %></td>
                                         </tr>
  
-                                        <% if @bill.other_charges_information_id != nil %>
-                                           <tr>
-                                              <td><strong><%= @bill.other_charges_information.other_charges %></strong></td>
-                                              <td><%= number_with_delimiter(@bill.other_charges, :delimiter => ',') %></td>
-                                           </tr>
+                                        <% if @bill.bill_other_charges.present? %>
+                                          <% @bill.bill_other_charges.each do |charges| %>
+                                             <tr>
+                                               <td><strong><%= charges.other_charges_information.other_charges %></strong></td>
+                                               <td><%= number_with_delimiter(charges.other_charges_amount, :delimiter => ',') %></td>
+                                             </tr>
+                                          <% end %>
                                         <% end %>
                                       
                                         <% if @bill.discount.present? %>
@@ -205,81 +235,130 @@
                                              <td><%= @bill.discount %></td>
                                            </tr>
                                         <% end %>
-  
+                                        
+                                        <!-- sub total -->
                                         <tr>
-                                           <% total = @bill.total_bill_price.to_f + @bill.other_charges.to_f  - @bill.discount.to_f %>    
-                                           <td><strong>Sub-Total </strong></td>
-                                           <td><%= number_with_delimiter((total).round(2), :delimiter => ',') %></td>
+                                          <!-- <%  tax_amount = @bill.bill_taxes.where.not(:tax_name => ["VAT", "CST"]).sum(:tax_amount) %> -->
+                                          <% total = @bill.total_bill_price.to_f + @bill.other_charges.to_f - @bill.discount.to_f %>                                      
+                                          <td><strong>Sub-Total </strong></td>
+                                          <td><%= number_with_delimiter((total).round(2), :delimiter => ',') %></td>
                                         </tr>
-  
+                                    <!-- different tax details -->
+                                        <% tax_names = @bill.bill_taxes.pluck(:tax_name) %>
+                                        <% taxes_with_rate = @bill.bill_taxes.pluck(:tax_type).uniq %>
+                                        <% if taxes_with_rate.grep(/VAT/).any? %>
+                                          <%  getting_vat = taxes_with_rate.grep(/VAT/) %>
+                                          <% tax_without_vat = taxes_with_rate - getting_vat %>
+                                          <% tax_without_vat.each do |tax| %>
+                                            <%  tax_amount = @bill.bill_taxes.where(:tax_type => tax).sum(:tax_amount) %>
+                                            <tr>
+                                              <td><strong><%= tax %></strong></td>
+                                              <td><%= tax_amount %></td>
+                                            </tr>
+                                          <% end %>
+                                        <% elsif taxes_with_rate.grep(/CST/).any? %>
+                                            <%  getting_cst = taxes_with_rate.grep(/CST/) %>
+                                            <% tax_without_cst = taxes_with_rate - getting_cst %>
+                                            <% tax_without_cst.each do |tax| %>
+                                               <%  tax_amount = @bill.bill_taxes.where(:tax_type => tax).sum(:tax_amount) %>
+                                               <tr>     
+                                                 <td><strong><%= tax %></strong></td>
+                                                  <td><%= tax_amount %></td>
+                                               </tr>
+                                            <% end %>
+                                        <% end %>
+                                        
+                                         
+                                      <!-- VAT CST details -->
+                                      <% bill_taxes = @bill.bill_taxes.where(:tax_name => ["VAT", "CST"]) %>
+                                      <% tax_types = bill_taxes.pluck(:tax_type) %>
+                                      <% unique_taxes = tax_types.uniq %>
+                                      <%  unique_taxes.each do |tax| %>
+                                        <% tax_amount = @bill.bill_taxes.where(:tax_type => tax).sum(:tax_amount)  %>
+                                         <tr>
+                                           <td><strong><%= tax %></strong></td>
+                                           <td><%= tax_amount %></td>
+                                         </tr>
+                                      <% end %>
+                                      
+                                       
+                                         
 <% 
 =begin %>
-  <!-- removing tax from bill for including tax in line item-->
+                                       <% vat_cst = @bill.bill_taxes.where(:tax_name => ["VAT", "CST"]) %>
+                                          <% groups = vat_cst.each do|tax| %>
+                                            <tr>
+                                              <td><strong><%= tax.tax_type %></strong></td>
+                                              <td><%= tax.tax_amount %></td>
+                                            </tr>
+                                          <% end %>
+   <!-- removing tax from bill for including tax in line item-->
 <tr>
 <% total = @bill.total_bill_price.to_f + @bill.other_charges.to_f %>    
   <td><strong><%= @bill.tax.tax_type %>  @ <%= @bill.tax.tax_rate %> % on <%=number_with_delimiter(total.round(2), :delimiter => ',') %></strong></td>
   <td><%=  number_with_delimiter((@bill.tax.tax_rate * 0.01*total).round(2), :delimiter => ',') %></td>
 </tr>
-<%
-=end %>
-                                      <%  taxes = @bill.line_items.pluck(:tax_id) %>
-                                      <% if taxes.any? %>
-                                         <% tax_rates_ids = taxes.uniq %>
-                                         <% tax_rates_ids.each do |line_item_tax_id| %>
-                                            <% if line_item_tax_id != nil %>
-                                              <% tax_type = Tax.where(:id => line_item_tax_id).first.tax_type %>
-                                              <% tax_rate = Tax.where(:id => line_item_tax_id).first.tax_rate %>
-                                              <% line_items = @bill.line_items.where(:tax_id => line_item_tax_id) %>
-                                              <% line_items_total_price =  line_items.sum(:total_price) %>
-                                              <tr>
-                                                <td><strong><%= tax_type %> @ <%= tax_rate %>% on <%= line_items_total_price.round(2) %></strong></td>
-                                                <td><%= (line_items_total_price * (tax_rate/100)).round(2) %></td>
-                                              </tr>
-                                            <% end %>
-                                         <% end %>
-                                      <% else %>
-                                        <tr>
-                                          <td><strong> Tax </strong></td>
-                                          <td> NA </td>
-                                        </tr>
-                                      <% end %>
-
-                                        <% service_tax = @bill.line_items.pluck(:service_tax_rate) %>
-                                        <% if service_tax.any? %>
-                                           <% service_tax_rates = @bill.line_items.map(&:service_tax_rate) %>
-                                           <% service_tax_rates = service_tax_rates.uniq %>
-                                           <% service_tax_rates.each do |service_tax| %>
-                                             <% if service_tax != nil %>
-                                               <tr>
-                                                  <% line_items = @bill.line_items.where(:service_tax_rate => service_tax) %>
-                                                  <% line_items_total_price = line_items.sum(:total_price) %>
-                                                  <td><strong>Service Tax Total @ <%= service_tax %> on <%= line_items_total_price %></strong></td>
-                                                  <td><%= ((service_tax/100) * line_items_total_price).round(2) %></td>
-                                              </tr>
-                                             <% end %>
-                                           <% end %>
-                                        <% else %>
-                                            <tr>
-                                               <td><strong>Service Tax </strong></td>
-                                               <td>NA </td>
-                                            </tr>
-                                        <% end %>
-<%
-=begin %>
-  <!-- grouping by service tax -->
+ <!--  removing tax from line items since it is added in bill taxes table -->
+ 
+<%  taxes = @bill.line_items.pluck(:tax_id) %>
+<% if taxes.any? %>
+   <% tax_rates_ids = taxes.uniq %>
+   <% tax_rates_ids.each do |line_item_tax_id| %>
+     <% if line_item_tax_id != nil %>
+       <% tax_type = Tax.where(:id => line_item_tax_id).first.tax_type %>
+       <% tax_rate = Tax.where(:id => line_item_tax_id).first.tax_rate %>
+       <% line_items = @bill.line_items.where(:tax_id => line_item_tax_id) %>
+       <% line_items_total_price =  line_items.sum(:total_price) %>
+       <tr>
+         <td><strong><%= tax_type %> @ <%= tax_rate %>% on <%= line_items_total_price.round(2) %></strong></td>
+         <td><%= (line_items_total_price * (tax_rate/100)).round(2) %></td>
+       </tr>
+     <% end %>
+   <% end %>
+<% else %>
   <tr>
-   <% groups = @bill.line_items.group_by(&:service_tax_id) %>
-   <% groups.keys.sort.each do |key, value| %>
-      <% service_id =  key %>
-      <% service_tax = ServiceTax.find(service_id) %>
-      <% line_items = @bill.line_items.where(:service_tax_id => key) %>
-      <% total_price_sum = line_items.sum(:total_price) %>
-      <% service_tax_sum =  (total_price_sum * (service_tax.service_tax_rate/100)).round(2) %>
-      <td><strong>Service Tax at  <%= service_tax.service_tax_rate  %> on <%= total_price_sum %></strong></td>
-      <td><%=  service_tax_sum %></td>  
-  <% end %>
+    <td><strong> Tax </strong></td>
+    <td> NA </td>
+  </tr>
+<% end %>
+ 
+<!-- line_items.bill_taxes will work since many taxes can be added to line item based on requirement -->
+ <% taxes = @bill.bill_taxes.pluck(:tax_type) %>
+ <% unique_taxes = taxes.uniq %>
+ <% service_tax = @bill.line_items.pluck(:service_tax_rate) %>
+ <% if service_tax.any? %>
+    <% service_tax_rates = @bill.line_items.map(&:service_tax_rate) %>
+    <% service_tax_rates = service_tax_rates.uniq %>
+    <% service_tax_rates.each do |service_tax| %>
+      <% if service_tax != nil %>
+           <tr>
+             <% line_items = @bill.line_items.where(:service_tax_rate => service_tax) %>
+             <% line_items_total_price = line_items.sum(:total_price) %>
+             <td><strong>Service Tax Total @ <%= service_tax %> on <%= line_items_total_price %></strong></td>
+             <td><%= ((service_tax/100) * line_items_total_price).round(2) %></td>
+           </tr>
+      <% end %>
+    <% end %>
+ <% else %>
+   <tr>
+      <td><strong>Service Tax </strong></td>
+      <td>NA </td>
+   </tr>
+<!-- grouping by service tax -->
+   <tr>
+     <% groups = @bill.line_items.group_by(&:service_tax_id) %>
+     <% groups.keys.sort.each do |key, value| %>
+       <% service_id =  key %>
+       <% service_tax = ServiceTax.find(service_id) %>
+       <% line_items = @bill.line_items.where(:service_tax_id => key) %>
+       <% total_price_sum = line_items.sum(:total_price) %>
+       <% service_tax_sum =  (total_price_sum * (service_tax.service_tax_rate/100)).round(2) %>
+       <td><strong>Service Tax at  <%= service_tax.service_tax_rate  %> on <%= total_price_sum %></strong></td>
+       <td><%=  service_tax_sum %></td>  
+     <% end %>
 <%
 =end %>
+<!-- comments ends -->
                                         <tr>
                                           <td><strong>Grand Total</strong></td>
                                           <td><%= number_with_delimiter((@bill.grand_total).round(2), :delimiter => ',') %></td>
@@ -362,7 +441,7 @@
                  </div> <!-- /.table-responsive -->
              </div> <!-- /.portlet-content -->
            </div> <!-- /.portlet -->
-       </div> <!-- /.row -->
+        </div> <!-- /.row -->
      </div> <!-- content container ends here -->
    </div> <!-- contemt ends here -->
  </div> <!-- container ends here -->

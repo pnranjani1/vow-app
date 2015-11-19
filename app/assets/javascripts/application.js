@@ -134,3 +134,9 @@ $(document).ready(function(){
       console.log("okay");
     });
   });
+
+ $(document).ready(function(){
+   $("#sub-user").change(function(){
+     $(this).parent('form').submit();
+   }); 
+ });

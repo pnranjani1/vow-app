@@ -7,7 +7,7 @@ class BillsController < ApplicationController
   require 'will_paginate/array'
   
   #layout 'menu', :only => [:user_bill, :new, :create, :show, :local_sales, :interstate_sales, :tally_import]
-   layout_by_action [:user_bill, :new, :create, :show, :local_sales, :interstate_sales, :tally_import, :esnget, :bill_reports, :bill_local_sales_reports, :bill_interstate_sales_reports, :bill_tally_import_reports, :pdf_format, :pdf_format_select, :local_report, :interstate_report, :tally_import_report, :tally_import_excel, :edit, :bill_edit] => "menu"
+   layout_by_action [:user_bill, :new, :create, :show, :local_sales, :interstate_sales, :tally_import, :esnget, :bill_reports, :bill_local_sales_reports, :bill_interstate_sales_reports, :bill_tally_import_reports, :pdf_format, :pdf_format_select, :local_report, :interstate_report, :tally_import_report, :tally_import_excel, :edit, :bill_edit, :sub_user_bill] => "menu"
   #layout_by_action [:new,:create, :pdf_format, :pdf_format_select] => "menu1"
   
    
@@ -19,39 +19,56 @@ class BillsController < ApplicationController
   
   
   def new
-    @taxes = Tax.all
     @bill = Bill.new
+    @user = current_authuser   
     #@bill = current_authuser.bills.last
     @customer = Customer.new
     @product = Product.new
+    if @user.bills.present?
+      @bill.customer_id = Bill.where(:authuser_id => current_authuser.id).last.customer.id
+      @bill.discount = Bill.where(:authuser_id => current_authuser.id).last.discount
+    end
+   # @bill.bill_taxes.build
+  # @bill.taxes.build
     @bill.unregistered_customers.build
-    @user = current_authuser   
+    @bill.other_charges_informations.build
+   
      if current_authuser.main_roles.first.role_name == "secondary_user"
         primary_user_id = current_authuser.invited_by_id
        @user_customers = Customer.where('authuser_id =? OR primary_user_id =? ', primary_user_id, primary_user_id)
        @user_products = Product.where('authuser_id =? OR primary_user_id =? ', primary_user_id, primary_user_id)
+       @taxes = Tax.where(:authuser_id => primary_user_id)
+       @other_charges = OtherChargesInformation.where(:authuser_id => primary_user_id)
       else
        @user_customers = Customer.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id)
-       #@user_products = Product.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id).paginate(:page => params[:page], :per_page => 5).order('created_at DESC')
        @user_products = Product.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id)
+       @taxes = Tax.where(:authuser_id => current_authuser.id)
+       @other_charges = OtherChargesInformation.where(:authuser_id => current_authuser.id)
       end
    end
   
   
-  def create  
+   def create  
     @bill = Bill.new(set_params)
-    @taxes = Tax.all
+    #@taxes = Tax.all
     @customer = Customer.new
     @product = Product.new
+  #  @bill.other_charges_informations.build
+   # @bill.bill_taxes.build
+    #@bill.taxes.build
     @user = current_authuser  
-     if current_authuser.main_roles.first.role_name == "secondary_user"
-        primary_user_id = current_authuser.invited_by_id
+    if current_authuser.main_roles.first.role_name == "secondary_user"
+       primary_user_id = current_authuser.invited_by_id
        @user_customers = Customer.where('authuser_id =? OR primary_user_id =? ', primary_user_id, primary_user_id)
        @user_products = Product.where('authuser_id =? OR primary_user_id =? ', primary_user_id, primary_user_id)
-      else
+       @taxes = Tax.where(:authuser_id => primary_user_id)
+       @other_charges = OtherChargesInformation.where(:authuser_id => primary_user_id)
+    else
        @user_customers = Customer.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id)
        @user_products = Product.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id)
-      end
+       @taxes = Tax.where(:authuser_id => current_authuser.id)
+       @other_charges = OtherChargesInformation.where(:authuser_id => current_authuser.id)
+    end
     
     if current_authuser.main_roles.first.role_name == "secondary_user"
       invited_by_user_id = current_authuser.invited_by_id
@@ -87,7 +104,7 @@ class BillsController < ApplicationController
     else
        render action: 'new'
     end
-    end
+  end
        
   def get_tin
     #state = params[:unregistered_customer][:state]
@@ -134,69 +151,46 @@ class BillsController < ApplicationController
   
   def edit
     @bill = Bill.find(params[:id])
-    @user = current_authuser
-    @taxes = Tax.all
-    @customer = Customer.new
-    @product = Product.new
-    @bill.unregistered_customers.build
-     if current_authuser.main_roles.first.role_name == "secondary_user"
-        primary_user_id = current_authuser.invited_by_id
-       @user_customers = Customer.where('authuser_id =? OR primary_user_id =? ', primary_user_id, primary_user_id)
+    @user = current_authuser   
+    urd_values = ["others", "other", "Others", "Other"]
+    if current_authuser.main_roles.first.role_name == "secondary_user"
+       primary_user_id = current_authuser.invited_by_id
+       user_customers = Customer.where('authuser_id =? OR primary_user_id =? ', primary_user_id, primary_user_id)
+       @user_customers = user_customers.where.not(:name => "Others" )
        @user_products = Product.where('authuser_id =? OR primary_user_id =? ', primary_user_id, primary_user_id)
+       @taxes = Tax.where(:authuser_id => primary_user_id)
+       @other_charges = OtherChargesInformation.where(:authuser_id => primary_user_id)
       else
-       @user_customers = Customer.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id)
+       user_customers = Customer.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id)
+       @user_customers = user_customers.where.not(:name => "Others" )
        @user_products = Product.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id)
-      end      
+       @taxes = Tax.where(:authuser_id => current_authuser.id)
+       @other_charges = OtherChargesInformation.where(:authuser_id => current_authuser.id)
+      end
     end
   
     def update
-      @bill = Bill.find(params[:id])    
-      @user = current_authuser  
-      @taxes = Tax.all
-      @customer = Customer.new
-      @product = Product.new
-      @bill.unregistered_customers.build
-    
-      if current_authuser.main_roles.first.role_name == "secondary_user"
+      @bill = Bill.find(params[:id])
+      @user = current_authuser 
+       if current_authuser.main_roles.first.role_name == "secondary_user"
         primary_user_id = current_authuser.invited_by_id
-        @user_customers = Customer.where('authuser_id =? OR primary_user_id =? ', primary_user_id, primary_user_id)
+        user_customers = Customer.where('authuser_id =? OR primary_user_id =? ', primary_user_id, primary_user_id)
+        @user_customers = user_customers.where.not(:name => "Others" )
         @user_products = Product.where('authuser_id =? OR primary_user_id =? ', primary_user_id, primary_user_id)
+        @taxes = Tax.where(:authuser_id => primary_user_id)
+        @other_charges = OtherChargesInformation.where(:authuser_id => primary_user_id)
       else
-        @user_customers = Customer.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id)
+        user_customers = Customer.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id)
+        @user_customers = user_customers.where.not(:name => "Others" )
         @user_products = Product.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id)
+        @taxes = Tax.where(:authuser_id => current_authuser.id)
+        @other_charges = OtherChargesInformation.where(:authuser_id => current_authuser.id)
       end
-    
-      if current_authuser.main_roles.first.role_name == "secondary_user"
-        invited_by_user_id = current_authuser.invited_by_id
-        invited_user = Authuser.find(invited_by_user_id)
-        @bill.client_id = invited_user.users.first.client_id
-        @bill.authuser_id = current_authuser.id
-        @bill.primary_user_id = invited_by_user_id
-      elsif current_authuser.main_roles.first.role_name == "user"
-        @bill.client_id = current_authuser.users.first.client_id
-        @bill.primary_user_id = current_authuser.id
-        @bill.authuser_id = current_authuser.id
-      elsif current_authuser.main_roles.first.role_name == "client"
-        @bill.client_id = current_authuser.id
-        @bill.primary_user_id = current_authuser.id
-        @bill.authuser_id = current_authuser.id
-      end
-     # customer_id = @bill.customer_id
-      customer_id = params[:bill]['customer_id']
-      customer = Customer.where(:id => customer_id).first   
-      
-     # if customer.name != "Others"
-      urd_values = ["others", "other", "Others", "Other"]
-      if !urd_values.include? customer.name 
-        @bill.unregistered_customers.first.delete
-      end
-     
-     # @bill.authuser_id = current_authuser.id
       if @bill.update_attributes(set_params)
-         @bill.update_attribute(:total_bill_price, @bill.line_items.sum(:total_price))
-         redirect_to bill_path(@bill.id)
+        @bill.update_attribute(:total_bill_price, @bill.line_items.sum(:total_price))
+        redirect_to bill_path(@bill.id)
       else
-        render action: 'edit'
+        render action: "edit"
       end
     end
   
@@ -208,6 +202,8 @@ class BillsController < ApplicationController
   
   
   def user_bill
+    @user = current_authuser
+     @secondary_users = Authuser.where(:invited_by_id => current_authuser.id)
     #shows all the bills of primary user and secondary users of that primary user
      if current_authuser.main_roles.first.role_name == "secondary_user"
         primary_user_id = current_authuser.invited_by_id
@@ -220,8 +216,12 @@ class BillsController < ApplicationController
          format.xls 
        end
      else
-        @secondary_users = Authuser.where(:invited_by_id => current_authuser.id)
+        if params[:users].nil?       
         @user_bills = Bill.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id).paginate(:page => params[:page], :per_page => 5).order('created_at DESC')
+       else
+         user = params[:users].first
+         @user_bills = Bill.where(:authuser_id => user.id)
+       end 
         user_bills = Bill.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id)
          respond_to do |format|
            format.html
@@ -230,6 +230,16 @@ class BillsController < ApplicationController
            format.xls 
          end
      end
+  end
+  
+  def sub_user_bill
+     @secondary_users = Authuser.where(:invited_by_id => current_authuser.id)
+      if params[:users].nil?       
+        @user_bills = Bill.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id).paginate(:page => params[:page], :per_page => 5).order('created_at DESC')
+      else
+        user = params[:users]
+        @user_bills = Bill.where(:authuser_id => user).paginate(:page => params[:page], :per_page => 5).order('created_at DESC')
+      end 
   end
 
   def download_excel
@@ -620,10 +630,11 @@ end
    def set_params
      params[:bill].permit(:invoice_number, :esugam, :bill_date, :customer_id, 
       :authuser_id, :tax, :total_bill_price, :tax_id, :grand_total, :other_charges, :other_charges_information_id,:other_information, :other_charges_info, :client_id, :transporter_name, :vechicle_number, :gc_lr_number,:lr_date, :pdf_format, :service_tax, :primary_user_id, :invoice_number_format, :invoice_format, :record_number, :instant_invoice_format, :image, :discount, 
-      {:line_items_attributes => [:product_id, :quantity, :unit_price, :total_price, :service_tax_rate, :tax_rate, :tax_id, :item_description,  :_destroy]},
+       {:line_items_attributes => [:id, :product_id, :quantity, :unit_price, :total_price, :service_tax_rate, :tax_rate, :tax_id, :item_description,  :_destroy,  :bill_taxes_attributes => [:id, :line_item_id, :tax_id, :bill_id, :tax_rate, :_destroy]]},
       {:tax_attributes => [:tax_type, :tax_rate, :tax]},
-       {:unregistered_customers_attributes => [:id, :customer_name, :phone_number, :address, :city, :state, :authuser_id, :bill_id]}
-     
+       {:unregistered_customers_attributes => [:id, :customer_name, :phone_number, :address, :city, :state, :authuser_id, :bill_id]},
+       {:bill_other_charges_attributes => [:id, :other_charges_information_id, :other_charges_amount, :bill_id, :_destroy]}
+         
       )
   end
   end

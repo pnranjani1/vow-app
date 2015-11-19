@@ -1,0 +1,52 @@
+<div class="container">
+  <div class="content">
+    <div class="content-container">
+      <div>
+      <h4 class="heading-inline"><%= current_authuser.name %></h4>
+      </div>
+      
+      <div class="portlet">
+        <div class="portlet-header">
+          <h3 class="fa fa-sort-numeric-asc">      Automated / Manual Invoice Number </h3>
+        </div><!-- portlet header ends here -->
+        <div class="portlet-content">
+          
+          <script>
+            $(document).ready(function(){
+              $("#submit-btn").click(function(){
+               if ($("#invoice".checked).length == 0) {
+                    alert("Please Select one option");
+                    window.location = ("authusers_invoice_format_path");
+                   }
+              });
+            });
+          </script>
+          
+        <%= form_for(@user, :url => "invoice_format_update") do |f| %>
+         
+             <% if alert  %>
+               <div class="row">
+                 <div class='col-md-6'>
+                   <div class="alert alert-danger">
+                      <%= alert %>
+                   </div>
+                 </div>
+               </div>
+             <% end %>
+          
+             <div class="row">
+               <div class="col-md-4">
+                 <label> Automatic </label>&nbsp;&nbsp;&nbsp;
+                 <%= f.radio_button :invoice_format, "automatic" %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                 <label>Manual</label>&nbsp;&nbsp;&nbsp;
+                 <%= f.radio_button :invoice_format, "manual" %>
+                 <br/><br/>
+                 <%= f.submit "Submit", class: "btn btn-success", id: "submit-btn" %>
+               </div>
+             </div>
+          <% end %>
+        </div><!-- portlet content ends here -->
+      </div><!-- portlet ends here -->
+    </div><!-- content container ends here -->
+  </div><!-- content ends here -->
+</div><!-- container ends here --.

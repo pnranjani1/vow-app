@@ -27,10 +27,24 @@
           }
     
          // if the user has selected for the automatic type of invoice.
-           <% if @user.invoice_format == 'automatic' %>
-             populateInvoiceNumber();  
+         // for primary user
+         <% if current_authuser.main_roles.first.role_name == "user" %>
+           <% user = current_authuser %>
+           <% if user.invoice_format == 'automatic' %>
+              populateInvoiceNumber();  
+           <% elsif user.invoice_format == "manual" %>
+              prepareInvoiceFieldForManualEntry()
            <% end %>
-    
+         <% elsif current_authuser.main_roles.first.role_name == "secondary_user" %>
+              <% primary_user_id = current_authuser.invited_by_id %>
+              <% user = Authuser.where(:id => primary_user_id).first %>
+              <% if user.invoice_format == 'automatic' %>
+                 populateInvoiceNumber();  
+              <% elsif user.invoice_format == "manual" %>
+                 prepareInvoiceFieldForManualEntry()
+              <% end %>
+         <% end %>
+              
             $('#bill_type').click(function() {
               var bill_type_checked = $('#bill_type').prop('checked');
               if(bill_type_checked){ 
@@ -43,18 +57,10 @@
       });  
     </script>
      
-     <script>
-       $(document).ready(function(){
-         $("#state_list").change(function(){
-          var selectedOption = $("#state_list:selected").val();
-           $("#state-tin").val();
-         });
-       });
-     </script>
-
+<%
+=begin %>
    <div class="row"> 
-      
-     <%= form_for(@user, :url => {:controller => "authusers", :action => "invoice_format_update"},  
+    <%= form_for(@user, :url => {:controller => "authusers", :action => "invoice_format_update"},  
       remote: true, :authenticity_token => true) do |f| %>
       <% if @user.invoice_format == 'automatic' %>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -63,7 +69,8 @@
       <% end %>
      <% end %>
     </div>
-
+<%
+=end %>
 
   <br/>
   <div class="row">
@@ -133,7 +140,7 @@
                         <!-- modal to create new customer -->
                          <br/>
                          <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-success" title="Add New Customer" data-toggle="modal" data-target="#myModal">
+                        <button type="button" class="btn btn-info btn-xs" title="Add New Customer" data-toggle="modal" data-target="#myModal">
                         <span class="glyphicon glyphicon-plus-sign"></span>
                         &nbsp;Customer
                         </button>
@@ -258,9 +265,7 @@
                          <% end %><!-- content for ends here -->
                     
                   </div> <!-- row for 1st column ends here -->
-                  <br/>
-  
-
+                  
                   <!-- to add unregistered customers when creating bills -->
                   <div  style="display: none;" id="text-box"> 
                      <%= f.fields_for :unregistered_customers do |customer| %>  
@@ -275,12 +280,12 @@
                                 </div>
                             </div> <!-- /.col -->
                           
-                             <div class="col-sm-3 marggap">  
+                            <div class="col-sm-3 marggap">  
                               Mobile Number &nbsp;&nbsp;
-                               <div id="email" class="input-group">          
-                                  <span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
+                              <div id="email" class="input-group">          
+                                 <span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
                                  <%= customer.text_field :phone_number, :maxlength => 10, class: "form-control" %>
-                               </div>
+                              </div>
                             </div> <!-- /.col -->
                     
                             <div class="col-sm-3 marggap">  
@@ -311,8 +316,7 @@
                          <% end %>
                         </div><!-- row ends here -->
                     
-                  </div><!-- id=text box ends here-->
- 
+                  </div><!-- id=text box ends here--> 
            </div> <!-- portlet content ends here -->
        </div><!-- portlet ends here -->
    <!-- bill detail ends here -->
@@ -325,13 +329,12 @@
               <!-- dont allow secondary user to create new product -->
               
                    <!-- Button trigger modal for adding products-->
-                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-success"  title="Add New Product" data-toggle="modal" data-target="#myModal1">
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-info btn-xs"  title="Add New Product" data-toggle="modal" data-target="#myModal1">
                 <span class="glyphicon glyphicon-plus-sign"></span>
                 &nbsp;Product
                </button></h3>
              
-
-                   <%= content_for :product do %>
+                <%= content_for :product do %>
                      <!-- Modal -->
                        <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                          <div class="modal-dialog">
@@ -419,7 +422,7 @@
                
                <div class="row"> 
     
-                  <div class="col-sm-2">           
+                  <div class="col-sm-3">           
                      <strong>Item&nbsp;<b style="color:red">*</b></strong> 
                      <div id="name" class="input-group">   
                        <span class="input-group-addon"><i class="fa fa-gift"></i></span>
@@ -428,7 +431,7 @@
                      </div> 
                   </div> <!-- /.col -->
  
-                  <div class="col-sm-2">           
+                  <div class="col-sm-3">           
                     <strong>Quantity&nbsp;<b style="color:red">*</b></strong> 
                     <div id="quantity_div" class="input-group">               
                        <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
@@ -436,15 +439,55 @@
                     </div>
                   </div> <!-- /.col -->
            
-                  <div class="col-sm-2">           
+                  <div class="col-sm-3">           
                      <strong>Unit Price&nbsp;<b style="color:red">*</b></strong> 
                      <div id="unit_price_div" class="input-group">               
                        <span class="input-group-addon"><i class="fa fa-money"></i></span>
                        <%= bill_product.text_field :unit_price, class: "form-control", :required => true %>
                      </div>
                   </div> <!-- /.col -->
+               </div><!-- row ends here -->
+              
+               <%= bill_product.fields_for :bill_taxes do |taxbill| %>
+                  <div class="row">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     <div class="col-md-3">
+                        <strong>Tax&nbsp;<b style="color:red">*</b></strong> 
+                        <div id="quantity_div" class="input-group">               
+                          <span class="input-group-addon"><i class="fa fa-money"></i></span>
+                          <%= taxbill.collection_select :tax_id , @taxes, :id, :tax_name , {prompt: "Select Tax"}, {class: "form-control", :id => 'tax-item'} %>
+                        </div>
+                     </div> <!-- /.col -->
+                    
+                     <div class="col-md-3">
+                       <strong>Tax Rate&nbsp;<b style="color:red">*</b></strong> 
+                       <div id="quantity_div" class="input-group">               
+                           <span class="input-group-addon"><i class="fa fa-money"></i></span>
+                           <%= taxbill.text_field :tax_rate, class: "form-control" %>
+                       </div>
+                     </div> <!-- /.col -->
+                    
+                      <div class="col-md-1" style="margin-top:20px;">
+                        <%= taxbill.link_to_remove do %>
+                          <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#myModal2">
+                            <span class="fa fa-times"></span>
+                          </button>
+                        <% end %>
+                      </div> <!-- /.col -->
+                    
+                   
+                  </div><!-- row ends here -->
+               <% end %>
+               <%= bill_product.link_to_add :bill_taxes do %>
+                 <button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal2">
+                    <span class="glyphicon glyphicon-plus-sign"></span>
+                    Add Tax
+                 </button>
+               <% end %>
+             
                
-                  <div class="col-sm-2">           
+<%
+=begin %>
+                 <div class="col-sm-2">           
                     <strong>Service Tax %(Optional)&nbsp;</strong> 
                      <div id="unit_price_div" class="input-group"> 
                        <span class="input-group-addon"><i class="fa fa-money"></i></span>
@@ -455,9 +498,10 @@
                  <div id ='item_tax'>
                    <%= render partial: 'item_tax', locals: {bill_product: bill_product} %>
                  </div>
-                                     
-               </div><!-- row ends here --><br/>
-           
+<%
+=end %>
+              
+               <br/>
                <div class="row">
                   <div class="col-sm-4">           
                     <strong>Item Description (Optional)&nbsp;</strong> 
@@ -467,9 +511,14 @@
                      </div>
                   </div> <!-- /.col -->
                  
-                  <div class="col-sm-1" style="margin-top:30px;">  
-                    <%= bill_product.link_to_remove image_tag("remove_icon.png", width: 37, height: 37) %>
-                  </div> <!-- /.col -->
+                   <div class="col-md-1" style="margin-top:30px;">
+                     <%= bill_product.link_to_remove do %>
+                       <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#myModal2">
+                         <span class="fa fa-times"></span>
+                       </button>
+                     <% end %>
+                   </div> <!-- /.col -->
+                  
                </div><!-- row ends here --><br/>
             <% end %><!-- nested_form ends here -->
            
@@ -526,7 +575,7 @@
           <strong>LR Date</strong> 
            <div id="name" class="input-group">               
                  <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-              <%= f.text_field :lr_date, class: "form-control", :id => "lr_date" %>
+             <%= f.text_field :lr_date, :value => Date.today,  class: "form-control", :id => "lr_date" %>
            </div>
         </div> <!-- /.col -->
       </div> <!-- row ends here -->
@@ -539,17 +588,17 @@
   <div class="portlet">
 
       <div class="portlet-header">
-        <h3><i class="fa fa-th"></i> Other Information and Discounts</h3>
+        <h3><i class="fa fa-th"></i> Other Information</h3>
       </div> <!-- /.portlet-header -->
 
       <div class="portlet-content">
-         <div class="row"> 
-
+        <%= f.fields_for :bill_other_charges do |charges| %>
+          <div class="row"> 
             <div class="col-sm-3">           
-               <strong>Name Other Charges (if any)</strong> 
+               <strong>Other Charges</strong> 
                <div id="name" class="input-group">               
                   <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
-                  <%= f.collection_select :other_charges_information_id, OtherChargesInformation.all, :id, :other_charges,  {:prompt => "Select Type"} , {:class => "form-control"} %>
+                 <%= charges.collection_select :other_charges_information_id, @other_charges, :id, :other_charges,  {:prompt => "Select Type"} , {:class => "form-control"} %>
                </div>
             </div> <!-- /.col -->
             
@@ -557,37 +606,43 @@
                <strong>Other charges Amount</strong> 
                <div id="name" class="input-group">               
                   <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                 <%= f.number_field :other_charges, :min => 1, class: "form-control" %>
+                 <%= charges.text_field :other_charges_amount, class: "form-control" %>
                </div>
             </div> <!-- /.col -->
-           
-            <div class="col-sm-3">           
-              <strong>Discount <medium>(if any)</medium></strong> 
-               <div id="name" class="input-group">               
-                  <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                 <%= f.number_field :discount, :min => 1, class: "form-control" %>
-               </div>
-            </div> <!-- /.col -->
-<%
-=begin %>
-            <div class="col-sm-3">           
-               <strong>Tax Information&nbsp;<b style="color:red">*</b></strong> 
-               <div id="name" class="input-group">  
+            
+             <div class="col-md-1" style="margin-top:20px;">
+               <%= charges.link_to_remove do %>
+                 <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#myModal2">
+                   <span class="fa fa-times"></span>
+                 </button>
+               <% end %>
+             </div> <!-- /.col -->
+          </div><!-- row ends here -->
+        <% end %>
+        <%= f.link_to_add :bill_other_charges do %>
+              <button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal2">
+                 <span class="glyphicon glyphicon-plus-sign"></span>
+                  Other Charges
+              </button>
+        <% end %>
+            <br/><br/>
+            <div class="row">
+              <div class="col-md-3">
+                <strong>Discount&nbsp;</strong> 
+                <div id="name" class="input-group">  
                 <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                  <%= f.collection_select :tax_id, Tax.all, :id, :tax ,{prompt: "Select Tax"}, {class: "form-control", :required => true} %>
+                  <%= f.text_field :discount ,class: "form-control" %>
                </div>
-            </div> <!-- /.col -->
-<%
-=end %>
-            <br/><br/><br/><br/>
-  
-            <div class="col-sm-9">           
+              </div>
+              
+              <div class="col-sm-7">           
                <strong>Other Information</strong> 
                  <div id="name" class="input-group">               
                    <%= f.text_area :other_information, :cols => 100, class: "form-control" %>
                  </div>
-            </div> <!-- /.col -->
-         </div> <!-- row ends here -->
+              </div> <!-- /.col -->
+              <br/>
+            </div> <!-- row ends here -->
       </div> <!-- portlet content ends here -->
   </div><!-- portlet ends here -->
 

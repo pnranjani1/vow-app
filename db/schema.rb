@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151104120944) do
+ActiveRecord::Schema.define(version: 20151119052133) do
 
   create_table "addresses", force: true do |t|
     t.string   "address_line_1"
@@ -85,6 +85,26 @@ ActiveRecord::Schema.define(version: 20151104120944) do
     t.datetime "updated_at"
   end
 
+  create_table "bill_other_charges", force: true do |t|
+    t.integer  "bill_id"
+    t.integer  "other_charges_information_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.float    "other_charges_amount"
+  end
+
+  create_table "bill_taxes", force: true do |t|
+    t.integer  "line_item_id"
+    t.integer  "tax_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "bill_id"
+    t.string   "tax_name"
+    t.float    "tax_rate"
+    t.string   "tax_type"
+    t.float    "tax_amount"
+  end
+
   create_table "bills", force: true do |t|
     t.string   "invoice_number"
     t.datetime "bill_date"
@@ -96,7 +116,6 @@ ActiveRecord::Schema.define(version: 20151104120944) do
     t.float    "total_bill_price"
     t.float    "grand_total"
     t.float    "other_charges"
-    t.string   "other_charges_info"
     t.string   "esugam"
     t.integer  "client_id"
     t.float    "total_price"
@@ -104,7 +123,6 @@ ActiveRecord::Schema.define(version: 20151104120944) do
     t.string   "vechicle_number"
     t.string   "gc_lr_number"
     t.datetime "lr_date"
-    t.integer  "other_charges_information_id"
     t.string   "error_message"
     t.string   "pdf_format"
     t.string   "service_tax"
@@ -235,6 +253,7 @@ ActiveRecord::Schema.define(version: 20151104120944) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "authuser_id"
+    t.integer  "bill_id"
   end
 
   create_table "permissions", force: true do |t|
@@ -290,7 +309,7 @@ ActiveRecord::Schema.define(version: 20151104120944) do
     t.integer  "authuser_id"
     t.string   "tax_name"
     t.string   "tax_type"
-    t.boolean  "tax_on_tax"
+    t.string   "tax_on_tax"
   end
 
   create_table "tin_numbers", force: true do |t|

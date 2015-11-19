@@ -34,6 +34,7 @@
                       <th>Tax Name</th> 
                       <th>Tax type</th>                       
                       <th>Tax On Tax</th>
+                      <th>Edit</th>
                     </tr> 
                  <thead> 
                  <tbody> 
@@ -41,11 +42,16 @@
                     <tr>                      
                       <td><%= tax.tax_name %></td>
                       <td><%= tax.tax_type %></td>
-                      <% if tax.tax_on_tax == true %>
+                      <% if tax.tax_on_tax == "yes" %>
                         <td> Yes </td>
-                      <% elsif tax.tax_on_tax == false %>
+                      <% elsif tax.tax_on_tax == "no" %>
                         <td> No </td>
                       <% end %>
+                      <td>
+                        <%= link_to  edit_tax_path(tax.id),  title: "Edit Tax", class: "btn btn-xs btn-primary" do %>
+                            <i class="fa fa-edit"></i>
+                        <% end %>
+                      </td>
                     </tr>    
                    <% end %>
 <%

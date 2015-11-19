@@ -4,26 +4,23 @@
   <div class="content">
     <div class="content-container">     
   
-      <div>
+       <div>
         <h4 class="heading-inline">View Bills<br/></h4>        
-      </div><br>
+       </div><br>
 
-      <div class="row"> 
+       <div class="row"> 
          <div class="portlet">
 
              <div class="portlet-header">
-                <h3><i class="fa fa-file-text-o"></i>Bills Information</h3><br/>
-               <% if current_authuser.main_roles.first.role_name == "user" %>
-                <div class="row">
+               <h3><i class="fa fa-file-text-o"></i>Bills Information</h3><br/>
+               <div class="row">
                  <div class='col-md-3'>
                    <%= form_tag bills_sub_user_bill_path(method: "post") do %>
-                       <%= select_tag "users", options_from_collection_for_select(@secondary_users, :id, :name), :prompt => "Select Sub User", :class => "form-control", :id => "sub-user" %>
-                   <br/>
-                   
+                     <%= select_tag "users", options_from_collection_for_select(@secondary_users, :id, :name), :prompt => "Select Sub User", :class => "form-control", :id => "sub-user" %>
+                     <br/>
                    <% end %>
                  </div>
-                </div>     
-               <% end %>
+               </div>               
              </div> <!-- /.portlet-header -->
               
              <div class="portlet-content panel-thread scrollable-panel">
@@ -66,42 +63,11 @@
  
  <!--<img src="img/avatar-1-md.jpg" alt="Avatar" class="panel-list-avatar"> -->
                   <%= will_paginate  @user_bills, renderer: BootstrapPagination::Rails , class: "apple_pagination" %>
- 
-                   <% bills = Bill.where(:primary_user_id => [current_authuser.id, current_authuser.invited_by.id]) %>
-                   <% if bills.count != 0 %>
-                      <div class="row">
-                        
-                        <div class="col-md-1">
-                          <%= link_to bills_download_excel_path(format: "xls"), title: 'Download Excel' do %>
-                              <button class="btn btn-success">
-                                <span class="glyphicon glyphicon-cloud-download"></span>
-                                &nbsp; Excel</button> 
-                           <% end %>
-                        </div>
-    
-                        <div class="col-md-1">
-                          <%= link_to bills_user_bill_path(format: "csv"), title: "Download CSV" do %>
-                               <button class="btn btn-success">
-                                  <span class="glyphicon glyphicon-cloud-download"></span>
-                                   &nbsp; Csv&nbsp;&nbsp;  </button>
-                            <% end %>                          
-                        </div>
-                        <div class="col-md-1"></div>
-                        <div class="col-md-1">
-                          <% role = current_authuser.role %>
-                          <% if role = "user" %>
-                             <%= link_to "Cancel", dashboards_user_dashboard_path, class: "btn btn-success" %>
-                          <% elsif role = "secondary_user" %>
-                             <%= link_to "Cancel", dashboards_secondary_user_dashboard_path, class: "btn btn-success" %>
-                          <% end %>
-                        </div>
-                      </div>
-                   <% end %>
- 
+                  <%= link_to "All User Bills" , bills_user_bill_path, :class => "btn btn-success"  %>
              </div> <!-- /.portlet-content -->
-          </div> <!-- /.portlet -->
+         </div> <!-- /.portlet -->
        </div> <!-- /.row -->
-     </div> <!-- /.content-container -->
+    </div> <!-- /.content-container -->
   </div> <!-- /.content -->
  </div> <!-- /.container -->
 

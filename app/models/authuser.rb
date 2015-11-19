@@ -26,7 +26,7 @@ require 'active_support/core_ext/date/conversions'
   :recoverable, :rememberable, :trackable,:validatable, :timeoutable
    
  # validates :date_of_birth, presence: true
-  
+  #validates :invoice_format, :presence => true
   
   has_many :admins
   has_many :customers

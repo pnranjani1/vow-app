@@ -48,8 +48,8 @@
                       <label class="col-md-3">Tax type&nbsp;&nbsp;<b style="color:red">*</b></label>
                           <div class="col-md-6">
                             <div id="name" class="input-group">               
-                              <label> Float </label>&nbsp;&nbsp;&nbsp;&nbsp;
-                              <%= f.radio_button :tax_type, "Float" %>
+                              <label> Flat </label>&nbsp;&nbsp;&nbsp;&nbsp;
+                              <%= f.radio_button :tax_type, "Flat" %>
                               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                               <label> Percentage </label>&nbsp;&nbsp;&nbsp;&nbsp;
                               <%= f.radio_button :tax_type, "Percentage" %>                              
@@ -62,10 +62,10 @@
                           <div class="col-md-6">
                             <div id="name" class="input-group">               
                               <label> Yes </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                              <%= f.radio_button :tax_on_tax, true %>
+                              <%= f.radio_button :tax_on_tax, "yes" %>
                               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                               <label> No </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                              <%= f.radio_button :tax_on_tax, false %>
+                              <%= f.radio_button :tax_on_tax, "no" %>
                             </div>
                           </div>
                     </div>

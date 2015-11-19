@@ -1,7 +1,7 @@
 class AuthusersController < ApplicationController
  # layout_by_action [:change_role, :change_role_update] => "menu1"
   before_filter :authenticate_authuser!, :except => [:force_password_change]
-  layout_by_action [:client_new, :client_edit] => "menu"
+  layout_by_action [:client_new, :client_edit, :invoice_format] => "menu"
   filter_access_to :all
  
   def index
@@ -271,16 +271,26 @@ end
     end
   end
 
+
+  def invoice_format
+    @user = current_authuser
+  end
 # used from bills new page, not from update profile page -->
   def invoice_format_update
-    
-   if @user.update_attributes(set_params)
-     redirect_to new_bill_path
-   else
-    redirect_to dashboards_user_dashboard_path
-   end
+    @user = current_authuser
+    role = @user.main_roles.first.role_name
+   # invoice = params[:authuser][:invoice_format]
+#    if !invoice.present?
+    if !params[:authuser][:invoice_format].nil?
+        @user.update_attributes(set_params)#(:invoice_format, params[:authuser][:invoice_format])
+        redirect_to public_send("dashboards_#{role}_dashboard_url")
+    else
+       redirect_to authusers_invoice_format_path
+       flash[:alert] = "Please select Invoice Format" 
+    end
   end
 
+ 
   private
   def set_params
     params[:authuser].permit(:name, :email, :password, :password_confirmation, :approved, :invited_by_id, :invited_by_type, :date_of_birth, :image, :role, :invoice_format, :invoice_string,
