@@ -116,7 +116,8 @@ Rails.application.routes.draw do
   post 'products/new_product_in_edit'
   get 'other_charges_informations/download_other_charges' => "other_charges_informations#download_other_charges"
   post 'bills/sub_user_bill'
-  
+  get 'bills/:id/send_mail' => "bills#send_mail", as: "send_mail"
+ 
   
  # patch 'bills/pdf_format_select'
     

@@ -222,28 +222,29 @@
                                            </ul>
                                      </li>
                               <% end %>
-
-                             <!-- Taxes -->
-                             <% if permitted_to? :index, Tax.new %>
-                                  <% if controller.controller_name == "taxes" %>
-                                      <li class= "active dropdown">
-                                  <% else %>
-                                      <li>
-                                  <% end %>
-  
-                                          <%= link_to taxes_path, class: "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>
-                                             <i class="fa fa-money"></i>Tax Details<span class="caret"></span>
-                                          <% end %>
-                                          <ul class="dropdown-menu">   
-                                             <li>
-                                                 <%= link_to taxes_path do %>
-                                                    <i class="fa fa-list"></i> Manage Tax
-                                                 <% end %>
-                                             </li>
-                                          </ul>
-                                      </li>
-                             <% end %>
-  
+<%
+=begin %>
+ <!-- Taxes -->
+ <% if permitted_to? :index, Tax.new %>
+    <% if controller.controller_name == "taxes" %>
+   <li class= "active dropdown">
+   <% else %>
+  <li>
+   <% end %>
+ <%= link_to taxes_path, class: "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>
+ <i class="fa fa-money"></i>Tax Details<span class="caret"></span>
+ <% end %>
+ <ul class="dropdown-menu">   
+ <li>
+ <%= link_to taxes_path do %>
+ <i class="fa fa-list"></i> Manage Tax
+ <% end %>
+ </li>
+ </ul>
+ </li>
+ <% end %>
+<%
+=end %>
                              <!-- tin numbers -->
                              <% if permitted_to? :index, TinNumber.new %>
                                 <% if controller.controller_name == "tin_numbers" %>

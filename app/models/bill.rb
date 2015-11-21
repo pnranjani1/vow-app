@@ -234,7 +234,7 @@ class Bill < ActiveRecord::Base
   def generate_tax_amount
    self.bill_taxes.each do |billtax|
     if ((billtax.tax_name != "VAT") && (billtax.tax_name != "CST"))
-      if billtax.tax.tax_type == "Flat"
+      if billtax.tax.tax_type == "Flat Amount"
          billtax.update_attribute(:tax_amount , billtax.tax_rate)
       elsif billtax.tax.tax_type == "Percentage"
         billtax.update_attribute(:tax_amount, (billtax.line_item.total_price * (billtax.tax_rate/100)))
@@ -248,18 +248,22 @@ class Bill < ActiveRecord::Base
           puts (other_tax_amount + billtax.line_item.total_price)
           puts (billtax.tax_rate/100)
           billtax.update_attribute(:tax_amount, ((other_tax_amount + billtax.line_item.total_price) * (billtax.tax_rate/100)))
-        elsif billtax.tax.tax_type == "Flat"
+        elsif billtax.tax.tax_type == "Flat Amount"
           billtax.update_attribute(:tax_amount, billtax.tax_rate)
         end
       elsif billtax.tax.tax_on_tax == "no"
         if billtax.tax.tax_type == "Percentage"        
           billtax.update_attribute(:tax_amount, ((billtax.line_item.total_price) * (billtax.tax_rate/100)))
-        elsif billtax.tax.tax_type == "Flat"
+        elsif billtax.tax.tax_type == "Flat Amount"
           billtax.update_attribute(:tax_amount, billtax.tax_rate)
         end
       end
     end
    end
+  end
+  
+  def send_customer_mail
+    Notification.customer_mail(self).deliver
   end
   
   
@@ -284,10 +288,12 @@ class Bill < ActiveRecord::Base
       @total_amount = @bill.total_bill_price
     end
     if @bill.other_charges != nil
-      @other_charges = @bill.other_charges + @bill.line_items.sum(:service_tax_amount)
+      other_taxes = @bill.bill_taxes.where.not(:tax_name => ["VAT", "CST"])
+      @other_charges = @bill.other_charges + other_taxes.sum(:tax_amount)    
     else
-      @other_charges = @bill.line_items.sum(:service_tax_amount)
+      @other_charges = other_taxes.sum(:tax_amount)
     end
+    @tax_amount = @bill.bill_taxes.where(:tax_name => ["VAT", "CST"]).sum(:tax_amount)
     
 =begin
     @commodity_name =  @bill.products.first.usercategory.main_category.commodity_name   
@@ -363,7 +369,7 @@ class Bill < ActiveRecord::Base
               browser.send_keys :tab
               browser.text_field(:id, "ctl00_MasterContent_txtNetValue").set(@total_amount)
               browser.send_keys :tab
-              browser.text_field(:id, "ctl00_MasterContent_txtVatTaxValue").set(@bill.line_items.sum(:tax_rate).round(2))
+              browser.text_field(:id, "ctl00_MasterContent_txtVatTaxValue").set(@tax_amount)
               browser.send_keys :tab
               browser.text_field(:id => "ctl00_MasterContent_txtOthVal").set(@other_charges)
               
@@ -382,8 +388,15 @@ class Bill < ActiveRecord::Base
                  browser.text_field(:id, "ctl00_MasterContent_txtTIN").set(@customer_tin_number.to_i)
                  browser.send_keys :tab
                  sleep 2
-                 browser.text_field(:id, "ctl00_MasterContent_txtNameAddrs").set(@bill.unregistered_customers.first.customer_name)
-                 browser.send_keys :tab
+                if browser.text_field(:id, "ctl00_MasterContent_txtNameAddrs").enabled?
+                  browser.text_field(:id, "ctl00_MasterContent_txtNameAddrs").set(@bill.unregistered_customers.first.customer_name)
+                  browser.send_keys :tab
+                else
+                  file = File.new("app/assets/images/vat-error" + self.authuser.id.to_s + ".png", "a+")
+                  browser.screenshot.save file
+                  self.update_attribute(:error_message, file.to_s)
+                  browser.close
+                end
               end
             
               if @bill.tax_type == "VAT"

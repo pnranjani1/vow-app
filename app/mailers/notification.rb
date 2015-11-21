@@ -37,7 +37,12 @@ class Notification < ActionMailer::Base
   def secondary_user_mail(user)
     @user = user
     mail(:to => @user.email, :subject => "Your account in VatOnWheels has been created successfully!")
-    
+  end
+  
+  def customer_mail(bill)
+    @bill = bill
+    attachments["Bill.pdf"] = File.read("app/assets/files/bill_pdf" + @bill.authuser.id.to_s + ".pdf")
+    mail(:to => @bill.customer.email, :subject => "Your Bill is attached")    
   end
   
 end

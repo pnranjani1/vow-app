@@ -147,41 +147,8 @@
                        <%= bill_product.text_field :unit_price, class: "form-control", :required => true %>
                      </div>
                   </div> <!-- /.col -->
-               </div><!-- row ends here -->
+               
                  
-               <%= bill_product.fields_for :bill_taxes do |taxbill| %>
-                <div class="row">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <div class="col-md-3">
-                    <strong>Tax&nbsp;<b style="color:red">*</b></strong> 
-                    <div id="quantity_div" class="input-group">               
-                      <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                      <%= taxbill.collection_select :tax_id , @taxes, :id, :tax_name , {prompt: "Select Tax"}, {class: "form-control", :id => 'tax-item'} %>
-                    </div>
-                  </div> <!-- /.col -->
-                    
-                  <div class="col-md-3">
-                    <strong>Tax Rate&nbsp;<b style="color:red">*</b></strong> 
-                    <div id="quantity_div" class="input-group">               
-                       <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                       <%= taxbill.text_field :tax_rate, class: "form-control" %>
-                    </div>
-                  </div> <!-- /.col -->
-                    
-                  <div class="col-md-1" style="margin-top:20px;">
-                    <%= taxbill.link_to_remove do %>
-                      <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#myModal2">
-                         <span class="fa fa-times"></span>
-                      </button>
-                    <% end %>
-                  </div> <!-- /.col -->
-                </div><!-- row ends here -->
-               <% end %><!-- fields_for bill taxes ends here -->
-               <%= bill_product.link_to_add :bill_taxes do %>
-                 <button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal2">
-                   <span class="glyphicon glyphicon-plus-sign"></span>
-                   Add Tax
-                 </button>
-               <% end %>
 <%
 =begin %>
                   <div class="col-sm-2">           
@@ -197,8 +164,7 @@
                  </div>
 <%
 =end %>
-              <br/>           
-              <div class="row">
+             
                 <div class="col-sm-4">           
                   <strong>Item Description (Optional)&nbsp;</strong> 
                    <div id="name" class="input-group">   
@@ -214,11 +180,45 @@
                     </button>
                   <% end %>
                 </div> <!-- /.col -->
-              </div><!-- row ends here --><br/>
+                </div><!-- row ends here -->
+                        
+                <%= bill_product.fields_for :bill_taxes do |taxbill| %>
+                  <div class="row">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <div class="col-md-3">
+                      <strong>Tax&nbsp;<b style="color:red">*</b></strong> 
+                      <div id="quantity_div" class="input-group">               
+                        <span class="input-group-addon"><i class="fa fa-money"></i></span>
+                        <%= taxbill.collection_select :tax_id , @taxes, :id, :tax_type_of_tax, {prompt: "Select Tax"}, {class: "form-control", :id => 'tax-item'} %>
+                      </div>
+                    </div> <!-- /.col -->
+                    
+                    <div class="col-md-3">
+                      <strong>Tax Rate&nbsp;<b style="color:red">*</b></strong> 
+                      <div id="quantity_div" class="input-group">               
+                        <span class="input-group-addon"><i class="fa fa-money"></i></span>
+                        <%= taxbill.text_field :tax_rate, class: "form-control" %>
+                      </div>
+                    </div> <!-- /.col -->
+                    
+                    <div class="col-md-1" style="margin-top:20px;">
+                      <%= taxbill.link_to_remove do %>
+                        <button type="button" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#myModal2">
+                          <span class="fa fa-times"></span>
+                        </button>
+                      <% end %>
+                    </div> <!-- /.col -->
+                  </div><!-- row ends here -->
+                <% end %><!-- fields_for bill taxes ends here -->
+                <%= bill_product.link_to_add :bill_taxes do %>
+                 <button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal2">
+                   <span class="glyphicon glyphicon-plus-sign"></span>
+                   Add Tax
+                 </button>
+                <% end %>
            <% end %><!-- fields_for line items ends here -->
-           
+           <br/>
            <%= f.link_to_add :line_items , title: "Add Products to the Bill" do %>
-             <button class="btn btn-success" id='item_add'>
+             <button class="btn btn-success btn-xs" id='item_add'>
                <span class="glyphicon glyphicon-plus-sign"></span>
                 Add Items
              </button>
@@ -315,7 +315,7 @@
           </div><!-- row ends here -->
         <% end %>
         <%= f.link_to_add :bill_other_charges do %>
-              <button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal2">
+              <button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#myModal2">
                  <span class="glyphicon glyphicon-plus-sign"></span>
                   Other Charges
               </button>

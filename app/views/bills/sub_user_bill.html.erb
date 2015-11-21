@@ -16,7 +16,7 @@
                <div class="row">
                  <div class='col-md-3'>
                    <%= form_tag bills_sub_user_bill_path(method: "post") do %>
-                     <%= select_tag "users", options_from_collection_for_select(@secondary_users, :id, :name), :prompt => "Select Sub User", :class => "form-control", :id => "sub-user" %>
+                     <%= select_tag "users", options_from_collection_for_select(@all_users, :id, :name), :prompt => "Select User", :class => "form-control", :id => "sub-user" %>
                      <br/>
                    <% end %>
                  </div>

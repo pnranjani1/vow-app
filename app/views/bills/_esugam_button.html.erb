@@ -1,5 +1,16 @@
   
 <div class="col-md-8">
+<%
+=begin %>
+  <% if @bill.unregistered_customers.present? %>
+    <% state = @bill.unregistered_customers.first.state %>
+    <% if state != "Karnataka" || @bill.tax_type == "VAT" %>
+      <h3 style="color:red;">Esugam cannot be generated since tax is VAT and customer is out of Karnataka</h3>
+    <% elsif state == "Karnataka" || @bill.tax_type == "CST" %>
+       <h3 style="color:red;">Esugam cannot be generated since tax is CST and customer is in Karnataka</h3>
+    <% end %>
+<%
+=end %>
   <% if @bill.tax_type != "No Tax" %>
     <% if @bill.esugam.blank? %>
       <%= link_to 'Generate esugam', generate_esugan_bills_path(bill_id: @bill), method: :post, 

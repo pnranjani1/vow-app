@@ -56,6 +56,6 @@ class OtherChargesInformationsController < ApplicationController
   
   private
   def set_params
-    params[:other_charges_information].permit(:other_charges)
+    params[:other_charges_information].permit(:id, :other_charges)
   end
 end

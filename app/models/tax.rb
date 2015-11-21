@@ -1,6 +1,7 @@
 class Tax < ActiveRecord::Base
   #before_save :tax_type_with_rate
   before_save :tax_name_upcase
+  before_save :generate_tax_type_of_tax
   
   belongs_to :usercategory
   belongs_to :user
@@ -24,4 +25,12 @@ class Tax < ActiveRecord::Base
     self.tax = "#{self.tax_type} #{self.tax_rate}"
   end
   
+  def generate_tax_type_of_tax
+    if self.tax_type == "Percentage"
+      self.tax_type_of_tax = self.tax_name + " " + "%"
+    elsif self.tax_type == "Flat Amount"
+      self.tax_type_of_tax = self.tax_name + " " +"(Amount)"
+    end
+  end
+
 end

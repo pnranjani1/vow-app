@@ -132,18 +132,24 @@ class BillsController < ApplicationController
        if @bill.pdf_format ==  "Format1" 
            pdf = BillPdf.new(@bill)
            send_data pdf.render, filename: "#{@bill.customer.name}  #{@bill.invoice_number}  #{@bill.bill_date.strftime("%b %d %Y")}.pdf", type: "application/pdf" , disposition: "inline"
+        #File.write(bill, render_to_string)
+         pdf.render_file File.join(Rails.root, "app/assets/files", "bill_pdf" + @bill.authuser.id.to_s + ".pdf")
        elsif @bill.pdf_format == "Format2"
            pdf = BillPdfTwo.new(@bill)
            send_data pdf.render, filename: "#{@bill.customer.name}  #{@bill.invoice_number}  #{@bill.bill_date.strftime("%b %d %Y")}.pdf", type: "application/pdf" , disposition: "inline"
+           pdf.render_file File.join(Rails.root, "app/assets/files", "bill_pdf" + @bill.authuser.id.to_s + ".pdf")
        elsif @bill.pdf_format == "Format3"
            pdf = BillPdfThree.new(@bill)
            send_data pdf.render, filename: "#{@bill.customer.name}  #{@bill.invoice_number}  #{@bill.bill_date.strftime("%b %d %Y")}.pdf", type: "application/pdf" , disposition: "inline"
+           pdf.render_file File.join(Rails.root, "app/assets/files", "bill_pdf" + @bill.authuser.id.to_s + ".pdf")
      elsif @bill.pdf_format == "Format4"
-      pdf = BillPdfFour.new(@bill)
+           pdf = BillPdfFour.new(@bill)
            send_data pdf.render, filename: "#{@bill.customer.name}  #{@bill.invoice_number}  #{@bill.bill_date.strftime("%b %d %Y")}.pdf", type: "application/pdf" , disposition: "inline"
+           pdf.render_file File.join(Rails.root, "app/assets/files", "bill_pdf" + @bill.authuser.id.to_s + ".pdf")
        elsif @bill.pdf_format == nil
            pdf = BillPdf.new(@bill)
            send_data pdf.render, filename: "#{@bill.customer.name}  #{@bill.invoice_number}  #{@bill.bill_date.strftime("%b %d %Y")}.pdf", type: "application/pdf" , disposition: "inline"
+          pdf.render_file File.join(Rails.root, "app/assets/files", "bill_pdf" + @bill.authuser.id.to_s + ".pdf")
        end
       end
     end      
@@ -203,7 +209,9 @@ class BillsController < ApplicationController
   
   def user_bill
     @user = current_authuser
-     @secondary_users = Authuser.where(:invited_by_id => current_authuser.id)
+    user = Authuser.where(:id => @user.id)
+    secondary_users = Authuser.where('invited_by_id = ? AND invitation_accepted_at IS NOT NULL', current_authuser.id)
+    @all_users = user | secondary_users
     #shows all the bills of primary user and secondary users of that primary user
      if current_authuser.main_roles.first.role_name == "secondary_user"
         primary_user_id = current_authuser.invited_by_id
@@ -233,7 +241,9 @@ class BillsController < ApplicationController
   end
   
   def sub_user_bill
-     @secondary_users = Authuser.where(:invited_by_id => current_authuser.id)
+    user = Authuser.where(:id => current_authuser.id)
+    secondary_users = Authuser.where('invited_by_id = ? AND invitation_accepted_at IS NOT NULL', current_authuser.id)
+    @all_users = user | secondary_users
       if params[:users].nil?       
         @user_bills = Bill.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id).paginate(:page => params[:page], :per_page => 5).order('created_at DESC')
       else
@@ -561,6 +571,13 @@ end
     end
   end
 
+  def send_mail
+   @bill = Bill.find(params[:id])
+   @bill.send_customer_mail
+    redirect_to bill_path(@bill.id)
+    flash[:notice] = "Email is sent Successfully to the customer"
+  end
+
   private
 
   def generate_invoice_number
@@ -624,10 +641,9 @@ end
     end
    @number
    end
- end
+  end
 
-
-   def set_params
+  def set_params
      params[:bill].permit(:invoice_number, :esugam, :bill_date, :customer_id, 
       :authuser_id, :tax, :total_bill_price, :tax_id, :grand_total, :other_charges, :other_charges_information_id,:other_information, :other_charges_info, :client_id, :transporter_name, :vechicle_number, :gc_lr_number,:lr_date, :pdf_format, :service_tax, :primary_user_id, :invoice_number_format, :invoice_format, :record_number, :instant_invoice_format, :image, :discount, 
        {:line_items_attributes => [:id, :product_id, :quantity, :unit_price, :total_price, :service_tax_rate, :tax_rate, :tax_id, :item_description,  :_destroy,  :bill_taxes_attributes => [:id, :line_item_id, :tax_id, :bill_id, :tax_rate, :_destroy]]},

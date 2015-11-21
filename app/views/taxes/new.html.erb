@@ -38,7 +38,7 @@
                          <div class="col-md-6">
                             <div id="name" class="input-group">               
                                <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                               <%= f.text_field :tax_name ,maxlength: 20, class: "form-control", required: true %>
+                               <%= f.text_field :tax_name ,maxlength: 20, class: "form-control", required: true, autofocus: true %>
                             </div>
                          </div>
                     </div>
@@ -48,8 +48,8 @@
                       <label class="col-md-3">Tax type&nbsp;&nbsp;<b style="color:red">*</b></label>
                           <div class="col-md-6">
                             <div id="name" class="input-group">               
-                              <label> Flat </label>&nbsp;&nbsp;&nbsp;&nbsp;
-                              <%= f.radio_button :tax_type, "Flat" %>
+                              <label> Flat Amount</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                              <%= f.radio_button :tax_type, "Flat Amount" %>
                               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                               <label> Percentage </label>&nbsp;&nbsp;&nbsp;&nbsp;
                               <%= f.radio_button :tax_type, "Percentage" %>                              
@@ -58,7 +58,7 @@
                     </div>
                     <br>
                      <div class="row">
-                      <label class="col-md-3">Tax on Tax&nbsp;&nbsp;</label>
+                      <label class="col-md-3">Tax on Tax&nbsp;&nbsp;<b style="color:red">*</b></label>
                           <div class="col-md-6">
                             <div id="name" class="input-group">               
                               <label> Yes </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
