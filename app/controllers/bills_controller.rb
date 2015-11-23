@@ -152,7 +152,6 @@ class BillsController < ApplicationController
   def edit
     @bill = Bill.find(params[:id])
     @user = current_authuser 
-    #@bill.unregistered_customers.build
     if current_authuser.main_roles.first.role_name == "secondary_user"
        primary_user_id = current_authuser.invited_by_id
        user_customers = Customer.where('authuser_id =? OR primary_user_id =? ', primary_user_id, primary_user_id)
