@@ -132,7 +132,7 @@
                        <strong>Customer&nbsp;<b style="color:red">*</b></strong> 
                         <div id="name" class="input-group">        
                           <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                          <%= f.collection_select :customer_id, @user_customers, :id, :name, {prompt: "Select Customer"}, {class: "form-control", :id => "drop-down", :required => true} %>
+                          <%= f.collection_select :customer_id, @user_customers, :id, :company_name, {prompt: "Select Customer"}, {class: "form-control", :id => "drop-down", :required => true} %>
                         </div>
                     </div> <!-- /.col -->
                     

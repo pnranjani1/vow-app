@@ -117,7 +117,7 @@ class BillPdfThree < Prawn::Document
       end
          
       bounding_box([320, 580],:width => 220) do
-        text "#{@bill.customer.name.titleize}", size:11, :style => :bold, :leading => 2
+        text "#{@bill.customer.company_name.titleize}", size:11, :style => :bold, :leading => 2
         text "#{@bill.customer.address.capitalize}", size: 9, :leading => 2
         text "#{@bill.customer.city.capitalize}", size: 9, :leading => 2
         #text "#{@bill.customer.pin_code}", size: 11, :leading => 3
@@ -137,18 +137,11 @@ class BillPdfThree < Prawn::Document
               qty = qty
             end
        #Tax Details         
-        if line_item.bill_taxes.present? 
-          line_item.bill_taxes.each do |tax|
-           tax_type =  tax.tax.tax_type
-             if tax_type == "Percentage" 
-               @tax_name = tax.tax_type + "%" 
-             elsif tax_type == "Flat Amount" 
-               @tax_name = tax.tax_type + "( Flat Amount)"
-             end 
-            @tax_table = [@tax_name ]         
-          end
+         if line_item.bill_taxes.present? 
+          taxes = line_item.bill_taxes.pluck(:tax_type_of_tax)
+          @tax = taxes.to_sentence
         else
-         " NA"
+          @tax = "Nil"
         end
         #product details
          if line_item.item_description.present?
@@ -156,7 +149,7 @@ class BillPdfThree < Prawn::Document
         else
           product_name = line_item.product.product_name.titleize
         end
-        [product_name, @tax_name, qty, "#{number_with_delimiter(line_item.unit_price,delimiter: ',')}", "#{number_with_delimiter(line_item.total_price.round(2), delimiter: ',')}"]
+        [product_name, @tax, qty, "#{number_with_delimiter(line_item.unit_price,delimiter: ',')}", "#{number_with_delimiter(line_item.total_price.round(2), delimiter: ',')}"]
      end
    end
  
@@ -171,7 +164,8 @@ class BillPdfThree < Prawn::Document
             columns(0..5).size = 9
            columns(0).align = :left   
            column(1..2).align = :center
-           column(3..5).align = :right
+           column(3).align = :center
+           column(4..5).align = :right
            columns(0..5).size = 9
             self.column(0).width = 145
            self.column(1).width = 110
@@ -213,38 +207,29 @@ class BillPdfThree < Prawn::Document
        table(data, :cell_style => {size: 9, :inline_format => true, :font_style => :bold, :align => :right}, :column_widths => [160, 95], :position => 250)
          
         #Other Tax Details
-           bill_taxes =  @bill.bill_taxes.where.not(:tax_name => ["VAT", "CST"])
-           bill_taxes.each do |billtax|
-              @tax_type = billtax.tax.tax_type 
-           end 
-           unique_taxes = bill_taxes.pluck(:tax_type).uniq 
+           bill_taxes = @bill.bill_taxes.where.not(:tax_name => ["VAT", "CST"])
+           unique_taxes = bill_taxes.pluck(:tax_type_of_tax).uniq 
            unique_taxes.each do |tax|
-              tax_amount = bill_taxes.where(:tax_type => tax).sum(:tax_amount)
-              if @tax_type == "Percentage"
-                @tax_of_name = tax + " " + "%"
-              elsif @tax_type == "Flat Amount"
-                @tax_of_name  = tax + " " + "(Amount)" 
-              end
+              tax_amount = bill_taxes.where(:tax_type_of_tax => tax).sum(:tax_amount)             
+              @tax_of_name = tax       
            data = [["#{@tax_of_name}", "#{number_with_delimiter(tax_amount.round(2), delimiter: ',')}"]]
            table(data, :cell_style => {size: 9,  :align => :right}, :column_widths => [160, 95], :position => 250)
            end
            
        
            #VAT/CST details
-           bill_taxes = @bill.bill_taxes.where(:tax_name => ["VAT", "CST"])
-           bill_taxes.each do |billtax| 
-              @tax_type = billtax.tax.tax_type
-           end 
-           unique_taxes = bill_taxes.pluck(:tax_type).uniq 
+            bill_taxes = @bill.bill_taxes.where(:tax_name => ["VAT", "CST"])
+           unique_taxes = bill_taxes.pluck(:tax_type_of_tax).uniq 
            unique_taxes.each do |tax| 
                tax_type = tax 
-               tax_amount = bill_taxes.where(:tax_type => tax).sum(:tax_amount) 
-               if @tax_type == "Percentage"
-                 @tax_of_name1 = tax_type + " " + "%"
-               elsif @tax_type == "Flat Amount"
-                 @tax_of_name1 = tax_type + " "+ "(Amount) "
-               end 
-               data = [["#{@tax_of_name1}", "#{number_with_delimiter(tax_amount.round(2), delimiter: ',')}"]]
+               tax_amount = bill_taxes.where(:tax_type_of_tax => tax).sum(:tax_amount) 
+             tax_on_tax = BillTax.where(:tax_type_of_tax => tax).first.tax.tax_on_tax
+             if tax_on_tax == "yes"
+               @tax_of_name = tax_type + " " + "(TOT)"
+             else
+               @tax_of_name = tax_type
+             end
+               data = [["#{@tax_of_name}", "#{number_with_delimiter(tax_amount.round(2), delimiter: ',')}"]]
                table(data, :cell_style => {size: 9,  :align => :right}, :column_widths => [160, 95], :position => 250)
            end
                 

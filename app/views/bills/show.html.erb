@@ -49,7 +49,7 @@
                         <% customer = UnregisteredCustomer.where(:bill_id => @bill.id).first  %>
                         <h3><i class="fa fa-group"></i>Bill of <%= customer.customer_name  %></h3>  
                     <% else %>
-                        <h3><i class="fa fa-group"></i>Bill of <%= @bill.customer.name  %></h3> 
+                        <h3><i class="fa fa-group"></i>Bill of <%= @bill.customer.company_name  %></h3> 
                     <% end %> 
                  </div>
 
@@ -252,16 +252,12 @@
                                         <% bill_taxes.each do |billtax| %>
                                            <% @tax_type = billtax.tax.tax_type %>
                                         <% end %>
-                                        <% unique_taxes = bill_taxes.pluck(:tax_type).uniq %>
+                                        <% unique_taxes = bill_taxes.pluck(:tax_type_of_tax).uniq %>
                                         <% unique_taxes.each do |tax| %>
                                            <% tax_type = tax %>
-                                           <% tax_amount = bill_taxes.where(:tax_type => tax).sum(:tax_amount) %>
-                                           <tr>
-                                              <% if @tax_type == "Percentage" %>
-                                                 <td><strong><%= tax_type %> % </strong></td>
-                                              <% elsif @tax_type == "Flat Amount" %>
-                                                 <td><strong><%= tax_type %> (Amount) </strong></td>
-                                              <% end %>
+                                           <% tax_amount = bill_taxes.where(:tax_type_of_tax => tax).sum(:tax_amount) %>
+                                           <tr>                                      
+                                              <td><strong><%= tax_type %> </strong></td>
                                               <td><%= tax_amount %> </td>
                                            </tr>
                                         <% end %>
@@ -291,23 +287,22 @@
                                         
                                          
                                       <!-- VAT CST details -->
-                                      <% bill_taxes = @bill.bill_taxes.where(:tax_name => ["VAT", "CST"]) %>
-                                      <% bill_taxes.each do |billtax| %>
-                                        <% @tax_type = billtax.tax.tax_type %>
-                                      <% end %>
-                                      <% unique_taxes = bill_taxes.pluck(:tax_type).uniq %>
-                                      <% unique_taxes.each do |tax| %>
-                                        <% tax_type = tax %>
-                                        <% tax_amount = bill_taxes.where(:tax_type => tax).sum(:tax_amount) %>
+                                    <% bill_taxes = @bill.bill_taxes.where(:tax_name => ["VAT", "CST"]) %>
+                                    <% unique_taxes = bill_taxes.pluck(:tax_type_of_tax).uniq  %>
+                                    <% unique_taxes.each do |tax| %>
+                                       <% tax_type = tax %>
+                                       <% tax_amount = bill_taxes.where(:tax_type_of_tax => tax).sum(:tax_amount)  %>
+                                       <% tax_on_tax = BillTax.where(:tax_type_of_tax => tax).first.tax.tax_on_tax %>
+                                        <% if tax_on_tax == "yes" %>
+                                           <% @tax_of_name = tax_type + " " + "(TOT)" %>
+                                        <% else %>
+                                           <% @tax_of_name = tax_type %>
+                                        <% end %>
                                         <tr>
-                                          <% if @tax_type == "Percentage" %>
-                                            <td><strong><%= tax_type %> % </strong></td>
-                                          <% elsif @tax_type == "Flat Amount" %>
-                                           <td><strong><%= tax_type %> (Amount) </strong></td>
-                                          <% end %>
+                                           <td><strong><%= @tax_of_name %> </strong></td>
                                            <td><%= tax_amount %> </td>
                                         </tr>
-                                      <% end %>
+                                    <% end %>
 <% 
 =begin %>
                                        <% vat_cst = @bill.bill_taxes.where(:tax_name => ["VAT", "CST"]) %>
@@ -463,7 +458,7 @@
                      </div> 
                      
                      <div class="col-md-2">
-                       <%= link_to 'Send mail', send_mail_path(:id => @bill.id),  class: 'btn btn-success' %>
+                       <%= link_to 'Send mail', send_mail_path(:id => @bill.id, :format => "pdf"),  class: 'btn btn-success' %>
                      </div> 
                      
                    </div><!-- col-md-10 ends here -->

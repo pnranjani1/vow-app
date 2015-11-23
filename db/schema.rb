@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151119114106) do
+ActiveRecord::Schema.define(version: 20151123073125) do
 
   create_table "addresses", force: true do |t|
     t.string   "address_line_1"
@@ -103,6 +103,7 @@ ActiveRecord::Schema.define(version: 20151119114106) do
     t.float    "tax_rate"
     t.string   "tax_type"
     t.float    "tax_amount"
+    t.string   "tax_type_of_tax"
   end
 
   create_table "bills", force: true do |t|
@@ -171,6 +172,7 @@ ActiveRecord::Schema.define(version: 20151119114106) do
     t.string   "state"
     t.string   "pin_code"
     t.integer  "primary_user_id"
+    t.string   "company_name"
   end
 
   create_table "dashboards", force: true do |t|

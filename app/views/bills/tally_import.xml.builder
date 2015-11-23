@@ -41,12 +41,12 @@ xml.ENVELOPE do
                   xml.REMOVEZEROENTRIES "No"
                   xml.ISDEEMEDPOSITIVE "Yes"
                   urd_values = ["Other", "Others", "other", "others"] 
-                  if urd_values.include? bill.customer.name 
+                  if urd_values.include? bill.customer.company_name 
                     customer = UnregisteredCustomer.where(:bill_id => bill.id).first  
                     customer_name = customer.customer_name 
                     xml.LEDGERNAME customer_name             
                   else
-                    xml.LEDGERNAME bill.customer.name
+                    xml.LEDGERNAME bill.customer.company_name
                   end
                   xml.AMOUNT -(bill.grand_total)
                 end #alleged entry lis ends
@@ -54,50 +54,85 @@ xml.ENVELOPE do
                 xml.ALLLEDGERENTRIESLIST do
                   xml.REMOVEZEROENTRIES "No"
                   xml.ISDEEMEDPOSITIVE "No"
-                  if bill.tax_type != 'No Tax'
-                     taxes = bill.line_items.pluck(:tax_id)
-                     tax = taxes.compact.first
-                     taxrate = Tax.where(:id => tax).first.tax_rate
-                     xml.LEDGERNAME taxrate
+                  
+                   if bill.tax_type != "No Tax"
+                     tax = bill.bill_taxes.where(:tax_name => ["VAT", "CST"]).first.tax_rate
+                     xml.LEDGERNAME tax
+                   else
+                     xml.LEDGERNAME
+                   end
+                  
+#if bill.tax_type != 'No Tax'
+# taxes = bill.line_items.pluck(:tax_id)
+#tax = taxes.compact.first
+#taxrate = Tax.where(:id => tax).first.tax_rate
+#xml.LEDGERNAME taxrate
+#else
+# xml.LEDGERNAME 
+#end
+                  if bill.discount.present?                 
+                    xml.AMOUNT bill.total_bill_price - bill.discount
                   else
-                     xml.LEDGERNAME 
+                    xml.AMOUNT bill.total_bill_price
                   end
-                  xml.AMOUNT bill.total_bill_price
                 end #alleged entry list ends
                
                 xml.ALLLEDGERENTRIESLIST do
                    xml.REMOVEZEROENTRIES "No"
                    xml.ISDEEMEDPOSITIVE "No"
-                   service_tax = bill.line_items.pluck(:service_tax_amount).compact
-                   if (!service_tax.empty?) && (bill.other_charges != nil)
-                     xml.LEDGERNAME bill.other_charges_information.other_charges 
-                     service_tax = bill.line_items.sum(:service_tax_amount)
-                     xml.AMOUNT (bill.other_charges + service_tax)
-                   elsif service_tax.present? 
-                     service_amount = bill.line_items.sum(:service_tax_amount)
-                     xml.AMOUNT service_amount
-                   elsif bill.other_charges.present?
-                     xml.LEDGERNAME bill.other_charges_information.other_charges 
-                     xml.AMOUNT bill.other_charges 
+                   other_taxes = bill.bill_taxes.where.not(:tax_name => ["VAT", "CST"])          
+                   other_charges  = bill.other_charges + other_taxes.sum(:tax_amount) 
+                   other_tax_charges = other_taxes.sum(:tax_amount)
+                   if bill.other_charges.present?
+                      xml.AMOUNT other_charges
                    else
-                     xml.LEDGERNAME  
-                     xml.AMOUNT
-                  end
+                      xml.AMOUNT other_tax_charges
+                    end
+                  
+                   #service_tax = bill.line_items.pluck(:service_tax_amount).compact
+                   #if (!service_tax.empty?) && (bill.other_charges != nil)
+#                     xml.LEDGERNAME bill.other_charges_information.other_charges 
+                     #service_tax = bill.line_items.sum(:service_tax_amount)
+                     #xml.AMOUNT (bill.other_charges + service_tax)
+                   #elsif service_tax.present? 
+                    # service_amount = bill.line_items.sum(:service_tax_amount)
+                    # xml.AMOUNT service_amount
+                   #elsif bill.other_charges.present?
+                   #  xml.LEDGERNAME bill.other_charges_information.other_charges 
+                   #  xml.AMOUNT bill.other_charges 
+                   #else
+                   #  xml.LEDGERNAME  
+                   #  xml.AMOUNT
+                  #end
                 end #alleged entry list ends
                
                xml.ALLLEDGERENTRIESLIST do
                   xml.REMOVEZEROENTRIES "No"
                   xml.ISDEEMEDPOSITIVE "No"
-                  if bill.tax_type != "No Tax"
-                    taxes = bill.line_items.pluck(:tax_id)
-                    tax = taxes.compact.first
-                    tax_rate = Tax.where(:id => tax).first.tax_rate
-                    xml.LEDGERNAME tax_rate
-                    xml.AMOUNT (tax_rate*0.01).round(2)
-                  else
-                    xml.LEDGERNAME 
-                    xml.AMOUNT 
-                  end
+                 
+                   if bill.tax_type != "No Tax"
+                     tax = bill.bill_taxes.where(:tax_name => ["VAT", "CST"]).first
+                     xml.LEDGERNAME tax.tax_rate
+                     if tax.tax.tax_type == "Percentage"
+                       xml.AMOUNT (tax.tax_rate*0.01).round(2)
+                     elsif tax.tax.tax_type == "Flat Amount"
+                       xml.AMOUNT tax.tax_rate
+                     end
+                   else
+                     xml.LEDGERNAME
+                     xml.AMOUNT 
+                   end
+                 
+                  #if bill.tax_type != "No Tax"
+                    #taxes = bill.line_items.pluck(:tax_id)
+                    #tax = taxes.compact.first
+                    #tax_rate = Tax.where(:id => tax).first.tax_rate
+                    #xml.LEDGERNAME tax_rate
+                    #xml.AMOUNT (tax_rate*0.01).round(2)
+                  #else
+                    #xml.LEDGERNAME 
+                    #xml.AMOUNT 
+                  #end
                 end #alleged entry list ends
              end #user_bills each do ends
          end #tally message ends

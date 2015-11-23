@@ -31,16 +31,26 @@
                     <div class="row">    
                          
                          &nbsp;&nbsp;<b style="color:red">*</b>&nbsp;<b> Indicates the mandatory fields</b><br/><br/>
-                         &nbsp;&nbsp;<b>To Add Unregistered customers, Customer name should be </b> <b style="color:red";>Others</b><br/><br/>
+                         &nbsp;&nbsp;<b>To Add Unregistered customers, Company name should be </b> <b style="color:red";>Others</b><br/><br/>
                          
                          <div class="col-sm-6 marggap">   
-                            Name&nbsp;&nbsp;<b style="color:red">*</b>
+                            Customer Name&nbsp;&nbsp;<b style="color:red">*</b>
                             <div id="name" class="input-group">               
                               <span class="input-group-addon"><i class="fa fa-user"></i></span>
                               <%= f.text_field :name, maxlength: 40, class: "form-control", required: true  %>
                             </div>
                          </div> <!-- /.col -->
+                      
+                         <div class="col-sm-6 marggap">   
+                            Company Name&nbsp;&nbsp;<b style="color:red">*</b>
+                            <div id="name" class="input-group">               
+                              <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                              <%= f.text_field :company_name, maxlength: 40, class: "form-control", required: true  %>
+                            </div>
+                         </div> <!-- /.col -->
+                        </div><!-- row ends here -->
 
+                        <div class="row">
                          <div class="col-sm-6 marggap">  
                             Email&nbsp;&nbsp;<b style="color:red">*</b>
                             <div id="email" class="input-group">          
@@ -48,11 +58,8 @@
                               <%= f.text_field :email, class: "form-control", required: true  %>
                             </div>
                          </div> <!-- /.col -->
-                    </div><!-- row ends here -->
- 
-                    <div class="row">    
-                       
-                        <div class="col-sm-6 marggap">  
+                  
+                         <div class="col-sm-6 marggap">  
                            Tin Number&nbsp;&nbsp;<b style="color:red">*</b>
                            <div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Should Be 11 Digits">
                              <div id="number" class="input-group">               
@@ -60,9 +67,11 @@
                                <%= f.text_field :tin_number,maxlength: 11, minlength: 11,  class: "form-control", required: true  %>
                              </div>
                            </div> <!-- /.col -->
-                        </div>
+                         </div>
+                        </div><!-- row ends here -->
   
-                        <div class="col-sm-6 marggap">  
+                        <div class="row">        
+                          <div class="col-sm-6 marggap">  
                            Mobile Number
                           <div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Should be 10 Digitss">
                            <div id="phone" class="input-group">               
@@ -71,10 +80,7 @@
                            </div>
                           </div>
                         </div> <!-- /.col -->
-                    </div>  <!-- row ends here -->
-  
-                    <div class="row">
-  
+                    
                         <div class="col-sm-6 marggap">  
                             Address
                               <div id="city" class="input-group">               
@@ -82,7 +88,9 @@
                                  <%= f.text_field :address, maxlength: 60, class: "form-control" %>
                               </div>
                         </div> <!-- /.col -->
-            
+                       </div>  <!-- row ends here -->
+             
+                       <div class="row">
                         <div class="col-sm-6 marggap">  
                            City&nbsp;&nbsp;<b style="color:red">*</b>
                            <div id="City" class="input-group">               
@@ -90,10 +98,7 @@
                               <%= f.text_field :city ,  maxlength: 15, class: "form-control", required: true  %>
                            </div>
                         </div> <!-- /.col -->
-                    </div><!-- row ends here -->
-  
-                    <div class="row">
-                
+                     
                         <div class="col-sm-6 marggap">  
                             State
                            <div id="City" class="input-group">               
@@ -101,8 +106,10 @@
                              <%= f.text_field :state , maxlength: 15, class: "form-control" %>
                            </div>
                         </div> <!-- /.col -->
+                       </div><!-- row ends here -->
   
-                        <div class="col-sm-6 marggap">  
+                       <div class="row">
+                         <div class="col-sm-6 marggap">  
                             Pin Code
                             <div id="City" class="input-group">               
                               <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>

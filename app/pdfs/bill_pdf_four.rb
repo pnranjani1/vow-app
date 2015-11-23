@@ -4,7 +4,7 @@ class BillPdfFour < Prawn::Document
   include ActionView::Helpers::NumberHelper
   
   
-   def initialize(bill)
+  def initialize(bill)
     super()
      @bill = bill
      @user = Authuser.find(@bill.authuser_id)
@@ -12,6 +12,7 @@ class BillPdfFour < Prawn::Document
      bill_title
      bill_customer
      bill_products
+     #subtable
      bill_table
      table_price_list
      authority   
@@ -126,51 +127,53 @@ class BillPdfFour < Prawn::Document
          else
             qty = qty
          end
-            #Tax Details         
-         if line_item.bill_taxes.present? 
-         # @taxtype =line_item.bill_taxes.pluck(:tax_type)
-           line_item.bill_taxes.each do |tax|
-             tax_type =  tax.tax.tax_type
-             #@tax = tax.tax_type
-              if tax_type == "Percentage" 
-                @tax_name = tax.tax_type + "%" 
-               elsif tax_type == "Amount" 
-                 @tax_name = tax.tax_type + "( Flat Amount)"
-               end 
-             #@tax_name = taxtype
-               #@tax_table = [@tax_name ]         
-           end
-         else
-           " NA"
-         end
-         #product details
+         #Tax Details         
+        if line_item.bill_taxes.present? 
+          taxes = line_item.bill_taxes.pluck(:tax_type_of_tax)
+          @tax = taxes.to_sentence
+        else
+          @tax = "Nil"
+        end
+        #product details
          if line_item.item_description.present?
            product_name = "#{line_item.product.product_name.titleize} \n #{item = line_item.item_description}"
         else
           product_name = line_item.product.product_name.titleize
         end
-        [product_name, @tax_name, qty, "#{number_with_delimiter(line_item.unit_price,delimiter: ',')}", "#{number_with_delimiter(line_item.total_price.round(2), delimiter: ',')}"]
+        
+       
+        #[@tax_nmae]
+        #@sub_table = make_table([[@tax_nmae]])
+        #@sub_table = make_table([[@tax_nmae ]]) 
+        #@sub_table = @tax_nmae #list only one tax
+       # @sub_table = make_table([taxes]) # shows taxes in horizontal way
+           
+          #end
+          
+        [product_name, @tax, qty, "#{number_with_delimiter(line_item.unit_price,delimiter: ',')}", "#{number_with_delimiter(line_item.total_price.round(2), delimiter: ',')}"]
+  #end
       end
    end
- 
+   
    def bill_table   
-      bounding_box([5,450], :width => 530) do
+      bounding_box([25,450], :width => 530) do
       
-         table bill_products do
+        table bill_products do
            row(0).font_style = :bold
            columns(0..4).align = :center          
            self.header = true
-           self.width = 500
-           columns(0..5).size = 9
+           self.width = 465
+           columns(0..4).size = 9
            columns(0).align = :left   
            column(1..2).align = :center
-           column(3..5).align = :right
-           columns(0..5).size = 9
+           column(3).align = :center
+           column(4).align = :right
+           columns(0..4).size = 9
            self.column(0).width = 145
            self.column(1).width = 110
            self.column(2).width = 65
-           self.column(3).width = 90
-           self.column(4).width = 90
+           self.column(3).width = 70
+           self.column(4).width = 75
            
          end
       end
@@ -178,67 +181,58 @@ class BillPdfFour < Prawn::Document
    
    def table_price_list
          data =  [["Bill Total", "#{number_with_delimiter(@bill.total_bill_price.round(2), delimiter: ',')}"]]
-         table(data,  :cell_style => {size: 9, :inline_format => true, :align => :right},:column_widths => [410, 90], :position => 5)
+         table(data,  :cell_style => {size: 9, :inline_format => true, :align => :right},:column_widths => [390, 75], :position => 25)
         
           #Other charges like packing, transportation
           if @bill.bill_other_charges.present?
             @bill.bill_other_charges.each do |charges|
               charge = "#{charges.other_charges_information.other_charges}"
               data = [["#{charge}", "#{number_with_delimiter(charges.other_charges_amount, delimiter: ',')}"]]
-              table(data, :cell_style => {size: 9, :inline_format => true, :align => :right},:column_widths => [410, 90], :position => 5)
+              table(data, :cell_style => {size: 9, :inline_format => true, :align => :right},:column_widths => [390, 75], :position => 25)
             end
           end
           
           #Discount
           if @bill.discount.present?
              data = [[" Total Discount", "#{number_with_delimiter(@bill.discount)}"]]
-             table(data, :cell_style => {size: 9, :inline_format => true, :align => :right}, :column_widths => [410, 90], :position => 5)
+             table(data, :cell_style => {size: 9, :inline_format => true, :align => :right}, :column_widths => [390, 75], :position => 25)
           end
           
           #Sub Total
            sub_total = @bill.total_bill_price.to_f + @bill.other_charges.to_f - @bill.discount.to_f
            data = [["Sub Total", "#{number_with_delimiter(sub_total.round(2), delimiter: ',')}"]]
-           table(data, :cell_style => {size: 9, :font_style => :bold, :inline_format => true, :align => :right},:column_widths =>[410, 90], :position => 5)
+           table(data, :cell_style => {size: 9, :font_style => :bold, :inline_format => true, :align => :right},:column_widths =>[390, 75], :position => 25)
          
            #Other Tax Details
-           bill_taxes =  @bill.bill_taxes.where.not(:tax_name => ["VAT", "CST"])
-           bill_taxes.each do |billtax|
-              @tax_type = billtax.tax.tax_type 
-           end 
-           unique_taxes = bill_taxes.pluck(:tax_type).uniq 
+           bill_taxes = @bill.bill_taxes.where.not(:tax_name => ["VAT", "CST"])
+           unique_taxes = bill_taxes.pluck(:tax_type_of_tax).uniq 
            unique_taxes.each do |tax|
-              tax_amount = bill_taxes.where(:tax_type => tax).sum(:tax_amount)
-              if @tax_type == "Percentage"
-                @tax_of_name = tax + " " + "%"
-              elsif @tax_type == "Flat Amount"
-                @tax_of_name  = tax + " " + "(Amount)" 
-              end
-           data = [["#{@tax_of_name}", "#{number_with_delimiter(tax_amount.round(2), delimiter: ',')}"]]
-           table(data, :cell_style => {size: 9,  :align => :right}, :column_widths => [410, 90], :position => 5)
+              tax_amount = bill_taxes.where(:tax_type_of_tax => tax).sum(:tax_amount)             
+              @tax_of_name = tax      
+              data = [["#{@tax_of_name}", "#{number_with_delimiter(tax_amount.round(2), delimiter: ',')}"]]
+              table(data, :cell_style => {size: 9,  :align => :right}, :column_widths => [390, 75], :position => 25)
            end
            
        
            #VAT/CST details
            bill_taxes = @bill.bill_taxes.where(:tax_name => ["VAT", "CST"])
-           bill_taxes.each do |billtax| 
-              @tax_type = billtax.tax.tax_type
-           end 
-           unique_taxes = bill_taxes.pluck(:tax_type).uniq 
+           unique_taxes = bill_taxes.pluck(:tax_type_of_tax).uniq 
            unique_taxes.each do |tax| 
                tax_type = tax 
-               tax_amount = bill_taxes.where(:tax_type => tax).sum(:tax_amount) 
-               if @tax_type == "Percentage"
-                 @tax_of_name1 = tax_type + " " + "%"
-               elsif @tax_type == "Flat Amount"
-                 @tax_of_name1 = tax_type + " "+ "(Amount) "
-               end 
-               data = [["#{@tax_of_name1}", "#{number_with_delimiter(tax_amount.round(2), delimiter: ',')}"]]
-               table(data, :cell_style => {size: 9,  :align => :right}, :column_widths => [410, 90], :position => 5)
+               tax_amount = bill_taxes.where(:tax_type_of_tax => tax).sum(:tax_amount) 
+             tax_on_tax = BillTax.where(:tax_type_of_tax => tax).first.tax.tax_on_tax
+             if tax_on_tax == "yes"
+               @tax_of_name = tax_type + " " + "(TOT)"
+             else
+               @tax_of_name = tax_type
+             end
+               data = [["#{@tax_of_name}", "#{number_with_delimiter(tax_amount.round(2), delimiter: ',')}"]]
+               table(data, :cell_style => {size: 9,  :align => :right}, :column_widths => [390, 75], :position => 25)
            end
            
            data = [["Grand Total", "#{number_with_delimiter(@bill.grand_total.round(2), delimiter: ',')}"]]
-           table(data, :cell_style => {size: 9, :font_style => :bold, :inline_format => true, :align => :right}, :column_widths => [410, 90], :position => 5)
-            move_down 5
+           table(data, :cell_style => {size: 9, :font_style => :bold, :inline_format => true, :align => :right}, :column_widths => [390, 75], :position => 25)
+            move_down 9
      
             text "<u><b>#{number_to_currency_in_words(@bill.grand_total, currency: :rupee).titleize} only</b></u>", size: 9, align: :right, :inline_format => true
      

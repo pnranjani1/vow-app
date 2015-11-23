@@ -125,9 +125,22 @@ $(document).ready(function(){
     {
       $("div #text-box").hide();
     }  
-    
   });
 });
+
+$(document).ready(function(){
+  $('#drop-down').change(function() {
+    var a = $(this).find(":selected").text();
+   if (a == "Other" || a == "Others" || a== "other" || a == "others"){
+    $("div #customer-box").show();
+   }
+    else
+    {
+      $("div #customer-box").hide();
+    }  
+  });
+});
+
 
   $(document).ready(function(){
     $('#item_add').on("click", function(){

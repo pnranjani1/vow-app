@@ -3,6 +3,7 @@ class BillTax < ActiveRecord::Base
   before_save :generate_tax_name
   before_save :generate_bill_id
   before_save :generate_tax
+  before_save :generate_tax_type_of_tax
   #after_save :generate_tax_amount
   #after_commit :generate_tax_amount
   
@@ -22,6 +23,14 @@ class BillTax < ActiveRecord::Base
     self.tax_type = self.tax_name + " " + self.tax_rate.to_s
   end
   
+  def generate_tax_type_of_tax
+    if self.tax.tax_type == "Percentage"
+      self.tax_type_of_tax = self.tax_type + " " + "%"
+    elsif self.tax.tax_type == "Flat Amount"
+      self.tax_type_of_tax = self.tax_type + " " +"(Amount)"
+    end
+  end
+
  #bill = self.bill
       #line_item = self.line_item
       #bill_taxes_of_line_item = line_item.bill_taxes

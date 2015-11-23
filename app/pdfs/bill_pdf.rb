@@ -112,7 +112,7 @@ class BillPdf < Prawn::Document
      urd_values = ["others", "other", "Others", "Other"]
      if urd_values.include? @bill.customer.name 
        customer = UnregisteredCustomer.where(:bill_id => @bill.id).first
-       @bill.customer.name = customer.customer_name
+       @bill.customer.company_name = customer.customer_name
        @bill.customer.address = customer.address
        @bill.customer.city = customer.city
        @bill.customer.phone_number = customer.phone_number
@@ -124,7 +124,7 @@ class BillPdf < Prawn::Document
      end
          
      bounding_box([320, 620],:width => 220) do
-       text "#{@bill.customer.name.titleize}", size:10, :style => :bold, :leading => 2
+       text "#{@bill.customer.company_name.titleize}", size:10, :style => :bold, :leading => 2
        text "Address               :   #{@bill.customer.address.capitalize}" , :inline_format => true, size: 9, :leading => 3 
        text "City                      :   #{@bill.customer.city.capitalize}", size: 9, :inline_format => true, :leading => 3
       # text "<b>PinCode               :</b>   #{@bill.customer.pin_code}", size: 11, :inline_format => true, :leading => 3
@@ -185,6 +185,7 @@ class BillPdf < Prawn::Document
           qty = qty
         end
         #Tax details
+        # below is not used since unable to create subtable
         if line_item.bill_taxes.present? 
           line_item.bill_taxes.each do |tax|
            tax_type =  tax.tax.tax_type
@@ -198,13 +199,20 @@ class BillPdf < Prawn::Document
         else
          " NA"
         end
+        #this code is used now
+        if line_item.bill_taxes.present? 
+          taxes = line_item.bill_taxes.pluck(:tax_type_of_tax)
+          @tax = taxes.to_sentence
+        else
+          @tax = "Nil"
+        end
         #product details
         if line_item.item_description.present?
            product_name = "#{line_item.product.product_name.titleize} \n #{item = line_item.item_description}"
         else
           product_name = line_item.product.product_name.titleize
         end
-        [product_name, @tax_name ,  qty, "#{number_with_delimiter(line_item.unit_price,delimiter: ',')}", "#{number_with_delimiter(line_item.total_price.round(2), delimiter: ',')}"]
+        [product_name, @tax ,  qty, "#{number_with_delimiter(line_item.unit_price,delimiter: ',')}", "#{number_with_delimiter(line_item.total_price.round(2), delimiter: ',')}"]
       end
    end
  
@@ -234,8 +242,9 @@ class BillPdf < Prawn::Document
         #row(0).columns(1..5).align = :center
          columns(0).align = :left   
          column(1..2).align = :center
-         column(3..5).align = :right
-         columns(0..5).size = 9
+         column(3).align = :center
+         column(4).align = :right
+         columns(0..4).size = 9
         #self.row_colors = ["FFFFFF", "DDDDDD"]
         #self.row_colors = ["FFFFFF", "D3D3D3"]
          self.header = true
@@ -245,7 +254,7 @@ class BillPdf < Prawn::Document
          self.column(2).width = 60
          self.column(3).width = 70
          self.column(4).width = 70
-         self.column(5).width = 95
+         #self.column(5).width = 95
        end
      end
    end
@@ -309,38 +318,29 @@ class BillPdf < Prawn::Document
 
      #Other Tax Details
         #Other Tax Details
-           bill_taxes =  @bill.bill_taxes.where.not(:tax_name => ["VAT", "CST"])
-           bill_taxes.each do |billtax|
-              @tax_type = billtax.tax.tax_type 
-           end 
-           unique_taxes = bill_taxes.pluck(:tax_type).uniq 
+           bill_taxes = @bill.bill_taxes.where.not(:tax_name => ["VAT", "CST"])
+           unique_taxes = bill_taxes.pluck(:tax_type_of_tax).uniq 
            unique_taxes.each do |tax|
-              tax_amount = bill_taxes.where(:tax_type => tax).sum(:tax_amount)
-              if @tax_type == "Percentage"
-                @tax_of_name = tax + " " + "%"
-              elsif @tax_type == "Flat Amount"
-                @tax_of_name  = tax + " " + "(Amount)" 
-              end
-           data = [["#{@tax_of_name}", "#{number_with_delimiter(tax_amount.round(2), delimiter: ',')}"]]
-           table(data, :cell_style => {size: 9,  :align => :right}, :column_widths => [160, 95], :position => 240)
+              tax_amount = bill_taxes.where(:tax_type_of_tax => tax).sum(:tax_amount)             
+              @tax_of_name = tax                       
+              data = [["#{@tax_of_name}", "#{number_with_delimiter(tax_amount.round(2), delimiter: ',')}"]]
+              table(data, :cell_style => {size: 9,  :align => :right}, :column_widths => [160, 95], :position => 240)
            end
            
        
            #VAT/CST details
            bill_taxes = @bill.bill_taxes.where(:tax_name => ["VAT", "CST"])
-           bill_taxes.each do |billtax| 
-              @tax_type = billtax.tax.tax_type
-           end 
-           unique_taxes = bill_taxes.pluck(:tax_type).uniq 
+           unique_taxes = bill_taxes.pluck(:tax_type_of_tax).uniq 
            unique_taxes.each do |tax| 
                tax_type = tax 
-               tax_amount = bill_taxes.where(:tax_type => tax).sum(:tax_amount) 
-               if @tax_type == "Percentage"
-                 @tax_of_name1 = tax_type + " " + "%"
-               elsif @tax_type == "Flat Amount"
-                 @tax_of_name1 = tax_type + " "+ "(Amount) "
-               end 
-               data = [["#{@tax_of_name1}", "#{number_with_delimiter(tax_amount.round(2), delimiter: ',')}"]]
+               tax_amount = bill_taxes.where(:tax_type_of_tax => tax).sum(:tax_amount) 
+             tax_on_tax = BillTax.where(:tax_type_of_tax => tax).first.tax.tax_on_tax
+             if tax_on_tax == "yes"
+               @tax_of_name = tax_type + " " + "(TOT)"
+             else
+               @tax_of_name = tax_type
+             end
+                  data = [["#{@tax_of_name}", "#{number_with_delimiter(tax_amount.round(2), delimiter: ',')}"]]
                table(data, :cell_style => {size: 9,  :align => :right}, :column_widths => [160, 95], :position => 240)
            end
            

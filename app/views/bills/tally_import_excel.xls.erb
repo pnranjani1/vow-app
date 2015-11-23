@@ -18,10 +18,8 @@
       <td><%= bill.customer.name %></td>
       <td><%= bill.customer.tin_number %></td>
       <% if bill.tax_type != 'No Tax' %>
-        <% taxes = bill.line_items.pluck(:tax_id) %>
-        <% tax = taxes.compact.first %>
-        <% taxrate = Tax.where(:id => tax).first.tax_rate %>
-       <td><%= taxrate %></td>
+      <% tax_type = bill.bill_taxes.first.tax_type %> 
+          <td><%= tax_type %></td>
       <% else %>
        <td> No Tax</td>
       <% end %>

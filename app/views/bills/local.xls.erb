@@ -17,7 +17,7 @@
       <td><%= bill.bill_date.strftime("%d %b %y") %></td>     
       <td><%= bill.authuser.name %></td>
       <% urd_values = ["Other", "Others", "other", "others"] %>
-      <% if urd_values.include? bill.customer.name %>
+      <% if urd_values.include? bill.customer.company_name %>
          <% customer = UnregisteredCustomer.where(:bill_id => bill.id).first  %>
           <td><%= customer.customer_name %></td>
         <% customer_state = customer.state %>
@@ -25,7 +25,7 @@
         <% tin_number = tin.tin_number %>
          <td><%= tin_number %></td>
       <% else %>
-        <td><%= bill.customer.name %></td>
+        <td><%= bill.customer.company_name %></td>
         <td><%= bill.customer.tin_number %></td>
       <% end %>
       
