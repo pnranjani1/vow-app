@@ -240,21 +240,21 @@ class Bill < ActiveRecord::Base
         billtax.update_attribute(:tax_amount, (billtax.line_item.total_price * (billtax.tax_rate/100)))
       end
     elsif (billtax.tax_name == "VAT") || (billtax.tax_name == "CST")
-      other_taxes = billtax.line_item.bill_taxes.where.not(:tax_name => ["VAT", "CST"])
-      other_tax_amount = other_taxes.sum(:tax_amount)
-    
-      if billtax.tax.tax_on_tax == "yes"        
-        if billtax.tax.tax_type == "Percentage"      
-         
-          billtax.update_attribute(:tax_amount, ((other_tax_amount + billtax.line_item.total_price) * (billtax.tax_rate/100)))
-        elsif billtax.tax.tax_type == "Flat Amount"
-          billtax.update_attribute(:tax_amount, billtax.tax_rate)
-        end
-      elsif billtax.tax.tax_on_tax == "no"
-        if billtax.tax.tax_type == "Percentage"        
-          billtax.update_attribute(:tax_amount, ((billtax.line_item.total_price) * (billtax.tax_rate/100)))
-        elsif billtax.tax.tax_type == "Flat Amount"
-          billtax.update_attribute(:tax_amount, billtax.tax_rate)
+      if billtax.line_item.present?
+        other_taxes = billtax.line_item.bill_taxes.where.not(:tax_name => ["VAT", "CST"])
+        other_tax_amount = other_taxes.sum(:tax_amount)
+        if billtax.tax.tax_on_tax == "yes"        
+          if billtax.tax.tax_type == "Percentage"      
+             billtax.update_attribute(:tax_amount, ((other_tax_amount + billtax.line_item.total_price) * (billtax.tax_rate/100)))
+          elsif billtax.tax.tax_type == "Flat Amount"
+             billtax.update_attribute(:tax_amount, billtax.tax_rate)
+          end 
+        elsif billtax.tax.tax_on_tax == "no"
+           if billtax.tax.tax_type == "Percentage"        
+             billtax.update_attribute(:tax_amount, ((billtax.line_item.total_price) * (billtax.tax_rate/100)))
+           elsif billtax.tax.tax_type == "Flat Amount"
+             billtax.update_attribute(:tax_amount, billtax.tax_rate)
+           end
         end
       end
     end

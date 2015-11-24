@@ -16,7 +16,9 @@ class BillTax < ActiveRecord::Base
   end
   
   def generate_bill_id
-    self.bill_id = self.line_item.bill.id
+    if self.line_item.present?
+     self.bill_id = self.line_item.bill.id
+    end
   end
   
   def generate_tax
