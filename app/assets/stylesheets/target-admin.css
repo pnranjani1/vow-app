@@ -47,8 +47,10 @@ h6 {
 }
 .btn-primary {
   color: #ffffff;
-  background-color: #e74c3c;
-  border-color: #df2e1b;
+  /* background-color: #e74c3c;*/
+  background-color:#006dcc;
+  /* border-color: #df2e1b;*/
+  border-color: #ffffff;
 }
 .btn-primary:hover,
 .btn-primary:focus,
@@ -57,7 +59,8 @@ h6 {
 .open .dropdown-toggle.btn-primary {
   color: #ffffff;
   background-color: #006dcc;
-  border-color: #a82315;
+  border-color: #ffffff;
+ /*  border-color: #a82315;*/
 }
 .btn-primary:active,
 .btn-primary.active,
