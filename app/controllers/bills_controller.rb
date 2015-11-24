@@ -186,6 +186,10 @@ class BillsController < ApplicationController
         @other_charges = OtherChargesInformation.where(:authuser_id => current_authuser.id)
       end
       if @bill.update_attributes(set_params)
+        products_other_charges = @bill.total_bill_price.to_f + @bill.other_charges.to_f
+        tax_total = @bill.bill_taxes.sum(:tax_amount)
+        grand_total = ((products_other_charges.to_f  + tax_total.to_f ) - @bill.discount.to_f)
+        @bill.update_attribute(:grand_total, grand_total )
         @bill.update_attribute(:total_bill_price, @bill.line_items.sum(:total_price))
         redirect_to bill_path(@bill.id)
       else
