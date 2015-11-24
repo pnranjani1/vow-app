@@ -34,7 +34,7 @@
                                    <% customer = UnregisteredCustomer.where(:bill_id => bill.id).first %>
                                    <%= link_to customer.customer_name, bill_path(bill.id), class: "listconttext" %> /
                                 <% else %>
-                                   <%= link_to bill.customer.name, bill_path(bill.id), class: "listconttext" %> /
+                                   <%= link_to bill.customer.company_name, bill_path(bill.id), class: "listconttext" %> /
                                 <% end %>
   
                                 <% if bill.invoice_number.length < 6 %>
@@ -50,7 +50,7 @@
                                     Esugam Not generated 
                                 <% end %>
                                 <% urd_values = ["Others", "Other", "others", "other"] %>
-                                <% if !urd_values.include? bill.customer.name %>
+                                <% if !urd_values.include? bill.customer.company_name %>
                                     <% if ((bill.esugam.nil?) && (bill.created_at >= Date.today - 15.days)) %>
                                       <%= link_to ' / Edit', edit_bill_path(bill.id), class: "listconttext" %>
                                     <% end %>

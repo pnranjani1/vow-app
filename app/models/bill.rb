@@ -359,7 +359,7 @@ class Bill < ActiveRecord::Base
           browser.link(:id, "LinkButton1").click   
           sleep 1
           browser.text_field(:id, "ctl00_MasterContent_txtFromAddrs").set(user.address.city)
-          browser.text_field(:id, "ctl00_MasterContent_txtToAddrs").set(@customer_city)
+         # browser.text_field(:id, "ctl00_MasterContent_txtToAddrs").set(@customer_city)
                                        
           if browser.select_list(:id, "ctl00_MasterContent_ddl_commoditycode").option(:text => "#{@bill.products.first.usercategory.main_category.commodity_name}").present?
              browser.select_list(:id, "ctl00_MasterContent_ddl_commoditycode").select(@bill.products.first.usercategory.main_category.commodity_name)       
