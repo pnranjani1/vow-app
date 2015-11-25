@@ -33,7 +33,7 @@
                          <li class="panel-list-title">
                             <div class="panel-list-content">
                                 <% urd_values = ["Other", "Others", "others", "other"] %>
-                                <% if urd_values.include? bill.customer.name %>
+                                <% if urd_values.include? bill.customer.company_name %>
                                    <% customer = UnregisteredCustomer.where(:bill_id => bill.id).first %>
                                    <%= link_to customer.customer_name, bill_path(bill.id), class: "listconttext" %> /
                                 <% else %>
@@ -89,9 +89,9 @@
                         <div class="col-md-1"></div>
                         <div class="col-md-1">
                           <% role = current_authuser.role %>
-                          <% if role = "user" %>
+                          <% if role == "user" %>
                              <%= link_to "Cancel", dashboards_user_dashboard_path, class: "btn btn-success" %>
-                          <% elsif role = "secondary_user" %>
+                          <% elsif role == "secondary_user" %>
                              <%= link_to "Cancel", dashboards_secondary_user_dashboard_path, class: "btn btn-success" %>
                           <% end %>
                         </div>

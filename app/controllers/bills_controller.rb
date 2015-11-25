@@ -31,6 +31,7 @@ class BillsController < ApplicationController
    # @bill.bill_taxes.build
   # @bill.taxes.build
     @bill.unregistered_customers.build
+   # @bill.unregistered_customer = UnregisteredCustomer.new
     @bill.other_charges_informations.build
    
      if current_authuser.main_roles.first.role_name == "secondary_user"
@@ -90,7 +91,7 @@ class BillsController < ApplicationController
    # if customer.name != "Others"
     urd_values = ["others", "other", "Others", "Other"]
     if !urd_values.include? customer.company_name 
-      @bill.unregistered_customers.first.delete
+      @bill.unregistered_customers.delete_all
       #urd = UnregisteredCustomer.where(:bill_id => @bill.id).first
       #urd.delete
     #else
@@ -152,6 +153,12 @@ class BillsController < ApplicationController
   def edit
     @bill = Bill.find(params[:id])
     @user = current_authuser 
+    urd_values = ["Other", "Others", "other", "others"]
+    customer_id = @bill.customer_id
+    customer = Customer.where(:id => customer_id).first.company_name
+    if !urd_values.include? customer
+      @bill.unregistered_customers.build
+    end
     if current_authuser.main_roles.first.role_name == "secondary_user"
        primary_user_id = current_authuser.invited_by_id
        user_customers = Customer.where('authuser_id =? OR primary_user_id =? ', primary_user_id, primary_user_id)
@@ -187,23 +194,22 @@ class BillsController < ApplicationController
       end
      
       if @bill.update_attributes(set_params)        
-      urd_values = ["Other", "Others", "other", "others"]
-      customer_id = params[:bill]['customer_id']
-      customer = Customer.where(:id => customer_id).first.company_name
-      #if !urd_values.include? customer
-       # @bill.unregistered_customers.delete_all
+       urd_values = ["Other", "Others", "other", "others"]
+       customer_id = params[:bill]['customer_id']
+       customer = Customer.where(:id => customer_id).first.company_name
+       if !urd_values.include? customer
+         @bill.unregistered_customers.delete_all
       #elsif @bill.customer.company_name == customer
        # @bill.update_attributes(set_params)
       #elsif urd_values.include? customer
       #  @bill.unregistered_customers.build
-      #end
-        
-        products_other_charges = @bill.total_bill_price.to_f + @bill.other_charges.to_f
-        tax_total = @bill.bill_taxes.sum(:tax_amount)
-        grand_total = ((products_other_charges.to_f  + tax_total.to_f ) - @bill.discount.to_f)
-        @bill.update_attribute(:grand_total, grand_total )
-        @bill.update_attribute(:total_bill_price, @bill.line_items.sum(:total_price))
-        redirect_to bill_path(@bill.id)
+       end
+       products_other_charges = @bill.total_bill_price.to_f + @bill.other_charges.to_f
+       tax_total = @bill.bill_taxes.sum(:tax_amount)
+       grand_total = ((products_other_charges.to_f  + tax_total.to_f ) - @bill.discount.to_f)
+       @bill.update_attribute(:grand_total, grand_total )
+       @bill.update_attribute(:total_bill_price, @bill.line_items.sum(:total_price))
+       redirect_to bill_path(@bill.id)
       else
         render action: "edit"
       end

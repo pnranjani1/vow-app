@@ -110,6 +110,56 @@
                     </div> <!-- /.col -->
                  </div><!-- row ends here -->
                 
+                  <!-- to add unregistered customers when creating bills -->
+                  <div  style="display: none;" id="text-box"> 
+                     <%= f.fields_for :unregistered_customers do |customer| %>  
+                        <div class="row"> 
+                            <%= customer.hidden_field :authuser_id, :value => current_authuser.id %>
+     
+                            <div class="col-sm-3 marggap">   
+                               Customer Name&nbsp;&nbsp;<b style="color:red">*</b>
+                                <div id="name" class="input-group">               
+                                   <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                   <%= customer.text_field :customer_name, maxlength: 40,  class: "form-control" %>
+                                </div>
+                            </div> <!-- /.col -->
+                          
+                            <div class="col-sm-3 marggap">  
+                              Mobile Number &nbsp;&nbsp;
+                              <div id="email" class="input-group">          
+                                 <span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
+                                 <%= customer.text_field :phone_number, :maxlength => 10, class: "form-control" %>
+                              </div>
+                            </div> <!-- /.col -->
+                    
+                            <div class="col-sm-3 marggap">  
+                               Address &nbsp;&nbsp;<b style="color:red">*</b>
+                               <div id="name" class="input-group">               
+                                 <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+                                 <%= customer.text_field :address,  maxlength: 60, class: "form-control" %>
+                               </div> 
+                            </div><!-- /.col -->
+       
+                            <div class="col-sm-3 marggap">  
+                               City<b style="color:red">*</b>
+                               <div id="name" class="input-group">               
+                                  <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+                                  <%= customer.text_field :city , maxlength: 15, class: "form-control" %>
+                               </div>
+                            </div> <!-- /.col -->
+                        </div><!-- row ends here -->
+ 
+                        <div class="row"> 
+                            <div class="col-sm-3 marggap">  
+                               State<b style="color:red">*</b>
+                                 <div id="name" class="input-group">  
+                                   <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+                                   <%= customer.collection_select :state, TinNumber.all, :state, :state, {:prompt => "Select State"}, {class: "form-control", :id => "state_list" }  %>
+                                 </div>
+                            </div> <!-- /.col -->
+                         <% end %>
+                        </div><!-- row ends here -->                    
+                  </div><!-- id=text box ends here--> 
                  <br/>
              </div> <!-- portlet content ends here -->
        </div><!-- portlet ends here -->

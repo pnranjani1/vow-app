@@ -28,6 +28,7 @@ class Bill < ActiveRecord::Base
   has_many :other_charges_informations, through: :bill_other_charges
   
   belongs_to :customer
+  #has_many :unregistered_customers, dependent: :destroy
   has_many :unregistered_customers
   belongs_to :authuser
   
