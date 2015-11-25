@@ -18,8 +18,8 @@ class Bill < ActiveRecord::Base
   before_save :generate_grand_total
   before_save :generate_tax_type#self.line_items.pluck(:tax_id) != empty
   
-  has_many :line_items 
-  has_many :products, through: :line_items
+  has_many :line_items , dependent: :destroy
+  has_many :products, through: :line_items,  dependent: :destroy
   
   #has_many :bill_taxes
   #has_many :taxes, through: :bill_taxes
@@ -55,7 +55,7 @@ class Bill < ActiveRecord::Base
   
   accepts_nested_attributes_for :line_items, :allow_destroy => true, :reject_if => :all_blank
   accepts_nested_attributes_for :unregistered_customers
-  accepts_nested_attributes_for :bill_taxes
+  accepts_nested_attributes_for :bill_taxes, :allow_destroy => true
   accepts_nested_attributes_for :bill_other_charges, :allow_destroy => true, :reject_if => :all_blank
   
   
@@ -232,34 +232,36 @@ class Bill < ActiveRecord::Base
   end
   
   def generate_tax_amount
-   self.bill_taxes.each do |billtax|
-    if ((billtax.tax_name != "VAT") && (billtax.tax_name != "CST"))
-      if billtax.tax.tax_type == "Flat Amount"
-         billtax.update_attribute(:tax_amount , billtax.tax_rate)
-      elsif billtax.tax.tax_type == "Percentage"
-        billtax.update_attribute(:tax_amount, (billtax.line_item.total_price * (billtax.tax_rate/100)))
-      end
-    elsif (billtax.tax_name == "VAT") || (billtax.tax_name == "CST")
-      if billtax.line_item.present?
+    self.line_items.each do |line_item|
+      line_item.bill_taxes.each do |billtax|
+       if ((billtax.tax_name != "VAT") && (billtax.tax_name != "CST"))
+        if billtax.tax.tax_type == "Flat Amount"
+          billtax.update_attribute(:tax_amount , billtax.tax_rate)
+        elsif billtax.tax.tax_type == "Percentage"
+          billtax.update_attribute(:tax_amount, (billtax.line_item.total_price * (billtax.tax_rate/100)))
+        end
+       elsif (billtax.tax_name == "VAT") || (billtax.tax_name == "CST")
+     # if billtax.line_item.present?
         other_taxes = billtax.line_item.bill_taxes.where.not(:tax_name => ["VAT", "CST"])
         other_tax_amount = other_taxes.sum(:tax_amount)
-        if billtax.tax.tax_on_tax == "yes"        
-          if billtax.tax.tax_type == "Percentage"      
-             billtax.update_attribute(:tax_amount, ((other_tax_amount + billtax.line_item.total_price) * (billtax.tax_rate/100)))
-          elsif billtax.tax.tax_type == "Flat Amount"
-             billtax.update_attribute(:tax_amount, billtax.tax_rate)
-          end 
-        elsif billtax.tax.tax_on_tax == "no"
-           if billtax.tax.tax_type == "Percentage"        
-             billtax.update_attribute(:tax_amount, ((billtax.line_item.total_price) * (billtax.tax_rate/100)))
+         if billtax.tax.tax_on_tax == "yes"        
+           if billtax.tax.tax_type == "Percentage"      
+              billtax.update_attribute(:tax_amount, ((other_tax_amount + billtax.line_item.total_price) * (billtax.tax_rate/100)))
            elsif billtax.tax.tax_type == "Flat Amount"
-             billtax.update_attribute(:tax_amount, billtax.tax_rate)
-           end
-        end
+              billtax.update_attribute(:tax_amount, billtax.tax_rate)
+           end 
+         elsif billtax.tax.tax_on_tax == "no"
+            if billtax.tax.tax_type == "Percentage"        
+              billtax.update_attribute(:tax_amount, ((billtax.line_item.total_price) * (billtax.tax_rate/100)))
+            elsif billtax.tax.tax_type == "Flat Amount"
+              billtax.update_attribute(:tax_amount, billtax.tax_rate)
+            end
+         end
       end
+     end
     end
    end
-  end
+  
   
   def send_customer_mail
     Notification.customer_mail(self).deliver

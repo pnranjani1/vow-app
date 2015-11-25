@@ -1,7 +1,7 @@
 class BillTax < ActiveRecord::Base
   
   before_save :generate_tax_name
-  before_save :generate_bill_id
+ # before_save :generate_bill_id
   before_save :generate_tax
   before_save :generate_tax_type_of_tax
   #after_save :generate_tax_amount
@@ -16,9 +16,9 @@ class BillTax < ActiveRecord::Base
   end
   
   def generate_bill_id
-    if self.line_item.present?
+   # if self.line_item.present?
      self.bill_id = self.line_item.bill.id
-    end
+   # end
   end
   
   def generate_tax

@@ -1,6 +1,9 @@
 class LineItem < ActiveRecord::Base
   before_save :generate_total_price
+  before_save :generate_bill_id_in_bill_tax
   before_save :generate_service_tax_amount, :if => :service_tax_rate
+  #after_save :generate_tax_amount
+  
  # before_save :generate_tax_rate, :if => :tax_id
  # before_save :generate_tax_type, :if => :tax_id
   #before_save :generate_tax_type
@@ -8,8 +11,8 @@ class LineItem < ActiveRecord::Base
   belongs_to :product
   belongs_to :bill
   
-  has_many :bill_taxes
-  has_many :taxes, through: :bill_taxes
+  has_many :bill_taxes , dependent: :destroy
+  has_many :taxes, through: :bill_taxes, dependent: :destroy
   
   validates :quantity, :unit_price,  presence: true
   validates :quantity, numericality: true#{only_integer: true, message: "should be a number"}
@@ -22,7 +25,14 @@ class LineItem < ActiveRecord::Base
     self.total_price = self.quantity * self.unit_price
   end
   
-
+  def generate_bill_id_in_bill_tax
+    if self.bill_taxes.present?
+      self.bill_taxes.each do |billtax|
+        billtax.bill_id = self.bill_id
+      end
+    end
+  end
+  
   
   def generate_service_tax_amount
     self.service_tax_amount = (self.service_tax_rate/100) * self.total_price
