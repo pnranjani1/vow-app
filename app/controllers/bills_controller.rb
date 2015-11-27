@@ -174,14 +174,14 @@ class BillsController < ApplicationController
     end
     if current_authuser.main_roles.first.role_name == "secondary_user"
        primary_user_id = current_authuser.invited_by_id
-       user_customers = Customer.where('authuser_id =? OR primary_user_id =? ', primary_user_id, primary_user_id)
-       @user_customers = user_customers.where.not(:name => "Others" )
+      @user_customers = Customer.where('authuser_id =? OR primary_user_id =? ', primary_user_id, primary_user_id)
+       user_customers = user_customers.where.not(:name => "Others" )
        @user_products = Product.where('authuser_id =? OR primary_user_id =? ', primary_user_id, primary_user_id)
        @taxes = Tax.where(:authuser_id => primary_user_id)
        @other_charges = OtherChargesInformation.where(:authuser_id => primary_user_id)
       else
-       user_customers = Customer.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id)
-       @user_customers = user_customers.where.not(:name => "Others" )
+       @user_customers = Customer.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id)
+       user_customers = user_customers.where.not(:name => "Others" )
        @user_products = Product.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id)
        @taxes = Tax.where(:authuser_id => current_authuser.id)
        @other_charges = OtherChargesInformation.where(:authuser_id => current_authuser.id)
