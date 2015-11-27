@@ -126,6 +126,14 @@
                                   <%= customer.text_field :customer_name, maxlength: 40,  class: "form-control" %>
                                 </div>
                             </div> <!-- /.col -->
+                            
+                            <div class="col-sm-3 marggap">  
+                              Email &nbsp;&nbsp;
+                              <div id="email" class="input-group">          
+                                 <span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
+                                <%= customer.email_field :email, class: "form-control" %>
+                              </div>
+                            </div> <!-- /.col -->
                           
                             <div class="col-sm-3 marggap">  
                               Mobile Number &nbsp;&nbsp;
@@ -142,7 +150,9 @@
                                  <%= customer.text_field :address,  maxlength: 60, class: "form-control" %>
                                </div> 
                             </div><!-- /.col -->
+                        </div><!-- row ends here -->
        
+                        <div class="row">     
                             <div class="col-sm-3 marggap">  
                                City<b style="color:red">*</b>
                                <div id="name" class="input-group">               
@@ -150,9 +160,7 @@
                                   <%= customer.text_field :city , maxlength: 15, class: "form-control"  %>
                                </div>
                             </div> <!-- /.col -->
-                        </div><!-- row ends here -->
- 
-                        <div class="row"> 
+                         
                             <div class="col-sm-3 marggap">  
                                State<b style="color:red">*</b>
                                  <div id="name" class="input-group">  

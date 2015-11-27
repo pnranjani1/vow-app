@@ -142,12 +142,13 @@
                                <%= permission.hidden_field :main_role_id, :value => 4.to_i %>
                             <% end %>
                           <% end %>
-                          
+                          <% if primary_user.main_roles.first.role_name == "client" %>
                            <div class="col-sm-3">           
                             <div id="Password" class="input-group">               
                                <%= f.check_box :invoice_format, {:class => "submittable"}, "automatic", "manual" %>&nbsp;&nbsp;&nbsp;<label>Automated Invoice Number</label>  
                             </div>
                           </div> <!-- /.col -->
+                          <% end %>
                           
                           
                         </div> <!-- row ends here -->

@@ -42,7 +42,15 @@ class Notification < ActionMailer::Base
   def customer_mail(bill)
     @bill = bill
     attachments["Bill.pdf"] = File.read("app/assets/files/bill_pdf" + @bill.authuser.id.to_s + ".pdf")
-    mail(:to => @bill.customer.email, :subject => "Your Bill is attached")    
+    urd_values = ["Others", "Other", "other", "others"]
+    if urd_values.include? @bill.customer.name
+      @email_id = @bill.unregistered_customers.first.email
+      @company = @bill.unregistered_customers.first.customer_name
+    else
+      @email_id = @bill.customer.email
+      @company = @bill.customer.company_name
+    end
+    mail(:to => @email_id, :subject => "Invoice")    
   end
   
 end

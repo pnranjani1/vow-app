@@ -24,7 +24,7 @@
            maxDate: '-18Y'
          });        
        });
-     </script>
+      </script>
   
       <%= form_for(@user, :url => '/authusers/client_update') do |f| %>
           <% if @user.errors.any? %>
@@ -96,50 +96,54 @@
                          </div>
                        </div>
                     </div> <!-- /.col -->
-  
-                    <div class="col-sm-3">           
-                      <div id="Password" class="input-group">               
-                         <%= f.check_box :invoice_format, {:class => "submittable"}, "automatic", "manual" %>
-                         &nbsp;&nbsp;&nbsp;<label>Automated Invoice Number</label>  
-                      </div>
-                    </div> <!-- /.col -->
-                  </div> <!-- row ends here -->
-                 </div> <!-- /.portlet-content -->
-             </div> <!-- /.portlet -->
-          </div> <!-- /.row -->
-          <!-- client details ends here -->
-    
-          <div class="row"> 
-            <div class="portlet">
-  
-              <div class="portlet-header">
-                <h3><i class="fa fa-calendar"></i>Membership Details</h3>
-              </div> <!-- /.portlet-header -->
+                   </div><!-- row ends -->
+                  </div> <!-- /.portlet-content -->
+                 </div> <!-- /.portlet -->
+                </div> <!-- /.row -->
+                <br/>
+<%
+=begin %>
+<div class="col-sm-3">           
+<div id="Password" class="input-group">               
+<%= f.check_box :invoice_format, {:class => "submittable"}, "automatic", "manual" %>
+&nbsp;&nbsp;&nbsp;<label>Automated Invoice Number</label>  
+</div>
+</div> <!-- /.col -->
+</div> <!-- row ends here -->
 
-              <div class="portlet-content">
-                <div class="row">
-                  <div class="col-sm-4">           
-                     <%= f.fields_for :membership do |user_membership| %>
-                        Mobile Number&nbsp;<b style="color:red">*</b>
-                        <div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Should Be 10 Digits">
-                          <div id="phone" class="input-group">      
-                             <span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
-                            <%= user_membership.text_field :phone_number , :minlength => 10,  :maxlength => 10,  class: "form-control" %>
-                          </div>
-                        </div>
-                     <% end %>  
-                  </div> <!-- /.col -->
-                </div> <!-- row ends here -->
-              </div> <!-- /.portlet-content -->
-            </div> <!-- /.portlet -->
-          </div> <!-- /.row -->
-          <!-- membership ends here -->
-          
-          <div class="row">      
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <%= f.submit  "Update Profile", class: "btn btn-success" %>
-          </div> 
-      <% end %>
+<%
+=end %>
+                     <!-- client details ends here -->
+    
+                <div class="row"> 
+                   <div class="portlet">
+   
+                      <div class="portlet-header">
+                          <h3><i class="fa fa-calendar"></i>Membership Details</h3>
+                      </div> <!-- /.portlet-header -->
+
+                      <div class="portlet-content">
+                         <div class="row">
+                           <div class="col-sm-4">           
+                              <%= f.fields_for :membership do |user_membership| %>
+                                 Mobile Number&nbsp;<b style="color:red">*</b>
+                                 <div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Should Be 10 Digits">
+                                    <div id="phone" class="input-group">      
+                                       <span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
+                                       <%= user_membership.text_field :phone_number , :minlength => 10,  :maxlength => 10,  class: "form-control" %>
+                                    </div>
+                                 </div>
+                              <% end %>  
+                           </div> <!-- /.col -->
+                         </div> <!-- row ends here -->
+                         <br/>
+                         <!-- membership ends here -->
+                         &nbsp;&nbsp;&nbsp;
+                         <%= f.submit  "Update Profile", class: "btn btn-success" %>
+                      </div> <!-- /.portlet-content -->
+                   </div> <!-- /.portlet -->
+                </div> <!-- /.row -->
+      <% end %><!-- form for ends here -->
    </div><!--  content container ends here -->
   </div><!--content  ends here -->
  </div><!-- container ends here -->

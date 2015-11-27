@@ -20,8 +20,8 @@ class BillsController < ApplicationController
   
   def new
     @bill = Bill.new
-    @user = current_authuser   
-    #@bill = current_authuser.bills.last
+    @user = current_authuser  
+   #@bill = current_authuser.bills.last
     @customer = Customer.new
     @product = Product.new
     if @user.bills.present?
@@ -165,11 +165,13 @@ class BillsController < ApplicationController
          @bill.unregistered_customers.first.city = last_bill.unregistered_customers.first.city
         @bill.unregistered_customers.first.address = last_bill.unregistered_customers.first.address
         @bill.unregistered_customers.first.state = last_bill.unregistered_customers.first.state
+        @bill.unregistered_customers.first.email = last_bill.unregistered_customers.first.email
       else
         @bill.unregistered_customers.first.customer_name = "xxx "
         @bill.unregistered_customers.first.city = "xxx"
         @bill.unregistered_customers.first.address = "xxx"
         @bill.unregistered_customers.first.state = "Tamilnadu"
+        @bill.unregistered_customers.first.email = "xxx@gmail.com"
       end
     end
     if current_authuser.main_roles.first.role_name == "secondary_user"
@@ -708,7 +710,7 @@ end
   def set_params
     params[:bill].permit(:id, :invoice_number, :esugam, :bill_date, :customer_id, 
       :authuser_id, :tax, :total_bill_price, :tax_id, :grand_total, :other_charges, :other_charges_information_id,:other_information, :other_charges_info, :client_id, :transporter_name, :vechicle_number, :gc_lr_number,:lr_date, :pdf_format, :service_tax, :primary_user_id, :invoice_number_format, :invoice_format, :record_number, :instant_invoice_format, :image, :discount, 
-       {:unregistered_customers_attributes => [:id, :customer_name, :phone_number, :address, :city, :state, :authuser_id, :bill_id]},
+      {:unregistered_customers_attributes => [:id, :customer_name, :email , :phone_number, :address, :city, :state, :authuser_id, :bill_id]},
       {:line_items_attributes => [:id, :product_id, :quantity, :unit_price, :total_price, :service_tax_rate, :tax_rate, :tax_id, :item_description, :_destroy,   {:bill_taxes_attributes => [:id, :line_item_id, :tax_id, :tax_rate, :_destroy]} ]},
       {:tax_attributes => [:tax_type, :tax_rate, :tax]},      
        {:bill_other_charges_attributes => [:id, :other_charges_information_id, :other_charges_amount, :bill_id, :_destroy]}
