@@ -64,7 +64,7 @@ class CustomersController < ApplicationController
       @customer.primary_user_id = current_authuser.id
     end
     if current_authuser.main_roles.first.role_name == "secondary_user"
-      @user_customers = Customer.where('primary_user_id = ? AND company_name != ?', [current_authuser.id, current_authuser.invited_by.id], @customer.company_name)
+      @user_customers = Customer.where('company_name != ? AND primary_user_id = ?', @customer.company_name, current_authuser.invited_by.id)
     else 
       @user_customers = Customer.where('primary_user_id = ? AND company_name != ?', current_authuser.id, @customer.company_name)
     end

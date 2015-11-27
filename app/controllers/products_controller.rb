@@ -73,7 +73,7 @@ class ProductsController < ApplicationController
         @product.authuser_id = current_authuser.id
       end
       if current_authuser.main_roles.first.role_name == "secondary_user"
-        @user_products = Product.where('primary_user_id = ? AND product_name != ?', [current_authuser.id, current_authuser.invited_by.id], @product.product_name)
+        @user_products = Product.where('primary_user_id = ? AND product_name != ?', current_authuser.invited_by.id, @product.product_name)
       else
         @user_products = Product.where('primary_user_id = ? AND product_name != ? ', current_authuser.id, @product.product_name)
       end
