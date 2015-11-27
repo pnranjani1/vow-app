@@ -52,6 +52,19 @@ h6 {
   /* border-color: #df2e1b;*/
   border-color: #ffffff;
 }
+
+.btn-bill {
+  /*color: #ffffff;
+ background-color:#9900ff; */
+  color: #ffffff;
+  /* background-color: #9999cc; 
+  background-color: #23c6c8; 
+  /*background-color: #1c84c6; 
+  background-color: #660000;
+  background-color: #666600;  */
+   background-color: #3300cc;
+}
+
 .btn-primary:hover,
 .btn-primary:focus,
 .btn-primary:active,

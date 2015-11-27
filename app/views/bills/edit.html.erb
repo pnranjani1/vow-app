@@ -11,11 +11,11 @@
        $(document).ready(function(){
          $("#bill_date").datepicker({ dateFormat: "dd/mm/yy" }).val();
          $("#lr_date").datepicker({ dateFormat: "dd/mm/yy" }).val();
-       });  
+        
       
      // for automatic invoice number, paste the @number & make the field readonly!
           function populateInvoiceNumber(){
-            $('#invoice_field').val("<%= @number %>");
+            $('#invoice_field').val("<%= @bill.invoice_number %>");
             $('#check').val("automatic");
             $('#invoice_field').attr("readonly", true);                      
           }
@@ -44,6 +44,7 @@
                  prepareInvoiceFieldForManualEntry()
               <% end %>
          <% end %>
+        });
     </script>   
   <br/>
   <div class="row">
@@ -110,17 +111,19 @@
                     </div> <!-- /.col -->
                  </div><!-- row ends here -->
                 
+                
                   <!-- to add unregistered customers when creating bills -->
                   <div  style="display: none;" id="text-box"> 
-                     <%= f.fields_for :unregistered_customers do |customer| %>  
+                    <%= f.fields_for :unregistered_customers do |customer| %>  
                         <div class="row"> 
                             <%= customer.hidden_field :authuser_id, :value => current_authuser.id %>
+                            <%= customer.hidden_field :bill_id, :value => @bill.id %>
      
                             <div class="col-sm-3 marggap">   
                                Customer Name&nbsp;&nbsp;<b style="color:red">*</b>
                                 <div id="name" class="input-group">               
                                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                                   <%= customer.text_field :customer_name, maxlength: 40,  class: "form-control" %>
+                                  <%= customer.text_field :customer_name, maxlength: 40,  class: "form-control" %>
                                 </div>
                             </div> <!-- /.col -->
                           
@@ -144,7 +147,7 @@
                                City<b style="color:red">*</b>
                                <div id="name" class="input-group">               
                                   <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
-                                  <%= customer.text_field :city , maxlength: 15, class: "form-control" %>
+                                  <%= customer.text_field :city , maxlength: 15, class: "form-control"  %>
                                </div>
                             </div> <!-- /.col -->
                         </div><!-- row ends here -->
@@ -154,7 +157,7 @@
                                State<b style="color:red">*</b>
                                  <div id="name" class="input-group">  
                                    <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
-                                   <%= customer.collection_select :state, TinNumber.all, :state, :state, {:prompt => "Select State"}, {class: "form-control", :id => "state_list" }  %>
+                                   <%= customer.collection_select :state, TinNumber.all, :state, :state, {:prompt => "Select State"}, {class: "form-control", :id => "state_list"} %>
                                  </div>
                             </div> <!-- /.col -->
                          <% end %>
@@ -261,13 +264,13 @@
                   </div><!-- row ends here -->
                 <% end %><!-- fields_for bill taxes ends here -->
                 <%= bill_product.link_to_add :bill_taxes do %>
-                 <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal2">
+                 <button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#myModal2">
                    <span class="glyphicon glyphicon-plus-sign"></span>
                    Add Tax
                  </button>
                 <% end %>
+           <br/><br/>
            <% end %><!-- fields_for line items ends here -->
-           <br/>
            <%= f.link_to_add :line_items , title: "Add Products to the Bill" do %>
              <button class="btn btn-success btn-xs" id='item_add'>
                <span class="glyphicon glyphicon-plus-sign"></span>
@@ -366,7 +369,7 @@
           </div><!-- row ends here -->
         <% end %>
         <%= f.link_to_add :bill_other_charges do %>
-              <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal2">
+              <button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#myModal2">
                  <span class="glyphicon glyphicon-plus-sign"></span>
                   Other Charges
               </button>

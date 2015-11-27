@@ -91,7 +91,7 @@ class BillsController < ApplicationController
    # if customer.name != "Others"
     urd_values = ["others", "other", "Others", "Other"]
     if !urd_values.include? customer.company_name 
-      @bill.unregistered_customers.delete_all
+      @bill.unregistered_customers.destroy_all
       #urd = UnregisteredCustomer.where(:bill_id => @bill.id).first
       #urd.delete
     #else
@@ -157,7 +157,20 @@ class BillsController < ApplicationController
     customer_id = @bill.customer_id
     customer = Customer.where(:id => customer_id).first.company_name
     if !urd_values.include? customer
-      @bill.unregistered_customers.build
+     @bill.unregistered_customers.build
+      authuser = Authuser.where(:id => @bill.authuser_id).first
+      last_bill = authuser.bills.last
+      if last_bill.unregistered_customers.present?
+        @bill.unregistered_customers.first.customer_name = last_bill.unregistered_customers.first.customer_name
+         @bill.unregistered_customers.first.city = last_bill.unregistered_customers.first.city
+        @bill.unregistered_customers.first.address = last_bill.unregistered_customers.first.address
+        @bill.unregistered_customers.first.state = last_bill.unregistered_customers.first.state
+      else
+        @bill.unregistered_customers.first.customer_name = "xxx "
+        @bill.unregistered_customers.first.city = "xxx"
+        @bill.unregistered_customers.first.address = "xxx"
+        @bill.unregistered_customers.first.state = "Tamilnadu"
+      end
     end
     if current_authuser.main_roles.first.role_name == "secondary_user"
        primary_user_id = current_authuser.invited_by_id
@@ -178,6 +191,11 @@ class BillsController < ApplicationController
     def update
       @bill = Bill.find(params[:id])
       @user = current_authuser 
+      
+      urd_values = ["others", "other", "Others", "Other"]
+      customer_id = params[:bill]['customer_id']
+      customer = Customer.where(:id => customer_id).first
+        
       if current_authuser.main_roles.first.role_name == "secondary_user"
         primary_user_id = current_authuser.invited_by_id
         user_customers = Customer.where('authuser_id =? OR primary_user_id =? ', primary_user_id, primary_user_id)
@@ -193,36 +211,31 @@ class BillsController < ApplicationController
         @other_charges = OtherChargesInformation.where(:authuser_id => current_authuser.id)
       end
      
-      if @bill.update_attributes(set_params)        
-       urd_values = ["Other", "Others", "other", "others"]
-       customer_id = params[:bill]['customer_id']
-       customer = Customer.where(:id => customer_id).first.company_name
-       if !urd_values.include? customer
-         @bill.unregistered_customers.delete_all
-      #elsif @bill.customer.company_name == customer
-       # @bill.update_attributes(set_params)
-      #elsif urd_values.include? customer
-      #  @bill.unregistered_customers.build
-       end
-       products_other_charges = @bill.total_bill_price.to_f + @bill.other_charges.to_f
-       tax_total = @bill.bill_taxes.sum(:tax_amount)
-       grand_total = ((products_other_charges.to_f  + tax_total.to_f ) - @bill.discount.to_f)
-       @bill.update_attribute(:grand_total, grand_total )
-       @bill.update_attribute(:total_bill_price, @bill.line_items.sum(:total_price))
-       redirect_to bill_path(@bill.id)
-      else
-        render action: "edit"
-      end
+       if @bill.update_attributes(set_params)
+      
+          if !urd_values.include? customer.company_name
+            puts @bill.unregistered_customers.first.attributes
+            @bill.unregistered_customers.destroy_all
+          end      
+          products_other_charges = @bill.total_bill_price.to_f + @bill.other_charges.to_f
+          tax_total = @bill.bill_taxes.sum(:tax_amount)
+          grand_total = ((products_other_charges.to_f  + tax_total.to_f ) - @bill.discount.to_f)
+          @bill.update_attribute(:grand_total, grand_total )
+          @bill.update_attribute(:total_bill_price, @bill.line_items.sum(:total_price))
+          redirect_to bill_path(@bill.id)
+        else
+          render action: 'edit'
+        end
     end
   
-  def destroy
-    @bill = Bill.find(params[:id])
-    @bill.destroy
-    redirect_to bills_user_bill_
-  end
+    def destroy
+      @bill = Bill.find(params[:id])
+     @bill.destroy
+     redirect_to bills_user_bill_
+    end
   
   
-  def user_bill
+    def user_bill
     @user = current_authuser
     user = Authuser.where(:id => @user.id)
     secondary_users = Authuser.where('invited_by_id = ? AND invitation_accepted_at IS NOT NULL', current_authuser.id)
@@ -691,11 +704,11 @@ end
   end
 
   def set_params
-    params[:bill].permit(:invoice_number, :esugam, :bill_date, :customer_id, 
+    params[:bill].permit(:id, :invoice_number, :esugam, :bill_date, :customer_id, 
       :authuser_id, :tax, :total_bill_price, :tax_id, :grand_total, :other_charges, :other_charges_information_id,:other_information, :other_charges_info, :client_id, :transporter_name, :vechicle_number, :gc_lr_number,:lr_date, :pdf_format, :service_tax, :primary_user_id, :invoice_number_format, :invoice_format, :record_number, :instant_invoice_format, :image, :discount, 
-      {:line_items_attributes => [:id, :product_id, :quantity, :unit_price, :total_price, :service_tax_rate, :tax_rate, :tax_id, :item_description, :_destroy,   {:bill_taxes_attributes => [:id, :line_item_id, :tax_id, :tax_rate, :_destroy]} ]},
-      {:tax_attributes => [:tax_type, :tax_rate, :tax]},
        {:unregistered_customers_attributes => [:id, :customer_name, :phone_number, :address, :city, :state, :authuser_id, :bill_id]},
+      {:line_items_attributes => [:id, :product_id, :quantity, :unit_price, :total_price, :service_tax_rate, :tax_rate, :tax_id, :item_description, :_destroy,   {:bill_taxes_attributes => [:id, :line_item_id, :tax_id, :tax_rate, :_destroy]} ]},
+      {:tax_attributes => [:tax_type, :tax_rate, :tax]},      
        {:bill_other_charges_attributes => [:id, :other_charges_information_id, :other_charges_amount, :bill_id, :_destroy]}
          
       )

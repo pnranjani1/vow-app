@@ -35,6 +35,7 @@ require 'active_support/core_ext/date/conversions'
   #has_many :usercategories, dependent: :destroy
   has_many :bills
   has_many :invoice_records
+  has_many :unregistered_customers
   
   
   has_many :permissions

@@ -44,9 +44,10 @@
                          <td><%= customer.email %> </td>
                          <td><%= customer.phone_number %> </td>
                          <td><%= customer.tin_number %></td>
-                        <td><%= link_to edit_customer_path(customer.id), title: "Edit Customer Details", class: "btn btn-xs btn-primary" do %>
-                                 <i class="fa fa-edit"></i>
-                              <% end %>
+                         <td>
+                           <%= link_to edit_customer_path(customer.id), title: "Edit Customer Details", class: "btn btn-xs btn-danger" do %>
+                             <i class="fa fa-edit"></i>
+                           <% end %>
                          </td>
                       </tr>     
                    <% end %>

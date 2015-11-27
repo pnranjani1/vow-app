@@ -4,6 +4,7 @@ class Bill < ActiveRecord::Base
  # after_create :generate_invoice_format  
   after_create :invoke_invoice_record
   after_save :generate_tax_amount
+ 
   #after_create :generate_tax_amount
   #after_update :generate_tax_amount
   
@@ -55,10 +56,9 @@ class Bill < ActiveRecord::Base
   #validates :line_items, uniqueness: {:message => "Selected Item is already added in the bill"}, :if => Authuser.current
   
   accepts_nested_attributes_for :line_items, :allow_destroy => true, :reject_if => :all_blank
-  accepts_nested_attributes_for :unregistered_customers
+  accepts_nested_attributes_for :unregistered_customers, :allow_destroy => true
   accepts_nested_attributes_for :bill_taxes, :allow_destroy => true
   accepts_nested_attributes_for :bill_other_charges, :allow_destroy => true, :reject_if => :all_blank
-  
   
    def generate_invoice_format
    # if Authuser.current.main_roles.first.role_name != "secondary_user"

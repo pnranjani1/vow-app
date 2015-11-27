@@ -72,13 +72,22 @@ class ProductsController < ApplicationController
        @product.primary_user_id = current_authuser.id
         @product.authuser_id = current_authuser.id
       end
-    
-    
-      if @product.update_attributes(set_params)
-      redirect_to products_product_user_path
-    else
-      render action: 'edit'
-    end
+      if current_authuser.main_roles.first.role_name == "secondary_user"
+        @user_products = Product.where('primary_user_id = ? AND product_name != ?', [current_authuser.id, current_authuser.invited_by.id], @product.product_name)
+      else
+        @user_products = Product.where('primary_user_id = ? AND product_name != ? ', current_authuser.id, @product.product_name)
+      end
+      products = @user_products.pluck(:product_name)
+      if products.any?{|product| product.downcase.gsub(/\s/, "")["#{params[:product][:product_name].downcase.gsub(/\s/,"")}"]}
+        redirect_to products_product_user_path
+        flash[:alert] = "#{params[:product][:product_name]} is already added" 
+      else    
+       if @product.update_attributes(set_params)
+        redirect_to products_product_user_path
+       else
+         render action: 'edit'
+       end
+      end
   end
   
   
@@ -221,7 +230,7 @@ class ProductsController < ApplicationController
  private
     
     def set_params
-      params[:product].permit(:product_name, :units, :usercategory_id, :authuser_id, 
+      params[:product].permit(:id, :product_name, :units, :usercategory_id, :authuser_id, 
         {:price_attributes => [:unit_price]}
         ) 
     end

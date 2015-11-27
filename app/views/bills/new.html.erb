@@ -140,7 +140,7 @@
                         <!-- modal to create new customer -->
                          <br/>
                          <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-primary btn-xs" title="Add New Customer" data-toggle="modal" data-target="#myModal">
+                        <button type="button" class="btn btn-success btn-xs" title="Add New Customer" data-toggle="modal" data-target="#myModal">
                         <span class="glyphicon glyphicon-plus-sign"></span>
                         &nbsp;Customer
                         </button>
@@ -324,15 +324,15 @@
        <div class="portlet">
          
            <div class="portlet-header">
-             <h3><i class="fa fa-gift"></i>Item Details
+             <h3><i class="fa fa-gift"></i>Item Details</h3>
           
               <!-- dont allow secondary user to create new product -->
               
                    <!-- Button trigger modal for adding products-->
-                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-primary btn-xs"  title="Add New Product" data-toggle="modal" data-target="#myModal1">
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-success btn-xs"  title="Add New Product" data-toggle="modal" data-target="#myModal1" style="margin-top:12px;">
                 <span class="glyphicon glyphicon-plus-sign"></span>
                 &nbsp;Product
-               </button></h3>
+               </button>
              
                 <%= content_for :product do %>
                      <!-- Modal -->
@@ -505,19 +505,17 @@
                           </button>
                         <% end %>
                       </div> <!-- /.col -->
-                    
-                   
                   </div><!-- row ends here -->
                <% end %>
                <%= bill_product.link_to_add :bill_taxes do %>
-                 <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal2">
+                 <button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#myModal2">
                     <span class="glyphicon glyphicon-plus-sign"></span>
                     Add Tax
                  </button>
-               <% end %>             
+               <% end %>         
+           <br/><br/>     
             <% end %><!-- fields_for line_items ends here -->
-           <br/>
-           <%= f.link_to_add :line_items , title: "Add Products to the Bill" do %>
+            <%= f.link_to_add :line_items , title: "Add Products to the Bill" do %>
              <button class="btn btn-success btn-xs" id='item_add'>
                <span class="glyphicon glyphicon-plus-sign"></span>
                 Add Items
@@ -615,7 +613,7 @@
           </div><!-- row ends here -->
         <% end %>
         <%= f.link_to_add :bill_other_charges do %>
-              <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal2">
+              <button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#myModal2">
                  <span class="glyphicon glyphicon-plus-sign"></span>
                   Other Charges
               </button>

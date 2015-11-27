@@ -45,10 +45,11 @@
                         <td><%= product.product_name %> </td>
                         <td><%= product.units%> </td>
                         <td><%= product.usercategory.commodity_name%> </td>
-                      <td><%= link_to edit_product_path(product.id), title: 'Edit Product details',  class: "btn btn-xs btn-primary" do %>
-                               <i class="fa fa-edit"></i>
-                             <% end %>
-                      </td>
+                        <td>
+                          <%= link_to edit_product_path(product.id), title: 'Edit Product details',  class: "btn btn-xs btn-danger" do %>
+                             <i class="fa fa-edit"></i>
+                          <% end %>
+                        </td>
                     </tr>  
                    <% end %>
                 </tbody> 

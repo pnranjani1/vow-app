@@ -34,10 +34,10 @@ class CustomersController < ApplicationController
     else 
       @user_customers = Customer.where(:primary_user_id => current_authuser.id)
     end
-    customers = @user_customers.pluck(:name)
-    if customers.any?{|customer| customer.downcase.gsub(/\s/,"")["#{params[:customer][:name].downcase.gsub(/\s/,"")}"]}
+    customers = @user_customers.pluck(:company_name)
+    if customers.any?{|customer| customer.downcase.gsub(/\s/,"")["#{params[:customer][:company_name].downcase.gsub(/\s/,"")}"]}
       redirect_to customers_user_customer_path
-    flash[:alert] = "#{params[:customer][:name]} is already added"
+    flash[:alert] = "#{params[:customer][:company_name]} is already added"
     else    
       if @customer.save
         redirect_to customers_user_customer_path
@@ -63,10 +63,21 @@ class CustomersController < ApplicationController
       @customer.authuser_id = current_authuser.id
       @customer.primary_user_id = current_authuser.id
     end
-    if @customer.update_attributes(set_params)
+    if current_authuser.main_roles.first.role_name == "secondary_user"
+      @user_customers = Customer.where('primary_user_id = ? AND company_name != ?', [current_authuser.id, current_authuser.invited_by.id], @customer.company_name)
+    else 
+      @user_customers = Customer.where('primary_user_id = ? AND company_name != ?', current_authuser.id, @customer.company_name)
+    end
+    customers = @user_customers.pluck(:company_name)
+    if customers.any?{|customer| customer.downcase.gsub(/\s/,"")["#{params[:customer][:company_name].downcase.gsub(/\s/,"")}"]}
       redirect_to customers_user_customer_path
-    else
+      flash[:alert] = "#{params[:customer][:company_name]} is already added"
+    else    
+     if @customer.update_attributes(set_params)
+      redirect_to customers_user_customer_path
+     else
       render action: 'edit'
+     end
     end
   end
   
@@ -194,7 +205,7 @@ class CustomersController < ApplicationController
   
   private
   def set_params
-    params[:customer].permit(:name, :company_name, :email, :tin_number, :phone_number, :address, :city, :authuser_id, :state, :pin_code)
+    params[:customer].permit(:id, :name, :company_name, :email, :tin_number, :phone_number, :address, :city, :authuser_id, :state, :pin_code)
   end
   
   #def get_customer
