@@ -222,6 +222,8 @@ class BillsController < ApplicationController
           grand_total = ((products_other_charges.to_f  + tax_total.to_f ) - @bill.discount.to_f)
           @bill.update_attribute(:grand_total, grand_total )
           @bill.update_attribute(:total_bill_price, @bill.line_items.sum(:total_price))
+         @bill.update_attribute(:authuser_id, current_authuser.id)
+         @bill.update_attribute(:updated_info, "yes")
           redirect_to bill_path(@bill.id)
         else
           render action: 'edit'

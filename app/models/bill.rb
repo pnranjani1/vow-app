@@ -123,7 +123,7 @@ class Bill < ActiveRecord::Base
            self.invoice_record.bill_id = self.id
            self.record_number = "001"
          elsif (user.invoice_format == "automatic") &&  user.invoice_records.present?
-            bill_id = Bill.where(:authuser_id => user.id).last.id
+          #  bill_id = Bill.where(:authuser_id => user.id).last.id
             invoice = InvoiceRecord.where(:authuser_id => user.id).last
             number_updated = invoice.number.to_i + 1
             invoice.update_attribute(:number, number_updated)
