@@ -605,6 +605,12 @@ end
 
   def send_mail
    @bill = Bill.find(params[:id])
+    urd_values = ["Others", "Other", "others", "other"]
+    if urd_values.include? @bill.customer.company_name
+      @email_id = @bill.unregistered_customers.first.email
+    else
+      @email_id = @bill.customer.email
+    end
    respond_to do |format|
      format.pdf do       
        if @bill.pdf_format ==  "Format1" 
@@ -612,31 +618,41 @@ end
            pdf.render_file File.join(Rails.root, "app/assets/files", "bill_pdf" + @bill.authuser.id.to_s + ".pdf")
            @bill.send_customer_mail
            redirect_to bill_path(@bill.id)
-           flash[:notice] = "Email is sent Successfully to the customer"
+         flash[:notice] = "Email is sent Successfully to the #{@email_id}"
+           bill = "app/assets/files/bill_pdf" + @bill.authuser.id.to_s + ".png"
+           File.delete(bill)
        elsif @bill.pdf_format == "Format2"
            pdf = BillPdfTwo.new(@bill)
            pdf.render_file File.join(Rails.root, "app/assets/files", "bill_pdf" + @bill.authuser.id.to_s + ".pdf")
            @bill.send_customer_mail
           redirect_to bill_path(@bill.id)
-          flash[:notice] = "Email is sent Successfully to the customer"
+          flash[:notice] = "Email is sent Successfully to the #{@email_id}"
+           bill = "app/assets/files/bill_pdf" + @bill.authuser.id.to_s + ".png"
+           File.delete(bill)
        elsif @bill.pdf_format == "Format3"
            pdf = BillPdfThree.new(@bill)
            pdf.render_file File.join(Rails.root, "app/assets/files", "bill_pdf" + @bill.authuser.id.to_s + ".pdf")
            @bill.send_customer_mail
            redirect_to bill_path(@bill.id)
-           flash[:notice] = "Email is sent Successfully to the customer"
+           flash[:notice] = "Email is sent Successfully to the #{@email_id}"
+           bill = "app/assets/files/bill_pdf" + @bill.authuser.id.to_s + ".png"
+           File.delete(bill)
        elsif @bill.pdf_format == "Format4"
            pdf = BillPdfFour.new(@bill)
            pdf.render_file File.join(Rails.root, "app/assets/files", "bill_pdf" + @bill.authuser.id.to_s + ".pdf")
            @bill.send_customer_mail
            redirect_to bill_path(@bill.id)
-           flash[:notice] = "Email is sent Successfully to the customer"
+           flash[:notice] = "Email is sent Successfully to the #{@email_id}"
+            bill = "app/assets/files/bill_pdf" + @bill.authuser.id.to_s + ".png"
+           File.delete(bill)
        elsif @bill.pdf_format == nil
            pdf = BillPdf.new(@bill)
            pdf.render_file File.join(Rails.root, "app/assets/files", "bill_pdf" + @bill.authuser.id.to_s + ".pdf")
            @bill.send_customer_mail
            redirect_to bill_path(@bill.id)
-           flash[:notice] = "Email is sent Successfully to the customer"
+           flash[:notice] = "Email is sent Successfully to the #{@email_id}"
+           bill = "app/assets/files/bill_pdf" + @bill.authuser.id.to_s + ".png"
+           File.delete(bill)
        end
       end
    end

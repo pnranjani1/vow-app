@@ -273,7 +273,7 @@ class Bill < ActiveRecord::Base
     @bill = self 
     # customer name and tin number for URD 
     urd_values = ["Others" ,"Other" ,"others", "other"]
-    if urd_values.include? @bill.customer.name
+    if urd_values.include? @bill.customer.company_name
       urd = UnregisteredCustomer.where(:bill_id => @bill.id).first
       @customer_city = urd.city
       @customer_tin_number = TinNumber.where(:state => urd.state).pluck(:tin_number).first
@@ -362,7 +362,7 @@ class Bill < ActiveRecord::Base
           browser.link(:id, "LinkButton1").click   
           sleep 1
           browser.text_field(:id, "ctl00_MasterContent_txtFromAddrs").set(user.address.city)
-         # browser.text_field(:id, "ctl00_MasterContent_txtToAddrs").set(@customer_city)
+          browser.text_field(:id, "ctl00_MasterContent_txtToAddrs").set(@customer_city)
                                        
           if browser.select_list(:id, "ctl00_MasterContent_ddl_commoditycode").option(:text => "#{@bill.products.first.usercategory.main_category.commodity_name}").present?
              browser.select_list(:id, "ctl00_MasterContent_ddl_commoditycode").select(@bill.products.first.usercategory.main_category.commodity_name)       
