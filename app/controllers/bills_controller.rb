@@ -619,7 +619,7 @@ end
            @bill.send_customer_mail
            redirect_to bill_path(@bill.id)
          flash[:notice] = "Email is sent Successfully to the #{@email_id}"
-           bill = "app/assets/files/bill_pdf" + @bill.authuser.id.to_s + ".png"
+         bill = "app/assets/files/bill_pdf" + @bill.authuser.id.to_s + ".pdf"
            File.delete(bill)
        elsif @bill.pdf_format == "Format2"
            pdf = BillPdfTwo.new(@bill)
@@ -627,7 +627,7 @@ end
            @bill.send_customer_mail
           redirect_to bill_path(@bill.id)
           flash[:notice] = "Email is sent Successfully to the #{@email_id}"
-           bill = "app/assets/files/bill_pdf" + @bill.authuser.id.to_s + ".png"
+         bill = "app/assets/files/bill_pdf" + @bill.authuser.id.to_s + ".pdf"
            File.delete(bill)
        elsif @bill.pdf_format == "Format3"
            pdf = BillPdfThree.new(@bill)
@@ -635,7 +635,7 @@ end
            @bill.send_customer_mail
            redirect_to bill_path(@bill.id)
            flash[:notice] = "Email is sent Successfully to the #{@email_id}"
-           bill = "app/assets/files/bill_pdf" + @bill.authuser.id.to_s + ".png"
+         bill = "app/assets/files/bill_pdf" + @bill.authuser.id.to_s + ".pdf"
            File.delete(bill)
        elsif @bill.pdf_format == "Format4"
            pdf = BillPdfFour.new(@bill)
@@ -643,7 +643,7 @@ end
            @bill.send_customer_mail
            redirect_to bill_path(@bill.id)
            flash[:notice] = "Email is sent Successfully to the #{@email_id}"
-            bill = "app/assets/files/bill_pdf" + @bill.authuser.id.to_s + ".png"
+         bill = "app/assets/files/bill_pdf" + @bill.authuser.id.to_s + ".pdf"
            File.delete(bill)
        elsif @bill.pdf_format == nil
            pdf = BillPdf.new(@bill)
@@ -651,7 +651,7 @@ end
            @bill.send_customer_mail
            redirect_to bill_path(@bill.id)
            flash[:notice] = "Email is sent Successfully to the #{@email_id}"
-           bill = "app/assets/files/bill_pdf" + @bill.authuser.id.to_s + ".png"
+         bill = "app/assets/files/bill_pdf" + @bill.authuser.id.to_s + ".pdf"
            File.delete(bill)
        end
       end

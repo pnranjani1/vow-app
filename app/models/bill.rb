@@ -381,7 +381,7 @@ class Bill < ActiveRecord::Base
                   browser.text_field(:id, "ctl00_MasterContent_txtTIN").set(@customer_tin_number.to_i)
                   browser.send_keys :tab   
                   sleep 2
-                  browser.text_field(:id, "ctl00_MasterContent_txtNameAddrs").set(@bill.customer.name)
+                  browser.text_field(:id, "ctl00_MasterContent_txtNameAddrs").set(@bill.customer.company_name)
                   browser.send_keys :tab
               end
             
