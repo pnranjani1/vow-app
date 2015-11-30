@@ -355,8 +355,8 @@ end
     @client = Authuser.find(params[:id])
     start_date = params[:start_date]
     end_date = params[:end_date]
-    @start_date = start_date.to_date
-    @end_date = end_date.to_date
+    @start_date = start_date.to_time.beginning_of_month
+    @end_date = end_date.to_time.end_of_month
     #@client_user = User.where(:client_id => @client.id).paginate(:page => params[:page], :per_page => 5)
     respond_to do |format|
       format.html
@@ -537,8 +537,8 @@ end
     @user = Authuser.find(params[:id])
     start_date = params[:start_date]
     end_date = params[:end_date]
-    @start_date = start_date.to_date
-    @end_date = end_date.to_date
+    @start_date = start_date.to_time.beginning_of_month
+    @end_date = end_date.to_time.end_of_month
     respond_to do |format|
       format.html
       format.pdf do

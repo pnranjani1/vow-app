@@ -33,8 +33,8 @@
                    <% @users = User.where(:client_id => client_id) %>
                    <% users_count = @users.count %>
                    <% bills = Bill.where(:client_id => client_id) %>
-                   <% cash_based_applications = Bill.where('client_id =? AND ESUGAM IS NULL AND created_at >= ? AND created_at <= ?', client_id, Date.today.to_date.beginning_of_month, Date.today.to_date.end_of_month).count %>
-                   <% bills_esugam = Bill.where('client_id =? AND ESUGAM IS NOT NULL AND created_at >= ? AND created_at <= ?', client_id, Date.today.to_date.beginning_of_month, Date.today.to_date.end_of_month).count %>
+                   <% cash_based_applications = Bill.where('client_id =? AND ESUGAM IS NULL AND created_at >= ? AND created_at <= ?', client_id, Date.today.to_time.beginning_of_month, Date.today.to_time.end_of_month).count %>
+                   <% bills_esugam = Bill.where('client_id =? AND ESUGAM IS NOT NULL AND created_at >= ? AND created_at <= ?', client_id, Date.today.to_time.beginning_of_month, Date.today.to_time.end_of_month).count %>
                    <tr>                      
                      <%# <td><%= link_to client.authuser.name, bill_details_client_path(:id => client.authuser.id), class: "listconttext" %> 
                      <td><%= client.authuser.name %></td>

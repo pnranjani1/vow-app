@@ -58,7 +58,7 @@ class AdminBillPdf < Prawn::Document
     total_bills = Bill.where('created_at >= ? AND created_at <= ? AND client_id =? ', @start_date, @end_date, @client.id).count
     amount  = total_bills * 1
     bounding_box([30, 440], width: 580) do 
-      text "<b>Bills Generated from #{@start_date} till #{@end_date}  :  </b> #{total_bills}", size: 9, inline_format: true
+      text "<b>Bills Generated from #{@start_date.strftime("%d-%b-%Y")} till #{@end_date.strftime("%d-%b-%Y")}  :  </b> #{total_bills}", size: 9, inline_format: true
       data =  ([ ["Sl.No", "Particulars", "Total Bills", "Currency", "Amount"],
                  ["1", "Professional Services Vatonwheels.com", total_bills, "INR", amount]
               ]) 

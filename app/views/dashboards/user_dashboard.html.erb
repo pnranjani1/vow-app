@@ -62,8 +62,8 @@
                   <% userid = user.id %>
                   <% @bills = user.bills %>
                   <% date = Date.today.strftime("%Y%m%d") %>
-                  <% @cash_applications = @bills.where('ESUGAM IS NULL AND created_at >= ? AND created_at <= ?', date.to_date.beginning_of_month, date.to_date.end_of_month) %>
-                  <% @esugam = @bills.where('ESUGAM IS NOT NULL AND created_at >= ? AND created_at <= ?', date.to_date.beginning_of_month, date.to_date.end_of_month ) %>
+                  <% cash_applications = Bill.where('ESUGAM IS NULL AND created_at >= ? AND created_at <= ? AND authuser_id = ?', date.to_time.beginning_of_month, date.to_time.end_of_month, userid) %>
+                  <% esugam = Bill.where('ESUGAM IS NOT NULL AND created_at >= ? AND created_at <= ? AND authuser_id = ?', date.to_time.beginning_of_month, date.to_time.end_of_month, userid) %>
 
                   <tr>
                     <td style="text-align:center" class="hidden-xs"><%= user.name %></td>
@@ -86,8 +86,8 @@
                     <% elsif user.approved == true %>       
                        <td><%= link_to "De-activate User" , de_activate_user_path(user.id), method: :put, data: {confirm: "Are You Sure You Want To De-Activate The User?"} ,  class: "listconttext" %></td> 
                     <% end %>   
-                    <td style="text-align:center"><%= @cash_applications.count %></td>
-                    <td style="text-align:center"><%= @esugam.count %></td>
+                    <td style="text-align:center"><%= cash_applications.count %></td>
+                    <td style="text-align:center"><%= esugam.count %></td>
                   </tr>
                 <% end %>
               </tbody>    

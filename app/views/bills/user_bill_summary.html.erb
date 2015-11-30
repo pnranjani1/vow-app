@@ -32,10 +32,10 @@
                         <% userid = user.authuser.id %>
                           <tr>                      
                             <td><%= user.authuser.name %> </td>
-                            <% bills = Bill.where('created_at >= ? AND created_at <= ? AND primary_user_id =?', Date.today.to_date.beginning_of_month, Date.today.to_date.end_of_month, userid) %>
+                            <% bills = Bill.where('created_at >= ? AND created_at <= ? AND primary_user_id =?', Date.today.to_time.beginning_of_month, Date.today.to_time.end_of_month, userid) %>
                             <td><%= bills.count %></td>
-                            <td><%= Bill.where("created_at >= ? AND created_at <= ? AND ESUGAM IS NOT NULL AND primary_user_id = ?", Date.today.to_date.beginning_of_month, Date.today.to_date.end_of_month, userid).count %></td>
-                            <td><%= Bill.where("created_at >= ? AND created_at <= ? AND ESUGAM IS NULL AND primary_user_id = ?", Date.today.to_date.beginning_of_month, Date.today.to_date.end_of_month, userid).count %></td>
+                            <td><%= Bill.where("created_at >= ? AND created_at <= ? AND ESUGAM IS NOT NULL AND primary_user_id = ?", Date.today.to_time.beginning_of_month, Date.today.to_time.end_of_month, userid).count %></td>
+                            <td><%= Bill.where("created_at >= ? AND created_at <= ? AND ESUGAM IS NULL AND primary_user_id = ?", Date.today.to_time.beginning_of_month, Date.today.to_time.end_of_month, userid).count %></td>
                             <td><%= link_to user_bill_pdf_path(:id => userid), title: "Click to Generate Invoice" do %>
                                  <button class="btn btn-success">
                                    <span class="glyphicon glyphicon-cloud-download"></span>

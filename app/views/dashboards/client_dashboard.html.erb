@@ -72,16 +72,16 @@
                       <% c = user.authuser.membership.id %>
                       <% @bills = user.authuser.bills %>
                       <% date = Date.today.strftime("%Y%m%d") %>
-                      <% @cash_based_applications = @bills.where('ESUGAM IS NULL AND created_at >= ? AND created_at <= ?', date.to_date.beginning_of_month, date.to_date.end_of_month) %>
-                      <% @esugam = @bills.where('ESUGAM IS NOT NULL AND created_at >= ? AND created_at <= ?', date.to_date.beginning_of_month, date.to_date.end_of_month ) %>
+                      <% cash_based_applications = Bill.where('ESUGAM IS NULL AND created_at >= ? AND created_at <= ? AND primary_user_id = ?', date.to_time.beginning_of_month, date.to_time.end_of_month, userid) %>
+                      <% esugam = Bill.where('ESUGAM IS NOT NULL AND created_at >= ? AND created_at <= ? AND primary_user_id = ?', date.to_time.beginning_of_month, date.to_time.end_of_month, userid ) %>
                       <% secondary_users_count = Authuser.where(:invited_by_id => userid).count %>
 
                     <tr>
                        <td class="hidden-xs"><%= link_to user.authuser.name, authuser_path(userid), class: "listconttext"  %></td>
                        <td><%= human_boolean(user.authuser.approved) %></td>
                        <td><%= link_to user.authuser.membership.membership_end_date.strftime("%d %b %Y") , edit_membership_path(c) ,  class: "listconttext"%></td> 
-                       <td><%= @cash_based_applications.count %></td>
-                       <td><%= @esugam.count %></td>
+                       <td><%= cash_based_applications.count %></td>
+                       <td><%= esugam.count %></td>
       
                        <% if user.authuser.approved == false %>
                           <td><%= link_to "Approve User" , activate_user_path(user.authuser.id), method: :put, data: {confirm: "Are You Sure You Want To Approve The User"} ,  class: "listconttext"%></td>

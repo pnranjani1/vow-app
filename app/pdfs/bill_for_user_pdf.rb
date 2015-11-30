@@ -69,7 +69,7 @@ class BillForUserPdf < Prawn::Document
   end
   
   def user_table
-    draw_text "Bills Generation from #{@start_date} to #{@end_date}", size: 9, style: :bold, :at => [30, 440 ]
+    draw_text "Bills Generation from #{@start_date.strftime("%d-%b-%Y")} to #{@end_date.strftime("%d-%b-%Y")}", size: 9, style: :bold, :at => [30, 440 ]
     data = [["Total No Of Bills" ,"No of Esugam Generated", "No Of Cash Based bills"]]   
     bills = Bill.where('primary_user_id = ? AND created_at >= ? AND created_at <= ?', @user.id, @start_date, @end_date)
     esugam_count = Bill.where('primary_user_id = ? AND created_at >= ? AND created_at <= ? AND ESUGAM IS NOT NULL', @user.id, @start_date, @end_date).count
