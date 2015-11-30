@@ -483,11 +483,11 @@ end
     if current_authuser.main_roles.first.role_name == "secondary_user"
         primary_user_id = current_authuser.invited_by_id
         bills1 = Bill.where('authuser_id =? OR primary_user_id =?', primary_user_id, primary_user_id)
-        bills2 = Bill.where('created_at >= ? AND created_at <= ?', start_date.to_time, end_date.to_time)
+      bills2 = Bill.where('created_at >= ? AND created_at <= ?', start_date.to_time.beginning_of_month, end_date.to_time.end_of_month)
         @user_bills = bills1 & bills2.order('created_at ASC')
     else
         bills1 = Bill.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id)
-        bills2 = Bill.where('created_at >= ? AND created_at <= ?', start_date.to_time, end_date.to_time)
+      bills2 = Bill.where('created_at >= ? AND created_at <= ?', start_date.to_time.beginning_of_month, end_date.to_time.end_of_month)
         @user_bills = bills1 & bills2.order('created_at ASC')
     end
     #@user_bills = Bill.where('created_at >= ? AND created_at <= ? AND authuser_id = ? OR primary_user_id = ?',start_date.to_time, end_date.to_time, current_authuser.id, current_authuser.id )
@@ -506,11 +506,11 @@ end
     if current_authuser.main_roles.first.role_name == "secondary_user"
         primary_user_id = current_authuser.invited_by_id
         bills1 = Bill.where('authuser_id =? OR primary_user_id =?', primary_user_id, primary_user_id)
-        bills2 = Bill.where('created_at >= ? AND created_at <= ?', start_date.to_time, end_date.to_time)
+        bills2 = Bill.where('created_at >= ? AND created_at <= ?', start_date.to_time.beginning_of_month, end_date.to_time.end_of_month)
         @user_bills = bills1 & bills2.order('created_at ASC')
     else
         bills1 = Bill.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id)
-        bills2 = Bill.where('created_at >= ? AND created_at <= ?', start_date.to_time, end_date.to_time)
+        bills2 = Bill.where('created_at >= ? AND created_at <= ?', start_date.to_time.beginning_of_month, end_date.to_time.end_of_month)
         @user_bills = bills1 & bills2.order('created_at ASC')
     end
       respond_to do |format|
