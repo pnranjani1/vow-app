@@ -311,8 +311,8 @@ class Bill < ActiveRecord::Base
       browser = Watir::Browser.new :phantomjs
       # browser.goto "http://164.100.80.121/vat1/" - primary link 
       browser.goto "http://sugam.kar.nic.in/"
-      #file1 = File.new("app/assets/images/cap" + self.authuser.id.to_s + ".png", "a+")
-      file1 = File.new("cap3.png", "a+")
+      file1 = File.new("app/assets/images/cap" + self.authuser.id.to_s + ".png", "a+")
+     # file1 = File.new("cap3.png", "a+")
       browser.div(:class, "log").images[0].screenshot(file1) 
       client = DeathByCaptcha.new('ranjanin', 'Abcd1234$', :http)
       captcha = client.decode!(path: "app/assets/images/cap" + self.authuser.id.to_s + ".png")
