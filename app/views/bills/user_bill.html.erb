@@ -13,7 +13,7 @@
 
              <div class="portlet-header">
                 <h3><i class="fa fa-file-text-o"></i>Bills Information</h3><br/>
-               <% if current_authuser.main_roles.first.role_name == "user" %>
+               <% if (current_authuser.main_roles.first.role_name == "user") || (current_authuser.main_roles.first.role_name == "client") %>
                 <div class="row">
                  <div class='col-md-3'>
                    <%= form_tag bills_sub_user_bill_path(method: "post") do %>

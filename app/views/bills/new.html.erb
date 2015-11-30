@@ -28,7 +28,7 @@
     
          // if the user has selected for the automatic type of invoice.
          // for primary user
-         <% if current_authuser.main_roles.first.role_name == "user" %>
+         <% if (current_authuser.main_roles.first.role_name == "user") || (current_authuser.main_roles.first.role_name == "client") %>
            <% user = current_authuser %>
            <% if user.invoice_format == 'automatic' %>
               populateInvoiceNumber();  
