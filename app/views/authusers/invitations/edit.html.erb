@@ -66,6 +66,7 @@
                         <!-- defining primary_user -->
                         <% primary_user_id = resource.invited_by_id %>
                         <% primary_user = Authuser.where(:id => primary_user_id).first %>
+                        <% primary_user_role = primary_user.role %>
                       
                         <div class="portlet-content">
                           <div class="row">
@@ -106,7 +107,7 @@
                                   <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                   <%= f.text_field :date_of_birth ,  class: "form-control", :id => "dob" , required: true, readonly: true %>
                               </div> <!-- /.col -->
-                              <% if primary_user.main_roles.first.role_name == "user" %>
+                            <% if primary_user_role == "user" %>
                                 <%= f.hidden_field :approved, :value => true %>
                               <% else %>
                                 <%= f.hidden_field :approved, :value => false %>
@@ -115,12 +116,12 @@
    
                           <%= f.fields_for :membership do |user_membership| %>
                              <%= user_membership.hidden_field :membership_start_date, :value => Date.today %>
-                             <% if resource.invited_by.main_roles.first.role_name == "client" %>
+                             <% if primary_user_role == "client" %>
                                   <%= user_membership.hidden_field :membership_end_date, :value => Date.today + 1.year %>
-                             <% elsif resource.invited_by.main_roles.first.role_name == "user" %>
+                             <% elsif primary_user_role == "user" %>
                                   <%= user_membership.hidden_field :membership_end_date, :value => primary_user.membership.membership_end_date %>
                              <% end %>
-                             <% if primary_user.main_roles.first.role_name != "user" %>
+                             <% if primary_user_role != "user" %>
                                 <div class="col-sm-3">           
                                   Mobile Number&nbsp;<b style="color:red">*</b>
                                     <div class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Should Be 10 Digits">
@@ -136,13 +137,13 @@
                           <% end %>
   
                           <%= f.fields_for :permissions do |permission| %>
-                            <% if primary_user.main_roles.first.role_name != "user" %>
+                            <% if primary_user_role != "user" %>
                                 <%= permission.hidden_field :main_role_id, :value => 3.to_i %>
                             <% else %>
                                <%= permission.hidden_field :main_role_id, :value => 4.to_i %>
                             <% end %>
                           <% end %>
-                          <% if primary_user.main_roles.first.role_name == "client" %>
+                          <% if primary_user_role == "client" %>
                            <div class="col-sm-3">           
                             <div id="Password" class="input-group">               
                                <%= f.check_box :invoice_format, {:class => "submittable"}, "automatic", "manual" %>&nbsp;&nbsp;&nbsp;<label>Automated Invoice Number</label>  
@@ -157,7 +158,7 @@
                </div> <!-- /.row -->
                <!-- client details ends here -->
                <!-- address records are not needed for secondary user -->
-               <% if primary_user.main_roles.first.role_name != "user" %>
+               <% if primary_user_role != "user" %>
                  <div class="row"> 
                    <div class="portlet">
   
@@ -227,7 +228,7 @@
                <!-- address ends here -->
   
                <!-- bank details starts here -->
-               <% if primary_user.main_roles.first.role_name != "user" %>
+               <% if primary_user_role != "user" %>
                  <div class="row"> 
                     <div class="portlet">
   
