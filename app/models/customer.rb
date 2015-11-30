@@ -40,7 +40,6 @@ class Customer < ActiveRecord::Base
         customer.address = row["Address"]
         customer.city = row["City"]
         customer.state = row["State"]
-      customer.pincode  = row["Pincode"]
       if Authuser.current.main_roles.first.role_name == "secondary_user"
         primary_user_id = Authuser.current.invited_by_id
         customer.primary_user_id = primary_user_id

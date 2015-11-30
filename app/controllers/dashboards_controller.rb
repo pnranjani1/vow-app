@@ -23,14 +23,15 @@ class DashboardsController < ApplicationController
   
   
   def client_dashboard   
-    date = Date.today.strftime("%Y%m%d")
+    #date = Date.today.strftime("%Y%m%d")
+    date = Date.today
     @users = User.where(:client_id => current_authuser.id).paginate(:page => params[:page], :per_page => 5).order('created_at DESC')
     @bills = Bill.all
     #@users_count = current_authuser.users.count
     @users_count = @users.count
-    @users_current_month = @users.where('created_at >= ? AND created_at <= ?', date.to_date.beginning_of_month, date.to_date.end_of_month)
-    @bills_esugam = Bill.where('client_id = ? AND ESUGAM IS NOT NULL AND created_at >= ? AND created_at <= ?', current_authuser.id, date.to_date.beginning_of_month, date.to_date.end_of_month)
-    @cash_based_applications = Bill.where('client_id = ? AND ESUGAM IS NULL AND created_at >= ? AND created_at <= ?', current_authuser.id, date.to_date.beginning_of_month, date.to_date.end_of_month)
+    @users_current_month = @users.where('created_at >= ? AND created_at <= ?', date.to_time.beginning_of_month, date.to_time.end_of_month)
+    @bills_esugam = Bill.where('client_id = ? AND ESUGAM IS NOT NULL AND created_at >= ? AND created_at <= ?', current_authuser.id, date.to_time.beginning_of_month, date.to_time.end_of_month)
+    @cash_based_applications = Bill.where('client_id = ? AND ESUGAM IS NULL AND created_at >= ? AND created_at <= ?', current_authuser.id, date.to_time.beginning_of_month, date.to_time.end_of_month)
     # to Calcualte total bills under the client
    # users =  User.where(:client_id => current_authuser.id)
     #users.each do |user|
@@ -48,12 +49,12 @@ class DashboardsController < ApplicationController
     #primary_user_esugam = Bill.where('authuser_id =? AND ESUGAM IS NOT NULL AND created_at >= ? AND created_at <= ?', current_authuser.id, date.to_date.beginning_of_month, date.to_date.end_of_month)
     #secondary_user_esugam = Bill.where('primary_user_id =? AND ESUGAM IS NOT NULL AND created_at >= ? AND created_at <= ?', current_authuser.id, date.to_date.beginning_of_month, date.to_date.end_of_month)
     #@bills_esugam = primary_user_esugam & secondary_user_esugam
-    @bills_esugam = Bill.where('primary_user_id =? AND ESUGAM IS NOT NULL AND created_at >= ? AND created_at <= ?', current_authuser.id, date.to_date.beginning_of_month, date.to_date.end_of_month)
+    @bills_esugam = Bill.where('primary_user_id =? AND ESUGAM IS NOT NULL AND created_at >= ? AND created_at <= ?', current_authuser.id, date.to_time.beginning_of_month, date.to_time.end_of_month)
     
      #primary_user_cash = Bill.where('authuser_id =? AND ESUGAM IS NULL AND created_at >= ? AND created_at <= ?', current_authuser.id, date.to_date.beginning_of_month, date.to_date.end_of_month)
     #secondary_user_cash = Bill.where('primary_user_id =? AND ESUGAM IS NULL AND created_at >= ? AND created_at <= ?', current_authuser.id, date.to_date.beginning_of_month, date.to_date.end_of_month)
     #@cash_based_applications = primary_user_cash & secondary_user_cash
-    @cash_based_applications = Bill.where('primary_user_id =? AND ESUGAM IS NULL AND created_at >= ? AND created_at <= ?', current_authuser.id, date.to_date.beginning_of_month, date.to_date.end_of_month)
+    @cash_based_applications = Bill.where('primary_user_id =? AND ESUGAM IS NULL AND created_at >= ? AND created_at <= ?', current_authuser.id, date.to_time.beginning_of_month, date.to_time.end_of_month)
     #list of secondary_users
     @secondary_users = Authuser.where(:invited_by_id => current_authuser.id) 
   end
@@ -64,8 +65,8 @@ class DashboardsController < ApplicationController
   def secondary_user_dashboard
    # render :layout => 'menu1'
      date = Date.today.strftime("%Y%m%d")
-    @bills_esugam = Bill.where('authuser_id = ? AND ESUGAM IS NOT NULL AND created_at >= ? AND created_at <= ?', current_authuser.id, date.to_date.beginning_of_month, date.to_date.end_of_month)
-    @cash_based_applications = Bill.where('authuser_id = ? AND ESUGAM IS NULL AND created_at >= ? AND created_at <= ?', current_authuser.id, date.to_date.beginning_of_month, date.to_date.end_of_month) 
+    @bills_esugam = Bill.where('authuser_id = ? AND ESUGAM IS NOT NULL AND created_at >= ? AND created_at <= ?', current_authuser.id, date.to_time.beginning_of_month, date.to_time.end_of_month)
+    @cash_based_applications = Bill.where('authuser_id = ? AND ESUGAM IS NULL AND created_at >= ? AND created_at <= ?', current_authuser.id, date.to_time.beginning_of_month, date.to_time.end_of_month) 
   end
     
 end
