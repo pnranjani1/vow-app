@@ -58,12 +58,18 @@
               </thead> 
                
               <tbody>
+                
                 <% @secondary_users.each do |user| %>
                   <% userid = user.id %>
                   <% @bills = user.bills %>
                   <% date = Date.today.strftime("%Y%m%d") %>
-                  <% cash_applications = Bill.where('ESUGAM IS NULL AND created_at >= ? AND created_at <= ? AND authuser_id = ?', date.to_time.beginning_of_month, date.to_time.end_of_month, userid) %>
-                  <% esugam = Bill.where('ESUGAM IS NOT NULL AND created_at >= ? AND created_at <= ? AND authuser_id = ?', date.to_time.beginning_of_month, date.to_time.end_of_month, userid) %>
+                  <% if current_authuser.main_roles.first.role_name == "user" %>
+                    <% cash_applications = Bill.where('ESUGAM IS NULL AND created_at >= ? AND created_at <= ? AND authuser_id = ?', date.to_time.beginning_of_month, date.to_time.end_of_month, userid) %>
+                    <% esugam = Bill.where('ESUGAM IS NOT NULL AND created_at >= ? AND created_at <= ? AND authuser_id = ?', date.to_time.beginning_of_month, date.to_time.end_of_month, userid) %>
+                <% elsif current_authuser.main_roles.first.role_name == "client" %>
+                    <% cash_applications = Bill.where('ESUGAM IS NULL AND created_at >= ? AND created_at <= ? AND primary_user_id = ?', date.to_time.beginning_of_month, date.to_time.end_of_month, userid) %>
+                    <% esugam = Bill.where('ESUGAM IS NOT NULL AND created_at >= ? AND created_at <= ? AND primary_user_id = ?', date.to_time.beginning_of_month, date.to_time.end_of_month, userid) %>
+                <% end %>
 
                   <tr>
                     <td style="text-align:center" class="hidden-xs"><%= user.name %></td>
