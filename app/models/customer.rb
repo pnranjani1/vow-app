@@ -33,12 +33,14 @@ class Customer < ActiveRecord::Base
      # product.attributes = row.to_hash.slice('product_name', 'units', 'usercategory_id')
       
         customer.name = row["Customer Name"].to_s
+        customer.company_name = row["Company Name"].to_s
         customer.email = row["Email"]
         customer.tin_number = row["Tin Number"].to_i
       customer.phone_number = row["Mobile Number"].to_i
         customer.address = row["Address"]
         customer.city = row["City"]
         customer.state = row["State"]
+      customer.pincode  = row["Pincode"]
       if Authuser.current.main_roles.first.role_name == "secondary_user"
         primary_user_id = Authuser.current.invited_by_id
         customer.primary_user_id = primary_user_id
