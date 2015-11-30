@@ -259,7 +259,8 @@ end
   def send_user_mail
     primary_user_id = self.invited_by_id
     primary_user = Authuser.where(:id => primary_user_id).first
-    if self.approved? && self.approved_changed? && primary_user.main_roles.first.role_name != "user"
+    primary_user_role = primary_user.role
+    if self.approved? && self.approved_changed? && primary_user_role != "user"
        Notification.user_activated_mail(self).deliver
     end
   end
