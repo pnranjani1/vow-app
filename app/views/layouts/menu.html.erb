@@ -295,7 +295,7 @@
                                       </ul>
                                  </li>
                           <% end %>
-              <% if current_authuser.main_roles.first.role_name == "user" %>
+              <% if (current_authuser.main_roles.first.role_name == "user") || (current_authuser.main_roles.first.role_name == "client") %>
                           <!-- settings -->
                   <% if controller_name == "taxes" || controller_name == "other_charges_informations" && action_name == "new" || action_name == "index" || action_name == "edit" %>
                                       <li class="active dropdown">
