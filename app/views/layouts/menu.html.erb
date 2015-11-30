@@ -297,10 +297,10 @@
                           <% end %>
               <% if (current_authuser.main_roles.first.role_name == "user") || (current_authuser.main_roles.first.role_name == "client") %>
                           <!-- settings -->
-                  <% if controller_name == "taxes" || controller_name == "other_charges_informations" && action_name == "new" || action_name == "index" || action_name == "edit" %>
-                                      <li class="active dropdown">
+              <% if controller.controller_name == "taxes" || controller.controller_name == "other_charges_informations"  || controller.action_name == "invoice_format" %>
+                     <li class="active dropdown">
                   <% else %>
-                                      <li class="dropdown ">   
+                     <li class="dropdown ">   
                   <% end %>
                   <%= link_to  taxes_path, class: "dropdown-toggle", data: {toggle: "dropdown", hover: "dropdown"} do %>
                        <i class="fa fa-cog"></i>Settings<span class="caret"></span>
