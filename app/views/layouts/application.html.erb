@@ -267,7 +267,7 @@
   
                              <!-- referrals -->
                              <% if permitted_to? :index, Referral.new %>
-                                 <% if controller.controller_name == "referrals" %> 
+                                 <% if controller.controller_name == "referrals" || controller.controller_name == "referral_types" %> 
                                      <li class= "active dropdown"> 
                                  <% else %>
                                      <li> 
