@@ -63,10 +63,14 @@
                             </div>
                          </li>
                       </ul>
-                  <% end %>
+                   <% end %>
  
  <!--<img src="img/avatar-1-md.jpg" alt="Avatar" class="panel-list-avatar"> -->
-                  <%= will_paginate  @user_bills, renderer: BootstrapPagination::Rails , class: "apple_pagination" %>
+<%
+=begin %>
+<%= will_paginate  @user_bills, :params => {:method => :post} , renderer: BootstrapPagination::Rails , class: "apple_pagination" %>
+<%
+=end %>               
                   <%= link_to "All User Bills" , bills_user_bill_path, :class => "btn btn-success"  %>
              </div> <!-- /.portlet-content -->
          </div> <!-- /.portlet -->
