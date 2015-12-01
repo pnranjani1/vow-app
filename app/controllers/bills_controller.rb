@@ -277,10 +277,10 @@ class BillsController < ApplicationController
     secondary_users = Authuser.where('invited_by_id = ? AND invitation_accepted_at IS NOT NULL', current_authuser.id)
     @all_users = user | secondary_users
       if params[:users].nil?       
-        @user_bills = Bill.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id)
+        @user_bills = Bill.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id).order('created_at DESC')
       else
         user = params[:users]
-        @user_bills = Bill.where(:authuser_id => user)
+        @user_bills = Bill.where(:authuser_id => user).order('created_at DESC ')
       end 
   end
 
