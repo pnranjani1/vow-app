@@ -280,7 +280,7 @@ class BillsController < ApplicationController
         @user_bills = Bill.where('authuser_id = ? OR primary_user_id = ?', current_authuser.id, current_authuser.id).order('created_at DESC')
       else
         user = params[:users]
-        @user_bills = Bill.where(:authuser_id => user).order('created_at DESC ')
+        @user_bills = Bill.where(:authuser_id => user).order('created_at DESC')
       end 
   end
 

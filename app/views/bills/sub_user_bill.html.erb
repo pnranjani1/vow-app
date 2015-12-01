@@ -20,6 +20,9 @@
                      <br/>
                    <% end %>
                  </div>
+                 <div class="col-md-3">
+                   <%= link_to "All User Bills" , bills_user_bill_path, :class => "btn btn-success"  %>
+                 </div>
                </div>               
              </div> <!-- /.portlet-header -->
               
@@ -71,7 +74,7 @@
 <%= will_paginate  @user_bills, :params => {:method => :post} , renderer: BootstrapPagination::Rails , class: "apple_pagination" %>
 <%
 =end %>               
-                  <%= link_to "All User Bills" , bills_user_bill_path, :class => "btn btn-success"  %>
+                  
              </div> <!-- /.portlet-content -->
          </div> <!-- /.portlet -->
        </div> <!-- /.row -->
