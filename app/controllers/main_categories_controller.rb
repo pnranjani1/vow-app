@@ -40,11 +40,18 @@ class MainCategoriesController < ApplicationController
   
   def update
     @category = MainCategory.find(params[:id])
-   # @customer.authuser_id = current_authuser.id
-    if @category.update_attributes(set_params)
+    @categories = MainCategory.where.not(:id => @category.id)
+    commodities = @categories.pluck(:commodity_name)
+    if commodities.any?{|commodity| commodity.downcase.gsub(/\s/,"")["#{params[:main_category][:commodity_name].downcase.gsub(/\s/,"")}"]}
       redirect_to main_categories_path
+      flash[:alert] = "#{params[:main_category][:commodity_name]} is already added"
     else
-      render action: 'edit'
+   # @customer.authuser_id = current_authuser.id
+      if @category.update_attributes(set_params)
+        redirect_to main_categories_path
+      else
+        render action: 'edit'
+      end
     end
   end
   
@@ -93,7 +100,7 @@ class MainCategoriesController < ApplicationController
   
   private
   def set_params
-    params[:main_category].permit(:commodity_name, :commodity_code, :sub_commodity_code)
+    params[:main_category].permit(:id, :commodity_name, :commodity_code, :sub_commodity_code)
   end
   
   #def get_customer
