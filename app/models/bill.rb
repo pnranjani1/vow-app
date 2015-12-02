@@ -390,17 +390,16 @@ class Bill < ActiveRecord::Base
               if (@bill.tax_type == "VAT") && (@customer_tin_number[2..-1] == "000000000")
                  browser.text_field(:id, "ctl00_MasterContent_txtTIN").set(@customer_tin_number.to_i)
                  browser.send_keys :tab
-                 sleep 3
+                 sleep 2
                 if browser.text_field(:id, "ctl00_MasterContent_txtNameAddrs").enabled?
                   browser.text_field(:id, "ctl00_MasterContent_txtNameAddrs").set(@bill.unregistered_customers.first.customer_name)
                   browser.send_keys :tab
-                elsif browser.text.include? "WARNING: INVALID TIN"
-                      self.update_attribute(:error_message,  "Invalid Tin Number")
-                      browser.close
-                 # file = File.new("app/assets/images/vat-error" + self.authuser.id.to_s + ".png", "a+")
+                else
+                 #file = File.new("app/assets/images/vat-error" + self.authuser.id.to_s + ".png", "a+")
                  # browser.screenshot.save file
                  # self.update_attribute(:error_message, file.to_s)
-                 # browser.close
+                  self.update_attribute(:error_message,  "Check if VAT is selected for other state in URD")
+                  browser.close
                 end
               end
             
