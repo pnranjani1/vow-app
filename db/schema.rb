@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151127103014) do
+ActiveRecord::Schema.define(version: 20151202112816) do
 
   create_table "addresses", force: true do |t|
     t.string   "address_line_1"
@@ -26,12 +26,6 @@ ActiveRecord::Schema.define(version: 20151127103014) do
   end
 
   create_table "admins", force: true do |t|
-    t.integer  "authuser_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "auth_user_categories", force: true do |t|
     t.integer  "authuser_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -119,14 +113,12 @@ ActiveRecord::Schema.define(version: 20151127103014) do
     t.float    "other_charges"
     t.string   "esugam"
     t.integer  "client_id"
-    t.float    "total_price"
     t.string   "transporter_name"
     t.string   "vechicle_number"
     t.string   "gc_lr_number"
     t.datetime "lr_date"
     t.string   "error_message"
     t.string   "pdf_format"
-    t.string   "service_tax"
     t.integer  "primary_user_id"
     t.string   "record_number"
     t.string   "invoice_format"
@@ -135,25 +127,15 @@ ActiveRecord::Schema.define(version: 20151127103014) do
     t.string   "tax_type"
   end
 
-  create_table "cainvoices", force: true do |t|
-    t.integer  "authuser_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "billing_month"
-  end
-
   create_table "clients", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "authuser_id"
     t.string   "remarks"
-    t.integer  "admin_id"
     t.string   "company"
-    t.boolean  "add_role"
     t.boolean  "user_role"
     t.string   "role_user"
     t.integer  "created_by"
-    t.boolean  "approved"
     t.string   "referred_by"
     t.integer  "referral_id"
   end
@@ -214,8 +196,6 @@ ActiveRecord::Schema.define(version: 20151127103014) do
     t.float    "unit_price"
     t.float    "total_price"
     t.float    "total_item_price"
-    t.float    "service_tax_rate"
-    t.float    "service_tax_amount"
     t.float    "tax_rate"
     t.integer  "tax_id"
     t.string   "tax_type"
@@ -244,7 +224,6 @@ ActiveRecord::Schema.define(version: 20151127103014) do
     t.string   "phone_number"
     t.datetime "membership_start_date"
     t.datetime "membership_end_date"
-    t.boolean  "membership_status"
     t.integer  "membership_duration"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -294,15 +273,7 @@ ActiveRecord::Schema.define(version: 20151127103014) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "email"
-    t.string   "pricing"
     t.integer  "referral_type_id"
-  end
-
-  create_table "sugans", force: true do |t|
-    t.text     "number"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "bill_id"
   end
 
   create_table "taxes", force: true do |t|

@@ -48,7 +48,7 @@ xml.ENVELOPE do
                   else
                     xml.LEDGERNAME bill.customer.company_name
                   end
-                  xml.AMOUNT -(bill.grand_total)
+                  xml.AMOUNT -(bill.grand_total).round(2)
                 end #alleged entry lis ends
                
                 xml.ALLLEDGERENTRIESLIST do
@@ -71,9 +71,9 @@ xml.ENVELOPE do
 # xml.LEDGERNAME 
 #end
                   if bill.discount.present?                 
-                    xml.AMOUNT bill.total_bill_price - bill.discount
+                    xml.AMOUNT (bill.total_bill_price - bill.discount).round(2)
                   else
-                    xml.AMOUNT bill.total_bill_price
+                    xml.AMOUNT bill.total_bill_price.round(2)
                   end
                 end #alleged entry list ends
                
@@ -84,9 +84,9 @@ xml.ENVELOPE do
                    other_charges  = bill.other_charges + other_taxes.sum(:tax_amount) 
                    other_tax_charges = other_taxes.sum(:tax_amount)
                    if bill.other_charges.present?
-                      xml.AMOUNT other_charges
+                     xml.AMOUNT other_charges.round(2)
                    else
-                      xml.AMOUNT other_tax_charges
+                     xml.AMOUNT other_tax_charges.round(2)
                     end
                   
                    #service_tax = bill.line_items.pluck(:service_tax_amount).compact

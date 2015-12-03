@@ -1,7 +1,7 @@
 class LineItem < ActiveRecord::Base
   before_save :generate_total_price
   before_save :generate_bill_id_in_bill_tax
-  before_save :generate_service_tax_amount, :if => :service_tax_rate
+ # before_save :generate_service_tax_amount, :if => :service_tax_rate
   #after_save :generate_tax_amount
   
  # before_save :generate_tax_rate, :if => :tax_id

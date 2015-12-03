@@ -36,9 +36,9 @@ xml.ISSale do
            xml.InvNo bill.invoice_number
            xml.InvDate bill.bill_date.strftime("%Y%m%d")
            if bill.discount.present?
-             xml.NetVal bill.total_bill_price - bill.discount
+             xml.NetVal (bill.total_bill_price - bill.discount).round(2)
            else
-             xml.NetVal bill.total_bill_price
+             xml.NetVal bill.total_bill_price.round(2)
            end
           
            if bill.tax_type != "No Tax"
@@ -60,11 +60,11 @@ xml.ISSale do
            other_charges  = bill.other_charges + other_taxes.sum(:tax_amount) 
            other_tax_charges = other_taxes.sum(:tax_amount)
            if bill.other_charges.present?
-             xml.OthCh other_charges
+             xml.OthCh other_charges.round(2)
            else
-            xml.OthCh other_tax_charges
+             xml.OthCh other_tax_charges.round(2)
            end
-           xml.TotCh bill.grand_total
+          xml.TotCh bill.grand_total.round(2)
            xml.TranType 
            xml.MainComm bill.products.first.usercategory.main_category.commodity_code + "0" 
            xml.SubComm 0

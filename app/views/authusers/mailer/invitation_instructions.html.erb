@@ -2,13 +2,13 @@
 
 <p><%= I18n.t("devise.mailer.invitation_instructions.someone_invited_you", url: root_url) %></p>
 
-<p><%= link_to I18n.t("devise.mailer.invitation_instructions.accept"), accept_invitation_url(@resource, :invitation_token => @token,  host: "http://www.vatonwheels.com") %></p>
+<!-- <p><%= link_to I18n.t("devise.mailer.invitation_instructions.accept"), accept_invitation_url(@resource, :invitation_token => @token,  host: "http://www.vatonwheels.com") %></p> -->
 
 <!-- <%= link_to I18n.t("devise.mailer.invitation_instructions.accept"), accept_invitation_url(@resource, :invitation_token => @token,  host: "http://iprimitus-118463.nitrousapp.com", :port => 3000) %> -->
  
 <!-- <%= link_to I18n.t("devise.mailer.invitation_instructions.accept"), accept_invitation_url(@resource, :invitation_token => @token,  host: "http://ruby-on-rails-126001.nitrousapp.com", :port => 3000) %> -->
 
-<!-- <%= link_to I18n.t("devise.mailer.invitation_instructions.accept"), accept_invitation_url(@resource, :invitation_token => @token,  host: "https://vow.herokuapp.com/") %>-->
+<%= link_to I18n.t("devise.mailer.invitation_instructions.accept"), accept_invitation_url(@resource, :invitation_token => @token,  host: "https://vow.herokuapp.com/") %>
 
 <!-- <%= link_to I18n.t("devise.mailer.invitation_instructions.accept"), accept_invitation_url(@resource, :invitation_token => @token,  host: "https://vow16.herokuapp.com/") %>-->
 
