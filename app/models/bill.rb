@@ -365,8 +365,8 @@ class Bill < ActiveRecord::Base
           browser.text_field(:id, "ctl00_MasterContent_txtFromAddrs").set(user.address.city)
           browser.text_field(:id, "ctl00_MasterContent_txtToAddrs").set(@customer_city)
                                        
-          if browser.select_list(:id, "ctl00_MasterContent_ddl_commoditycode").option(:text => "#{@bill.products.first.usercategory.main_category.commodity_name}").present?
-             browser.select_list(:id, "ctl00_MasterContent_ddl_commoditycode").select(@bill.products.first.usercategory.main_category.commodity_name)       
+          if browser.select_list(:id, "ctl00_MasterContent_ddl_commoditycode").option(:text => "#{@bill.line_items.first.product.usercategory.main_category.commodity_name}").present?
+            browser.select_list(:id, "ctl00_MasterContent_ddl_commoditycode").select(@bill.line_items.first.product.usercategory.main_category.commodity_name)       
            # browser.text_field(:id, "ctl00_MasterContent_txt_commodityname").set(@bill.line_items.first.product.product_name)
              browser.text_field(:id, "ctl00_MasterContent_txtQuantity").set(@bill.line_items.first.quantity.to_s + " " +@bill.line_items.first.product.units)
               browser.send_keys :tab
