@@ -1,5 +1,5 @@
 class HomePageController < ApplicationController 
-  layout_by_action [:index] => "menu1"
+  layout_by_action [:index] => "home"
   
   
   def index

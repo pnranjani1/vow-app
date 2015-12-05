@@ -12,9 +12,6 @@
 <meta name="keywords" content="Your keywords">
 <meta name="author" content="Your name">
 <meta name = "format-detection" content = "telephone=no" />
-
-  
-
   
   <script>
     $(document).ready(function(){
@@ -242,20 +239,7 @@ The above process involves multiple repititions, thereby making the process in-e
           </div> <!-- container ends here -->
        </div> <!-- thumb-box2 ends here -->
  
-       <div class="thumb-box6">    
-         <div class="container">
-  
-             <p class="title wow fadeIn"><span>our Clients</span></p>
-             <div class="marquee" id="mycrawler1">
-                 <%= image_tag("page1_company1.png", alt: " ", class: "padboard") %>
-                 <%= image_tag("page1_company2.png", alt: " ", class: "padboard") %>
-                 <%= image_tag("page1_company3.png", alt: " ", class: "padboard") %>
-                 <%= image_tag("page1_company4.png", alt: " ", class: "padboard") %>
-                 <%= image_tag("page1_company5.png", alt: " ", class: "padboard") %>
-                 <%= image_tag("page1_company6.png", alt: " ", class: "padboard") %>
-             </div>
-         </div> <!-- container ends here -->
-       </div> <!-- thumb-box6" edns here -->
+      
   </div> <!-- content ends here -->
   
   <!--footer-->
@@ -308,7 +292,7 @@ The above process involves multiple repititions, thereby making the process in-e
                   <div class="row">                
                      <div class="col-lg-4 quickname">Phone :</div>
                      <div class="col-lg-8">
-                       <%= f.number_field :phone_number, min:1, placeholder: "Phone Number", maxlength: 10,  class: "quickfield" %>  
+                       <%= f.text_field :phone_number, min:1, placeholder: "Phone Number", class: "quickfield", type: "number" %>  
                          <!-- <input type="text" placeholder="Phone" class="quickfield"/> -->
                      </div>
                   </div> <!-- row ends here -->
